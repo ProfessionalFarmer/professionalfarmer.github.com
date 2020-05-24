@@ -4,3 +4,4 @@ _site
 ./hexo/
 !./hexo/source
 !./hexo/source/*
+!./hexo/themes/*
