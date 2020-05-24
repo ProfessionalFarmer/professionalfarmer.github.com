@@ -4,5 +4,5 @@ _site
 ./hexo/
 !./hexo/source
 !./hexo/source/*
-!./hexo/themes/next
+!./hexo/themes/next/*
 !./hexo/_config.yml
