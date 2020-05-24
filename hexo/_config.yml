@@ -7,7 +7,7 @@ title: Hexo
 subtitle: ''
 description: ''
 keywords:
-author: John Doe
+author: Jason
 language: en
 timezone: ''
 
@@ -22,8 +22,8 @@ pretty_urls:
   trailing_html: true # Set to false to remove trailing '.html' from permalinks
 
 # Directory
-source_dir: source
-public_dir: public
+source_dir: ../source
+public_dir: ../
 tag_dir: tags
 archive_dir: archives
 category_dir: categories
