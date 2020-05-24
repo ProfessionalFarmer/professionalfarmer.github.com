@@ -1,2 +1,6 @@
 _site
 .DS_Store
+./hexo/*
+./hexo/
+!./hexo/source
+!./hexo/source/*
