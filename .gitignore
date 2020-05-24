@@ -2,7 +2,7 @@ _site
 .DS_Store
 ./hexo/*
 ./hexo/
-!./hexo/source
-!./hexo/source/*
-!./hexo/_config.yml
+./hexo/source
+./hexo/source/*
+./hexo/_config.yml
 hexo/themes/next
