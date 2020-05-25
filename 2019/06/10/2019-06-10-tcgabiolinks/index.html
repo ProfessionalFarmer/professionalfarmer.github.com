@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"md.zxzyl.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="以前的工作是全基因组或全外分析，不涉及癌症和生存分析，但现在的工作主要围绕癌症方面，生存分析一定少不了。实验室小伙伴推荐用TCGAbiolinks下载TCGA的数据，于是研究了如何用TCGABiolinks下载TCGA的数据，以下载RNA的count数据为例，并做生存分析。 # 安装相关的包 if (!requireNamespace(&quot;BiocManager&quot;, quietly&#x3D;TRUE))">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TCGABiolinks下载TCGA数据做生存分析">
+<meta property="og:url" content="http://md.zxzyl.com/2019/06/10/2019-06-10-tcgabiolinks/index.html">
+<meta property="og:site_name" content="Another Jason&#39;s blog">
+<meta property="og:description" content="以前的工作是全基因组或全外分析，不涉及癌症和生存分析，但现在的工作主要围绕癌症方面，生存分析一定少不了。实验室小伙伴推荐用TCGAbiolinks下载TCGA的数据，于是研究了如何用TCGABiolinks下载TCGA的数据，以下载RNA的count数据为例，并做生存分析。 # 安装相关的包 if (!requireNamespace(&quot;BiocManager&quot;, quietly&#x3D;TRUE))">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2019-06-09-TCGABiolinks-Rplot.png">
+<meta property="og:image" content="http://md.zxzyl.com/2019/06/10/2019-06-10-tcgabiolinks/2019-06-09-TCGABiolinks-datatype.png">
+<meta property="article:published_time" content="2019-06-10T02:30:37.000Z">
+<meta property="article:modified_time" content="2020-05-25T10:17:23.300Z">
+<meta property="article:author" content="Jason">
+<meta property="article:tag" content="R">
+<meta property="article:tag" content="TCGA">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2019-06-09-TCGABiolinks-Rplot.png">
+
+<link rel="canonical" href="http://md.zxzyl.com/2019/06/10/2019-06-10-tcgabiolinks/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>TCGABiolinks下载TCGA数据做生存分析 | Another Jason's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Another Jason's blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/2019/06/10/2019-06-10-tcgabiolinks/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="Share news">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Another Jason's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          TCGABiolinks下载TCGA数据做生存分析
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-06-10 10:30:37" itemprop="dateCreated datePublished" datetime="2019-06-10T10:30:37+08:00">2019-06-10</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-05-25 18:17:23" itemprop="dateModified" datetime="2020-05-25T18:17:23+08:00">2020-05-25</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2019-06-09-TCGABiolinks-Rplot.png" alt=""></p>
+<p>以前的工作是全基因组或全外分析，不涉及癌症和生存分析，但现在的工作主要围绕癌症方面，生存分析一定少不了。实验室小伙伴推荐用TCGAbiolinks下载TCGA的数据，于是研究了如何用TCGABiolinks下载TCGA的数据，以下载RNA的count数据为例，并做生存分析。</p>
+<pre># 安装相关的包
+if (!requireNamespace("BiocManager", quietly=TRUE))   
+  install.packages("BiocManager")
+BiocManager::install("TCGAbiolinks")
+BiocManager::install("SummarizedExperiment")
+install.packages('survival')
+install.packages('survminer')
+library(SummarizedExperiment)
+library(TCGAbiolinks)
+library(survival)
+library(survminer)
+
+# 项目的概括信息，project的名称可以从 https://portal.gdc.cancer.gov/ 上面选择对应的器官，进入之后左侧列表中就会显示。我们以下载TCGA-LIHC项目的数据为例。
+TCGAbiolinks:::getProjectSummary("TCGA-LIHC") 
+# 获取该项目样本的临床信息
+clinical <- GDCquery_clinic(project = "TCGA-LIHC", type = "clinical")
+
+# 下载TCGA-LIHC项目的rna-seq的counts数据,构建GDCquery，具体的数据类型的写法可以参考 https://portal.gdc.cancer.gov/repository 左侧列表
+# 比如data type有Raw Simple Somatic Mutation, Annotated Somatic Mutation, Aligned Reads, Gene Expression Quantification, Slide Image这几种，不过不同的项目，有可能有不同的数据类型。
+query <- GDCquery(project = "TCGA-LIHC", 
+            experimental.strategy = "RNA-Seq",
+                    data.category = "Transcriptome Profiling", 
+                    data.type = "Gene Expression Quantification",
+            workflow.type = "HTSeq - Counts")
+# 下载数据
+GDCdownload(query)
+# 导入数据
+LIHCRnaseq <- GDCprepare(query)
+# 得到样本的基因counts矩阵，每行为一个基因，每列为一个样本
+count_matrix <- assay(LIHCRnaseq)
+
+# TCGA样本的编号以'-'分割，前三列是患者编号，第四列是类型，一般11表示正常样本，01表示肿瘤样本，见https://gdc.cancer.gov/resources-tcga-users/tcga-code-tables/sample-type-codes
+samplesNT <- TCGAquery_SampleTypes(barcode = colnames(count_matrix),typesample = c("NT"))
+# selection of tumor samples "TP"
+samplesTP <- TCGAquery_SampleTypes(barcode = colnames(count_matrix),typesample = c("TP"))
+
+# 根据ensembl id选择特定基因在癌症样本中的表达
+gexp <- count_matrix[c("ENSG00000198431"),samplesTP]
+
+# 这样选出的样本都是肿瘤样本，但样本名称是TCGA-CC-A7IL-01A-11R-A33R-07，与clinical信息不对应，需要将名字简化成TCGA-CC-A7IL
+names(gexp) <-  sapply(strsplit(names(gexp),'-'),function(x) paste0(x[1:3],collapse="-"))
+
+# 将表达数据和clinical数据合并，并且挑出来用于做生存分析的数据
+clinical$"ENSG00000198431" <- gexp[clinical$submitter_id]
+df<-subset(clinical,select =c(submitter_id,vital_status,days_to_death,ENSG00000198431))
+
+#去掉NA
+df <- df[!is.na(df$ENSG00000198431),]
+
+#取基因的平均值，大于平均值的为H，小于为L
+df$exp <- ''
+df[df$ENSG00000198431 >= mean(df$ENSG00000198431),]$exp <- "H"
+df[df$ENSG00000198431 <  mean(df$ENSG00000198431),]$exp <- "L"
+
+# 将status表示患者结局，1表示删失，2表示死亡
+df[df$vital_status=='Dead',]$vital_status <- 2
+df[df$vital_status=='Alive',]$vital_status <- 1
+df$vital_status <- as.numeric(df$vital_status)
+
+# 建模
+fit <- survfit(Surv(days_to_death, vital_status)~exp, data=df) # 根据表达建模
+# 显示P value
+surv_pvalue(fit)$pval.txt 
+# 画图
+ggsurvplot(fit,pval=TRUE)</pre>
+
+<a id="more"></a>
+
+<p>参考</p>
+<p><a href="https://rdrr.io/bioc/TCGAbiolinks/" target="_blank" rel="noopener">https://rdrr.io/bioc/TCGAbiolinks/</a></p>
+<p><a href="https://mp.weixin.qq.com/s/fuB0bLyllL_33_Shz7rKnw" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/fuB0bLyllL_33_Shz7rKnw</a></p>
+<p><a href="https://blog.csdn.net/qq_42424756/article/details/81535077" target="_blank" rel="noopener">https://blog.csdn.net/qq_42424756/article/details/81535077</a></p>
+<p><a href="https://portal.gdc.cancer.gov/repository" target="_blank" rel="noopener">https://portal.gdc.cancer.gov/repository</a></p>
+<p><img src="2019-06-09-TCGABiolinks-datatype.png" alt=""></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/R/" rel="tag"># R</a>
+              <a href="/tags/TCGA/" rel="tag"># TCGA</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/05/19/2019-05-19-hyper-avhdx/" rel="prev" title="误删hyper-v的avhdx文件">
+      <i class="fa fa-chevron-left"></i> 误删hyper-v的avhdx文件
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/12/05/2019-12-05-refseq-transcript-gene-gtf/" rel="next" title="RefSeq的gtf文件">
+      RefSeq的gtf文件 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Jason</p>
+  <div class="site-description" itemprop="description">Share news</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">131</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">136</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jason</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
