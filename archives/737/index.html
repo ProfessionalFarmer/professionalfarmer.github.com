@@ -31,8 +31,8 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2016-02-20-biomart-perl-api-show-scrip.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2016-02-20-biomart-perl-api-modify-scrip.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2016-02-20-biomart-perl-api-downloadinfo.png">
-<meta property="article:published_time" content="2016-02-19T15:20:36.000Z">
-<meta property="article:modified_time" content="2020-05-25T11:17:46.482Z">
+<meta property="article:published_time" content="2016-02-20T07:20:36.000Z">
+<meta property="article:modified_time" content="2020-05-28T23:19:29.630Z">
 <meta property="article:author" content="Jason">
 <meta property="article:tag" content="Biomart">
 <meta name="twitter:card" content="summary">
@@ -179,14 +179,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2016-02-19 23:20:36" itemprop="dateCreated datePublished" datetime="2016-02-19T23:20:36+08:00">2016-02-19</time>
+              <time title="Created: 2016-02-19 23:20:36" itemprop="dateCreated datePublished" datetime="2016-02-19T23:20:36-08:00">2016-02-19</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-25 19:17:46" itemprop="dateModified" datetime="2020-05-25T19:17:46+08:00">2020-05-25</time>
+                <time title="Modified: 2020-05-28 15:19:29" itemprop="dateModified" datetime="2020-05-28T15:19:29-08:00">2020-05-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -209,11 +209,11 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p><a href="http://www.zxzyl.com/archives/736" target="_blank" rel="noopener" title="如何获取Ensembl gene id和NCBI的gene id及与HGNC的对应关系">上篇</a>介绍了如何利用ensembl的biomart服务下载ensembl gene id与NCBI entrez gene id的对应关系时，最后一步是保存result。biomart也提供通过biomart-perl，在本地通过perl脚本下载，并通过标准输出到终端上。biomart提供生成好的perl脚本，只需在选择好相关attribute和filter之后，点击中间上方的perl即可。</p>
+        <p><a href="http://www.zxzyl.com/archives/736" title="如何获取Ensembl gene id和NCBI的gene id及与HGNC的对应关系">上篇</a>介绍了如何利用ensembl的biomart服务下载ensembl gene id与NCBI entrez gene id的对应关系时，最后一步是保存result。biomart也提供通过biomart-perl，在本地通过perl脚本下载，并通过标准输出到终端上。biomart提供生成好的perl脚本，只需在选择好相关attribute和filter之后，点击中间上方的perl即可。</p>
 <p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2016-02-20-biomart-perl-api-generate-scrip-button.png" alt="biomart-perl-api"> </p>
 <a id="more"></a>
 
-<h1 id="一，安装-biomart-perl"><a href="#一，安装-biomart-perl" class="headerlink" title="一，安装 biomart_perl"></a>一，安装 biomart_perl</h1><h2 id="1，第一步就是安装biomart-perl"><a href="#1，第一步就是安装biomart-perl" class="headerlink" title="1，第一步就是安装biomart_perl"></a>1，第一步就是安装biomart_perl</h2><p>具体文档可以参考<a href="http://www.biomart.org/other/install-overview.html页面的1.2小节。" target="_blank" rel="noopener">http://www.biomart.org/other/install-overview.html页面的1.2小节。</a></p>
+<h1 id="一，安装-biomart-perl"><a href="#一，安装-biomart-perl" class="headerlink" title="一，安装 biomart_perl"></a>一，安装 biomart_perl</h1><h2 id="1，第一步就是安装biomart-perl"><a href="#1，第一步就是安装biomart-perl" class="headerlink" title="1，第一步就是安装biomart_perl"></a>1，第一步就是安装biomart_perl</h2><p>具体文档可以参考<a href="http://www.biomart.org/other/install-overview.html页面的1.2小节。">http://www.biomart.org/other/install-overview.html页面的1.2小节。</a></p>
 <pre>cvs -d :pserver:cvsuser@cvs.sanger.ac.uk:/cvsroot/biomart login
 ##password: CVSUSER
 cvs -d :pserver:cvsuser@cvs.sanger.ac.uk:/cvsroot/biomart co -r release-0_7 biomart-perl
@@ -224,14 +224,14 @@ sudo cpan install XML::Simple
 sudo cpan install Log::Log4perl
 sudo cpan install XML::DOM</pre>
 
-<h2 id="3，添加registry"><a href="#3，添加registry" class="headerlink" title="3，添加registry"></a>3，添加registry</h2><p>通过添加registry，告诉biomart-perl相关的服务器地址。<br>编辑/path/to/biomart-perl/conf/martURLLocation.xml ，清除标签及标签中间的内容，打开<a href="http://asia.ensembl.org/biomart/martservice?type=registry" target="_blank" rel="noopener">http://asia.ensembl.org/biomart/martservice?type=registry</a></p>
+<h2 id="3，添加registry"><a href="#3，添加registry" class="headerlink" title="3，添加registry"></a>3，添加registry</h2><p>通过添加registry，告诉biomart-perl相关的服务器地址。<br>编辑/path/to/biomart-perl/conf/martURLLocation.xml ，清除标签及标签中间的内容，打开<a href="http://asia.ensembl.org/biomart/martservice?type=registry">http://asia.ensembl.org/biomart/martservice?type=registry</a></p>
 <p>将此页面的内容复制到”$confFile”文件中。</p>
 <h1 id="二，准备biomart-perl脚本"><a href="#二，准备biomart-perl脚本" class="headerlink" title="二，准备biomart_perl脚本"></a>二，准备biomart_perl脚本</h1><h2 id="1，生成perl脚本"><a href="#1，生成perl脚本" class="headerlink" title="1，生成perl脚本"></a>1，生成perl脚本</h2><p>在选择好相关attribute和filter之后，点击中间上方的perl，保存生成的内容到本地，比如down.pl。<br><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2016-02-20-biomart-perl-api-show-scrip.png" alt="biomart-perl-api-show-scrip"></p>
 <h2 id="2，修改perl脚本"><a href="#2，修改perl脚本" class="headerlink" title="2，修改perl脚本"></a>2，修改perl脚本</h2><p>1） 将”$confFile” 变量换成本地的registry文件（比如，/path/to/biomart-perl/conf/martURLLocation.xml）<br>2） 将”$action” 变量改为”clean”</p>
 <p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2016-02-20-biomart-perl-api-modify-scrip.png" alt="biomart-perl-api-modify-scrip"></p>
 <h1 id="三，下载数据"><a href="#三，下载数据" class="headerlink" title="三，下载数据"></a>三，下载数据</h1><p>perl downl.pl</p>
 <p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2016-02-20-biomart-perl-api-downloadinfo.png" alt="biomart-perl-api-downloadinfo"> </p>
-<p>参考：<a href="http://asia.ensembl.org/info/data/biomart/biomart_perl_api.html?redirect=no" target="_blank" rel="noopener" title="http://asia.ensembl.org/info/data/biomart/biomart_perl_api.html?redirect=no">http://asia.ensembl.org/info/data/biomart/biomart_perl_api.html?redirect=no
+<p>参考：<a href="http://asia.ensembl.org/info/data/biomart/biomart_perl_api.html?redirect=no" title="http://asia.ensembl.org/info/data/biomart/biomart_perl_api.html?redirect=no">http://asia.ensembl.org/info/data/biomart/biomart_perl_api.html?redirect=no
 </a></p>
 <p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>#####################################################################</p>
 
@@ -331,7 +331,7 @@ sudo cpan install XML::DOM</pre>
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">131</span>
+          <span class="site-state-item-count">132</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -340,7 +340,7 @@ sudo cpan install XML::DOM</pre>
         <span class="site-state-item-name">categories</span>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">136</span>
+        <span class="site-state-item-count">137</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>

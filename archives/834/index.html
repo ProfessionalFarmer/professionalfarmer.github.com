@@ -29,8 +29,8 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-02-11-screencapture-UCSC-hgLiftOver.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-02-11-screencapture-NCBI-remap.png">
-<meta property="article:published_time" content="2018-02-11T03:39:11.000Z">
-<meta property="article:modified_time" content="2020-05-25T09:38:08.480Z">
+<meta property="article:published_time" content="2018-02-11T19:39:11.000Z">
+<meta property="article:modified_time" content="2020-05-28T23:19:29.659Z">
 <meta property="article:author" content="Jason">
 <meta property="article:tag" content="Genome">
 <meta property="article:tag" content="Cordinate">
@@ -179,14 +179,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2018-02-11 11:39:11" itemprop="dateCreated datePublished" datetime="2018-02-11T11:39:11+08:00">2018-02-11</time>
+              <time title="Created: 2018-02-11 11:39:11" itemprop="dateCreated datePublished" datetime="2018-02-11T11:39:11-08:00">2018-02-11</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-25 17:38:08" itemprop="dateModified" datetime="2020-05-25T17:38:08+08:00">2020-05-25</time>
+                <time title="Modified: 2020-05-28 15:19:29" itemprop="dateModified" datetime="2020-05-28T15:19:29-08:00">2020-05-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -210,7 +210,7 @@
 
       
         <p>分析时使用的基因组版本，可能会与其他来源数据所使用的基因组版本不一致，需要统一成同一个版本的坐标，才能方便下一步的分析。</p>
-<p>常用的有NCBI的Remap在线服务和UCSC的liftover，其实还有很多，本文暂时总结部分工具的用法。以将APOA1的编码区坐标（利用UCSC的genome browser下载，或者下载该文件<a href="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/FileAttach/2018-02-11-APOA1.bed" target="_blank" rel="noopener">APOA1.bed</a>）转换为例，从hg19转到hg38版本坐标上。需要注意的是，在使用的时候，需要注意是否支持对应的格式。</p>
+<p>常用的有NCBI的Remap在线服务和UCSC的liftover，其实还有很多，本文暂时总结部分工具的用法。以将APOA1的编码区坐标（利用UCSC的genome browser下载，或者下载该文件<a href="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/FileAttach/2018-02-11-APOA1.bed">APOA1.bed</a>）转换为例，从hg19转到hg38版本坐标上。需要注意的是，在使用的时候，需要注意是否支持对应的格式。</p>
 <table>
 <thead>
 <tr>
@@ -225,40 +225,40 @@
 <td>Liftover</td>
 <td>在线</td>
 <td>bed</td>
-<td><a href="http://genome.ucsc.edu/cgi-bin/hgLiftOver" target="_blank" rel="noopener">http://genome.ucsc.edu/cgi-bin/hgLiftOver</a></td>
+<td><a href="http://genome.ucsc.edu/cgi-bin/hgLiftOver">http://genome.ucsc.edu/cgi-bin/hgLiftOver</a></td>
 <td>一般</td>
 </tr>
 <tr>
 <td>Liftover</td>
 <td>本地</td>
 <td>bed和gff</td>
-<td><a href="http://hgdownload.cse.ucsc.edu/admin/exe/linux.x86_64/liftOver" target="_blank" rel="noopener">http://hgdownload.cse.ucsc.edu/admin/exe/linux.x86_64/liftOver</a></td>
+<td><a href="http://hgdownload.cse.ucsc.edu/admin/exe/linux.x86_64/liftOver">http://hgdownload.cse.ucsc.edu/admin/exe/linux.x86_64/liftOver</a></td>
 <td>推荐</td>
 </tr>
 <tr>
 <td>Remap</td>
 <td>在线</td>
 <td>hgvs，bed，gvf，gff，gtf，Text ASN.1，Binary ASN.1，UCSC Region和VCF</td>
-<td><a href="https://www.ncbi.nlm.nih.gov/genome/tools/remap" target="_blank" rel="noopener">https://www.ncbi.nlm.nih.gov/genome/tools/remap</a></td>
+<td><a href="https://www.ncbi.nlm.nih.gov/genome/tools/remap">https://www.ncbi.nlm.nih.gov/genome/tools/remap</a></td>
 <td>推荐</td>
 </tr>
 <tr>
 <td>CrossMap</td>
 <td>本地</td>
 <td>SAM/BAM,，Wiggle/BigWig， bed， gff/gtf，VCF</td>
-<td><a href="http://crossmap.sourceforge.net/" target="_blank" rel="noopener">http://crossmap.sourceforge.net/</a></td>
+<td><a href="http://crossmap.sourceforge.net/">http://crossmap.sourceforge.net/</a></td>
 <td>推荐</td>
 </tr>
 <tr>
 <td>picard</td>
 <td>本地</td>
 <td>interval和VCF</td>
-<td><a href="http://broadinstitute.github.io/picard/" target="_blank" rel="noopener">http://broadinstitute.github.io/picard/</a></td>
+<td><a href="http://broadinstitute.github.io/picard/">http://broadinstitute.github.io/picard/</a></td>
 <td></td>
 </tr>
 </tbody></table>
 <h1 id="在线版"><a href="#在线版" class="headerlink" title="在线版"></a>在线版</h1><h2 id="Liftover"><a href="#Liftover" class="headerlink" title="Liftover"></a>Liftover</h2><p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-02-11-screencapture-UCSC-hgLiftOver.png" alt="hg-liftover-ucsc"> </p>
-<p>服务地址： <a href="http://genome.ucsc.edu/cgi-bin/hgLiftOver" target="_blank" rel="noopener">http://genome.ucsc.edu/cgi-bin/hgLiftOver</a></p>
+<p>服务地址： <a href="http://genome.ucsc.edu/cgi-bin/hgLiftOver">http://genome.ucsc.edu/cgi-bin/hgLiftOver</a></p>
 <ul>
 <li><ul>
 <li>1，首先选择检索和目标基因组<pre>Original Genome:    Human
@@ -276,7 +276,7 @@ New Assembly:    Dec. 2013 (GRCh38/hg38)
 </ul>
 <h2 id="Remap"><a href="#Remap" class="headerlink" title="Remap"></a>Remap</h2><p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-02-11-screencapture-NCBI-remap.png" alt="NCBI-remap"></p>
 <p>支持hgvs，bed，gvf，gff，gtf，Text ASN.1，Binary ASN.1，UCSC Region和VCF，如果数据量较少，可以考虑该方法。</p>
-<p>服务地址：<a href="https://www.ncbi.nlm.nih.gov/genome/tools/remap" target="_blank" rel="noopener">https://www.ncbi.nlm.nih.gov/genome/tools/remap</a></p>
+<p>服务地址：<a href="https://www.ncbi.nlm.nih.gov/genome/tools/remap">https://www.ncbi.nlm.nih.gov/genome/tools/remap</a></p>
 <ul>
 <li><ul>
 <li>1，在Assembly-Assembly中选择<pre>Source Organism *：Homo sapiens
@@ -291,12 +291,12 @@ Target Assembly *:    GRCh38(hg38)
 <li><p>3，点击submit，页面会跳转到结果页面，Summary Data告诉你有多少条匹配，Mapping Report告诉你对应关系。这些都可以下载，NCBI remap的结果文件前几列是原来的内容，后几列是转换后的坐标。</p>
 </li>
 </ul>
-<h2 id="Ensembl-Assembly-Converter"><a href="#Ensembl-Assembly-Converter" class="headerlink" title="Ensembl Assembly Converter"></a>Ensembl Assembly Converter</h2><p><a href="http://asia.ensembl.org/Homo_sapiens/Tools/AssemblyConverter?db=core" target="_blank" rel="noopener">http://asia.ensembl.org/Homo_sapiens/Tools/AssemblyConverter?db=core</a></p>
-<h1 id="本地版"><a href="#本地版" class="headerlink" title="本地版"></a>本地版</h1><p>本地工具需要利用chain file，才能知道两个版本的坐标对应关系。chain文件可以从UCSC下载。我们需要的是hg19Thg38.over.chain.gz<br><a href="http://hgdownload.soe.ucsc.edu/goldenPath/hg19/liftOver/hg19ToHg38.over.chain.gz" target="_blank" rel="noopener">http://hgdownload.soe.ucsc.edu/goldenPath/hg19/liftOver/hg19ToHg38.over.chain.gz</a><br>chain文件后续会有介绍。</p>
+<h2 id="Ensembl-Assembly-Converter"><a href="#Ensembl-Assembly-Converter" class="headerlink" title="Ensembl Assembly Converter"></a>Ensembl Assembly Converter</h2><p><a href="http://asia.ensembl.org/Homo_sapiens/Tools/AssemblyConverter?db=core">http://asia.ensembl.org/Homo_sapiens/Tools/AssemblyConverter?db=core</a></p>
+<h1 id="本地版"><a href="#本地版" class="headerlink" title="本地版"></a>本地版</h1><p>本地工具需要利用chain file，才能知道两个版本的坐标对应关系。chain文件可以从UCSC下载。我们需要的是hg19Thg38.over.chain.gz<br><a href="http://hgdownload.soe.ucsc.edu/goldenPath/hg19/liftOver/hg19ToHg38.over.chain.gz">http://hgdownload.soe.ucsc.edu/goldenPath/hg19/liftOver/hg19ToHg38.over.chain.gz</a><br>chain文件后续会有介绍。</p>
 <h2 id="CrossMap"><a href="#CrossMap" class="headerlink" title="CrossMap"></a>CrossMap</h2><p>CrossMap支持SAM/BAM, Wiggle/BigWig, BED, GFF/GTF, VCF格式。支持的格式较多，用起来方便。</p>
-<p>软件网址：<a href="http://crossmap.sourceforge.net/" target="_blank" rel="noopener">http://crossmap.sourceforge.net/</a></p>
+<p>软件网址：<a href="http://crossmap.sourceforge.net/">http://crossmap.sourceforge.net/</a></p>
 <p>安装：pip install CrossMap</p>
-<p>当然也可以从源码编译安装，官网有说明（<a href="http://crossmap.sourceforge.net/#install-crossmap-from-source-code）。" target="_blank" rel="noopener">http://crossmap.sourceforge.net/#install-crossmap-from-source-code）。</a></p>
+<p>当然也可以从源码编译安装，官网有说明（<a href="http://crossmap.sourceforge.net/#install-crossmap-from-source-code）。">http://crossmap.sourceforge.net/#install-crossmap-from-source-code）。</a></p>
 <pre>python CrossMap.py bed    hg19ToHg38.over.chain      APOA1.bed      APOA1.hg38.bed</pre>
 
 <h2 id="Liftover-1"><a href="#Liftover-1" class="headerlink" title="Liftover"></a>Liftover</h2><p>支持bed和gff格式</p>
@@ -306,10 +306,10 @@ chmod 755 liftOver
 liftOver   APOA1.bed    hg19ToHg38.over.chain    APOA1.hg38.bed   unMapped.txt
 </pre>
 
-<h2 id="Picard"><a href="#Picard" class="headerlink" title="Picard"></a>Picard</h2><p>地址： <a href="http://broadinstitute.github.io/picard/" target="_blank" rel="noopener">http://broadinstitute.github.io/picard/</a></p>
+<h2 id="Picard"><a href="#Picard" class="headerlink" title="Picard"></a>Picard</h2><p>地址： <a href="http://broadinstitute.github.io/picard/">http://broadinstitute.github.io/picard/</a></p>
 <a id="more"></a>
 
-<p>此外还有Picard可以完成interval和VCF的转换，但interval的转换比较繁琐，首先要构建picard风格的interval文件（参见<a href="https://gatkforums.broadinstitute.org/gatk/discussion/1319/collected-faqs-about-interval-lists），加入header，必须有" target="_blank" rel="noopener">https://gatkforums.broadinstitute.org/gatk/discussion/1319/collected-faqs-about-interval-lists），加入header，必须有</a> + 五列，第四列且是+号。所以不建议用picard来转换bed，不过可以用picard转换VCF文件。</p>
+<p>此外还有Picard可以完成interval和VCF的转换，但interval的转换比较繁琐，首先要构建picard风格的interval文件（参见<a href="https://gatkforums.broadinstitute.org/gatk/discussion/1319/collected-faqs-about-interval-lists），加入header，必须有">https://gatkforums.broadinstitute.org/gatk/discussion/1319/collected-faqs-about-interval-lists），加入header，必须有</a> + 五列，第四列且是+号。所以不建议用picard来转换bed，不过可以用picard转换VCF文件。</p>
 <pre>LiftOverIntervalList
 java -jar picard.jar LiftOverIntervalList \
       I=input.interval_list \
@@ -426,7 +426,7 @@ java -jar picard.jar LiftoverVcf \
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">131</span>
+          <span class="site-state-item-count">132</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -435,7 +435,7 @@ java -jar picard.jar LiftoverVcf \
         <span class="site-state-item-name">categories</span>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">136</span>
+        <span class="site-state-item-count">137</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>

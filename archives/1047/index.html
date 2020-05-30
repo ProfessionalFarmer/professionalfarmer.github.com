@@ -27,8 +27,8 @@
 <meta property="og:site_name" content="Another Jason&#39;s blog">
 <meta property="og:description" content="最近找smrt analysis 2.3的程序，真是太辛苦了。我不想用SMRT的图形界面，pacbio又把github上的相关项目obsolete了，tofu项目也没了，pbtranscript装起来各种错误，实在要放弃了，还好看到有人做了2.3的docker镜像。用最近的SMRT6.0中的isoseq3的同学可以忽略本文，isoseq3请移步https:&#x2F;&#x2F;github.com&#x2F;PacificB">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2019-03-29T10:39:05.000Z">
-<meta property="article:modified_time" content="2020-05-25T11:48:05.474Z">
+<meta property="article:published_time" content="2019-03-30T02:39:05.000Z">
+<meta property="article:modified_time" content="2020-05-28T23:19:29.676Z">
 <meta property="article:author" content="Jason">
 <meta property="article:tag" content="Pacbio">
 <meta name="twitter:card" content="summary">
@@ -174,14 +174,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2019-03-29 18:39:05" itemprop="dateCreated datePublished" datetime="2019-03-29T18:39:05+08:00">2019-03-29</time>
+              <time title="Created: 2019-03-29 18:39:05" itemprop="dateCreated datePublished" datetime="2019-03-29T18:39:05-08:00">2019-03-29</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-25 19:48:05" itemprop="dateModified" datetime="2020-05-25T19:48:05+08:00">2020-05-25</time>
+                <time title="Modified: 2020-05-28 15:19:29" itemprop="dateModified" datetime="2020-05-28T15:19:29-08:00">2020-05-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -204,7 +204,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>最近找smrt analysis 2.3的程序，真是太辛苦了。我不想用SMRT的图形界面，pacbio又把github上的相关项目obsolete了，tofu项目也没了，pbtranscript装起来各种错误，实在要放弃了，还好看到有人做了2.3的docker镜像。用最近的SMRT6.0中的isoseq3的同学可以忽略本文，isoseq3请移步<a href="https://github.com/PacificBiosciences/IsoSeq3/blob/master/README_v3.1.md" target="_blank" rel="noopener">https://github.com/PacificBiosciences/IsoSeq3/blob/master/README_v3.1.md</a>。</p>
+        <p>最近找smrt analysis 2.3的程序，真是太辛苦了。我不想用SMRT的图形界面，pacbio又把github上的相关项目obsolete了，tofu项目也没了，pbtranscript装起来各种错误，实在要放弃了，还好看到有人做了2.3的docker镜像。用最近的SMRT6.0中的isoseq3的同学可以忽略本文，isoseq3请移步<a href="https://github.com/PacificBiosciences/IsoSeq3/blob/master/README_v3.1.md">https://github.com/PacificBiosciences/IsoSeq3/blob/master/README_v3.1.md</a>。</p>
 <pre>docker pull bowhan/smrtanalysis-2.3.0.140936
 docker run -it -v /home/bowhan/myData:/data bowhan/smrtanalysis-2.3.0.140936 bash
 # -v 挂载目录
@@ -236,7 +236,7 @@ pbtranscript.py cluster \
     --cDNA_size under1k --quiver --blasr_nproc 8 \
     --quiver_nproc 8 </pre>
 
-<p>本文转自<a href="https://hub.docker.com/r/bowhan/smrtanalysis-2.3.0.140936/" target="_blank" rel="noopener">https://hub.docker.com/r/bowhan/smrtanalysis-2.3.0.140936/</a><br>其他参考：<a href="https://github.com/ben-lerch/IsoSeq-3.0" target="_blank" rel="noopener">https://github.com/ben-lerch/IsoSeq-3.0</a></p>
+<p>本文转自<a href="https://hub.docker.com/r/bowhan/smrtanalysis-2.3.0.140936/">https://hub.docker.com/r/bowhan/smrtanalysis-2.3.0.140936/</a><br>其他参考：<a href="https://github.com/ben-lerch/IsoSeq-3.0">https://github.com/ben-lerch/IsoSeq-3.0</a></p>
 
     </div>
 
@@ -333,7 +333,7 @@ pbtranscript.py cluster \
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">131</span>
+          <span class="site-state-item-count">132</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -342,7 +342,7 @@ pbtranscript.py cluster \
         <span class="site-state-item-name">categories</span>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">136</span>
+        <span class="site-state-item-count">137</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>

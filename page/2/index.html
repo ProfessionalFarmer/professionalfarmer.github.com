@@ -147,6 +147,153 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/1063/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="Share news">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Another Jason's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/archives/1063/" class="post-title-link" itemprop="url">TCGABiolinks下载TCGA数据做生存分析</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-06-10 10:30:37" itemprop="dateCreated datePublished" datetime="2019-06-10T10:30:37-08:00">2019-06-10</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-05-28 15:19:29" itemprop="dateModified" datetime="2020-05-28T15:19:29-08:00">2020-05-28</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2019-06-09-TCGABiolinks-Rplot.png" alt=""></p>
+<p>以前的工作是全基因组或全外分析，不涉及癌症和生存分析，但现在的工作主要围绕癌症方面，生存分析一定少不了。实验室小伙伴推荐用TCGAbiolinks下载TCGA的数据，于是研究了如何用TCGABiolinks下载TCGA的数据，以下载RNA的count数据为例，并做生存分析。</p>
+<pre># 安装相关的包
+if (!requireNamespace("BiocManager", quietly=TRUE))   
+  install.packages("BiocManager")
+BiocManager::install("TCGAbiolinks")
+BiocManager::install("SummarizedExperiment")
+install.packages('survival')
+install.packages('survminer')
+library(SummarizedExperiment)
+library(TCGAbiolinks)
+library(survival)
+library(survminer)
+
+# 项目的概括信息，project的名称可以从 https://portal.gdc.cancer.gov/ 上面选择对应的器官，进入之后左侧列表中就会显示。我们以下载TCGA-LIHC项目的数据为例。
+TCGAbiolinks:::getProjectSummary("TCGA-LIHC") 
+# 获取该项目样本的临床信息
+clinical <- GDCquery_clinic(project = "TCGA-LIHC", type = "clinical")
+
+# 下载TCGA-LIHC项目的rna-seq的counts数据,构建GDCquery，具体的数据类型的写法可以参考 https://portal.gdc.cancer.gov/repository 左侧列表
+# 比如data type有Raw Simple Somatic Mutation, Annotated Somatic Mutation, Aligned Reads, Gene Expression Quantification, Slide Image这几种，不过不同的项目，有可能有不同的数据类型。
+query <- GDCquery(project = "TCGA-LIHC", 
+            experimental.strategy = "RNA-Seq",
+                    data.category = "Transcriptome Profiling", 
+                    data.type = "Gene Expression Quantification",
+            workflow.type = "HTSeq - Counts")
+# 下载数据
+GDCdownload(query)
+# 导入数据
+LIHCRnaseq <- GDCprepare(query)
+# 得到样本的基因counts矩阵，每行为一个基因，每列为一个样本
+count_matrix <- assay(LIHCRnaseq)
+
+# TCGA样本的编号以'-'分割，前三列是患者编号，第四列是类型，一般11表示正常样本，01表示肿瘤样本，见https://gdc.cancer.gov/resources-tcga-users/tcga-code-tables/sample-type-codes
+samplesNT <- TCGAquery_SampleTypes(barcode = colnames(count_matrix),typesample = c("NT"))
+# selection of tumor samples "TP"
+samplesTP <- TCGAquery_SampleTypes(barcode = colnames(count_matrix),typesample = c("TP"))
+
+# 根据ensembl id选择特定基因在癌症样本中的表达
+gexp <- count_matrix[c("ENSG00000198431"),samplesTP]
+
+# 这样选出的样本都是肿瘤样本，但样本名称是TCGA-CC-A7IL-01A-11R-A33R-07，与clinical信息不对应，需要将名字简化成TCGA-CC-A7IL
+names(gexp) <-  sapply(strsplit(names(gexp),'-'),function(x) paste0(x[1:3],collapse="-"))
+
+# 将表达数据和clinical数据合并，并且挑出来用于做生存分析的数据
+clinical$"ENSG00000198431" <- gexp[clinical$submitter_id]
+df<-subset(clinical,select =c(submitter_id,vital_status,days_to_death,ENSG00000198431))
+
+#去掉NA
+df <- df[!is.na(df$ENSG00000198431),]
+
+#取基因的平均值，大于平均值的为H，小于为L
+df$exp <- ''
+df[df$ENSG00000198431 >= mean(df$ENSG00000198431),]$exp <- "H"
+df[df$ENSG00000198431 <  mean(df$ENSG00000198431),]$exp <- "L"
+
+# 将status表示患者结局，1表示删失，2表示死亡
+df[df$vital_status=='Dead',]$vital_status <- 2
+df[df$vital_status=='Alive',]$vital_status <- 1
+df$vital_status <- as.numeric(df$vital_status)
+
+# 建模
+fit <- survfit(Surv(days_to_death, vital_status)~exp, data=df) # 根据表达建模
+# 显示P value
+surv_pvalue(fit)$pval.txt 
+# 画图
+ggsurvplot(fit,pval=TRUE)</pre>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/archives/1063/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/1061/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -171,14 +318,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2019-05-19 14:34:05" itemprop="dateCreated datePublished" datetime="2019-05-19T14:34:05+08:00">2019-05-19</time>
+              <time title="Created: 2019-05-19 14:34:05" itemprop="dateCreated datePublished" datetime="2019-05-19T14:34:05-08:00">2019-05-19</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-25 21:12:20" itemprop="dateModified" datetime="2020-05-25T21:12:20+08:00">2020-05-25</time>
+                <time title="Modified: 2020-05-28 15:19:29" itemprop="dateModified" datetime="2020-05-28T15:19:29-08:00">2020-05-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -250,14 +397,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2019-05-15 09:45:45" itemprop="dateCreated datePublished" datetime="2019-05-15T09:45:45+08:00">2019-05-15</time>
+              <time title="Created: 2019-05-15 09:45:45" itemprop="dateCreated datePublished" datetime="2019-05-15T09:45:45-08:00">2019-05-15</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-25 20:53:29" itemprop="dateModified" datetime="2020-05-25T20:53:29+08:00">2020-05-25</time>
+                <time title="Modified: 2020-05-28 15:19:29" itemprop="dateModified" datetime="2020-05-28T15:19:29-08:00">2020-05-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -280,11 +427,11 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>STAR-FUSION和FusonAnnotator都属于Trinity Trinity Cancer Transcriptome Analysis Toolkit Fusion-finding modules。<br>CTAT_HumanFusionLib现阶段整合了各种资源帮助分析癌症生物学相关的fusion，同样也鉴别可能在正常样本只能出现的fusion。下载地址：<a href="https://data.broadinstitute.org/Trinity/CTAT_RESOURCE_LIB/" target="_blank" rel="noopener">https://data.broadinstitute.org/Trinity/CTAT_RESOURCE_LIB/</a></p>
+          <p>STAR-FUSION和FusonAnnotator都属于Trinity Trinity Cancer Transcriptome Analysis Toolkit Fusion-finding modules。<br>CTAT_HumanFusionLib现阶段整合了各种资源帮助分析癌症生物学相关的fusion，同样也鉴别可能在正常样本只能出现的fusion。下载地址：<a href="https://data.broadinstitute.org/Trinity/CTAT_RESOURCE_LIB/">https://data.broadinstitute.org/Trinity/CTAT_RESOURCE_LIB/</a></p>
 <p>FusionAnnotator –genome_lib_dir GRCh37_gencode_v19_CTAT_lib_July192017/ctat_genome_lib_build_dir/ <br>                   –annotate fusions.list.txt<br>fusions.list.txt为star-fusion的结果中的第一列，两个参与融合的基因中间用–连在一起，就可以用FusionAnnotator进行注释，相关的标签会注释到融合基因上。</p>
 <p>会有三类标签，每类下面又有很多具体的来源标签：<br>Fusions relevant to cancer biology<br>Individual genes of cancer relevance, which may show up in fusions<br>Red Herrings: Fusion pairs that may not be relevant to cancer, and potential false positives.</p>
 <p>通过注释，就可以了解到分析结果中的融合基因是否在其他数据库中出现过，或者可能是和癌症无关的突变。</p>
-<p>参考：<a href="https://github.com/FusionAnnotator/CTAT_HumanFusionLib/wiki" target="_blank" rel="noopener">https://github.com/FusionAnnotator/CTAT_HumanFusionLib/wiki</a></p>
+<p>参考：<a href="https://github.com/FusionAnnotator/CTAT_HumanFusionLib/wiki">https://github.com/FusionAnnotator/CTAT_HumanFusionLib/wiki</a></p>
 
       
     </div>
@@ -328,14 +475,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2019-05-02 20:48:43" itemprop="dateCreated datePublished" datetime="2019-05-02T20:48:43+08:00">2019-05-02</time>
+              <time title="Created: 2019-05-02 20:48:43" itemprop="dateCreated datePublished" datetime="2019-05-02T20:48:43-08:00">2019-05-02</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-25 17:33:12" itemprop="dateModified" datetime="2020-05-25T17:33:12+08:00">2020-05-25</time>
+                <time title="Modified: 2020-05-28 15:19:29" itemprop="dateModified" datetime="2020-05-28T15:19:29-08:00">2020-05-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -360,7 +507,7 @@
       
           <p>需求，把多台服务器组成一个cluster(<strong>SGE</strong>)，把一台电脑（比如存储）的home文件件共享给其他服务器(<strong>NFS</strong>)，共用一个home文件夹，并进行用户的统一管理(<strong>NIS</strong>)。</p>
 <p>操作系统为操作系统：CentOS，用virtual box虚拟出来的系统做测试。<br>server端：10.0.2.5<br>client或compute端：在同样网段</p>
-<p>![](<a href="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020" target="_blank" rel="noopener">https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020</a><br>/2019-05-02-NSF-SGE-NIS.png)</p>
+<p>![](<a href="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020">https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020</a><br>/2019-05-02-NSF-SGE-NIS.png)</p>
 <h1 id="1，NFS共享存储"><a href="#1，NFS共享存储" class="headerlink" title="1，NFS共享存储"></a>1，NFS共享存储</h1><p>通过nfs，实现每台服务器都有同样的路径和文件，便于后续集群管理。这里共享两个路径，一个是server端的/home路径，实现每个服务器都有同样的家目录，一个是/opt/gridengine用于安装SGE。</p>
 <h2 id="1-1-Server端："><a href="#1-1-Server端：" class="headerlink" title="1.1 Server端："></a>1.1 Server端：</h2><p>安装相关软件，NFS的端口是不固定的（因此如果客户端连不上的时候，往往需要iptables -F清理一下），客户端要准确的获得NFS服务器所使用的端口，就需要RPC服务。RPC最主要的功能就是记录每个NFS功能所对应的端口号，并且在NFS客户端请求时将该端口和功能对应的信息传递给请求数据的NFS客户端，让客户端可以链接到正确的端口上去，从而实现数据传输。</p>
 <pre>yum install nfs-utils rpcbind</pre>
@@ -445,14 +592,14 @@ vi /etc/fstab
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2019-04-21 17:50:08" itemprop="dateCreated datePublished" datetime="2019-04-21T17:50:08+08:00">2019-04-21</time>
+              <time title="Created: 2019-04-21 17:50:08" itemprop="dateCreated datePublished" datetime="2019-04-21T17:50:08-08:00">2019-04-21</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-25 11:56:55" itemprop="dateModified" datetime="2020-05-25T11:56:55+08:00">2020-05-25</time>
+                <time title="Modified: 2020-05-28 15:19:29" itemprop="dateModified" datetime="2020-05-28T15:19:29-08:00">2020-05-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -523,14 +670,14 @@ vi /etc/fstab
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2019-04-11 19:08:25" itemprop="dateCreated datePublished" datetime="2019-04-11T19:08:25+08:00">2019-04-11</time>
+              <time title="Created: 2019-04-11 19:08:25" itemprop="dateCreated datePublished" datetime="2019-04-11T19:08:25-08:00">2019-04-11</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-25 21:10:32" itemprop="dateModified" datetime="2020-05-25T21:10:32+08:00">2020-05-25</time>
+                <time title="Modified: 2020-05-28 15:19:29" itemprop="dateModified" datetime="2020-05-28T15:19:29-08:00">2020-05-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -603,14 +750,14 @@ vi /etc/fstab
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2019-03-29 18:39:05" itemprop="dateCreated datePublished" datetime="2019-03-29T18:39:05+08:00">2019-03-29</time>
+              <time title="Created: 2019-03-29 18:39:05" itemprop="dateCreated datePublished" datetime="2019-03-29T18:39:05-08:00">2019-03-29</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-25 19:48:05" itemprop="dateModified" datetime="2020-05-25T19:48:05+08:00">2020-05-25</time>
+                <time title="Modified: 2020-05-28 15:19:29" itemprop="dateModified" datetime="2020-05-28T15:19:29-08:00">2020-05-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -633,7 +780,7 @@ vi /etc/fstab
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>最近找smrt analysis 2.3的程序，真是太辛苦了。我不想用SMRT的图形界面，pacbio又把github上的相关项目obsolete了，tofu项目也没了，pbtranscript装起来各种错误，实在要放弃了，还好看到有人做了2.3的docker镜像。用最近的SMRT6.0中的isoseq3的同学可以忽略本文，isoseq3请移步<a href="https://github.com/PacificBiosciences/IsoSeq3/blob/master/README_v3.1.md" target="_blank" rel="noopener">https://github.com/PacificBiosciences/IsoSeq3/blob/master/README_v3.1.md</a>。</p>
+          <p>最近找smrt analysis 2.3的程序，真是太辛苦了。我不想用SMRT的图形界面，pacbio又把github上的相关项目obsolete了，tofu项目也没了，pbtranscript装起来各种错误，实在要放弃了，还好看到有人做了2.3的docker镜像。用最近的SMRT6.0中的isoseq3的同学可以忽略本文，isoseq3请移步<a href="https://github.com/PacificBiosciences/IsoSeq3/blob/master/README_v3.1.md">https://github.com/PacificBiosciences/IsoSeq3/blob/master/README_v3.1.md</a>。</p>
 <pre>docker pull bowhan/smrtanalysis-2.3.0.140936
 docker run -it -v /home/bowhan/myData:/data bowhan/smrtanalysis-2.3.0.140936 bash
 # -v 挂载目录
@@ -665,7 +812,7 @@ pbtranscript.py cluster \
     --cDNA_size under1k --quiver --blasr_nproc 8 \
     --quiver_nproc 8 </pre>
 
-<p>本文转自<a href="https://hub.docker.com/r/bowhan/smrtanalysis-2.3.0.140936/" target="_blank" rel="noopener">https://hub.docker.com/r/bowhan/smrtanalysis-2.3.0.140936/</a><br>其他参考：<a href="https://github.com/ben-lerch/IsoSeq-3.0" target="_blank" rel="noopener">https://github.com/ben-lerch/IsoSeq-3.0</a></p>
+<p>本文转自<a href="https://hub.docker.com/r/bowhan/smrtanalysis-2.3.0.140936/">https://hub.docker.com/r/bowhan/smrtanalysis-2.3.0.140936/</a><br>其他参考：<a href="https://github.com/ben-lerch/IsoSeq-3.0">https://github.com/ben-lerch/IsoSeq-3.0</a></p>
 
       
     </div>
@@ -709,14 +856,14 @@ pbtranscript.py cluster \
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2019-03-25 18:35:20" itemprop="dateCreated datePublished" datetime="2019-03-25T18:35:20+08:00">2019-03-25</time>
+              <time title="Created: 2019-03-25 18:35:20" itemprop="dateCreated datePublished" datetime="2019-03-25T18:35:20-08:00">2019-03-25</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-25 15:22:48" itemprop="dateModified" datetime="2020-05-25T15:22:48+08:00">2020-05-25</time>
+                <time title="Modified: 2020-05-28 15:19:29" itemprop="dateModified" datetime="2020-05-28T15:19:29-08:00">2020-05-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -790,14 +937,14 @@ pbtranscript.py cluster \
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2019-03-22 18:23:09" itemprop="dateCreated datePublished" datetime="2019-03-22T18:23:09+08:00">2019-03-22</time>
+              <time title="Created: 2019-03-22 18:23:09" itemprop="dateCreated datePublished" datetime="2019-03-22T18:23:09-08:00">2019-03-22</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-25 11:56:55" itemprop="dateModified" datetime="2020-05-25T11:56:55+08:00">2020-05-25</time>
+                <time title="Modified: 2020-05-28 15:19:29" itemprop="dateModified" datetime="2020-05-28T15:19:29-08:00">2020-05-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -825,7 +972,7 @@ pbtranscript.py cluster \
 <h1 id="circus-consensus-sequence"><a href="#circus-consensus-sequence" class="headerlink" title="circus consensus sequence"></a>circus consensus sequence</h1><p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2019-03-22-PB-PACBIO-Circular-Consensus-Sequence.png" alt="Circular-Consensus-Sequence"></p>
 <p>ccs –minLength=100 myData.subreads.bam myResult.bam</p>
 <p>进行CCS由pacbio测序系统决定的，插入序列测多遍之后，可以用来校正随机错误。</p>
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="https://github.com/PacificBiosciences/unanimity/blob/develop/doc/PBCCS.md" target="_blank" rel="noopener">https://github.com/PacificBiosciences/unanimity/blob/develop/doc/PBCCS.md</a></p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="https://github.com/PacificBiosciences/unanimity/blob/develop/doc/PBCCS.md">https://github.com/PacificBiosciences/unanimity/blob/develop/doc/PBCCS.md</a></p>
 
       
     </div>
@@ -869,14 +1016,14 @@ pbtranscript.py cluster \
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2019-03-21 18:21:55" itemprop="dateCreated datePublished" datetime="2019-03-21T18:21:55+08:00">2019-03-21</time>
+              <time title="Created: 2019-03-21 18:21:55" itemprop="dateCreated datePublished" datetime="2019-03-21T18:21:55-08:00">2019-03-21</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-25 19:21:46" itemprop="dateModified" datetime="2020-05-25T19:21:46+08:00">2020-05-25</time>
+                <time title="Modified: 2020-05-28 15:19:29" itemprop="dateModified" datetime="2020-05-28T15:19:29-08:00">2020-05-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -900,15 +1047,15 @@ pbtranscript.py cluster \
 
       
           <p>SpliceMap是一个从头开始发现和比对splice junction的工具。它提供高敏感度并且支持任意长度RNA-seq 序列片段read长度. SpliceMap将RNA-seq reads比对到参考基因组上用于发现splicing junctions. 它至少拥有与当前技术条件下其它分析工具同等的灵敏度和特异性。</p>
-<p>官网    <a href="http://web.stanford.edu/group/wonglab/SpliceMap/manual.html" target="_blank" rel="noopener">http://web.stanford.edu/group/wonglab/SpliceMap/manual.html</a></p>
-<p>下载    <a href="http://web.stanford.edu/group/wonglab/SpliceMap/download.html" target="_blank" rel="noopener">http://web.stanford.edu/group/wonglab/SpliceMap/download.html</a></p>
-<p>示例教程    <a href="https://web.stanford.edu/group/wonglab/SpliceMap/tutorial.html" target="_blank" rel="noopener">https://web.stanford.edu/group/wonglab/SpliceMap/tutorial.html</a></p>
+<p>官网    <a href="http://web.stanford.edu/group/wonglab/SpliceMap/manual.html">http://web.stanford.edu/group/wonglab/SpliceMap/manual.html</a></p>
+<p>下载    <a href="http://web.stanford.edu/group/wonglab/SpliceMap/download.html">http://web.stanford.edu/group/wonglab/SpliceMap/download.html</a></p>
+<p>示例教程    <a href="https://web.stanford.edu/group/wonglab/SpliceMap/tutorial.html">https://web.stanford.edu/group/wonglab/SpliceMap/tutorial.html</a></p>
 <p>以官网SpliceMap 3.3.5.2 example (Linux-x86 64bit)为例，介绍如何用来自21号染色体的100k 条100bp的RNA reads寻找junction。</p>
 <p>测试是否正常./bin/runSpliceMap，如果报错的话，需要到src文件夹运行 ./install.sh ../bin来安装SpliceMap，运行./install-bowtie.sh ../bin来安装</p>
 <h1 id="示例文件夹下面的结构"><a href="#示例文件夹下面的结构" class="headerlink" title="示例文件夹下面的结构"></a>示例文件夹下面的结构</h1><pre>ls SpliceMap3352_example_linux-64
 all.gene.refFlat.txt  bin  data  genome  INSTALL  LICENSE  output  run.cfg  src  temp</pre>
 
-<h1 id="run-cfg"><a href="#run-cfg" class="headerlink" title="run.cfg"></a>run.cfg</h1><p>最重要的文件，为文本文件，包含测序reads路径，基因组文件路径，配置设置等详见<br><a href="https://web.stanford.edu/group/wonglab/SpliceMap/cfg.html，需要对每个数据集进行配置。在cfg文件中，注释以#开头，赋值用tag" target="_blank" rel="noopener">https://web.stanford.edu/group/wonglab/SpliceMap/cfg.html，需要对每个数据集进行配置。在cfg文件中，注释以#开头，赋值用tag</a> = value表示，比如genome_dir = ../../genome/hg18，多值用如下表示</p>
+<h1 id="run-cfg"><a href="#run-cfg" class="headerlink" title="run.cfg"></a>run.cfg</h1><p>最重要的文件，为文本文件，包含测序reads路径，基因组文件路径，配置设置等详见<br><a href="https://web.stanford.edu/group/wonglab/SpliceMap/cfg.html，需要对每个数据集进行配置。在cfg文件中，注释以#开头，赋值用tag">https://web.stanford.edu/group/wonglab/SpliceMap/cfg.html，需要对每个数据集进行配置。在cfg文件中，注释以#开头，赋值用tag</a> = value表示，比如genome_dir = ../../genome/hg18，多值用如下表示</p>
 <pre>> tag
 value_1
 value_2
@@ -971,150 +1118,7 @@ R[28405]        113     chr21   14070620        255     100M    =       14070536
 
 <h1 id="debug-logs"><a href="#debug-logs" class="headerlink" title="debug_logs"></a>debug_logs</h1><p>输出log</p>
 <h1 id="用自己的数据"><a href="#用自己的数据" class="headerlink" title="用自己的数据"></a>用自己的数据</h1><p>重点修改cfg文件中genome_dir （参考基因组路径），reads_list1和2（fastq文件），annotations （基因注释文件），temp_path（中间数据存放路径），out_path（结果文件夹），bowtie_base_dir （bowtie2的index文件，如果没有，会在temp_path生成）</p>
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="https://web.stanford.edu/group/wonglab/SpliceMap/tutorial.html" target="_blank" rel="noopener">https://web.stanford.edu/group/wonglab/SpliceMap/tutorial.html</a><br>大部分翻译这个tutorial，具体数据是自己跑tutorial得到的。</p>
-<p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>#####################################################################</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/1042/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Jason">
-      <meta itemprop="description" content="Share news">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Another Jason's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/archives/1042/" class="post-title-link" itemprop="url">Pacbio三代测序Primary Analysis Data文件夹</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2019-03-20 18:08:34" itemprop="dateCreated datePublished" datetime="2019-03-20T18:08:34+08:00">2019-03-20</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-25 20:15:46" itemprop="dateModified" datetime="2020-05-25T20:15:46+08:00">2020-05-25</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>三代测序很多年了，刚工作的时候在超算中心做过三代的拼接，没好好研究过之后就再也没接触过，现在要做三代的项目，从头学习，Primary Analysis Data为初步数据分析文件夹，类似下面的文件夹结构</p>
-<pre>/path/to/secondary/storage/2420294/0011
-├── Analysis_Results
-│   ├── m140415_143853_42175_c100635972550000001823121909121417_s1_p0.1.bax.h5
-│   ├── m140415_143853_42175_c100635972550000001823121909121417_s1_p0.1.log
-│   ├── m140415_143853_42175_c100635972550000001823121909121417_s1_p0.1.subreads.fasta
-│   ├── m140415_143853_42175_c100635972550000001823121909121417_s1_p0.1.subreads.fastq
-│   ├── m140415_143853_42175_c100635972550000001823121909121417_s1_p0.2.bax.h5
-│   ├── m140415_143853_42175_c100635972550000001823121909121417_s1_p0.2.log
-│   ├── m140415_143853_42175_c100635972550000001823121909121417_s1_p0.2.subreads.fasta
-│   ├── m140415_143853_42175_c100635972550000001823121909121417_s1_p0.2.subreads.fastq
-│   ├── m140415_143853_42175_c100635972550000001823121909121417_s1_p0.3.bax.h5
-│   ├── m140415_143853_42175_c100635972550000001823121909121417_s1_p0.3.log
-│   ├── m140415_143853_42175_c100635972550000001823121909121417_s1_p0.3.subreads.fasta
-│   ├── m140415_143853_42175_c100635972550000001823121909121417_s1_p0.3.subreads.fastq
-│   ├── m140415_143853_42175_c100635972550000001823121909121417_s1_p0.bas.h5
-│   ├── m140415_143853_42175_c100635972550000001823121909121417_s1_p0.sts.csv
-│   └── m140415_143853_42175_c100635972550000001823121909121417_s1_p0.sts.xml
-├── m140415_143853_42175_c100635972550000001823121909121417_s1_p0.1.xfer.xml
-├── m140415_143853_42175_c100635972550000001823121909121417_s1_p0.2.xfer.xml
-├── m140415_143853_42175_c100635972550000001823121909121417_s1_p0.3.xfer.xml
-├── m140415_143853_42175_c100635972550000001823121909121417_s1_p0.mcd.h5
-└── m140415_143853_42175_c100635972550000001823121909121417_s1_p0.metadata.xml</pre>
-
-<p><strong>主要文件有</strong></p>
-<h1 id="bas-h5文件和bax-h5文件"><a href="#bas-h5文件和bax-h5文件" class="headerlink" title="bas.h5文件和bax.h5文件"></a>bas.h5文件和bax.h5文件</h1><p>bas.h5和相关的bax.h5文件是PacBio@RS II初级分析（primary analysis）的主要输出文件，这些文件由设备产生到本地存储位置，作为后续SMRT分析软件进行alignment、consensus和variant分析的输入文件。<br>PacBio@RS II之前，单个bas.h5文件包含了所有测序数据，随着PacBio@RS II升级，通量和read长度都在增加，现在包含一个bas.h5和3个bax.h5文件（1-3.bax.h5）。bax.h5文件包含测序的base call的信息，bas.h5是三个bax.h5的重要指针。<br>用h5dupm -n [movie name].bas.h5命令看一下文件</p>
-<pre>FILE_CONTENTS {
- group      /
- group      /MultiPart
- dataset    /MultiPart/HoleLookup
- dataset    /MultiPart/Parts
- }</pre>
-
-<p>可以看到有一个MultiPart的group组，下面有两个数据集，一个是HoleLookup，一个是Parts。<br>/MultiPart/Parts提供相关对应的的三个bax.h5的文件名<br>/MultiPart/HoleLookup对应ZMW零模波导孔编号</p>
-<p>单个的bax.h5文件结构和原来一致 ，有两个组，分别是PulseData和ScanData。ScanData<br>包含了用于测试的仪器信息，一般不会用到。PulseData下面重点看/PulseData/BaseCalls组<br>用命令h5dump -d /PulseData/BaseCalls/Basecall [movie name].bax.h5 ‘ head -10 查看数据集basecall如下序列</p>
-<pre>DATASET "/PulseData/BaseCalls/Basecall" {
-   DATATYPE  H5T_STD_U8LE
-   DATASPACE  SIMPLE { ( 305612594 ) / ( H5S_UNLIMITED ) }
-   DATA {
-   (0): 84, 84, 67, 84, 84, 67, 84, 84, 84, 84, 67, 71, 84, 71, 71, 84, 84,
-   (17): 84, 84, 71, 84, 67, 84, 84, 84, 67, 84, 71, 84, 84, 84, 67, 84, 84,
-   (34): 84, 67, 84, 84, 71, 84, 84, 67, 84, 71, 67, 71, 71, 84, 84, 84, 84,
-   (51): 84, 84, 84, 84, 84, 84, 84, 84, 84, 84, 84, 84, 84, 84, 84, 84, 84,
-   (68): 84, 84, 84, 84, 71, 84, 84, 71, 84, 84, 84, 84, 84, 84, 84, 84, 84,</pre>
-
-<p>其中A=&gt; 65, C=&gt; 67, G=&gt;71, T=&gt;84，与ASCII编码一致。</p>
-<p>用h5dump -d /PulseData/BaseCalls/QualityValue bax.h5 ‘ head -10 查看数据集qualityvalue如下</p>
-<pre>DATASET "/PulseData/BaseCalls/QualityValue" {
-   DATATYPE  H5T_STD_U8LE
-   DATASPACE  SIMPLE { ( 305612594 ) / ( H5S_UNLIMITED ) }
-   DATA {
-   (0): 10, 11, 21, 12, 11, 9, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 14, 0, 0, 0, 10, 0, 1,
-   (23): 0, 0, 15, 1, 1, 1, 0, 1, 1, 1, 1, 0, 2, 10, 0, 0, 0, 0, 0, 0, 14, 20, 1,
-   (46): 1, 30, 1, 0, 0, 1, 22, 0, 19, 0, 1, 0, 0, 21, 1, 1, 1, 0, 0, 17, 0, 0, 1,
-   (69): 1, 1, 30, 2, 1, 0, 2, 1, 0, 10, 0, 1, 1, 0, 1, 1, 13, 0, 0, 0, 1, 0, 0,
-   (92): 1, 0, 5, 1, 0, 0, 1, 0, 2, 1, 0, 0, 21, 0, 1, 0, 0, 20, 0, 0, 0, 16, 1,</pre>
-
-<p>表示测错的概率，用的是phred socre，和Illumina类似。当然，我看的这个文件可以看出测序质量并不是很好。</p>
-<p>具体的组和数据集的说明，可以参考：</p>
-<p><a href="https://s3.amazonaws.com/files.pacb.com/software/instrument/2.0.0/bas.h5+Reference+Guide.pdf" target="_blank" rel="noopener">https://s3.amazonaws.com/files.pacb.com/software/instrument/2.0.0/bas.h5+Reference+Guide.pdf</a></p>
-<h1 id="metadata-xml"><a href="#metadata-xml" class="headerlink" title="metadata.xml"></a>metadata.xml</h1><p>包含测序仪ID，样本名，测序酶，试剂等元数据。<br>参考文件：<a href="https://s3.amazonaws.com/files.pacb.com/software/instrument/2.0.0/Metadata+Output+Guide.pdf" target="_blank" rel="noopener">https://s3.amazonaws.com/files.pacb.com/software/instrument/2.0.0/Metadata+Output+Guide.pdf</a></p>
-<h1 id="sts-xml"><a href="#sts-xml" class="headerlink" title="sts.xml"></a>sts.xml</h1><p>包含了单个movie的概括统计<br>参考文件：<a href="https://s3.amazonaws.com/files.pacb.com/software/instrument/1.3.1/Statistics+Output+Guide.pdf" target="_blank" rel="noopener">https://s3.amazonaws.com/files.pacb.com/software/instrument/1.3.1/Statistics+Output+Guide.pdf</a></p>
-<h1 id="用h5dump查看pacbio数据"><a href="#用h5dump查看pacbio数据" class="headerlink" title="用h5dump查看pacbio数据"></a>用h5dump查看pacbio数据</h1><p>查看h5格式的文件可以用hdf5下的h5dump工具查看,安装如下</p>
-<pre>wget -c https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.10/hdf5-1.10.5/src/hdf5-1.10.5.tar.gz
-tar -xzvf hdf5-1.10.5.tar.gz
-cd hdf5-1.10.5  
-./configure &&make && make install</pre>
-
-<h1 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h1><p><a href="https://www.cnblogs.com/xudongliang/p/6908953.html" target="_blank" rel="noopener">https://www.cnblogs.com/xudongliang/p/6908953.html</a><br><a href="https://smrt-analysis.readthedocs.io/en/latest/Data-files-you-received-from-your-service-provider/" target="_blank" rel="noopener">https://smrt-analysis.readthedocs.io/en/latest/Data-files-you-received-from-your-service-provider/</a></p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="https://web.stanford.edu/group/wonglab/SpliceMap/tutorial.html">https://web.stanford.edu/group/wonglab/SpliceMap/tutorial.html</a><br>大部分翻译这个tutorial，具体数据是自己跑tutorial得到的。</p>
 <p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>#####################################################################</p>
 
       
@@ -1200,7 +1204,7 @@ cd hdf5-1.10.5
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">131</span>
+          <span class="site-state-item-count">132</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -1209,7 +1213,7 @@ cd hdf5-1.10.5
         <span class="site-state-item-name">categories</span>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">136</span>
+        <span class="site-state-item-count">137</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>

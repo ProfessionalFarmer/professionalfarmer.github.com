@@ -27,8 +27,8 @@
 <meta property="og:site_name" content="Another Jason&#39;s blog">
 <meta property="og:description" content="教你通过命令jdk7，jdk8就可以优雅的切换java版本 我在机器上已有java7（java1.7），目前而言java7应该是用的最广泛的，被java8取代还需要一段时间。不过我遇到最新版的picard要求java8版本，才遇到了安装新版java的问题，并且我不想删掉老版本java，我希望很方便的调用。 我查找的方法介绍，大部分都是通过update-alternatives –config ja">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2016-08-06T04:22:27.000Z">
-<meta property="article:modified_time" content="2020-05-25T09:56:42.753Z">
+<meta property="article:published_time" content="2016-08-06T20:22:27.000Z">
+<meta property="article:modified_time" content="2020-05-28T23:19:29.647Z">
 <meta property="article:author" content="Jason">
 <meta property="article:tag" content="Java">
 <meta name="twitter:card" content="summary">
@@ -174,14 +174,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2016-08-06 12:22:27" itemprop="dateCreated datePublished" datetime="2016-08-06T12:22:27+08:00">2016-08-06</time>
+              <time title="Created: 2016-08-06 12:22:27" itemprop="dateCreated datePublished" datetime="2016-08-06T12:22:27-08:00">2016-08-06</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-25 17:56:42" itemprop="dateModified" datetime="2020-05-25T17:56:42+08:00">2020-05-25</time>
+                <time title="Modified: 2020-05-28 15:19:29" itemprop="dateModified" datetime="2020-05-28T15:19:29-08:00">2020-05-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -207,7 +207,7 @@
         <p>教你通过命令jdk7，jdk8就可以优雅的切换java版本</p>
 <p>我在机器上已有java7（java1.7），目前而言java7应该是用的最广泛的，被java8取代还需要一段时间。不过我遇到最新版的picard要求java8版本，才遇到了安装新版java的问题，并且我不想删掉老版本java，我希望很方便的调用。</p>
 <p>我查找的方法介绍，大部分都是通过update-alternatives –config java来选择，个人不喜欢这种方法。下面介绍一种比较优雅的方法，通过一个命令就能切换java版本。</p>
-<h1 id="下载jdk"><a href="#下载jdk" class="headerlink" title="下载jdk"></a>下载jdk</h1><p>下载页面  <a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html" target="_blank" rel="noopener">http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html</a></p>
+<h1 id="下载jdk"><a href="#下载jdk" class="headerlink" title="下载jdk"></a>下载jdk</h1><p>下载页面  <a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html">http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html</a></p>
 <p>选在对应的版本，如果版本不对应，在运行java时会报 <strong>no such file or directory</strong>。</p>
 <p>一般放在  /usr/jvm/jdk   /opt/Java/jdk/   /usr/lib/jvm _等目录下，当然也可以放在其他地方。</p>
 <p><strong>解压缩下载后的文件</strong></p>
@@ -225,8 +225,8 @@ alias jdk7='export JAVA_HOME=$JAVA7_HOME && export JRE_HOME=$JAVA_HOME/jre && ex
 
 <p>还有一步 source ~/.profile或者source ~/.bashrc</p>
 <p>这样就可以通过jdk7命令切换到java7版本，通过jdk8命令切换到java8版本。默认是java7版本。这样可以避免通过 update-java-alternatives 命令来配置和控制java版本了。</p>
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="http://stackoverflow.com/questions/26252591/mac-os-x-and-multiple-java-versions" target="_blank" rel="noopener">http://stackoverflow.com/questions/26252591/mac-os-x-and-multiple-java-versions</a></p>
-<p><a href="http://jingyan.baidu.com/article/647f0115bb26817f2048a871.html" target="_blank" rel="noopener">http://jingyan.baidu.com/article/647f0115bb26817f2048a871.html</a></p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="http://stackoverflow.com/questions/26252591/mac-os-x-and-multiple-java-versions">http://stackoverflow.com/questions/26252591/mac-os-x-and-multiple-java-versions</a></p>
+<p><a href="http://jingyan.baidu.com/article/647f0115bb26817f2048a871.html">http://jingyan.baidu.com/article/647f0115bb26817f2048a871.html</a></p>
 <p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>####################################################################</p>
 
     </div>
@@ -325,7 +325,7 @@ alias jdk7='export JAVA_HOME=$JAVA7_HOME && export JRE_HOME=$JAVA_HOME/jre && ex
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">131</span>
+          <span class="site-state-item-count">132</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -334,7 +334,7 @@ alias jdk7='export JAVA_HOME=$JAVA7_HOME && export JRE_HOME=$JAVA_HOME/jre && ex
         <span class="site-state-item-name">categories</span>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">136</span>
+        <span class="site-state-item-count">137</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>

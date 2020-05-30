@@ -29,8 +29,8 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-04-25-EXON-CNV-call-rate.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-04-25-EXON-CNV-PPV-PPA.png">
-<meta property="article:published_time" content="2018-04-25T08:53:36.000Z">
-<meta property="article:modified_time" content="2020-05-25T06:30:51.212Z">
+<meta property="article:published_time" content="2018-04-26T00:53:36.000Z">
+<meta property="article:modified_time" content="2020-05-28T23:19:29.663Z">
 <meta property="article:author" content="Jason">
 <meta property="article:tag" content="CNV">
 <meta property="article:tag" content="Copynumber">
@@ -180,14 +180,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2018-04-25 16:53:36" itemprop="dateCreated datePublished" datetime="2018-04-25T16:53:36+08:00">2018-04-25</time>
+              <time title="Created: 2018-04-25 16:53:36" itemprop="dateCreated datePublished" datetime="2018-04-25T16:53:36-08:00">2018-04-25</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-25 14:30:51" itemprop="dateModified" datetime="2020-05-25T14:30:51+08:00">2020-05-25</time>
+                <time title="Modified: 2020-05-28 15:19:29" itemprop="dateModified" datetime="2020-05-28T15:19:29-08:00">2020-05-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -214,7 +214,7 @@
 <h1 id="需要解决的实践问题"><a href="#需要解决的实践问题" class="headerlink" title="需要解决的实践问题"></a>需要解决的实践问题</h1><p>1）成本问题：如果利用原有测序数据（全外显子测序数据或panel 测序），而不重复进行实验，实现一次测序，解决多种问题<br>2）灵敏度和特异性的问题：希望在高灵敏度的情况下，获得尽可能高的特异性<br>3）分辨率：需要外显子水平而非基因组范围内的拷贝数变异</p>
 <h1 id="样本"><a href="#样本" class="headerlink" title="样本"></a>样本</h1><p>我们测了Coriell的已知有特定基因拷贝数变异的样本作为阳性样本，把正常人的样本作为对照样本</p>
 <h1 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h1><p>随着分析技术的发展，针对外显子水平的分析工具开始出现，CoNVaDING、DECoN、PureCN、panelcn.MOPS、ExomeDepth、CODEX2，这些软件都利用了外显子区域的覆盖度信息，用参考基因组GC含量校正，然后根据不同算法来识别拷贝数变异。<br>从中选择了两种最新的软件CoNVaDING和DECoN。因为这两种软件不需要配对样本数据，只需提供实验样本和对照样本组即可，另外这两个软件较新。<br>CoNVaDING利用一组可能的对照样本，并从中选择模式pattern最相似的样本作为对照样本，并对每个基因所有目标区域的depth进行标准化，通过比较阳性样本和对照样本之间计算z score和ratio score判断外显子是否发生拷贝数变异。DECoN则是对ExomeDepth工具进行了优化，而ExomeDepth利用贝塔二项分布来描述特定区域正常样本和对照样本的覆盖度比值，用隐马尔可夫模型来预测。</p>
-<p>DECoN    1.0.1    外显子拷贝数检测软件   <a href="https://github.com/RahmanTeam/DECoN" target="_blank" rel="noopener">https://github.com/RahmanTeam/DECoN</a><br>CoNVaDING    1.2.0    外显子拷贝数检测软件   <a href="https://github.com/molgenis/CoNVaDING" target="_blank" rel="noopener">https://github.com/molgenis/CoNVaDING</a></p>
+<p>DECoN    1.0.1    外显子拷贝数检测软件   <a href="https://github.com/RahmanTeam/DECoN">https://github.com/RahmanTeam/DECoN</a><br>CoNVaDING    1.2.0    外显子拷贝数检测软件   <a href="https://github.com/molgenis/CoNVaDING">https://github.com/molgenis/CoNVaDING</a></p>
 <h1 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h1><p>我们做了很多工作来验证拷贝数分析工具的性能，涉及数据问题，只能简略的讨论一下CoNVaDING和DECoN的性能。</p>
 <h2 id="lt-灵敏度-gt"><a href="#lt-灵敏度-gt" class="headerlink" title="&lt;灵敏度&gt;"></a>&lt;灵敏度&gt;</h2><p>灵敏度 PPA = Sensitivity = True positive/(True positive + false negative)</p>
 <p>我们的多个拷贝数阳性样本，总共有22个外显子DUP和40个外显子DEL（分布在不同阳性样本上，且区域不尽相同）。各个流程的结果如下图，<br><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-04-25-EXON-CNV-call-rate.png" alt=""></p>
@@ -335,7 +335,7 @@ Rscript makeCNVcalls.R --Rdata result.RData --transProb 0.01  --custom FALSE --o
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">131</span>
+          <span class="site-state-item-count">132</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -344,7 +344,7 @@ Rscript makeCNVcalls.R --Rdata result.RData --transProb 0.01  --custom FALSE --o
         <span class="site-state-item-name">categories</span>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">136</span>
+        <span class="site-state-item-count">137</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>

@@ -27,8 +27,8 @@
 <meta property="og:site_name" content="Another Jason&#39;s blog">
 <meta property="og:description" content="FPKM：Fragmentsper Kilobase Million，FPKM意义与RPKM极为相近。二者区别仅在于，Fragment 与Read。RPKM的诞生是针对早期的SE测序，FPKM则是在PE测序上对RPKM的校正。只要明确​Reads 和Fragments的区别，RPKM和FPKM的概念便易于区分。Reads即是指下机后fastq数据中的每一条Reads，Fragments则是指每一段">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2016-03-13T02:32:21.000Z">
-<meta property="article:modified_time" content="2020-05-25T12:54:01.459Z">
+<meta property="article:published_time" content="2016-03-13T18:32:21.000Z">
+<meta property="article:modified_time" content="2020-05-28T23:19:29.635Z">
 <meta property="article:author" content="Jason">
 <meta property="article:tag" content="RNA">
 <meta property="article:tag" content="Seq">
@@ -175,14 +175,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2016-03-13 10:32:21" itemprop="dateCreated datePublished" datetime="2016-03-13T10:32:21+08:00">2016-03-13</time>
+              <time title="Created: 2016-03-13 10:32:21" itemprop="dateCreated datePublished" datetime="2016-03-13T10:32:21-08:00">2016-03-13</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-25 20:54:01" itemprop="dateModified" datetime="2020-05-25T20:54:01+08:00">2020-05-25</time>
+                <time title="Modified: 2020-05-28 15:19:29" itemprop="dateModified" datetime="2020-05-28T15:19:29-08:00">2020-05-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -218,8 +218,8 @@
 <p>When you use TPM, the sum of all TPMs in each sample are the same. This makes it easier to compare the proportion of reads that mapped to a gene in each sample. In contrast, with RPKM and FPKM, the sum of the normalized reads in each sample may be different, and this makes it harder to compare samples directly.</p>
 <p>Here’s an example. If the TPM for gene A in Sample 1 is 3.33 and the TPM in sample B is 3.33, then I know that the exact same proportion of total reads mapped to gene A in both samples. This is because the sum of the TPMs in both samples always add up to the same number (so the denominator required to calculate the proportions is the same, regardless of what sample you are looking at.)</p>
 <p>With RPKM or FPKM, the sum of normalized reads in each sample can be different. Thus, if the RPKM for gene A in Sample 1 is 3.33 and the RPKM in Sample 2 is 3.33, I would not know if the same proportion of reads in Sample 1 mapped to gene A as in Sample 2. This is because the denominator required to calculate the proportion could be different for the two samples.</p>
-<p>转载自<a href="http://www.rna-seqblog.com/rpkm-fpkm-and-tpm-clearly-explained/" target="_blank" rel="noopener">http://www.rna-seqblog.com/rpkm-fpkm-and-tpm-clearly-explained/</a></p>
-<p><a href="http://fhqdddddd.blog.163.com/blog/static/1869915420126173518426/" target="_blank" rel="noopener">http://fhqdddddd.blog.163.com/blog/static/1869915420126173518426/</a></p>
+<p>转载自<a href="http://www.rna-seqblog.com/rpkm-fpkm-and-tpm-clearly-explained/">http://www.rna-seqblog.com/rpkm-fpkm-and-tpm-clearly-explained/</a></p>
+<p><a href="http://fhqdddddd.blog.163.com/blog/static/1869915420126173518426/">http://fhqdddddd.blog.163.com/blog/static/1869915420126173518426/</a></p>
 
     </div>
 
@@ -317,7 +317,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">131</span>
+          <span class="site-state-item-count">132</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -326,7 +326,7 @@
         <span class="site-state-item-name">categories</span>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">136</span>
+        <span class="site-state-item-count">137</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>

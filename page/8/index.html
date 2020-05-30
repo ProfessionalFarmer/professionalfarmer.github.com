@@ -147,6 +147,104 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/752/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="Share news">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Another Jason's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/archives/752/" class="post-title-link" itemprop="url">多线程gzip压缩神器---pigz</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-04-02 10:32:10" itemprop="dateCreated datePublished" datetime="2016-04-02T10:32:10-08:00">2016-04-02</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-05-28 15:19:29" itemprop="dateModified" datetime="2020-05-28T15:19:29-08:00">2020-05-28</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>Fastq文件为纯文本文件，占用的硬盘空间较大，所以一般都会将Fastq文件压缩成gz格式，很多软件也支持fastq的gz格式输入。我用过python读取gzip，非常方便。单纯的通过gzip的命令压缩fastq，效率非常非常慢，据说是没有利用整个机器的cpu。</p>
+<p>于是我就找到了pigz这款神器，可以在压缩数据时，发挥多核多处理器的优势，简而言之就是利用多线程进行gzip任务，比单纯的gzip压缩要快很多，有人测试快了5倍多（因为gzip压缩100G的文件时间是太长了，我也就没有测试）。</p>
+<h1 id="pigz"><a href="#pigz" class="headerlink" title="pigz"></a>pigz</h1><p>官网  <a href="http://www.zlib.net/pigz/">http://www.zlib.net/pigz/</a>      </p>
+<p>pigz, which stands for parallel implementation of gzip, is a fully functional replacement for gzip that exploits multiple processors and multiple cores to the hilt when compressing data.</p>
+<h1 id="安装pigz"><a href="#安装pigz" class="headerlink" title="安装pigz"></a>安装pigz</h1><pre>wget http://zlib.net/pigz/pigz-2.3.3.tar.gz
+tar -xvzf pigz-2.3.3.tar.gz
+#如果提示不是gz格式，请尝试  tar -xvf pigz-2.3.3.tar.gz
+cd pigz-2.3.3.tar.gz
+make
+如果报错 pigz.c:(.text.startup+0xca): undefined reference to `deflateEnd' gcc
+请在第八行$(CC) $(LDFLAGS) -o pigz $^ -lpthread -lm 后面添加-lz选项，表示link libz</pre>
+
+<h1 id="运行pigz"><a href="#运行pigz" class="headerlink" title="运行pigz"></a>运行pigz</h1><p>pigz -h 可以看到它的command option。</p>
+<p>运行pigz和简单，和gzip的命令差不多，比如</p>
+<pre># -c 表示打印到标准输出std，如果没有-c选项，则会生成一个后缀为gz的压缩文件。
+pigz -c file > file.gz
+# -k 表示压缩后不删除源文件
+pigz -k file</pre>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/archives/752/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/751/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -171,14 +269,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2016-04-01 22:33:28" itemprop="dateCreated datePublished" datetime="2016-04-01T22:33:28+08:00">2016-04-01</time>
+              <time title="Created: 2016-04-01 22:33:28" itemprop="dateCreated datePublished" datetime="2016-04-01T22:33:28-08:00">2016-04-01</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-25 20:10:03" itemprop="dateModified" datetime="2020-05-25T20:10:03+08:00">2020-05-25</time>
+                <time title="Modified: 2020-05-28 15:19:29" itemprop="dateModified" datetime="2020-05-28T15:19:29-08:00">2020-05-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -255,14 +353,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2016-04-01 21:30:20" itemprop="dateCreated datePublished" datetime="2016-04-01T21:30:20+08:00">2016-04-01</time>
+              <time title="Created: 2016-04-01 21:30:20" itemprop="dateCreated datePublished" datetime="2016-04-01T21:30:20-08:00">2016-04-01</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-25 18:18:46" itemprop="dateModified" datetime="2020-05-25T18:18:46+08:00">2020-05-25</time>
+                <time title="Modified: 2020-05-28 15:19:29" itemprop="dateModified" datetime="2020-05-28T15:19:29-08:00">2020-05-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -355,14 +453,14 @@ sys     0m0.682s</pre>
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2016-03-30 21:13:19" itemprop="dateCreated datePublished" datetime="2016-03-30T21:13:19+08:00">2016-03-30</time>
+              <time title="Created: 2016-03-30 21:13:19" itemprop="dateCreated datePublished" datetime="2016-03-30T21:13:19-08:00">2016-03-30</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-25 20:20:39" itemprop="dateModified" datetime="2020-05-25T20:20:39+08:00">2020-05-25</time>
+                <time title="Modified: 2020-05-28 15:19:29" itemprop="dateModified" datetime="2020-05-28T15:19:29-08:00">2020-05-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -537,14 +635,14 @@ sys     0m0.682s</pre>
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2016-03-25 23:18:02" itemprop="dateCreated datePublished" datetime="2016-03-25T23:18:02+08:00">2016-03-25</time>
+              <time title="Created: 2016-03-25 23:18:02" itemprop="dateCreated datePublished" datetime="2016-03-25T23:18:02-08:00">2016-03-25</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-25 17:40:03" itemprop="dateModified" datetime="2020-05-25T17:40:03+08:00">2020-05-25</time>
+                <time title="Modified: 2020-05-28 15:19:29" itemprop="dateModified" datetime="2020-05-28T15:19:29-08:00">2020-05-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -567,8 +665,8 @@ sys     0m0.682s</pre>
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>下载文件夹<br>$ wget -c -r -nd -np -k -L -p -A c,h <a href="http://www.xxx.org/pub/path/" target="_blank" rel="noopener">www.xxx.org/pub/path/</a></p>
-<p>-c  断点续传<br>-r  递归下载，下载指定网页某一目录下（包括子目录）的所有文件<br>-nd 递归下载时不创建一层一层的目录，把所有的文件下载到当前目录<br>-np 递归下载时不搜索上层目录，如wget -c -r <a href="http://www.xxx.org/pub/path/" target="_blank" rel="noopener">www.xxx.org/pub/path/</a><br>    没有加参数-np，就会同时下载path的上一级目录pub下的其它文件<br>-k  将绝对链接转为相对链接，下载整个站点后脱机浏览网页，最好加上这个参数<br>-L  递归时不进入其它主机，如wget -c -r <a href="http://www.xxx.org/" target="_blank" rel="noopener">www.xxx.org/</a> 如果网站内有一个这样的链接：<br>    <a href="http://www.yyy.org，不加参数-L，就会像大火烧山一样，会递归下载www.yyy.org网站" target="_blank" rel="noopener">www.yyy.org，不加参数-L，就会像大火烧山一样，会递归下载www.yyy.org网站</a><br>-p  下载网页所需的所有文件，如图片等<br>-A  指定要下载的文件样式列表，多个样式用逗号分隔</p>
+          <p>下载文件夹<br>$ wget -c -r -nd -np -k -L -p -A c,h <a href="http://www.xxx.org/pub/path/">www.xxx.org/pub/path/</a></p>
+<p>-c  断点续传<br>-r  递归下载，下载指定网页某一目录下（包括子目录）的所有文件<br>-nd 递归下载时不创建一层一层的目录，把所有的文件下载到当前目录<br>-np 递归下载时不搜索上层目录，如wget -c -r <a href="http://www.xxx.org/pub/path/">www.xxx.org/pub/path/</a><br>    没有加参数-np，就会同时下载path的上一级目录pub下的其它文件<br>-k  将绝对链接转为相对链接，下载整个站点后脱机浏览网页，最好加上这个参数<br>-L  递归时不进入其它主机，如wget -c -r <a href="http://www.xxx.org/">www.xxx.org/</a> 如果网站内有一个这样的链接：<br>    <a href="http://www.yyy.org，不加参数-L，就会像大火烧山一样，会递归下载www.yyy.org网站">www.yyy.org，不加参数-L，就会像大火烧山一样，会递归下载www.yyy.org网站</a><br>-p  下载网页所需的所有文件，如图片等<br>-A  指定要下载的文件样式列表，多个样式用逗号分隔</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/archives/748/#more" rel="contents">
@@ -619,14 +717,14 @@ sys     0m0.682s</pre>
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2016-03-20 20:38:26" itemprop="dateCreated datePublished" datetime="2016-03-20T20:38:26+08:00">2016-03-20</time>
+              <time title="Created: 2016-03-20 20:38:26" itemprop="dateCreated datePublished" datetime="2016-03-20T20:38:26-08:00">2016-03-20</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-25 20:07:31" itemprop="dateModified" datetime="2020-05-25T20:07:31+08:00">2020-05-25</time>
+                <time title="Modified: 2020-05-28 15:19:29" itemprop="dateModified" datetime="2020-05-28T15:19:29-08:00">2020-05-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -699,14 +797,14 @@ sys     0m0.682s</pre>
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2016-03-18 21:43:39" itemprop="dateCreated datePublished" datetime="2016-03-18T21:43:39+08:00">2016-03-18</time>
+              <time title="Created: 2016-03-18 21:43:39" itemprop="dateCreated datePublished" datetime="2016-03-18T21:43:39-08:00">2016-03-18</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-25 18:20:55" itemprop="dateModified" datetime="2020-05-25T18:20:55+08:00">2020-05-25</time>
+                <time title="Modified: 2020-05-28 15:19:29" itemprop="dateModified" datetime="2020-05-28T15:19:29-08:00">2020-05-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -738,7 +836,7 @@ sys     0m0.682s</pre>
 > wordcloud(mydata$词汇,mydata$词频,random.order=FALSE,random.color=T,colors=mycolors,family="myFont3",min.freq=0)
 > dev.off()</pre>
 
-<p>测试文件下载：<a href="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/FileAttach/2016-03-18-wordcloud-test.txt" target="_blank" rel="noopener">TXT</a></p>
+<p>测试文件下载：<a href="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/FileAttach/2016-03-18-wordcloud-test.txt">TXT</a></p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/archives/746/#more" rel="contents">
@@ -789,14 +887,14 @@ sys     0m0.682s</pre>
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2016-03-16 21:51:13" itemprop="dateCreated datePublished" datetime="2016-03-16T21:51:13+08:00">2016-03-16</time>
+              <time title="Created: 2016-03-16 21:51:13" itemprop="dateCreated datePublished" datetime="2016-03-16T21:51:13-08:00">2016-03-16</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-25 20:24:01" itemprop="dateModified" datetime="2020-05-25T20:24:01+08:00">2020-05-25</time>
+                <time title="Modified: 2020-05-28 15:19:29" itemprop="dateModified" datetime="2020-05-28T15:19:29-08:00">2020-05-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -819,11 +917,11 @@ sys     0m0.682s</pre>
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>1.miRBase: <a href="http://www.mirbase.org" target="_blank" rel="noopener">http://www.mirbase.org</a></p>
+          <p>1.miRBase: <a href="http://www.mirbase.org">http://www.mirbase.org</a></p>
 <p>miRBase序列数据库是一个提供包括已发表的miRNA 序列数据、注释、预测基因靶标等信息的全方位数据库，是存储miRNA信息最主要的公共数据库之一。miRBase提供便捷的网上查询服务，允许用户使用关键词或序列在线搜索已知的miRNA和靶标信息。</p>
-<p>2.miRecords: <a href="http://mirecords.biolead.org/" target="_blank" rel="noopener">http://mirecords.biolead.org/</a></p>
+<p>2.miRecords: <a href="http://mirecords.biolead.org/">http://mirecords.biolead.org/</a></p>
 <p>动物 miRNA 的靶相互作用的数据库, 包括人工收集实验验证的, 预测的 miRNA的靶目标. 靶标预测工具DIANA-microT, MicroInspector, miRanda, MirTarget2, miTarget, NBmiRTar, PicTar, PITA, RNA22, RNAhybrid, and TargetScan/TargertScanS.</p>
-<p>3.PMRD: <a href="http://bioinformatics.cau.edu.cn/PMRD/" target="_blank" rel="noopener">http://bioinformatics.cau.edu.cn/PMRD/</a></p>
+<p>3.PMRD: <a href="http://bioinformatics.cau.edu.cn/PMRD/">http://bioinformatics.cau.edu.cn/PMRD/</a></p>
 <p>PMRD是一个关于植物MicroRNA 数据库，包括了microRNA序列和它们的靶基因、二级结构、表达谱、基因组搜索等等，并且该数据库尝试着整合大量的关于植物microRNA的数据。</p>
           <!--noindex-->
             <div class="post-button">
@@ -875,14 +973,14 @@ sys     0m0.682s</pre>
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2016-03-13 10:32:21" itemprop="dateCreated datePublished" datetime="2016-03-13T10:32:21+08:00">2016-03-13</time>
+              <time title="Created: 2016-03-13 10:32:21" itemprop="dateCreated datePublished" datetime="2016-03-13T10:32:21-08:00">2016-03-13</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-25 20:54:01" itemprop="dateModified" datetime="2020-05-25T20:54:01+08:00">2020-05-25</time>
+                <time title="Modified: 2020-05-28 15:19:29" itemprop="dateModified" datetime="2020-05-28T15:19:29-08:00">2020-05-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -960,14 +1058,14 @@ sys     0m0.682s</pre>
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2016-03-12 23:16:31" itemprop="dateCreated datePublished" datetime="2016-03-12T23:16:31+08:00">2016-03-12</time>
+              <time title="Created: 2016-03-12 23:16:31" itemprop="dateCreated datePublished" datetime="2016-03-12T23:16:31-08:00">2016-03-12</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-25 18:28:30" itemprop="dateModified" datetime="2020-05-25T18:28:30+08:00">2020-05-25</time>
+                <time title="Modified: 2020-05-28 15:19:29" itemprop="dateModified" datetime="2020-05-28T15:19:29-08:00">2020-05-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -991,11 +1089,11 @@ sys     0m0.682s</pre>
 
       
           <hr>
-<p><strong>Promoter 2.0 Prediction Server</strong><br><a href="http://www.cbs.dtu.dk/services/Promoter/" target="_blank" rel="noopener">http://www.cbs.dtu.dk/services/Promoter/</a><br>很早之前的预测启动子在线软件，要求输入的gene序列为FASTA格式，可以在线做</p>
+<p><strong>Promoter 2.0 Prediction Server</strong><br><a href="http://www.cbs.dtu.dk/services/Promoter/">http://www.cbs.dtu.dk/services/Promoter/</a><br>很早之前的预测启动子在线软件，要求输入的gene序列为FASTA格式，可以在线做</p>
 <hr>
-<p><strong>Berkeley Drosophila Genome Group</strong><br><a href="http://fruitfly.org:9005/seq_tools/promoter.html" target="_blank" rel="noopener">http://fruitfly.org:9005/seq_tools/promoter.html</a><br>果蝇基因组相关信息，利用神经网络预测启动子序列</p>
+<p><strong>Berkeley Drosophila Genome Group</strong><br><a href="http://fruitfly.org:9005/seq_tools/promoter.html">http://fruitfly.org:9005/seq_tools/promoter.html</a><br>果蝇基因组相关信息，利用神经网络预测启动子序列</p>
 <hr>
-<p><strong>McPromoter</strong><br><a href="http://tools.genome.duke.edu/generegulation/McPromoter/McPromoter.html" target="_blank" rel="noopener">http://tools.genome.duke.edu/generegulation/McPromoter/McPromoter.html</a><br>马尔科夫预测gene的转录其实位点，新版本只提供果蝇</p>
+<p><strong>McPromoter</strong><br><a href="http://tools.genome.duke.edu/generegulation/McPromoter/McPromoter.html">http://tools.genome.duke.edu/generegulation/McPromoter/McPromoter.html</a><br>马尔科夫预测gene的转录其实位点，新版本只提供果蝇</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/archives/744/#more" rel="contents">
@@ -1004,85 +1102,6 @@ sys     0m0.682s</pre>
             </div>
           <!--/noindex-->
         
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/742/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Jason">
-      <meta itemprop="description" content="Share news">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Another Jason's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/archives/742/" class="post-title-link" itemprop="url">亚效等位基因和超效等位基因</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2016-03-12 10:13:02" itemprop="dateCreated datePublished" datetime="2016-03-12T10:13:02+08:00">2016-03-12</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-25 16:58:43" itemprop="dateModified" datetime="2020-05-25T16:58:43+08:00">2020-05-25</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="Hypomorph"><a href="#Hypomorph" class="headerlink" title="Hypomorph"></a>Hypomorph</h2><p><strong>亚效等位基因，亚等位基因</strong></p>
-<p>亚效等位基因有基因功能，但功能比正常的要少。这种等位基因通常由于基因损害，更常见的是损害调控这个基因的功能区。通常有蛋白产物，但少于正常。</p>
-<p>也就是说该基因或者该基因的调控区域发生突变，但没有完全损害基因的功能，是基因产物的功能降低，或者基因的产物表达量降低，反应为基因的功能降低。</p>
-<h2 id="Hypermorph"><a href="#Hypermorph" class="headerlink" title="Hypermorph"></a>Hypermorph</h2><p><strong>超效等位基因，超等位基因</strong><br>超效等位基因的概念与亚效等位基因的概念相似，基因或者该基因的调控区域发生突变，导致基因产物的功能或者基因的产物表达量比正常要高，反映为基因的功能增强。</p>
-<p>Ref:  <a href="http://www.conservapedia.com/Allele" target="_blank" rel="noopener">http://www.conservapedia.com/Allele</a></p>
-<p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>#####################################################################</p>
-
       
     </div>
 
@@ -1166,7 +1185,7 @@ sys     0m0.682s</pre>
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">131</span>
+          <span class="site-state-item-count">132</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -1175,7 +1194,7 @@ sys     0m0.682s</pre>
         <span class="site-state-item-name">categories</span>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">136</span>
+        <span class="site-state-item-count">137</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>

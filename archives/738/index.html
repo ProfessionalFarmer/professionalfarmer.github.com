@@ -32,8 +32,8 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2016-02-20-biomaRt-listensembldatasetfilters.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2016-02-20-biomaRt-listensembldatasetattribute.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2016-02-20-biomaRt-hgmdresult.png">
-<meta property="article:published_time" content="2016-02-20T14:01:07.000Z">
-<meta property="article:modified_time" content="2020-05-25T10:09:55.666Z">
+<meta property="article:published_time" content="2016-02-21T06:01:07.000Z">
+<meta property="article:modified_time" content="2020-05-28T23:19:29.631Z">
 <meta property="article:author" content="Jason">
 <meta property="article:tag" content="Biomart">
 <meta name="twitter:card" content="summary">
@@ -180,14 +180,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2016-02-20 22:01:07" itemprop="dateCreated datePublished" datetime="2016-02-20T22:01:07+08:00">2016-02-20</time>
+              <time title="Created: 2016-02-20 22:01:07" itemprop="dateCreated datePublished" datetime="2016-02-20T22:01:07-08:00">2016-02-20</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-25 18:09:55" itemprop="dateModified" datetime="2020-05-25T18:09:55+08:00">2020-05-25</time>
+                <time title="Modified: 2020-05-28 15:19:29" itemprop="dateModified" datetime="2020-05-28T15:19:29-08:00">2020-05-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -210,7 +210,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p><a href="http://wp.zxzyl.com/?p=174" target="_blank" rel="noopener" title="如何获取Ensembl gene id和NCBI的gene id及与HGNC的对应关系">前面</a>文章介绍了Ensembl的biomart，相信你对biomart应该有所了解了，在此再介绍一种方法，即通过R语言包biomaRt下载HGMD的数据。</p>
+        <p><a href="http://wp.zxzyl.com/?p=174" title="如何获取Ensembl gene id和NCBI的gene id及与HGNC的对应关系">前面</a>文章介绍了Ensembl的biomart，相信你对biomart应该有所了解了，在此再介绍一种方法，即通过R语言包biomaRt下载HGMD的数据。</p>
 <p>HGMD的最新数据是需要购买授权才行，公开版信息不仅滞后，而且不能下载，不能得到基因组位置，在biostart上看到有人说Ensembl整合了HGMD的公开版，心想能获得公开版的数据也不错，于是采用biomaRt包下载。</p>
 <p>各位不要高兴，最终的结果是，只得到了所有突变的基因组位置，未能下到具体的突变类型，以及与表型的关系。不过能下载基因组的位置，也算不错，结合对这些位置的注释，能获取不少信息。如果您对这些位置的利用有更多或者更好的想法，欢迎与我讨论。</p>
 <h2 id="1，安装biomaRt包"><a href="#1，安装biomaRt包" class="headerlink" title="1，安装biomaRt包"></a>1，安装biomaRt包</h2><pre>source("http://bioconductor.org/biocLite.R")
@@ -264,8 +264,8 @@ Example query: Fetch Ensembl Gene, Transcript IDs, HGNC IDs and symbols and Unip
 > hgnc_swissprot  hgnc_swissprot</pre>
 
 <p>参考：</p>
-<p><a href="http://asia.ensembl.org/info/data/biomart/biomart_r_package.html" target="_blank" rel="noopener" title="http://asia.ensembl.org/info/data/biomart/biomart_r_package.html">http://asia.ensembl.org/info/data/biomart/biomart_r_package.html</a></p>
-<p><a href="https://bioconductor.org/packages/release/bioc/html/biomaRt.html" target="_blank" rel="noopener" title="https://bioconductor.org/packages/release/bioc/html/biomaRt.html">https://bioconductor.org/packages/release/bioc/html/biomaRt.html</a></p>
+<p><a href="http://asia.ensembl.org/info/data/biomart/biomart_r_package.html" title="http://asia.ensembl.org/info/data/biomart/biomart_r_package.html">http://asia.ensembl.org/info/data/biomart/biomart_r_package.html</a></p>
+<p><a href="https://bioconductor.org/packages/release/bioc/html/biomaRt.html" title="https://bioconductor.org/packages/release/bioc/html/biomaRt.html">https://bioconductor.org/packages/release/bioc/html/biomaRt.html</a></p>
 <p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>#####################################################################</p>
 
     </div>
@@ -364,7 +364,7 @@ Example query: Fetch Ensembl Gene, Transcript IDs, HGNC IDs and symbols and Unip
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">131</span>
+          <span class="site-state-item-count">132</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -373,7 +373,7 @@ Example query: Fetch Ensembl Gene, Transcript IDs, HGNC IDs and symbols and Unip
         <span class="site-state-item-name">categories</span>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">136</span>
+        <span class="site-state-item-count">137</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>

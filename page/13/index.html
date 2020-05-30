@@ -147,6 +147,92 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/702/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="Share news">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Another Jason's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/archives/702/" class="post-title-link" itemprop="url">java block</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2014-07-27 20:22:08" itemprop="dateCreated datePublished" datetime="2014-07-27T20:22:08-08:00">2014-07-27</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-05-28 15:19:29" itemprop="dateModified" datetime="2020-05-28T15:19:29-08:00">2020-05-28</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>目前，我遇到过两种JAVA block的情况.<br>一种是在建立http流之后，用conn.getInputStream().read()的时候block掉，这种情况通常是流再打开之后，网络出问题或者对方服务器问题等等。</p>
+<p>通常写法是</p>
+<p>while((is.read(buffer))!=-1){<br>do something<br>}</p>
+<p>网上通常的解决办法是用socket 来看是否超时，我的解决办法是<br>循环不要以is.read(buffer)作为判断语句。而是用is.available()做判断，如果availab总是返回0值，那么退出重连，这其实相当于自己判断是否block掉了。</p>
+<p>另外一个就是在执行Runtime.getRuntime().exec(script)的时候，由于script报错太多，没有即使读取出来，导致java被block掉。</p>
+<p>把网上的解决方案给大家。转自<a href="http://saluya.iteye.com/blog/1260347">http://saluya.iteye.com/blog/1260347</a>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/archives/702/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/703/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -171,14 +257,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2014-03-03 09:25:12" itemprop="dateCreated datePublished" datetime="2014-03-03T09:25:12+08:00">2014-03-03</time>
+              <time title="Created: 2014-03-03 09:25:12" itemprop="dateCreated datePublished" datetime="2014-03-03T09:25:12-08:00">2014-03-03</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-25 17:25:54" itemprop="dateModified" datetime="2020-05-25T17:25:54+08:00">2020-05-25</time>
+                <time title="Modified: 2020-05-28 15:19:29" itemprop="dateModified" datetime="2020-05-28T15:19:29-08:00">2020-05-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -253,14 +339,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2013-11-25 09:26:59" itemprop="dateCreated datePublished" datetime="2013-11-25T09:26:59+08:00">2013-11-25</time>
+              <time title="Created: 2013-11-25 09:26:59" itemprop="dateCreated datePublished" datetime="2013-11-25T09:26:59-08:00">2013-11-25</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-25 19:46:46" itemprop="dateModified" datetime="2020-05-25T19:46:46+08:00">2020-05-25</time>
+                <time title="Modified: 2020-05-28 15:19:29" itemprop="dateModified" datetime="2020-05-28T15:19:29-08:00">2020-05-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -341,14 +427,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2013-11-03 14:54:11" itemprop="dateCreated datePublished" datetime="2013-11-03T14:54:11+08:00">2013-11-03</time>
+              <time title="Created: 2013-11-03 14:54:11" itemprop="dateCreated datePublished" datetime="2013-11-03T14:54:11-08:00">2013-11-03</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-25 20:25:54" itemprop="dateModified" datetime="2020-05-25T20:25:54+08:00">2020-05-25</time>
+                <time title="Modified: 2020-05-28 15:19:29" itemprop="dateModified" datetime="2020-05-28T15:19:29-08:00">2020-05-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -382,7 +468,7 @@
 <p>创建和编辑目录 </p>
 <p>使用 AppleScript 进行 pdf 维护操作 </p>
 <p>支持各种图像格式，支持并可编辑word文档，包括rtf，doc和docx格式。 </p>
-<p>下载： <a href="http://www.cr173.com/soft/35642.html" target="_blank" rel="noopener">http://www.cr173.com/soft/35642.html</a> <a href="http://bbs.weiphone.com/read-htm-tid-415620.html" target="_blank" rel="noopener">http://bbs.weiphone.com/read-htm-tid-415620.html</a></p>
+<p>下载： <a href="http://www.cr173.com/soft/35642.html">http://www.cr173.com/soft/35642.html</a> <a href="http://bbs.weiphone.com/read-htm-tid-415620.html">http://bbs.weiphone.com/read-htm-tid-415620.html</a></p>
 
       
     </div>
@@ -426,14 +512,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2013-09-06 10:30:15" itemprop="dateCreated datePublished" datetime="2013-09-06T10:30:15+08:00">2013-09-06</time>
+              <time title="Created: 2013-09-06 10:30:15" itemprop="dateCreated datePublished" datetime="2013-09-06T10:30:15-08:00">2013-09-06</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-25 20:22:32" itemprop="dateModified" datetime="2020-05-25T20:22:32+08:00">2020-05-25</time>
+                <time title="Modified: 2020-05-28 15:19:29" itemprop="dateModified" datetime="2020-05-28T15:19:29-08:00">2020-05-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -507,14 +593,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2013-07-02 18:11:44" itemprop="dateCreated datePublished" datetime="2013-07-02T18:11:44+08:00">2013-07-02</time>
+              <time title="Created: 2013-07-02 18:11:44" itemprop="dateCreated datePublished" datetime="2013-07-02T18:11:44-08:00">2013-07-02</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-25 12:02:55" itemprop="dateModified" datetime="2020-05-25T12:02:55+08:00">2020-05-25</time>
+                <time title="Modified: 2020-05-28 15:19:29" itemprop="dateModified" datetime="2020-05-28T15:19:29-08:00">2020-05-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -585,14 +671,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2013-06-24 14:00:01" itemprop="dateCreated datePublished" datetime="2013-06-24T14:00:01+08:00">2013-06-24</time>
+              <time title="Created: 2013-06-24 14:00:01" itemprop="dateCreated datePublished" datetime="2013-06-24T14:00:01-08:00">2013-06-24</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-25 19:27:40" itemprop="dateModified" datetime="2020-05-25T19:27:40+08:00">2020-05-25</time>
+                <time title="Modified: 2020-05-28 15:19:29" itemprop="dateModified" datetime="2020-05-28T15:19:29-08:00">2020-05-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -666,14 +752,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2013-06-21 07:47:08" itemprop="dateCreated datePublished" datetime="2013-06-21T07:47:08+08:00">2013-06-21</time>
+              <time title="Created: 2013-06-21 07:47:08" itemprop="dateCreated datePublished" datetime="2013-06-21T07:47:08-08:00">2013-06-21</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-25 20:43:57" itemprop="dateModified" datetime="2020-05-25T20:43:57+08:00">2020-05-25</time>
+                <time title="Modified: 2020-05-28 15:19:29" itemprop="dateModified" datetime="2020-05-28T15:19:29-08:00">2020-05-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -698,7 +784,7 @@
       
           <p>Somehow, the only way to use LibSVM with Weka is by using the bash command-line.<br>I have tried the second method successfully. As for you , etheir is good.</p>
 <p>Step 1: Get Weka.Assume the bleeding edge version 3.7.0. Unzip and put in /Applications folder.</p>
-<p>Step 2: Get LibSVM.<br>a. Iowa State site (<a href="http://www.cs.iastate.edu/~yasser/wlsvm/wlsvm.zip" target="_blank" rel="noopener" title="http://www.cs.iastate.edu/~yasser/wlsvm/wlsvm.zip"></a>):<br>If you use Safari to download, it will be unzipped in the Downloads directory. The files you need are <del>/Downloads/WLSVM/lib/wlsvm.jar and /Downloads/WLSVM/lib/libsvm.jar<br>b. Taiwan site([](<a href="http://www.csie.ntu.edu.tw/" target="_blank" rel="noopener">http://www.csie.ntu.edu.tw/</a></del>cjlin/libsvm/libsvm-2.89.zip “<a href="http://www.csie.ntu.edu.tw/~cjlin/libsvm/libsvm-2.89.zip&quot;" target="_blank" rel="noopener">http://www.csie.ntu.edu.tw/~cjlin/libsvm/libsvm-2.89.zip&quot;</a>)):<br>Using Safari to download, the file you need is ~/Downloads/libsvm-2.89/java/libsvm.jar</p>
+<p>Step 2: Get LibSVM.<br>a. Iowa State site (<a href="http://www.cs.iastate.edu/~yasser/wlsvm/wlsvm.zip" title="http://www.cs.iastate.edu/~yasser/wlsvm/wlsvm.zip"></a>):<br>If you use Safari to download, it will be unzipped in the Downloads directory. The files you need are <del>/Downloads/WLSVM/lib/wlsvm.jar and /Downloads/WLSVM/lib/libsvm.jar<br>b. Taiwan site([](<a href="http://www.csie.ntu.edu.tw/">http://www.csie.ntu.edu.tw/</a></del>cjlin/libsvm/libsvm-2.89.zip “<a href="http://www.csie.ntu.edu.tw/~cjlin/libsvm/libsvm-2.89.zip&quot;">http://www.csie.ntu.edu.tw/~cjlin/libsvm/libsvm-2.89.zip&quot;</a>)):<br>Using Safari to download, the file you need is ~/Downloads/libsvm-2.89/java/libsvm.jar</p>
 <p>Step 3: Open Terminal and copy to Weka.app. Assume you have privileges to write into Weka.app.<br>a. Iowa State version:<br>$ cp ~/Downloads/WLSVM/lib/*.jar /Applications/Weka/weka-3-7-0.app/Contents/Resources/Java<br>b. Taiwan version:<br>$ cp ~/Downloads/libsvm-2.89/java/libsvm.jar /Applications/Weka/weka-3-7-0.app/Contents/Resources/Java</p>
 <p>Step 4: Set CLASSPATH<br>$ export CLASSPATH=$CLASSPATH:/Applications/Weka/weka-3-7-0.app/Contents/Resources/Java/<br>Step 5:Run Weka from Terminal!<br>$ java -classpath $CLASSPATH:weka.jar:libsvm.jar weka.gui.GUIChooser &amp;</p>
 <p>Another method below:<br>1.copy the libsvm.jar and wvsvm.jar into the app folder like told in the blog</p>
@@ -747,14 +833,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2013-06-20 21:29:02" itemprop="dateCreated datePublished" datetime="2013-06-20T21:29:02+08:00">2013-06-20</time>
+              <time title="Created: 2013-06-20 21:29:02" itemprop="dateCreated datePublished" datetime="2013-06-20T21:29:02-08:00">2013-06-20</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-25 20:37:59" itemprop="dateModified" datetime="2020-05-25T20:37:59+08:00">2020-05-25</time>
+                <time title="Modified: 2020-05-28 15:19:29" itemprop="dateModified" datetime="2020-05-28T15:19:29-08:00">2020-05-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -779,8 +865,8 @@
       
           <p>SRA(NCBI) stores all the sequencing run as single “sra” or “lite.sra” file. You may want separate files if you want to use the data from paired-end sequencing. When I run SRA toolkit’s “fastq-dump” utility on paired-end sequencing SRA files, sometimes I get only one files where all the mate-pairs are stored in one file rather than two or three files. The solution for the problem is to always run fastq-dump with “-split-3” option. If the experiment is single-end sequencing, only one fastq file will be generated. If it is paired-end sequencing, there may be two or three fastq files. Two files (with suffix “1” and “2”) are matched mate-pair read file where as the third one (without any suffix) contains all the reads that do not have any mate-paires (or SRA couldn’t resolve mate-paires for them).</p>
 <p>Hope my experiences with NCBI SRA data handling help the readership.</p>
-<p>source：<a href="http://vinaykmittal.blogspot.com/2012/02/how-to-extract-paired-end-reads-from.html" target="_blank" rel="noopener" title="http://vinaykmittal.blogspot.com/2012/02/how-to-extract-paired-end-reads-from.html"></a></p>
-<p>SRA toolkit document：<a href="http://www.ncbi.nlm.nih.gov/Traces/sra/sra.cgi?view=toolkit_doc&f=fastq-dump" target="_blank" rel="noopener" title="http://www.ncbi.nlm.nih.gov/Traces/sra/sra.cgi?view=toolkit_doc&amp;f=fastq-dump"></a></p>
+<p>source：<a href="http://vinaykmittal.blogspot.com/2012/02/how-to-extract-paired-end-reads-from.html" title="http://vinaykmittal.blogspot.com/2012/02/how-to-extract-paired-end-reads-from.html"></a></p>
+<p>SRA toolkit document：<a href="http://www.ncbi.nlm.nih.gov/Traces/sra/sra.cgi?view=toolkit_doc&f=fastq-dump" title="http://www.ncbi.nlm.nih.gov/Traces/sra/sra.cgi?view=toolkit_doc&amp;f=fastq-dump"></a></p>
 <p>An example command:</p>
 <p><code>./fastq-dump.2 -split-3 ~/Desktop/ERR068552.sra -O ~/Desktop/temp.fastaq/</code></p>
 <p>PS: 如果测序使用的是ligation，结果为2 base encoding的color-space reads，可以加入-B选项使得fastq中的序列为base space reads</p>
@@ -827,14 +913,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2013-03-19 15:49:04" itemprop="dateCreated datePublished" datetime="2013-03-19T15:49:04+08:00">2013-03-19</time>
+              <time title="Created: 2013-03-19 15:49:04" itemprop="dateCreated datePublished" datetime="2013-03-19T15:49:04-08:00">2013-03-19</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-25 20:38:31" itemprop="dateModified" datetime="2020-05-25T20:38:31+08:00">2020-05-25</time>
+                <time title="Modified: 2020-05-28 15:19:29" itemprop="dateModified" datetime="2020-05-28T15:19:29-08:00">2020-05-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -861,88 +947,6 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/archives/695/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/694/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Jason">
-      <meta itemprop="description" content="Share news">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Another Jason's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/archives/694/" class="post-title-link" itemprop="url">miRNA和siRNA的基本介绍及区别(转)</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2013-01-12 18:29:48" itemprop="dateCreated datePublished" datetime="2013-01-12T18:29:48+08:00">2013-01-12</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-25 20:21:46" itemprop="dateModified" datetime="2020-05-25T20:21:46+08:00">2020-05-25</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>1998年，Andrew Fire和Craig Mello提出了一项新技术：通过dsRNA诱导特异基因的沉默，即所谓RNAi。2000年，Amy Pasquinelli等将lin-4和let-7作小时序RNAs(stRNAs，mall temporal RNAs)。</p>
-<p>RNA干涉（RNAi）在实验室中是一种强大的实验工具，利用具有同源性的双链RNA（dsRNA）诱导序列特异的目标基因的沉寂，迅速阻断基因活性。SiRNA在RNA沉寂通道中起中心作用，是对特定信使RNA（mRNA）进行降解的指导要素。siRNA是RNAi途径中的中间产物，是RNAi发挥效应所必需的因子。SiRNA的形成主要由Dicer和Rde-1调控完成。由于RNA 病毒入侵、转座子转录、基因组中反向重复序列转录等原因,细胞中出现了dsRNA，Rde-1(RNAi缺陷基因-1)编码的蛋白质识别外源dsRNA，当dsRNA达到一定量的时候，Rde-1引导dsRNA与Rde-1编码的Dicer（Dicer是一种RNaseIII 活性核酸内切酶，具有四个结构域：Argonaute家族的PAZ结构域，III型RNA酶活性区域，dsRNA结合区域以及DEAH/DEXHRNA解旋酶活性区）结合，形成酶-dsRNA复合体。在Dicer酶的作用下，细胞中的单链靶mRNA（与dsRNA具有同源序列）与dsRNA的正义链互换，原来dsRNA中的正义链被mRNA代替而从酶-dsRNA复合物中释放出来，然后，在ATP的参与下，细胞中存在的一种RNA诱导的沉默复合体RNA-induced silencing complex （RISC，由核酸内切酶、核酸外切酶、解旋酶等构成，作用是对靶mRNA进行识别和切割）利用结合在其上的核酸内切酶的活性来切割dsRNA上处于原来正义链位置的靶mRNA分子中与dsRNA反义链互补的区域，形成21-23nt的dsRNA小片段，这些小片段即为siRNA。RNAi干涉的关键步骤是组装RISC和合成介导特异性反应的siRNA蛋白。SiRNA并入RISC中，然后与靶标基因编码区或UTR区完全配对，降解靶标基因，因此说siRNA只降解与其序列互补配对的mRNA。其调控的机制是通过互补配对而沉默相应靶位基因的表达，所以是一种典型的负调控机制。siRNA识别靶序列是有高度特异性的，因为降解首先在相对于siRNA来说的中央位置发生，所以这些中央的碱基位点就显得极为重要，一旦发生错配就会严重抑制RNAi的效应，相对而言，3′末端的核苷酸序列并不要求与靶mRNA完全匹配。
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/archives/694/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -1031,7 +1035,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">131</span>
+          <span class="site-state-item-count">132</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -1040,7 +1044,7 @@
         <span class="site-state-item-name">categories</span>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">136</span>
+        <span class="site-state-item-count">137</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>

@@ -27,8 +27,8 @@
 <meta property="og:site_name" content="Another Jason&#39;s blog">
 <meta property="og:description" content="需求，把多台服务器组成一个cluster(SGE)，把一台电脑（比如存储）的home文件件共享给其他服务器(NFS)，共用一个home文件夹，并进行用户的统一管理(NIS)。 操作系统为操作系统：CentOS，用virtual box虚拟出来的系统做测试。server端：10.0.2.5client或compute端：在同样网段 ![](https:&#x2F;&#x2F;raw.githubusercontent.">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2019-05-02T12:48:43.000Z">
-<meta property="article:modified_time" content="2020-05-25T09:33:12.288Z">
+<meta property="article:published_time" content="2019-05-03T04:48:43.000Z">
+<meta property="article:modified_time" content="2020-05-28T23:19:29.677Z">
 <meta property="article:author" content="Jason">
 <meta property="article:tag" content="Cluster">
 <meta property="article:tag" content="NFS">
@@ -177,14 +177,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2019-05-02 20:48:43" itemprop="dateCreated datePublished" datetime="2019-05-02T20:48:43+08:00">2019-05-02</time>
+              <time title="Created: 2019-05-02 20:48:43" itemprop="dateCreated datePublished" datetime="2019-05-02T20:48:43-08:00">2019-05-02</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-25 17:33:12" itemprop="dateModified" datetime="2020-05-25T17:33:12+08:00">2020-05-25</time>
+                <time title="Modified: 2020-05-28 15:19:29" itemprop="dateModified" datetime="2020-05-28T15:19:29-08:00">2020-05-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -209,7 +209,7 @@
       
         <p>需求，把多台服务器组成一个cluster(<strong>SGE</strong>)，把一台电脑（比如存储）的home文件件共享给其他服务器(<strong>NFS</strong>)，共用一个home文件夹，并进行用户的统一管理(<strong>NIS</strong>)。</p>
 <p>操作系统为操作系统：CentOS，用virtual box虚拟出来的系统做测试。<br>server端：10.0.2.5<br>client或compute端：在同样网段</p>
-<p>![](<a href="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020" target="_blank" rel="noopener">https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020</a><br>/2019-05-02-NSF-SGE-NIS.png)</p>
+<p>![](<a href="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020">https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020</a><br>/2019-05-02-NSF-SGE-NIS.png)</p>
 <h1 id="1，NFS共享存储"><a href="#1，NFS共享存储" class="headerlink" title="1，NFS共享存储"></a>1，NFS共享存储</h1><p>通过nfs，实现每台服务器都有同样的路径和文件，便于后续集群管理。这里共享两个路径，一个是server端的/home路径，实现每个服务器都有同样的家目录，一个是/opt/gridengine用于安装SGE。</p>
 <h2 id="1-1-Server端："><a href="#1-1-Server端：" class="headerlink" title="1.1 Server端："></a>1.1 Server端：</h2><p>安装相关软件，NFS的端口是不固定的（因此如果客户端连不上的时候，往往需要iptables -F清理一下），客户端要准确的获得NFS服务器所使用的端口，就需要RPC服务。RPC最主要的功能就是记录每个NFS功能所对应的端口号，并且在NFS客户端请求时将该端口和功能对应的信息传递给请求数据的NFS客户端，让客户端可以链接到正确的端口上去，从而实现数据传输。</p>
 <pre>yum install nfs-utils rpcbind</pre>
@@ -307,8 +307,8 @@ systemctl start rpcbind</pre>
 <p>ypbind启动不起来的时候，用systemctl status ypbind发现nis server 没反应<br>server和client端用iptables -F清理一下</p>
 <p>此时，可以在client端su切换成server端的其他账号，而本地并没有创建这个帐号</p>
 <h1 id="3-SGE-Cluster"><a href="#3-SGE-Cluster" class="headerlink" title="3, SGE Cluster"></a>3, SGE Cluster</h1><p>组成集群，便于分布式计算和任务调度。这个sge是son grid engine，在oracle关闭grid engine项目之后的继续维护项目，但现在也好久没更新了。</p>
-<p>SGE安装包下载地址：<br><a href="https://arc.liv.ac.uk/trac/SGE" target="_blank" rel="noopener">https://arc.liv.ac.uk/trac/SGE</a></p>
-<p><a href="https://arc.liv.ac.uk/downloads/SGE/releases/" target="_blank" rel="noopener">https://arc.liv.ac.uk/downloads/SGE/releases/</a></p>
+<p>SGE安装包下载地址：<br><a href="https://arc.liv.ac.uk/trac/SGE">https://arc.liv.ac.uk/trac/SGE</a></p>
+<p><a href="https://arc.liv.ac.uk/downloads/SGE/releases/">https://arc.liv.ac.uk/downloads/SGE/releases/</a></p>
 <h2 id="3-1-server端：主控节点，qmaster节点"><a href="#3-1-server端：主控节点，qmaster节点" class="headerlink" title="3.1 server端：主控节点，qmaster节点"></a>3.1 server端：主控节点，qmaster节点</h2><h3 id="修改hostname"><a href="#修改hostname" class="headerlink" title="修改hostname"></a>修改hostname</h3><pre>hostnamectl set-hostname qmaster.local</pre>
 
 <h3 id="修改hosts文件，添加主控节点和两个计算节点信息"><a href="#修改hosts文件，添加主控节点和两个计算节点信息" class="headerlink" title="修改hosts文件，添加主控节点和两个计算节点信息"></a>修改hosts文件，添加主控节点和两个计算节点信息</h3><pre>vi /etc/hosts
@@ -371,9 +371,9 @@ source /etc/profile.d/settings.sh</pre>
 <h3 id="启动计算节点"><a href="#启动计算节点" class="headerlink" title="启动计算节点"></a>启动计算节点</h3><pre>$SGE_ROOT/default/common/sgeexecd</pre>
 
 <p>这样的话，在qmaster用qhost就能看到每个计算节点的资源了，用qsub命令可以提交相关任务，有SGE负责管理计算资源。</p>
-<p>参考：<a href="https://github.com/wangkaisine/SGE-On-CentOS" target="_blank" rel="noopener">https://github.com/wangkaisine/SGE-On-CentOS</a><br><a href="http://www.178pt.com/32.html" target="_blank" rel="noopener">http://www.178pt.com/32.html</a></p>
-<p><a href="https://blog.csdn.net/younger_china/article/details/53130780" target="_blank" rel="noopener">https://blog.csdn.net/younger_china/article/details/53130780</a><br><a href="http://blog.sina.com.cn/s/blog_64aac6750101gwst.html" target="_blank" rel="noopener">http://blog.sina.com.cn/s/blog_64aac6750101gwst.html</a></p>
-<p>![](<a href="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020" target="_blank" rel="noopener">https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020</a><br>/2019-05-02-NSF-SGE-NIS.png)<br>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>#####################################################################</p>
+<p>参考：<a href="https://github.com/wangkaisine/SGE-On-CentOS">https://github.com/wangkaisine/SGE-On-CentOS</a><br><a href="http://www.178pt.com/32.html">http://www.178pt.com/32.html</a></p>
+<p><a href="https://blog.csdn.net/younger_china/article/details/53130780">https://blog.csdn.net/younger_china/article/details/53130780</a><br><a href="http://blog.sina.com.cn/s/blog_64aac6750101gwst.html">http://blog.sina.com.cn/s/blog_64aac6750101gwst.html</a></p>
+<p>![](<a href="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020">https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020</a><br>/2019-05-02-NSF-SGE-NIS.png)<br>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>#####################################################################</p>
 
     </div>
 
@@ -474,7 +474,7 @@ source /etc/profile.d/settings.sh</pre>
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">131</span>
+          <span class="site-state-item-count">132</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -483,7 +483,7 @@ source /etc/profile.d/settings.sh</pre>
         <span class="site-state-item-name">categories</span>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">136</span>
+        <span class="site-state-item-count">137</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>

@@ -27,8 +27,8 @@
 <meta property="og:site_name" content="Another Jason&#39;s blog">
 <meta property="og:description" content="MuSiC   the Mutational Significance In Cancer (MuSiC) suite of tools官网地址 http:&#x2F;&#x2F;gmt.genome.wustl.edu&#x2F;packages&#x2F;genome-music&#x2F;index.html 功能其主要功能 Apply statistical methods to identify significantly mutate">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2016-09-28T12:41:56.000Z">
-<meta property="article:modified_time" content="2020-05-25T10:14:49.073Z">
+<meta property="article:published_time" content="2016-09-29T04:41:56.000Z">
+<meta property="article:modified_time" content="2020-05-28T23:19:29.650Z">
 <meta property="article:author" content="Jason">
 <meta property="article:tag" content="Cancer">
 <meta name="twitter:card" content="summary">
@@ -174,14 +174,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2016-09-28 20:41:56" itemprop="dateCreated datePublished" datetime="2016-09-28T20:41:56+08:00">2016-09-28</time>
+              <time title="Created: 2016-09-28 20:41:56" itemprop="dateCreated datePublished" datetime="2016-09-28T20:41:56-08:00">2016-09-28</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-25 18:14:49" itemprop="dateModified" datetime="2020-05-25T18:14:49+08:00">2020-05-25</time>
+                <time title="Modified: 2020-05-28 15:19:29" itemprop="dateModified" datetime="2020-05-28T15:19:29-08:00">2020-05-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -204,7 +204,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>MuSiC   the Mutational Significance In Cancer (MuSiC) suite of tools<br>官网地址 <a href="http://gmt.genome.wustl.edu/packages/genome-music/index.html" target="_blank" rel="noopener">http://gmt.genome.wustl.edu/packages/genome-music/index.html</a></p>
+        <p>MuSiC   the Mutational Significance In Cancer (MuSiC) suite of tools<br>官网地址 <a href="http://gmt.genome.wustl.edu/packages/genome-music/index.html">http://gmt.genome.wustl.edu/packages/genome-music/index.html</a></p>
 <h1 id="功能其主要功能"><a href="#功能其主要功能" class="headerlink" title="功能其主要功能"></a>功能其主要功能</h1><ol>
 <li>Apply statistical methods to identify significantly mutated genes</li>
 <li>Highlight significantly altered pathways</li>
@@ -223,12 +223,12 @@ sudo cpan install Bit::Vector
 sudo apt-get install genome-music</pre>
 
 <h1 id="1，生成VCF文件"><a href="#1，生成VCF文件" class="headerlink" title="1，生成VCF文件"></a>1，生成VCF文件</h1><p>可以用varscan2，GATK muTect2等</p>
-<h1 id="2，将VCF文件转换成maf"><a href="#2，将VCF文件转换成maf" class="headerlink" title="2，将VCF文件转换成maf"></a>2，将VCF文件转换成maf</h1><p>参见<a href="http://wp.zxzyl.com/?p=273" target="_blank" rel="noopener">前期文章提到的oncotator</a>，要注意通过设置 –annotate-manual=’Tumor_Sample_Barcode:Tumor_sample_name’ 设置癌症的样本名（对应第16列）</p>
+<h1 id="2，将VCF文件转换成maf"><a href="#2，将VCF文件转换成maf" class="headerlink" title="2，将VCF文件转换成maf"></a>2，将VCF文件转换成maf</h1><p>参见<a href="http://wp.zxzyl.com/?p=273">前期文章提到的oncotator</a>，要注意通过设置 –annotate-manual=’Tumor_Sample_Barcode:Tumor_sample_name’ 设置癌症的样本名（对应第16列）</p>
 <h1 id="3，合并maf文件"><a href="#3，合并maf文件" class="headerlink" title="3，合并maf文件"></a>3，合并maf文件</h1><p># 人懒，这个文件中间有maf的标题栏，没有去掉 ( ° △ °’’’)︴<br><code>cat *.maf &#39; grep -v &quot;^#&quot; &gt; myMAF.tsv</code></p>
 <h1 id="4，MuSiC-bmr-calc-covg-生成-covg-文件"><a href="#4，MuSiC-bmr-calc-covg-生成-covg-文件" class="headerlink" title="4，MuSiC bmr calc-covg 生成 covg 文件"></a>4，MuSiC bmr calc-covg 生成 covg 文件</h1><p><strong>count covered bases per-gene for each given tumor-normal pair of BAMs.</strong>  </p>
 <p>–bam-list        一个专门记录样本的文件，需要配对的bam(需要先index)，共三列，sample_name（样本名） normal_bam（正常组织bam文件） tumor_bam（肿瘤组织bam文件），每个配对样本的sample_name名称要和第二部设置的名称一致。<br>格式如下</p>
 <p>aaa    /path/to/bam/aaa_normal.bam        /path/to/bam/aaa_tumor.bam<br>bbb    /path/to/bam/bbb_normal.bam        /path/to/bam/bbb_tumor.bam</p>
-<p>–roi-file        The regions of interest (ROIs) of each gene are typically regions targeted for sequencing or are merged exon loci (from multiple transcripts) of genes with 2-bp flanks (splice junctions).<br>roi（基于1 base），可以从  <a href="https://github.com/ding-lab/calc-roi-covg/blob/master/data/ensembl_67_cds_ncrna_and_splice_sites_hg19" target="_blank" rel="noopener">https://github.com/ding-lab/calc-roi-covg/blob/master/data/ensembl_67_cds_ncrna_and_splice_sites_hg19</a> 下载到，格式如下，要注意染色体要与maf对应，比如都有chr三个字符。如果maf中的染色体带chr，可以awk ‘{print “chr”$0}’ old.roi &gt; new.chr.roi 。roi文件中的基因名要和maf中对应。</p>
+<p>–roi-file        The regions of interest (ROIs) of each gene are typically regions targeted for sequencing or are merged exon loci (from multiple transcripts) of genes with 2-bp flanks (splice junctions).<br>roi（基于1 base），可以从  <a href="https://github.com/ding-lab/calc-roi-covg/blob/master/data/ensembl_67_cds_ncrna_and_splice_sites_hg19">https://github.com/ding-lab/calc-roi-covg/blob/master/data/ensembl_67_cds_ncrna_and_splice_sites_hg19</a> 下载到，格式如下，要注意染色体要与maf对应，比如都有chr三个字符。如果maf中的染色体带chr，可以awk ‘{print “chr”$0}’ old.roi &gt; new.chr.roi 。roi文件中的基因名要和maf中对应。</p>
 <pre>chr1t11867t12229tDDX11L1
 chr1t12611t12723tDDX11L1
 chr1t29552t30041tMIR1302-11</pre>
@@ -287,7 +287,7 @@ KRT18   0       18      18      3050    5901.64 3.10862446895044e-15    0       
 
 
 <h1 id="7，Music-path-scan-生成-sm-pathways"><a href="#7，Music-path-scan-生成-sm-pathways" class="headerlink" title="7，Music path-scan 生成 sm_pathways"></a>7，Music path-scan 生成 sm_pathways</h1><p><strong>PathScan: a tool for discerning mutational significance in groups of putative cancer genes.</strong></p>
-<p>pathway中的KEGG文件可以从<a href="https://github.com/ding-lab/parse-kegg/tree/master/all_pathway_files下载" target="_blank" rel="noopener">https://github.com/ding-lab/parse-kegg/tree/master/all_pathway_files下载</a><br>运行</p>
+<p>pathway中的KEGG文件可以从<a href="https://github.com/ding-lab/parse-kegg/tree/master/all_pathway_files下载">https://github.com/ding-lab/parse-kegg/tree/master/all_pathway_files下载</a><br>运行</p>
 <pre>genome music path-scan 
         --bam-list bam_list 
         --gene-covg-dir output_dir/gene_covgs/ 
@@ -302,10 +302,10 @@ hsa05310        Asthma - Homo sapiens (human)   Human Diseases; Immune System Di
 hsa00062        Fatty acid elongation in mitochondria - Homo sapiens (human)    Metabolism; Lipid Metabolism    2       9       0.92481 0.959873886255924
 hsa00130        Ubiquinone and other terpenoid-quinone biosynthesis - Homo sapiens (human)      Metabolism; Metabolism of Cofactors and Vitamins        2       9       0.92689 0.985383058252427</pre>
 
-<h1 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h1><p><a href="http://gmt.genome.wustl.edu/packages/genome-music/index.html" target="_blank" rel="noopener">http://gmt.genome.wustl.edu/packages/genome-music/index.html</a></p>
-<p><a href="http://gmt.genome.wustl.edu/packages/genome-music/install.html" target="_blank" rel="noopener">http://gmt.genome.wustl.edu/packages/genome-music/install.html</a></p>
-<p><a href="https://www.biostars.org/p/95308/" target="_blank" rel="noopener">https://www.biostars.org/p/95308/</a></p>
-<p><a href="https://github.com/ding-lab/parse-kegg/tree/master/all_pathway_files" target="_blank" rel="noopener">https://github.com/ding-lab/parse-kegg/tree/master/all_pathway_files</a></p>
+<h1 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h1><p><a href="http://gmt.genome.wustl.edu/packages/genome-music/index.html">http://gmt.genome.wustl.edu/packages/genome-music/index.html</a></p>
+<p><a href="http://gmt.genome.wustl.edu/packages/genome-music/install.html">http://gmt.genome.wustl.edu/packages/genome-music/install.html</a></p>
+<p><a href="https://www.biostars.org/p/95308/">https://www.biostars.org/p/95308/</a></p>
+<p><a href="https://github.com/ding-lab/parse-kegg/tree/master/all_pathway_files">https://github.com/ding-lab/parse-kegg/tree/master/all_pathway_files</a></p>
 <p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>####################################################################</p>
 
     </div>
@@ -404,7 +404,7 @@ hsa00130        Ubiquinone and other terpenoid-quinone biosynthesis - Homo sapie
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">131</span>
+          <span class="site-state-item-count">132</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -413,7 +413,7 @@ hsa00130        Ubiquinone and other terpenoid-quinone biosynthesis - Homo sapie
         <span class="site-state-item-name">categories</span>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">136</span>
+        <span class="site-state-item-count">137</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>

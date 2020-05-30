@@ -28,8 +28,8 @@
 <meta property="og:description" content="分析带UMI标签的测序数据 检测癌组织的低频突变，为了提高检测低频突变的灵敏度，往往进行高深度的测序。但样本之间存在交叉污染，测序有存在一定概率的错误，这些因素会导致高深度测序过程中将假阳性的信号放到，得到假阳性的结果。解决交叉污染的方法，有公司比如IDT采用唯一配对的样本index，只有配对的index中的reads才属于特定样本。解决测序错误的方法，研究人员在建库的时候，先对分子加上UMI碱基">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-07-30-UMI-analysis.png">
-<meta property="article:published_time" content="2018-07-31T04:50:00.000Z">
-<meta property="article:modified_time" content="2020-05-25T10:05:26.145Z">
+<meta property="article:published_time" content="2018-07-31T20:50:00.000Z">
+<meta property="article:modified_time" content="2020-05-28T23:19:29.671Z">
 <meta property="article:author" content="Jason">
 <meta property="article:tag" content="Tumor">
 <meta property="article:tag" content="UMI">
@@ -177,14 +177,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2018-07-31 12:50:00" itemprop="dateCreated datePublished" datetime="2018-07-31T12:50:00+08:00">2018-07-31</time>
+              <time title="Created: 2018-07-31 12:50:00" itemprop="dateCreated datePublished" datetime="2018-07-31T12:50:00-08:00">2018-07-31</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-25 18:05:26" itemprop="dateModified" datetime="2020-05-25T18:05:26+08:00">2020-05-25</time>
+                <time title="Modified: 2020-05-28 15:19:29" itemprop="dateModified" datetime="2020-05-28T15:19:29-08:00">2020-05-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -208,9 +208,9 @@
 
       
         <p>分析带UMI标签的测序数据</p>
-<p>检测癌组织的低频突变，为了提高检测低频突变的灵敏度，往往进行高深度的测序。但样本之间存在交叉污染，测序有存在一定概率的错误，这些因素会导致高深度测序过程中将假阳性的信号放到，得到假阳性的结果。解决交叉污染的方法，有公司比如IDT采用唯一配对的样本index，只有配对的index中的reads才属于特定样本。解决测序错误的方法，研究人员在建库的时候，先对分子加上UMI碱基，unique molecular identifier -&gt; UMI，然后根据来源于同一个分子的测序数据进行测序错误修正，得到正确的分子序列。两种方法结合可以减少交叉污染提高准确性（<a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5759201/）。" target="_blank" rel="noopener">https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5759201/）。</a></p>
+<p>检测癌组织的低频突变，为了提高检测低频突变的灵敏度，往往进行高深度的测序。但样本之间存在交叉污染，测序有存在一定概率的错误，这些因素会导致高深度测序过程中将假阳性的信号放到，得到假阳性的结果。解决交叉污染的方法，有公司比如IDT采用唯一配对的样本index，只有配对的index中的reads才属于特定样本。解决测序错误的方法，研究人员在建库的时候，先对分子加上UMI碱基，unique molecular identifier -&gt; UMI，然后根据来源于同一个分子的测序数据进行测序错误修正，得到正确的分子序列。两种方法结合可以减少交叉污染提高准确性（<a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5759201/）。">https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5759201/）。</a></p>
 <p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-07-30-UMI-analysis.png" alt=""></p>
-<p>如图中所示，左侧一个分子被测了5次，其中第二次有一个测序错误，但该错误并没有在每个测序数据中出现，所以在后续合成一个分子的时候，测序错误被修正，只保留了真正的突变。（<a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5852328/）" target="_blank" rel="noopener">https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5852328/）</a></p>
+<p>如图中所示，左侧一个分子被测了5次，其中第二次有一个测序错误，但该错误并没有在每个测序数据中出现，所以在后续合成一个分子的时候，测序错误被修正，只保留了真正的突变。（<a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5852328/）">https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5852328/）</a></p>
 <p>常规的肿瘤配对测序分析，或者遗传性突变位点的分析，并不需要UMI信息，所以包含UMI的数据分析是需要不一样的分析流程来得到准确的分析结果，其中包括提取UMI分子标签，合并来自同一个分子的测序reads，低频突变检测而非胚系突变检测等。</p>
 <p>大致流程为：</p>
 <pre>-----prepare analysis ready BAM file------
@@ -324,12 +324,12 @@ VarDict/bin/VarDict -G reference.fa -f $AF_THR -N test \
     VarDictJava/VarDict/teststrandbias.R ' \
     VarDictJava/VarDict/var2vcf_valid.pl -N test -E -f $AF_THR > test.vcf</pre>
 
-<h1 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h1><p><a href="https://github.com/fulcrumgenomics/fgbio" target="_blank" rel="noopener">https://github.com/fulcrumgenomics/fgbio</a></p>
-<p><a href="https://gatkforums.broadinstitute.org/gatk/discussion/6484/how-to-generate-an-unmapped-BAM-from-fastq-or-aligned-BAM" target="_blank" rel="noopener">https://gatkforums.broadinstitute.org/gatk/discussion/6484/how-to-generate-an-unmapped-BAM-from-fastq-or-aligned-BAM</a></p>
-<p><a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5759201/" target="_blank" rel="noopener">https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5759201/</a></p>
-<p><a href="http://nilshomer.com/2017/07/05/single-strand-umi-somatic-variant-calling/" target="_blank" rel="noopener">http://nilshomer.com/2017/07/05/single-strand-umi-somatic-variant-calling/</a></p>
-<p><a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5852328/" target="_blank" rel="noopener">https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5852328/</a></p>
-<p><a href="https://www.ncbi.nlm.nih.gov/pubmed/28100584" target="_blank" rel="noopener">https://www.ncbi.nlm.nih.gov/pubmed/28100584</a></p>
+<h1 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h1><p><a href="https://github.com/fulcrumgenomics/fgbio">https://github.com/fulcrumgenomics/fgbio</a></p>
+<p><a href="https://gatkforums.broadinstitute.org/gatk/discussion/6484/how-to-generate-an-unmapped-BAM-from-fastq-or-aligned-BAM">https://gatkforums.broadinstitute.org/gatk/discussion/6484/how-to-generate-an-unmapped-BAM-from-fastq-or-aligned-BAM</a></p>
+<p><a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5759201/">https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5759201/</a></p>
+<p><a href="http://nilshomer.com/2017/07/05/single-strand-umi-somatic-variant-calling/">http://nilshomer.com/2017/07/05/single-strand-umi-somatic-variant-calling/</a></p>
+<p><a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5852328/">https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5852328/</a></p>
+<p><a href="https://www.ncbi.nlm.nih.gov/pubmed/28100584">https://www.ncbi.nlm.nih.gov/pubmed/28100584</a></p>
 <p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>#####################################################################</p>
 
     </div>
@@ -429,7 +429,7 @@ VarDict/bin/VarDict -G reference.fa -f $AF_THR -N test \
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">131</span>
+          <span class="site-state-item-count">132</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -438,7 +438,7 @@ VarDict/bin/VarDict -G reference.fa -f $AF_THR -N test \
         <span class="site-state-item-name">categories</span>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">136</span>
+        <span class="site-state-item-count">137</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>

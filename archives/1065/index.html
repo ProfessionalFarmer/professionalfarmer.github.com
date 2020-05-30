@@ -27,8 +27,8 @@
 <meta property="og:site_name" content="Another Jason&#39;s blog">
 <meta property="og:description" content="注释有很多版本，比如ensembl，gencode, ucsc known gene, NCBI的RefSeqGene。最近就需要NM id的注释，但NCBI提供的是gff3格式的，而且很乱。用UCSC table browser下载的gtf版本的RefSeq，没有转录本和基因之间的关系，也没有基因symbol。 比如Ensembl，其实Ensembl的gtf挺好用的，不过这次我因为需要NM编号的">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2019-12-04T20:31:49.000Z">
-<meta property="article:modified_time" content="2020-05-25T11:58:47.634Z">
+<meta property="article:published_time" content="2019-12-05T12:31:49.000Z">
+<meta property="article:modified_time" content="2020-05-28T23:19:29.680Z">
 <meta property="article:author" content="Jason">
 <meta property="article:tag" content="gtf">
 <meta name="twitter:card" content="summary">
@@ -174,14 +174,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2019-12-05 04:31:49" itemprop="dateCreated datePublished" datetime="2019-12-05T04:31:49+08:00">2019-12-05</time>
+              <time title="Created: 2019-12-05 04:31:49" itemprop="dateCreated datePublished" datetime="2019-12-05T04:31:49-08:00">2019-12-05</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-25 19:58:47" itemprop="dateModified" datetime="2020-05-25T19:58:47+08:00">2020-05-25</time>
+                <time title="Modified: 2020-05-28 15:19:29" itemprop="dateModified" datetime="2020-05-28T15:19:29-08:00">2020-05-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -219,7 +219,7 @@ chr1    hg19_refGene    CDS     67091530        67091593        0.000000        
 chr1    hg19_refGene    exon    67091530        67091593        0.000000        +       .       gene_id "NM_001308203"; transcript_id "NM_001308203";</pre>
 
 
-<p>中间找了很多，终于找到一个方法，<a href="https://bioinformatics.stackexchange.com/questions/2548/hg38-gtf-file-with-refseq-annotations" target="_blank" rel="noopener">https://bioinformatics.stackexchange.com/questions/2548/hg38-gtf-file-with-refseq-annotations</a></p>
+<p>中间找了很多，终于找到一个方法，<a href="https://bioinformatics.stackexchange.com/questions/2548/hg38-gtf-file-with-refseq-annotations">https://bioinformatics.stackexchange.com/questions/2548/hg38-gtf-file-with-refseq-annotations</a></p>
 <pre>mysql --user=genome --host=genome-mysql.cse.ucsc.edu -A -N -e "select * from refGene" hg19 ' cut -f2- ' genePredToGtf -source=hg19.refGene.ucsc file stdin stdout > refSeq.hg19.gtf</pre>
 
 <p>genePredToGtf可以从UCSC下载，需要注意的直接下载refFlat的文件（不通过mysql），用genePhredToGtf生成的文件和UCSC table browser下载的gtf文件是一样的，通过mysql下载用genephreadToGtf是我想要的。</p>
@@ -229,7 +229,7 @@ chrX    hg19.refGene.ucsc       CDS     70683674        70683893        .       
 chrX    hg19.refGene.ucsc       start_codon     70586225        70586227        .       +       0       gene_id "TAF1"; transcript_id "NM_138923"; exon_number "1"; exon_id "NM_138923.1"; gene_name "TAF1";
 chrX    hg19.refGene.ucsc       stop_codon      70683894        70683896        .       +       0       gene_id "TAF1"; transcript_id "NM_138923"; exon_number "38"; exon_id "NM_138923.38"; gene_name "TAF1";</pre>
 
-<p>Ref: <a href="https://bioinformatics.stackexchange.com/questions/2548/hg38-gtf-file-with-refseq-annotations" target="_blank" rel="noopener">https://bioinformatics.stackexchange.com/questions/2548/hg38-gtf-file-with-refseq-annotations</a></p>
+<p>Ref: <a href="https://bioinformatics.stackexchange.com/questions/2548/hg38-gtf-file-with-refseq-annotations">https://bioinformatics.stackexchange.com/questions/2548/hg38-gtf-file-with-refseq-annotations</a></p>
 <p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>#####################################################################</p>
 
     </div>
@@ -327,7 +327,7 @@ chrX    hg19.refGene.ucsc       stop_codon      70683894        70683896        
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">131</span>
+          <span class="site-state-item-count">132</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -336,7 +336,7 @@ chrX    hg19.refGene.ucsc       stop_codon      70683894        70683896        
         <span class="site-state-item-name">categories</span>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">136</span>
+        <span class="site-state-item-count">137</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>

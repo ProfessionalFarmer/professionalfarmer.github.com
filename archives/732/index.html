@@ -30,8 +30,8 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2016-01-26-varscan-copynumber-varscan-output.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2016-01-26-varscan-copynumber-DNAcopy-output.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2016-01-26-varscan-copynumber-mergeseg.png">
-<meta property="article:published_time" content="2016-01-26T14:34:17.000Z">
-<meta property="article:modified_time" content="2020-05-25T09:51:19.360Z">
+<meta property="article:published_time" content="2016-01-27T06:34:17.000Z">
+<meta property="article:modified_time" content="2020-05-28T23:19:29.627Z">
 <meta property="article:author" content="Jason">
 <meta property="article:tag" content="Copynumber">
 <meta property="article:tag" content="Varscan">
@@ -179,14 +179,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2016-01-26 22:34:17" itemprop="dateCreated datePublished" datetime="2016-01-26T22:34:17+08:00">2016-01-26</time>
+              <time title="Created: 2016-01-26 22:34:17" itemprop="dateCreated datePublished" datetime="2016-01-26T22:34:17-08:00">2016-01-26</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-25 17:51:19" itemprop="dateModified" datetime="2020-05-25T17:51:19+08:00">2020-05-25</time>
+                <time title="Modified: 2020-05-28 15:19:29" itemprop="dateModified" datetime="2020-05-28T15:19:29-08:00">2020-05-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -209,7 +209,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>官网提供的推荐流程错误非常多（年代久远？？），迄今还没有人详细介绍正确的Varscan copynumber Recommended Workflow。本文改正了官网的<a href="http://dkoboldt.github.io/varscan/copy-number-calling.html#copy-number-workflow" target="_blank" rel="noopener" title="http://dkoboldt.github.io/varscan/copy-number-calling.html#copy-number-workflow">recommend workflow</a>，提供正确的pipeline供大家一起学习（我相信我是第一个提供完整流程的哈）。本流程的搭建和解决方案来自网络搜索，感谢万能的网络。本文 没有对命令和输出格式做过多说明，请参阅官方文档。</p>
+        <p>官网提供的推荐流程错误非常多（年代久远？？），迄今还没有人详细介绍正确的Varscan copynumber Recommended Workflow。本文改正了官网的<a href="http://dkoboldt.github.io/varscan/copy-number-calling.html#copy-number-workflow" title="http://dkoboldt.github.io/varscan/copy-number-calling.html#copy-number-workflow">recommend workflow</a>，提供正确的pipeline供大家一起学习（我相信我是第一个提供完整流程的哈）。本流程的搭建和解决方案来自网络搜索，感谢万能的网络。本文 没有对命令和输出格式做过多说明，请参阅官方文档。</p>
 <p>varscan可以通过配对的肿瘤和组织样本，看覆盖到同一区域内的reads在肿瘤和组织样本中的差异，来检测肿瘤组织中的CNV。</p>
 <p>Varscan提供的命令</p>
 <pre>java -jar varscan.jar copynumber $normal.pileup $tumor.pileup  out
@@ -218,7 +218,7 @@ java -jar varscan.jar copynumber $normal-tumor.mpileup  --output-file out</pre>
 
 <p>结果如下：</p>
 <p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2016-01-26-varscan-copynumber-varscan-output.png" alt="varscan-copynumber-varscan-output"></p>
-<p><strong>但是</strong>该结果只说明了某段区域内，肿瘤和组织depth的差异，区域相连，并没有指明哪个区域是CNV区域，发生了deletion还是insertion等。于是varscan又提供了<a href="http://dkoboldt.github.io/varscan/copy-number-calling.html#copy-number-workflow" target="_blank" rel="noopener" title="http://dkoboldt.github.io/varscan/copy-number-calling.html#copy-number-workflow">Recommended Workflow</a>，据说是别人提供给varscan作者的，bug百出惨目忍住。本文会在下文提供正确的流程。在此先提下Recommended Workflow的原理。</p>
+<p><strong>但是</strong>该结果只说明了某段区域内，肿瘤和组织depth的差异，区域相连，并没有指明哪个区域是CNV区域，发生了deletion还是insertion等。于是varscan又提供了<a href="http://dkoboldt.github.io/varscan/copy-number-calling.html#copy-number-workflow" title="http://dkoboldt.github.io/varscan/copy-number-calling.html#copy-number-workflow">Recommended Workflow</a>，据说是别人提供给varscan作者的，bug百出惨目忍住。本文会在下文提供正确的流程。在此先提下Recommended Workflow的原理。</p>
 <h3 id="原理："><a href="#原理：" class="headerlink" title="原理："></a>原理：</h3><p>都知道在高通量测序之前，用的是生物芯片。芯片上的每个点都是基因组上的一个marker，通过检测肿瘤样本和组织样本中同一marker荧光强度比值，找到染色体上比值发生改变的位点，然后推荐CNV区域。其中有一种算法，叫做circular binary segment CBS环状二元分割算法（恕我愚笨，不了解这种算法）。R语言包DNAcopy利用CBS和每个marker的lg2ratio，判断那些区域是CNV。那高通量测序varscan的结果如何利用CBS算法呢。从varscan的输出结果可以看出，varscan提供了一定区域内的lg2ratio，Recommended Workflow就将这个区域的起始位点当作这个区域的marker，并与该区域的lg2ratio对应，于是便和芯片检测CNV的方法对接上去了。</p>
 <a id="more"></a>
 
@@ -260,8 +260,8 @@ chr1 125000000 249250621 q</pre>
 <p>第六列为校正后的 log2 fold change 值，正值表示扩增，负值代表减少</p>
 <p>第八列为 CNV 发生的状态，为 deletion，neutral 或者 amplification</p>
 <p>附件：</p>
-<p>arm size文件：<a href="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/FileAttach/2016-01-26-varscan-copynumber-armsize4Merge.txt" target="_blank" rel="noopener" title="/wp/FileAttach/2016-01-26-varscan-copynumber-armsize4Merge.txt">arm size</a></p>
-<p>修改后的mergeSegments.pl文件：<a href="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/FileAttach/2016-01-26-varscan-copynumber-mergeSegments.pl" target="_blank" rel="noopener" title="/wp/FileAttach/2016-01-26-varscan-copynumber-mergeSegments.pl">mergeSegments.pl</a></p>
+<p>arm size文件：<a href="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/FileAttach/2016-01-26-varscan-copynumber-armsize4Merge.txt" title="/wp/FileAttach/2016-01-26-varscan-copynumber-armsize4Merge.txt">arm size</a></p>
+<p>修改后的mergeSegments.pl文件：<a href="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/FileAttach/2016-01-26-varscan-copynumber-mergeSegments.pl" title="/wp/FileAttach/2016-01-26-varscan-copynumber-mergeSegments.pl">mergeSegments.pl</a></p>
 <p>附流程：</p>
 <pre>samtools mpileup -f $hgRef $normal > normal.pileup
 samtools mpileup -f $hgRef $tumor  >  tumor.pileup
@@ -278,7 +278,7 @@ write.table(out, file="out.copynumber.called.seg", row.names=F, col.names=T, quo
 perl mergeSegments.pl out.copynumber.called.seg  --ref-arm-sizes armsize.txt --output out</pre>
 
 <p>Ref：</p>
-<p><a href="http://dkoboldt.github.io/varscan/copy-number-calling.html#copy-number-workflow" target="_blank" rel="noopener">http://dkoboldt.github.io/varscan/copy-number-calling.html#copy-number-workflow</a></p>
+<p><a href="http://dkoboldt.github.io/varscan/copy-number-calling.html#copy-number-workflow">http://dkoboldt.github.io/varscan/copy-number-calling.html#copy-number-workflow</a></p>
 <p>BioStar</p>
 <p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>#####################################################################</p>
 
@@ -379,7 +379,7 @@ perl mergeSegments.pl out.copynumber.called.seg  --ref-arm-sizes armsize.txt --o
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">131</span>
+          <span class="site-state-item-count">132</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -388,7 +388,7 @@ perl mergeSegments.pl out.copynumber.called.seg  --ref-arm-sizes armsize.txt --o
         <span class="site-state-item-name">categories</span>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">136</span>
+        <span class="site-state-item-count">137</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>

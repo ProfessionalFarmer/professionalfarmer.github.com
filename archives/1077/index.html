@@ -30,8 +30,8 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2020-02-02-Alternative-polyadenylation.png">
 <meta property="og:image" content="https://hpc.oit.uci.edu/~leil22/DaPars2_Documentation/images/Sequencing_depth_file.jpg">
 <meta property="og:image" content="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2020-02-03-APA-example.png">
-<meta property="article:published_time" content="2020-02-02T16:30:11.000Z">
-<meta property="article:modified_time" content="2020-05-25T09:11:39.360Z">
+<meta property="article:published_time" content="2020-02-03T08:30:11.000Z">
+<meta property="article:modified_time" content="2020-05-28T23:19:29.681Z">
 <meta property="article:author" content="Jason">
 <meta property="article:tag" content="RNA">
 <meta property="article:tag" content="APA">
@@ -179,14 +179,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2020-02-03 00:30:11" itemprop="dateCreated datePublished" datetime="2020-02-03T00:30:11+08:00">2020-02-03</time>
+              <time title="Created: 2020-02-03 00:30:11" itemprop="dateCreated datePublished" datetime="2020-02-03T00:30:11-08:00">2020-02-03</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-25 17:11:39" itemprop="dateModified" datetime="2020-05-25T17:11:39+08:00">2020-05-25</time>
+                <time title="Modified: 2020-05-28 15:19:29" itemprop="dateModified" datetime="2020-05-28T15:19:29-08:00">2020-05-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -211,16 +211,16 @@
       
         <p>可变多聚腺苷酸化Alternative Polyadenylation (APA)，如下图所示（图片来自参考），在不同的APA信号位点切割，然后添加polyA。这种调控机制属于转录后调控，可能会影响蛋白的序列（发生在编码区），也可能影响蛋白的稳定性（比如非编码区内的miRNA的调控区域）。其实也是可变剪接的一种情况。</p>
 <p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2020-02-02-Alternative-polyadenylation.png" alt=""></p>
-<p>常用的软件是Dapars，这个软件现在也有了升级的版本Dapars2。参考： <a href="https://github.com/ZhengXia/dapars" target="_blank" rel="noopener">https://github.com/ZhengXia/dapars</a> <a href="https://github.com/3UTR/DaPars2" target="_blank" rel="noopener">https://github.com/3UTR/DaPars2</a> 分析流程很相似，Dapars2多了 normalize library sizes 。</p>
+<p>常用的软件是Dapars，这个软件现在也有了升级的版本Dapars2。参考： <a href="https://github.com/ZhengXia/dapars">https://github.com/ZhengXia/dapars</a> <a href="https://github.com/3UTR/DaPars2">https://github.com/3UTR/DaPars2</a> 分析流程很相似，Dapars2多了 normalize library sizes 。</p>
 <h3 id="第一步：生成Wiggle文件"><a href="#第一步：生成Wiggle文件" class="headerlink" title="第一步：生成Wiggle文件"></a>第一步：生成Wiggle文件</h3><p>这一步其实是统计每个点或者区域的覆盖度，便于后续计算，用bedtools统计STAR比对后的结果即可。</p>
 <p>genomeCoverageBed -bg -ibam Aligned.sortedByCoord.out.bam -split &gt;  Aligned.sortedByCoord.out.wig</p>
-<h3 id="第二步-Generate-region-annotation-DaPars-Extract-Anno-py"><a href="#第二步-Generate-region-annotation-DaPars-Extract-Anno-py" class="headerlink" title="第二步: Generate region annotation: DaPars_Extract_Anno.py"></a>第二步: <a href="https://hpc.oit.uci.edu/~leil22/DaPars2_Documentation/DaPars2.html#step-1-generate-region-annotation-dapars2-extract-anno-py" target="_blank" rel="noopener">Generate region annotation: DaPars_Extract_Anno.py</a></h3><p>这一步需要从bed12格式的文件中，提取远端ployA的位点，进而便于推测近端polyA的位点。 1）作者推荐从UCSC上下载，<a href="http://genome.ucsc.edu/cgi-bin/hgTables?command=start" target="_blank" rel="noopener">http://genome.ucsc.edu/cgi-bin/hgTables?command=start</a>，选择bed格式之后，选这whole gene即可。 2）如果你有特定的gtf文件，可以将gtf文件转成bed12格式，先将gtf转成genPred格式，然后再转成bed12格式。<a href="http://hgdownload.cse.ucsc.edu/admin/exe/linux.x86_64/上有现成的工具" target="_blank" rel="noopener">http://hgdownload.cse.ucsc.edu/admin/exe/linux.x86_64/上有现成的工具</a></p>
+<h3 id="第二步-Generate-region-annotation-DaPars-Extract-Anno-py"><a href="#第二步-Generate-region-annotation-DaPars-Extract-Anno-py" class="headerlink" title="第二步: Generate region annotation: DaPars_Extract_Anno.py"></a>第二步: <a href="https://hpc.oit.uci.edu/~leil22/DaPars2_Documentation/DaPars2.html#step-1-generate-region-annotation-dapars2-extract-anno-py">Generate region annotation: DaPars_Extract_Anno.py</a></h3><p>这一步需要从bed12格式的文件中，提取远端ployA的位点，进而便于推测近端polyA的位点。 1）作者推荐从UCSC上下载，<a href="http://genome.ucsc.edu/cgi-bin/hgTables?command=start">http://genome.ucsc.edu/cgi-bin/hgTables?command=start</a>，选择bed格式之后，选这whole gene即可。 2）如果你有特定的gtf文件，可以将gtf文件转成bed12格式，先将gtf转成genPred格式，然后再转成bed12格式。<a href="http://hgdownload.cse.ucsc.edu/admin/exe/linux.x86_64/上有现成的工具">http://hgdownload.cse.ucsc.edu/admin/exe/linux.x86_64/上有现成的工具</a></p>
 <h3 id="第三步（Dapars2）-Generate-mapped-reads-files-for-all-Samples"><a href="#第三步（Dapars2）-Generate-mapped-reads-files-for-all-Samples" class="headerlink" title="第三步（Dapars2）: Generate mapped reads files for all Samples"></a>第三步（Dapars2）: Generate mapped reads files for all Samples</h3><p>这一步是为了 normalize library sizes ，统计每个样本比对上的reads数据，格式如下，与下一步的顺序一致。Dapars2才有这一步。</p>
 <p><img src="https://hpc.oit.uci.edu/~leil22/DaPars2_Documentation/images/Sequencing_depth_file.jpg" alt=""></p>
 <h3 id="第四步-Run-DaPars"><a href="#第四步-Run-DaPars" class="headerlink" title="第四步: Run DaPars"></a>第四步: Run DaPars</h3><p>配置文件，运行即可。结果中会告诉ΔDPUI也就是远端APA位点的利用率的差值及显著性，根据这些挑选候选。然后回到IGV上进行查看，如下基因方向从右到左，可以看出来前六个和后三个样本在最后一个外显子上的覆盖度截然不同，不同的地方可能就是发生了APA事件，然后添加polyA。</p>
 <p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2020-02-03-APA-example.png" alt=""></p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>Weil T T. Post-transcriptional regulation of early embryogenesis[J]. F1000prime reports, 2015, 7. <a href="https://hpc.oit.uci.edu/~leil22/DaPars2_Documentation/DaPars2.html" target="_blank" rel="noopener">https://hpc.oit.uci.edu/~leil22/DaPars2_Documentation/DaPars2.html</a></p>
-<p><a href="https://www.jianshu.com/p/21b697cec428" target="_blank" rel="noopener">https://www.jianshu.com/p/21b697cec428</a> </p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>Weil T T. Post-transcriptional regulation of early embryogenesis[J]. F1000prime reports, 2015, 7. <a href="https://hpc.oit.uci.edu/~leil22/DaPars2_Documentation/DaPars2.html">https://hpc.oit.uci.edu/~leil22/DaPars2_Documentation/DaPars2.html</a></p>
+<p><a href="https://www.jianshu.com/p/21b697cec428">https://www.jianshu.com/p/21b697cec428</a> </p>
 <p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>#####################################################################</p>
 
     </div>
@@ -320,7 +320,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">131</span>
+          <span class="site-state-item-count">132</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -329,7 +329,7 @@
         <span class="site-state-item-name">categories</span>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">136</span>
+        <span class="site-state-item-count">137</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>

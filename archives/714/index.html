@@ -28,8 +28,8 @@
 <meta property="og:description" content="基因组装配工具Falcon工作流程 1 Falcon简介Falcon (Fast Alignment and CONsensus)，是由PacBio(太平洋生物科技公司)新开发的二倍体基因组从头拼接组装工具，由HGAP（Hierarchical Genome Assembly Process）扩展而来，但拥有更快的拼接组装效率。Falcon的正常运行，需要DAZZ_DB模块用来构建序列的数据库，D">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2015-07-28-falcon-introduction.png">
-<meta property="article:published_time" content="2015-07-28T10:47:41.000Z">
-<meta property="article:modified_time" content="2020-05-25T07:31:39.838Z">
+<meta property="article:published_time" content="2015-07-29T02:47:41.000Z">
+<meta property="article:modified_time" content="2020-05-28T23:19:29.615Z">
 <meta property="article:author" content="Jason">
 <meta property="article:tag" content="Assembly">
 <meta name="twitter:card" content="summary">
@@ -176,14 +176,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2015-07-28 18:47:41" itemprop="dateCreated datePublished" datetime="2015-07-28T18:47:41+08:00">2015-07-28</time>
+              <time title="Created: 2015-07-28 18:47:41" itemprop="dateCreated datePublished" datetime="2015-07-28T18:47:41-08:00">2015-07-28</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-25 15:31:39" itemprop="dateModified" datetime="2020-05-25T15:31:39+08:00">2020-05-25</time>
+                <time title="Modified: 2020-05-28 15:19:29" itemprop="dateModified" datetime="2020-05-28T15:19:29-08:00">2020-05-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -224,7 +224,7 @@
 <p>fc_ovlp_to_graph.py会生成一些用于构建重叠群contig的串图文件。<br>根据重叠信息，构建图的边，边的信息储存在sg_edges_list文件中，这些边进一步连接成unitigs的信息储存在utg_data文件中。ctg_path则存储根据unitigs构建每个contig的图。fc_ovlp_to_graph.py涉及的参数有：<br>–min_len MIN_LEN：用于装配拼接的序列最低长度<br>–min_idt MIN_IDT：用于装配拼接的序列之间的最低比对相似度<br>–lfc：解决串图中的节点时，使用local flow constraint方法而不是最佳重叠策略。</p>
 <p>6）基于图构建重叠群（contig）</p>
 <p>fc_graph_to_contig.py根据图路径和序列，构建contig。</p>
-<h1 id="3-Falcon安装"><a href="#3-Falcon安装" class="headerlink" title="3 Falcon安装"></a>3 Falcon安装</h1><p>目前PacBio提供了整个falcon依赖模块的integrate版本，详<br>见<br><a href="https://github.com/PacificBiosciences/FALCON-integrate" target="_blank" rel="noopener" title="https://github.com/PacificBiosciences/FALCON-integrate">https://github.com/PacificBiosciences/FALCON-integrate</a></p>
+<h1 id="3-Falcon安装"><a href="#3-Falcon安装" class="headerlink" title="3 Falcon安装"></a>3 Falcon安装</h1><p>目前PacBio提供了整个falcon依赖模块的integrate版本，详<br>见<br><a href="https://github.com/PacificBiosciences/FALCON-integrate" title="https://github.com/PacificBiosciences/FALCON-integrate">https://github.com/PacificBiosciences/FALCON-integrate</a></p>
 <p>只需按照步骤执行</p>
 <pre>git clone git://github.com/PacificBiosciences/FALCON-integrate.git
 cd FALCON-integrate
@@ -234,7 +234,7 @@ make check
 make -j install
 make test  # to run a simple one</pre>
 
-<p>但前提是您的电脑必须联网，如果您的电脑没有联网，可以下载<a href="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020//FileAttach/2015-07-28-Falcon.zip" target="_blank" rel="noopener" title="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/FileAttach/2015-07-28-Falcon.zip">Falcon20150728</a>,执行install-offline.sh。</p>
+<p>但前提是您的电脑必须联网，如果您的电脑没有联网，可以下载<a href="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020//FileAttach/2015-07-28-Falcon.zip" title="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/FileAttach/2015-07-28-Falcon.zip">Falcon20150728</a>,执行install-offline.sh。</p>
 <p>4 Falcon 配置文件fc_run.cfg</p>
 <pre>[General]
 # list of files of the initial bas.h5 files
@@ -276,8 +276,8 @@ falcon_sense_option = --output_multi --min_idt 0.70 --min_cov 4 --local_match_co
 overlap_filtering_setting = --max_diff 100 --max_cov 100 --min_cov 1  --bestn 10</pre>
 
 <p>参考：</p>
-<p><a href="https://github.com/PacificBiosciences/FALCON/wiki/Manual" target="_blank" rel="noopener" title="https://github.com/PacificBiosciences/FALCON/wiki/Manual">https://github.com/PacificBiosciences/FALCON/wiki/Manual</a></p>
-<p><a href="https://github.com/PacificBiosciences/FALCON-integrate" target="_blank" rel="noopener" title="https://github.com/PacificBiosciences/FALCON-integrate">https://github.com/PacificBiosciences/FALCON-integrate</a></p>
+<p><a href="https://github.com/PacificBiosciences/FALCON/wiki/Manual" title="https://github.com/PacificBiosciences/FALCON/wiki/Manual">https://github.com/PacificBiosciences/FALCON/wiki/Manual</a></p>
+<p><a href="https://github.com/PacificBiosciences/FALCON-integrate" title="https://github.com/PacificBiosciences/FALCON-integrate">https://github.com/PacificBiosciences/FALCON-integrate</a></p>
 <p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>#####################################################################</p>
 
     </div>
@@ -376,7 +376,7 @@ overlap_filtering_setting = --max_diff 100 --max_cov 100 --min_cov 1  --bestn 10
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">131</span>
+          <span class="site-state-item-count">132</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -385,7 +385,7 @@ overlap_filtering_setting = --max_diff 100 --max_cov 100 --min_cov 1  --bestn 10
         <span class="site-state-item-name">categories</span>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">136</span>
+        <span class="site-state-item-count">137</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>

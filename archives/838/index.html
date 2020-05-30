@@ -29,8 +29,8 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-02-11-liftover-chain-description.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-02-11-liftover-chain-description.png">
-<meta property="article:published_time" content="2018-02-12T13:46:41.000Z">
-<meta property="article:modified_time" content="2020-05-25T12:33:33.875Z">
+<meta property="article:published_time" content="2018-02-13T05:46:41.000Z">
+<meta property="article:modified_time" content="2020-05-28T23:19:29.660Z">
 <meta property="article:author" content="Jason">
 <meta property="article:tag" content="liftover">
 <meta property="article:tag" content="chain">
@@ -178,14 +178,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2018-02-12 21:46:41" itemprop="dateCreated datePublished" datetime="2018-02-12T21:46:41+08:00">2018-02-12</time>
+              <time title="Created: 2018-02-12 21:46:41" itemprop="dateCreated datePublished" datetime="2018-02-12T21:46:41-08:00">2018-02-12</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-25 20:33:33" itemprop="dateModified" datetime="2020-05-25T20:33:33+08:00">2020-05-25</time>
+                <time title="Modified: 2020-05-28 15:19:29" itemprop="dateModified" datetime="2020-05-28T15:19:29-08:00">2020-05-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -209,8 +209,8 @@
 
       
         <p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-02-11-liftover-chain-description.png" alt="chain description"></p>
-<p>在做基因组坐标转换的时候，用crossmap和liftover的时候，会用到chain file。大家都在讲坐标转换会用到这个文件，却没有讲过chain文件的具体内容（百度和谷歌搜索结果都没有中文介绍，本文应该是第一个）。本文的内容都翻译自UCSC网站，原文<a href="https://genome.ucsc.edu/goldenpath/help/chain.html，希望能帮到大家了解这个文件。" target="_blank" rel="noopener">https://genome.ucsc.edu/goldenpath/help/chain.html，希望能帮到大家了解这个文件。</a></p>
-<p>UCSC chain文件 <a href="http://hgdownload.soe.ucsc.edu/goldenPath/hg38/liftOver/" target="_blank" rel="noopener">http://hgdownload.soe.ucsc.edu/goldenPath/hg38/liftOver/</a><br>Ensembl chain文件 <a href="https://sourceforge.net/projects/crossmap/files/Ensembl_chain_files/" target="_blank" rel="noopener">https://sourceforge.net/projects/crossmap/files/Ensembl_chain_files/</a></p>
+<p>在做基因组坐标转换的时候，用crossmap和liftover的时候，会用到chain file。大家都在讲坐标转换会用到这个文件，却没有讲过chain文件的具体内容（百度和谷歌搜索结果都没有中文介绍，本文应该是第一个）。本文的内容都翻译自UCSC网站，原文<a href="https://genome.ucsc.edu/goldenpath/help/chain.html，希望能帮到大家了解这个文件。">https://genome.ucsc.edu/goldenpath/help/chain.html，希望能帮到大家了解这个文件。</a></p>
+<p>UCSC chain文件 <a href="http://hgdownload.soe.ucsc.edu/goldenPath/hg38/liftOver/">http://hgdownload.soe.ucsc.edu/goldenPath/hg38/liftOver/</a><br>Ensembl chain文件 <a href="https://sourceforge.net/projects/crossmap/files/Ensembl_chain_files/">https://sourceforge.net/projects/crossmap/files/Ensembl_chain_files/</a></p>
 <p>chain file里面包含许多块alignment的信息（个人觉得可以理解为同源的地方，chain），其中每一块有一个header，记录alignment在两个版本中坐标，以及许多行alignment data line记录具体比对情况。</p>
 <p>即每一块有 Header Line 和 Alignment Data Lines组成。形式如下，有两个chain</p>
 <pre>    chain 4900 chrY 58368225 + 25985403 25985638 chr5 151006098 - 43257292 43257528 1
@@ -256,8 +256,8 @@
 <p>不一致的区域（gapped）长度为<br>reference = 0 + 4 +0 =4<br>query = 2 + 0 + 4 =6</p>
 <p>区域长度也可以通过ungapped和gapped区域计算，分别为：<br>reference = ungapped + gapped = 156 + 4 =160 bp<br>query = ungapped + gapped = 156 + 6 =162 bp</p>
 <p>更多信息详见：</p>
-<p><a href="http://genomewiki.ucsc.edu/index.php/LiftOver_Howto" target="_blank" rel="noopener">http://genomewiki.ucsc.edu/index.php/LiftOver_Howto</a></p>
-<p><a href="https://genome.ucsc.edu/goldenpath/help/chain.html" target="_blank" rel="noopener">https://genome.ucsc.edu/goldenpath/help/chain.html</a></p>
+<p><a href="http://genomewiki.ucsc.edu/index.php/LiftOver_Howto">http://genomewiki.ucsc.edu/index.php/LiftOver_Howto</a></p>
+<p><a href="https://genome.ucsc.edu/goldenpath/help/chain.html">https://genome.ucsc.edu/goldenpath/help/chain.html</a></p>
 <p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>#####################################################################</p>
 
     </div>
@@ -357,7 +357,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">131</span>
+          <span class="site-state-item-count">132</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -366,7 +366,7 @@
         <span class="site-state-item-name">categories</span>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">136</span>
+        <span class="site-state-item-count">137</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>

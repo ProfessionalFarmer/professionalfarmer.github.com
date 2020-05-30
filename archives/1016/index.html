@@ -29,8 +29,8 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-07-12-advantage-ubam-1.jpg">
 <meta property="og:image" content="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-07-12-advantage-ubam-2.png">
-<meta property="article:published_time" content="2018-07-12T07:00:46.000Z">
-<meta property="article:modified_time" content="2020-05-25T09:04:25.475Z">
+<meta property="article:published_time" content="2018-07-12T23:00:46.000Z">
+<meta property="article:modified_time" content="2020-05-28T23:19:29.671Z">
 <meta property="article:author" content="Jason">
 <meta property="article:tag" content="FASTQ">
 <meta property="article:tag" content="uBAM">
@@ -178,14 +178,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2018-07-12 15:00:46" itemprop="dateCreated datePublished" datetime="2018-07-12T15:00:46+08:00">2018-07-12</time>
+              <time title="Created: 2018-07-12 15:00:46" itemprop="dateCreated datePublished" datetime="2018-07-12T15:00:46-08:00">2018-07-12</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-25 17:04:25" itemprop="dateModified" datetime="2020-05-25T17:04:25+08:00">2020-05-25</time>
+                <time title="Modified: 2020-05-28 15:19:29" itemprop="dateModified" datetime="2020-05-28T15:19:29-08:00">2020-05-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -217,10 +217,10 @@
 <p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-07-12-advantage-ubam-2.png" alt=""> </p>
 <p>这个我体会很深，比如我在分析带分子标签UMI的数据时，需要在bam文件中添加read的UMI标签序列，具有相同的UMI标签的序列说明来自同一个分子。如果我将带UMI标签的reads直接比对基因组，UMI标签序列会影响比对质量，而且后续对bam文件的处理提取UMI时，需要考虑CIGAR标签，这个时候就头大了。实际上，我是先将fastq转成ubam文件（picard的FastqToSam工具），然后提取ubam文件中的UMI，生成新的ubam，将ubam转成fastq文件（reads都放在一个文件fastq文件中，bwa能识别其中的配对reads），与参考基因组进行比对。这个时候问题就来了，比对之后生成的bam文件，不包含我提取的UMI标签序列信息，因为这个信息在ubam文件中。不要着急，picard的另外一个工具MergeBamAlignment，可以将ubam文件和bam文件合并，这样ubam文件中的tag信息，比如UMI标签信息，就会补充到新的bam文件中。这样生成的bam文件供下一步数据分析。</p>
 <h1 id="3）BAM能实现随机读写"><a href="#3）BAM能实现随机读写" class="headerlink" title="3）BAM能实现随机读写"></a>3）BAM能实现随机读写</h1><p>BAM文件采用的是BGZF压缩，可以通过随机读写快速读取文件特定位置的数据。对于未比对的reads（unaligned reads），这个功能不是很吸引人，因为后续序列比对都是顺序比对的，不可能跳着比对。</p>
-<p>参考：<br><a href="https://blastedbio.blogspot.com/2011/10/fastq-must-die-long-live-sambam.html" target="_blank" rel="noopener">https://blastedbio.blogspot.com/2011/10/fastq-must-die-long-live-sambam.html</a></p>
-<p><a href="https://gatkforums.broadinstitute.org/gatk/discussion/5990/what-is-ubam-and-why-is-it-better-than-fastq-for-storing-unmapped-sequence-data" target="_blank" rel="noopener">https://gatkforums.broadinstitute.org/gatk/discussion/5990/what-is-ubam-and-why-is-it-better-than-fastq-for-storing-unmapped-sequence-data</a></p>
-<p><a href="https://gatkforums.broadinstitute.org/gatk/discussion/11694/why-is-converting-from-fastq-to-ubam-nesessary-before-preprocessing" target="_blank" rel="noopener">https://gatkforums.broadinstitute.org/gatk/discussion/11694/why-is-converting-from-fastq-to-ubam-nesessary-before-preprocessing</a></p>
-<p><a href="https://gatkforums.broadinstitute.org/gatk/discussion/6484/how-to-generate-an-unmapped-bam-from-fastq-or-aligned-bam" target="_blank" rel="noopener">https://gatkforums.broadinstitute.org/gatk/discussion/6484/how-to-generate-an-unmapped-bam-from-fastq-or-aligned-bam</a></p>
+<p>参考：<br><a href="https://blastedbio.blogspot.com/2011/10/fastq-must-die-long-live-sambam.html">https://blastedbio.blogspot.com/2011/10/fastq-must-die-long-live-sambam.html</a></p>
+<p><a href="https://gatkforums.broadinstitute.org/gatk/discussion/5990/what-is-ubam-and-why-is-it-better-than-fastq-for-storing-unmapped-sequence-data">https://gatkforums.broadinstitute.org/gatk/discussion/5990/what-is-ubam-and-why-is-it-better-than-fastq-for-storing-unmapped-sequence-data</a></p>
+<p><a href="https://gatkforums.broadinstitute.org/gatk/discussion/11694/why-is-converting-from-fastq-to-ubam-nesessary-before-preprocessing">https://gatkforums.broadinstitute.org/gatk/discussion/11694/why-is-converting-from-fastq-to-ubam-nesessary-before-preprocessing</a></p>
+<p><a href="https://gatkforums.broadinstitute.org/gatk/discussion/6484/how-to-generate-an-unmapped-bam-from-fastq-or-aligned-bam">https://gatkforums.broadinstitute.org/gatk/discussion/6484/how-to-generate-an-unmapped-bam-from-fastq-or-aligned-bam</a></p>
 <p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>#####################################################################</p>
 
     </div>
@@ -320,7 +320,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">131</span>
+          <span class="site-state-item-count">132</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -329,7 +329,7 @@
         <span class="site-state-item-name">categories</span>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">136</span>
+        <span class="site-state-item-count">137</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>

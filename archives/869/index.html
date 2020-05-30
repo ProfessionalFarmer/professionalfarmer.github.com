@@ -33,8 +33,8 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-03-22-GATK-BP-WDL-Start-part.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-03-22-GATK-BP-WDL-Structure.png">
 <meta property="og:image" content="https://us.v-cdn.net/5019796/uploads/FileUpload/5d/35596768fbf3f484c3ba95f05cc9ed.png">
-<meta property="article:published_time" content="2018-03-22T06:56:57.000Z">
-<meta property="article:modified_time" content="2020-05-25T12:52:43.270Z">
+<meta property="article:published_time" content="2018-03-22T22:56:57.000Z">
+<meta property="article:modified_time" content="2020-05-28T23:19:29.662Z">
 <meta property="article:author" content="Jason">
 <meta property="article:tag" content="GATK">
 <meta property="article:tag" content="WDL">
@@ -182,14 +182,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2018-03-22 14:56:57" itemprop="dateCreated datePublished" datetime="2018-03-22T14:56:57+08:00">2018-03-22</time>
+              <time title="Created: 2018-03-22 14:56:57" itemprop="dateCreated datePublished" datetime="2018-03-22T14:56:57-08:00">2018-03-22</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-25 20:52:43" itemprop="dateModified" datetime="2020-05-25T20:52:43+08:00">2020-05-25</time>
+                <time title="Modified: 2020-05-28 15:19:29" itemprop="dateModified" datetime="2020-05-28T15:19:29-08:00">2020-05-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -213,15 +213,15 @@
 
       
         <p>Run GATK Best Practices for data pre-processing by Cromwell/WDL</p>
-<p>与GATK4正式发布的还有WDL（workflow description langaue，<a href="https://software.broadinstitute.org/wdl/），WDL将工作流程分为了workflow" target="_blank" rel="noopener">https://software.broadinstitute.org/wdl/），WDL将工作流程分为了workflow</a>, task, call, command 和 output。</p>
-<p>与以往GATK提供Best practice的PPT介绍不同，现在Broad提供的是Best practice（<a href="https://software.broadinstitute.org/gatk/best-practices/）的WDL文件。WDL文件运行通过cromwell运行，并且有json格式的参数输入文件指定WDL文件中流程所需要的参数。比如" target="_blank" rel="noopener">https://software.broadinstitute.org/gatk/best-practices/）的WDL文件。WDL文件运行通过cromwell运行，并且有json格式的参数输入文件指定WDL文件中流程所需要的参数。比如</a></p>
+<p>与GATK4正式发布的还有WDL（workflow description langaue，<a href="https://software.broadinstitute.org/wdl/），WDL将工作流程分为了workflow">https://software.broadinstitute.org/wdl/），WDL将工作流程分为了workflow</a>, task, call, command 和 output。</p>
+<p>与以往GATK提供Best practice的PPT介绍不同，现在Broad提供的是Best practice（<a href="https://software.broadinstitute.org/gatk/best-practices/）的WDL文件。WDL文件运行通过cromwell运行，并且有json格式的参数输入文件指定WDL文件中流程所需要的参数。比如">https://software.broadinstitute.org/gatk/best-practices/）的WDL文件。WDL文件运行通过cromwell运行，并且有json格式的参数输入文件指定WDL文件中流程所需要的参数。比如</a></p>
 <pre>sudo java -jar cromwell.jar run workflow.wdl --inputs workflow.inputs.json</pre>
 
 <p>我们只需要修改json文件中的参数就可以运行gatk4 Best Practices，而不需要自己去搭建流程，简化了工作量，也遵循了Broad提供的推荐设置和流程。本文只介绍突变检测前的序列比对和recalibrate这部分的GATK best practices,该流程生成了用于variant calling的bam文件。</p>
-<h1 id="1，文件准备"><a href="#1，文件准备" class="headerlink" title="1，文件准备"></a>1，文件准备</h1><p><strong>WDL文件和json文件</strong><br>Broad在github上提供了进行突变检测call variant之前的数据处理data proceesing流程，见<a href="https://github.com/gatk-workflows/gatk4-data-processing" target="_blank" rel="noopener">https://github.com/gatk-workflows/gatk4-data-processing</a><br>从github上，我们需要下载两个文件<br><strong>processing-for-variant-discovery-gatk4.wdl</strong> （用于data pre-processing 的 pipeline）<br><strong>processing-for-variant-discovery-gatk4.hg38.wgs.inputs.json</strong>（指定WDL的参数文件）</p>
+<h1 id="1，文件准备"><a href="#1，文件准备" class="headerlink" title="1，文件准备"></a>1，文件准备</h1><p><strong>WDL文件和json文件</strong><br>Broad在github上提供了进行突变检测call variant之前的数据处理data proceesing流程，见<a href="https://github.com/gatk-workflows/gatk4-data-processing">https://github.com/gatk-workflows/gatk4-data-processing</a><br>从github上，我们需要下载两个文件<br><strong>processing-for-variant-discovery-gatk4.wdl</strong> （用于data pre-processing 的 pipeline）<br><strong>processing-for-variant-discovery-gatk4.hg38.wgs.inputs.json</strong>（指定WDL的参数文件）</p>
 <p><strong>ubam文件：</strong><br>要求ubam文件中要有RG tag，经过排序sort之后，该文件可以通过picard将fastq文件转换得到</p>
-<p><strong>GATK resoure bundle</strong>，从中下载GATK需要的dbsnp文件，known site等文件<br><a href="ftp://gsapubftp-anonymous@ftp.broadinstitute.org/bundle/">ftp://gsapubftp-anonymous@ftp.broadinstitute.org/bundle/</a><br><a href="https://console.cloud.google.com/storage/browser/genomics-public-data/resources/broad/hg38/v0/" target="_blank" rel="noopener">https://console.cloud.google.com/storage/browser/genomics-public-data/resources/broad/hg38/v0/</a></p>
-<h1 id="2，-软件准备"><a href="#2，-软件准备" class="headerlink" title="2， 软件准备"></a>2， 软件准备</h1><p>下载cromwell，用于运行WDL<br>官网：<a href="http://cromwell.readthedocs.io/en/develop/tutorials/FiveMinuteIntro/" target="_blank" rel="noopener">http://cromwell.readthedocs.io/en/develop/tutorials/FiveMinuteIntro/</a></p>
+<p><strong>GATK resoure bundle</strong>，从中下载GATK需要的dbsnp文件，known site等文件<br><a href="ftp://gsapubftp-anonymous@ftp.broadinstitute.org/bundle/">ftp://gsapubftp-anonymous@ftp.broadinstitute.org/bundle/</a><br><a href="https://console.cloud.google.com/storage/browser/genomics-public-data/resources/broad/hg38/v0/">https://console.cloud.google.com/storage/browser/genomics-public-data/resources/broad/hg38/v0/</a></p>
+<h1 id="2，-软件准备"><a href="#2，-软件准备" class="headerlink" title="2， 软件准备"></a>2， 软件准备</h1><p>下载cromwell，用于运行WDL<br>官网：<a href="http://cromwell.readthedocs.io/en/develop/tutorials/FiveMinuteIntro/">http://cromwell.readthedocs.io/en/develop/tutorials/FiveMinuteIntro/</a></p>
 <p>下载GATK docker镜像，根据json文件中的第5部分DOCKERS，还需要下载python和genomes in the cloud 镜像，pull命令中加入registry.docker-cn.com，可以指定docker从国内源中下载，避免下载速度较慢或不能下载。</p>
 <pre>sudo docker pull registry.docker-cn.com/broadinstitute/gatk:latest
 sudo docker pull registry.docker-cn.com/library/python:2.7
@@ -262,7 +262,7 @@ sudo docker pull registry.docker-cn.com/broadinstitute/genomes-in-the-cloud:2.3.
 <p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-03-22-GATK-docker-image1.png" alt="ls"></p>
 <p>不用修改，broadinstitute/genomes-in-the-cloud的iamge镜像生成容器中的路径，<br>如果使用sudo docker run -it 进入broadinstitute/genomes-in-the-cloud的话，可以看到/usr/gitc/路径中的其他文件<br>同样，/gatk/gatk是broadinstitute/gatk的image镜像生成的容器中的路径，所以不用修改。</p>
 <p><strong>第七到十部分也不用修改。</strong></p>
-<p>因为cromwell运行WDL的时候会自动调用docker，所以我们不需要关注docker怎么使用，甚至不用关系流程，因为都是broad提供，我们只需提供json文件即可。如果想在docker上跑gatk4，可以参考<a href="https://gatkforums.broadinstitute.org/gatk/discussion/10172/how-to-run-the-gatk4-docker-locally-and-take-a-look-inside" target="_blank" rel="noopener">https://gatkforums.broadinstitute.org/gatk/discussion/10172/how-to-run-the-gatk4-docker-locally-and-take-a-look-inside</a></p>
+<p>因为cromwell运行WDL的时候会自动调用docker，所以我们不需要关注docker怎么使用，甚至不用关系流程，因为都是broad提供，我们只需提供json文件即可。如果想在docker上跑gatk4，可以参考<a href="https://gatkforums.broadinstitute.org/gatk/discussion/10172/how-to-run-the-gatk4-docker-locally-and-take-a-look-inside">https://gatkforums.broadinstitute.org/gatk/discussion/10172/how-to-run-the-gatk4-docker-locally-and-take-a-look-inside</a></p>
 <h1 id="4，运行GATK4-Best-practices中的data-preprocessing流程"><a href="#4，运行GATK4-Best-practices中的data-preprocessing流程" class="headerlink" title="4，运行GATK4 Best practices中的data preprocessing流程"></a>4，运行GATK4 Best practices中的data preprocessing流程</h1><pre>**sudo java -jar cromwell.jar run processing-for-variant-discovery-gatk4.wdl --inputs processing-for-variant-discovery-gatk4.hg38.wgs.inputs.json**</pre>
 
 <p>刚开始时会生成一个workflow的id，中间文件都会在该文件夹内。</p>
@@ -372,7 +372,7 @@ sudo docker pull registry.docker-cn.com/broadinstitute/genomes-in-the-cloud:2.3.
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">131</span>
+          <span class="site-state-item-count">132</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -381,7 +381,7 @@ sudo docker pull registry.docker-cn.com/broadinstitute/genomes-in-the-cloud:2.3.
         <span class="site-state-item-name">categories</span>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">136</span>
+        <span class="site-state-item-count">137</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>

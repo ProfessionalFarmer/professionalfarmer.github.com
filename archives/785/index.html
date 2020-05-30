@@ -27,8 +27,8 @@
 <meta property="og:site_name" content="Another Jason&#39;s blog">
 <meta property="og:description" content="在linux环境下，用wget下载大文件，实在是件痛苦的事情，下载速度慢。这非常的不科学，于是找到了axel这个工具，可以实现在linux下多线程下载。并且可以实现断点续传。 Axel项目网站 https:&#x2F;&#x2F;wilmer.gaa.st&#x2F;main.php&#x2F;axel.html 安装123456wget -c https:&#x2F;&#x2F;wilmer.gaa.st&#x2F;downloads&#x2F;axel-1.0b.tar.">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2016-09-29T04:02:13.000Z">
-<meta property="article:modified_time" content="2020-05-25T05:21:07.259Z">
+<meta property="article:published_time" content="2016-09-29T20:02:13.000Z">
+<meta property="article:modified_time" content="2020-05-28T23:19:29.651Z">
 <meta property="article:author" content="Jason">
 <meta property="article:tag" content="Linux">
 <meta property="article:tag" content="tool">
@@ -175,14 +175,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2016-09-29 12:02:13" itemprop="dateCreated datePublished" datetime="2016-09-29T12:02:13+08:00">2016-09-29</time>
+              <time title="Created: 2016-09-29 12:02:13" itemprop="dateCreated datePublished" datetime="2016-09-29T12:02:13-08:00">2016-09-29</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-25 13:21:07" itemprop="dateModified" datetime="2020-05-25T13:21:07+08:00">2020-05-25</time>
+                <time title="Modified: 2020-05-28 15:19:29" itemprop="dateModified" datetime="2020-05-28T15:19:29-08:00">2020-05-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -205,13 +205,13 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>在linux环境下，用wget下载大文件，实在是件痛苦的事情，下载速度慢。这非常的不科学，于是找到了axel这个工具，可以实现在linux下多线程下载。并且可以实现断点续传。 Axel项目网站 <a href="https://wilmer.gaa.st/main.php/axel.html" target="_blank" rel="noopener">https://wilmer.gaa.st/main.php/axel.html</a></p>
+        <p>在linux环境下，用wget下载大文件，实在是件痛苦的事情，下载速度慢。这非常的不科学，于是找到了axel这个工具，可以实现在linux下多线程下载。并且可以实现断点续传。 Axel项目网站 <a href="https://wilmer.gaa.st/main.php/axel.html">https://wilmer.gaa.st/main.php/axel.html</a></p>
 <h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">wget -c https://wilmer.gaa.st/downloads/axel-1.0b.tar.gz</span><br><span class="line">tar zxvf axel-1.0b.tar.gz</span><br><span class="line"><span class="built_in">cd</span> axel-1.0b/</span><br><span class="line">./configure</span><br><span class="line">make</span><br><span class="line">make instal</span><br></pre></td></tr></table></figure>
 
 <h1 id="或者"><a href="#或者" class="headerlink" title="或者"></a>或者</h1><p>apt-get install axel 参数 -n 指定线程数 -o 指定另存为目录 -s 指定每秒的最大比特数 -q 静默模式</p>
 <h1 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h1><p>比如从UCSC上下载 938M 的参考基因组序列gz格式文件</p>
-<p>axel -n 8 <a href="http://hgdownload.cse.ucsc.edu/goldenPath/hg38/bigZips/hg38.fa.gz" target="_blank" rel="noopener">http://hgdownload.cse.ucsc.edu/goldenPath/hg38/bigZips/hg38.fa.gz</a></p>
-<p>Initializing download: <a href="http://hgdownload.cse.ucsc.edu/goldenPath/hg38/bigZips/hg38.fa.gz" target="_blank" rel="noopener">http://hgdownload.cse.ucsc.edu/goldenPath/hg38/bigZips/hg38.fa.gz</a><br>File size: 983659424 bytes<br>Opening output file hg38.fa.gz<br>Starting download</p>
+<p>axel -n 8 <a href="http://hgdownload.cse.ucsc.edu/goldenPath/hg38/bigZips/hg38.fa.gz">http://hgdownload.cse.ucsc.edu/goldenPath/hg38/bigZips/hg38.fa.gz</a></p>
+<p>Initializing download: <a href="http://hgdownload.cse.ucsc.edu/goldenPath/hg38/bigZips/hg38.fa.gz">http://hgdownload.cse.ucsc.edu/goldenPath/hg38/bigZips/hg38.fa.gz</a><br>File size: 983659424 bytes<br>Opening output file hg38.fa.gz<br>Starting download</p>
 <p>[  0%]  ………. ………. ……….  [  41.3KB/s]<br>[  0%]  ………. ………. ……….  [ 179.5KB/s]<br>[  0%]  ………. ………. ……….  [ 423.4KB/s]<br>[  0%]  ………. ………. ……….  [ 583.9KB/s]<br>[  0%]  ………. ………. ……….  [ 772.0KB/s]<br>[  0%]  ………. ………. ……….  [ 801.8KB/s]<br>[  0%]  ………. ………. ……….  [ 802.1KB/s]<br>[  0%]  ………. ………. ……….  [ 813.1KB/s]<br>[  1%]  ………. ………. ……….  [ 843.5KB/s]<br>[ 99%]  ………. ………. ……….  [ 666.7KB/s]<br>[ 99%]  ………. ……<br>Connection 7 finished<br>        ,,,,,,,,,, ,,,,,,,,,, ,,,,,,….  [ 666.6KB/s]<br>[ 99%]  ………. ………. ……….  [ 666.7KB/s]<br>[ 99%]  ………. …….<br>Connection 2 finished<br>        ,,,,,,,,,, ,,,,,,,,,, ,,,,,,,…  [ 666.5KB/s]<br>[ 99%]  ………. ………. ……….  [ 663.1KB/s]<br>[ 99%]  ………. ………. ……….  [ 662.8KB/s]<br>[100%]  ….<br>Connection 0 finished</p>
 <p>Downloaded 938.1 megabytes in 24:09 seconds. (662.81 KB/s)</p>
 
@@ -312,7 +312,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">131</span>
+          <span class="site-state-item-count">132</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -321,7 +321,7 @@
         <span class="site-state-item-name">categories</span>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">136</span>
+        <span class="site-state-item-count">137</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>

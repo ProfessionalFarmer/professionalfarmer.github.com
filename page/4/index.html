@@ -147,6 +147,93 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/988/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="Share news">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Another Jason's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/archives/988/" class="post-title-link" itemprop="url">GC偏好</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-05-18 15:57:00" itemprop="dateCreated datePublished" datetime="2018-05-18T15:57:00-08:00">2018-05-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-05-28 15:19:29" itemprop="dateModified" datetime="2020-05-28T15:19:29-08:00">2020-05-28</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="GC偏好"><a href="#GC偏好" class="headerlink" title="GC偏好"></a>GC偏好</h1><p>测序中的GC偏好指的是基因组上GC含量在50%左右的区域更容易被测到，产生的reads更多，这些区域的覆盖度更高，在高GC或者低GC区域，不容易被测到，产生较少的reads，这些区域的覆盖度更少。用基因组单位长度的bin中的GC含量作为横坐标，覆盖度作为纵坐标作图，可以明显的看到该趋势。这种趋势在100kb为单位的bin中依然存在。</p>
+<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-05-18-gc-bias.jpg" alt=""> </p>
+<p>如图A中可以看出随着GC含量的增加，counts是先增加后减少，bin的大小为10kb。图C可以看出大部分片断的GC含量0.4到0.6之间。</p>
+<p>GC偏好也存在其他地方，比如基因编码区内密码子的最后一位，C碱基往往占优势；基因的长度和GC含量成相关性；Aquifex aeolicus 的基因组整体GC含量是43%，而核糖体RNA操纵子的GC含量是65%。</p>
+<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-05-18-chicken-genome-gene-density.jpg" alt=""></p>
+<p>如图，鸡(Gallus_gallus-5.0)基因组的GC含量与基因密度之间的散点图和拟合曲线，相关性非常明显。</p>
+<h1 id="影响"><a href="#影响" class="headerlink" title="影响"></a>影响</h1><p>举个例子，1）在检测拷贝数的时候，GC含量低或者高的区域，其覆盖度小于GC含量中等的，但不意味着仅仅根据测序的覆盖度，就认为GC含量中等的拷贝数比高/低GC含量区域的高。2）在做RNA测序分析的时候，GC含量高/低的区域reads数少，并不一定说明这个基因的表达量低。3）在做基因组拼接的时候，因为GC偏好的存在，高/低GC含量的区域被测的少，这些区域的拼接难度就较大。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/archives/988/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/982/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -171,14 +258,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2018-05-16 11:12:15" itemprop="dateCreated datePublished" datetime="2018-05-16T11:12:15+08:00">2018-05-16</time>
+              <time title="Created: 2018-05-16 11:12:15" itemprop="dateCreated datePublished" datetime="2018-05-16T11:12:15-08:00">2018-05-16</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-25 20:34:05" itemprop="dateModified" datetime="2020-05-25T20:34:05+08:00">2020-05-25</time>
+                <time title="Modified: 2020-05-28 15:19:29" itemprop="dateModified" datetime="2020-05-28T15:19:29-08:00">2020-05-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -204,7 +291,7 @@
           <p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-05-16-insertsize-fragmentsize.png" alt=""> </p>
 <p>*<em>Insert_size = the sequence betwwn adapters *</em> </p>
 <p><strong>Fragment_size= Insert_size + Adapters</strong> </p>
-<p>参考：<a href="https://www.biostars.org/p/95803/" target="_blank" rel="noopener">https://www.biostars.org/p/95803/</a></p>
+<p>参考：<a href="https://www.biostars.org/p/95803/">https://www.biostars.org/p/95803/</a></p>
 
       
     </div>
@@ -248,14 +335,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2018-05-10 10:42:26" itemprop="dateCreated datePublished" datetime="2018-05-10T10:42:26+08:00">2018-05-10</time>
+              <time title="Created: 2018-05-10 10:42:26" itemprop="dateCreated datePublished" datetime="2018-05-10T10:42:26-08:00">2018-05-10</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-25 20:06:25" itemprop="dateModified" datetime="2020-05-25T20:06:25+08:00">2020-05-25</time>
+                <time title="Modified: 2020-05-28 15:19:29" itemprop="dateModified" datetime="2020-05-28T15:19:29-08:00">2020-05-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -331,14 +418,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2018-05-08 21:49:09" itemprop="dateCreated datePublished" datetime="2018-05-08T21:49:09+08:00">2018-05-08</time>
+              <time title="Created: 2018-05-08 21:49:09" itemprop="dateCreated datePublished" datetime="2018-05-08T21:49:09-08:00">2018-05-08</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-25 19:52:34" itemprop="dateModified" datetime="2020-05-25T19:52:34+08:00">2020-05-25</time>
+                <time title="Modified: 2020-05-28 15:19:29" itemprop="dateModified" datetime="2020-05-28T15:19:29-08:00">2020-05-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -417,14 +504,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2018-05-03 16:48:02" itemprop="dateCreated datePublished" datetime="2018-05-03T16:48:02+08:00">2018-05-03</time>
+              <time title="Created: 2018-05-03 16:48:02" itemprop="dateCreated datePublished" datetime="2018-05-03T16:48:02-08:00">2018-05-03</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-25 21:04:35" itemprop="dateModified" datetime="2020-05-25T21:04:35+08:00">2020-05-25</time>
+                <time title="Modified: 2020-05-28 15:19:29" itemprop="dateModified" datetime="2020-05-28T15:19:29-08:00">2020-05-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -454,7 +541,7 @@
 <h1 id="ExAC的pLI"><a href="#ExAC的pLI" class="headerlink" title="ExAC的pLI"></a>ExAC的pLI</h1><p>我们还得聊一聊另一个预测值pLI，它指的是基因对于LOF突变的不可忍受的可能性。The Exome Aggregation Consortium (ExAC) 通过分析60,706 不同族群的个体外显子数据，计算了pLI分值，来表示基因 不耐受Loss of Function (LoF) 突变。ExAC通过模型比较每个基因内观察到的罕见突变和期望的罕见突变数据，通过Z score量化这种偏离。编码区的长度来减少混杂因素，对于蛋白截断突变（Protein Truncating Variants (PTV) ），通过比较PTV在观察和期望中的数据，将基因分成3类。</p>
 <p><strong>Null</strong>, 观察约等于期望，对LoF突变耐受 where observed ≈ expected (LoF variation is tolerated)<br><strong>Recessive</strong>, 观察得到的小于期望的50%，杂合LoF耐受 where observed ≤ 50% of expected (heterozygous LoFs are tolerated)<br><strong>Haploinsufficient</strong>, 观察得到的小于期望的10%，杂合LoF不耐受where observed &lt; 10% of expected (heterozygous LoFs are not tolerated)<br></br></p>
 <p>pLI分值是一个给定基因归类到Haploinsufficient 类别中的概率，也就是对LoF不耐受的分值。分值越高，越不耐受（intolerant），分值越低，越耐受（tolerant）。当然，具体运用中，不能仅根据pLI值就判定一个LOF突变的致病性，我们还要同时考虑如疾病发病年龄，外显率，Haploinsufficiency score等。</p>
-<p>想了解跟多可以官网查看。<br><a href="https://www.ncbi.nlm.nih.gov/projects/dbvar/clingen/help.shtml" target="_blank" rel="noopener">https://www.ncbi.nlm.nih.gov/projects/dbvar/clingen/help.shtml</a><br><a href="https://decipher.sanger.ac.uk/info/loss-intolerance" target="_blank" rel="noopener">https://decipher.sanger.ac.uk/info/loss-intolerance</a></p>
+<p>想了解跟多可以官网查看。<br><a href="https://www.ncbi.nlm.nih.gov/projects/dbvar/clingen/help.shtml">https://www.ncbi.nlm.nih.gov/projects/dbvar/clingen/help.shtml</a><br><a href="https://decipher.sanger.ac.uk/info/loss-intolerance">https://decipher.sanger.ac.uk/info/loss-intolerance</a></p>
 <p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: 感谢好友SYY&amp;33，&amp; Jason<br>#####################################################################</p>
 
       
@@ -499,14 +586,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2018-04-25 16:53:36" itemprop="dateCreated datePublished" datetime="2018-04-25T16:53:36+08:00">2018-04-25</time>
+              <time title="Created: 2018-04-25 16:53:36" itemprop="dateCreated datePublished" datetime="2018-04-25T16:53:36-08:00">2018-04-25</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-25 14:30:51" itemprop="dateModified" datetime="2020-05-25T14:30:51+08:00">2020-05-25</time>
+                <time title="Modified: 2020-05-28 15:19:29" itemprop="dateModified" datetime="2020-05-28T15:19:29-08:00">2020-05-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -533,7 +620,7 @@
 <h1 id="需要解决的实践问题"><a href="#需要解决的实践问题" class="headerlink" title="需要解决的实践问题"></a>需要解决的实践问题</h1><p>1）成本问题：如果利用原有测序数据（全外显子测序数据或panel 测序），而不重复进行实验，实现一次测序，解决多种问题<br>2）灵敏度和特异性的问题：希望在高灵敏度的情况下，获得尽可能高的特异性<br>3）分辨率：需要外显子水平而非基因组范围内的拷贝数变异</p>
 <h1 id="样本"><a href="#样本" class="headerlink" title="样本"></a>样本</h1><p>我们测了Coriell的已知有特定基因拷贝数变异的样本作为阳性样本，把正常人的样本作为对照样本</p>
 <h1 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h1><p>随着分析技术的发展，针对外显子水平的分析工具开始出现，CoNVaDING、DECoN、PureCN、panelcn.MOPS、ExomeDepth、CODEX2，这些软件都利用了外显子区域的覆盖度信息，用参考基因组GC含量校正，然后根据不同算法来识别拷贝数变异。<br>从中选择了两种最新的软件CoNVaDING和DECoN。因为这两种软件不需要配对样本数据，只需提供实验样本和对照样本组即可，另外这两个软件较新。<br>CoNVaDING利用一组可能的对照样本，并从中选择模式pattern最相似的样本作为对照样本，并对每个基因所有目标区域的depth进行标准化，通过比较阳性样本和对照样本之间计算z score和ratio score判断外显子是否发生拷贝数变异。DECoN则是对ExomeDepth工具进行了优化，而ExomeDepth利用贝塔二项分布来描述特定区域正常样本和对照样本的覆盖度比值，用隐马尔可夫模型来预测。</p>
-<p>DECoN    1.0.1    外显子拷贝数检测软件   <a href="https://github.com/RahmanTeam/DECoN" target="_blank" rel="noopener">https://github.com/RahmanTeam/DECoN</a><br>CoNVaDING    1.2.0    外显子拷贝数检测软件   <a href="https://github.com/molgenis/CoNVaDING" target="_blank" rel="noopener">https://github.com/molgenis/CoNVaDING</a></p>
+<p>DECoN    1.0.1    外显子拷贝数检测软件   <a href="https://github.com/RahmanTeam/DECoN">https://github.com/RahmanTeam/DECoN</a><br>CoNVaDING    1.2.0    外显子拷贝数检测软件   <a href="https://github.com/molgenis/CoNVaDING">https://github.com/molgenis/CoNVaDING</a></p>
 <h1 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h1><p>我们做了很多工作来验证拷贝数分析工具的性能，涉及数据问题，只能简略的讨论一下CoNVaDING和DECoN的性能。</p>
 <h2 id="lt-灵敏度-gt"><a href="#lt-灵敏度-gt" class="headerlink" title="&lt;灵敏度&gt;"></a>&lt;灵敏度&gt;</h2><p>灵敏度 PPA = Sensitivity = True positive/(True positive + false negative)</p>
 <p>我们的多个拷贝数阳性样本，总共有22个外显子DUP和40个外显子DEL（分布在不同阳性样本上，且区域不尽相同）。各个流程的结果如下图，<br><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-04-25-EXON-CNV-call-rate.png" alt=""></p>
@@ -591,14 +678,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2018-03-22 14:56:57" itemprop="dateCreated datePublished" datetime="2018-03-22T14:56:57+08:00">2018-03-22</time>
+              <time title="Created: 2018-03-22 14:56:57" itemprop="dateCreated datePublished" datetime="2018-03-22T14:56:57-08:00">2018-03-22</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-25 20:52:43" itemprop="dateModified" datetime="2020-05-25T20:52:43+08:00">2020-05-25</time>
+                <time title="Modified: 2020-05-28 15:19:29" itemprop="dateModified" datetime="2020-05-28T15:19:29-08:00">2020-05-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -622,15 +709,15 @@
 
       
           <p>Run GATK Best Practices for data pre-processing by Cromwell/WDL</p>
-<p>与GATK4正式发布的还有WDL（workflow description langaue，<a href="https://software.broadinstitute.org/wdl/），WDL将工作流程分为了workflow" target="_blank" rel="noopener">https://software.broadinstitute.org/wdl/），WDL将工作流程分为了workflow</a>, task, call, command 和 output。</p>
-<p>与以往GATK提供Best practice的PPT介绍不同，现在Broad提供的是Best practice（<a href="https://software.broadinstitute.org/gatk/best-practices/）的WDL文件。WDL文件运行通过cromwell运行，并且有json格式的参数输入文件指定WDL文件中流程所需要的参数。比如" target="_blank" rel="noopener">https://software.broadinstitute.org/gatk/best-practices/）的WDL文件。WDL文件运行通过cromwell运行，并且有json格式的参数输入文件指定WDL文件中流程所需要的参数。比如</a></p>
+<p>与GATK4正式发布的还有WDL（workflow description langaue，<a href="https://software.broadinstitute.org/wdl/），WDL将工作流程分为了workflow">https://software.broadinstitute.org/wdl/），WDL将工作流程分为了workflow</a>, task, call, command 和 output。</p>
+<p>与以往GATK提供Best practice的PPT介绍不同，现在Broad提供的是Best practice（<a href="https://software.broadinstitute.org/gatk/best-practices/）的WDL文件。WDL文件运行通过cromwell运行，并且有json格式的参数输入文件指定WDL文件中流程所需要的参数。比如">https://software.broadinstitute.org/gatk/best-practices/）的WDL文件。WDL文件运行通过cromwell运行，并且有json格式的参数输入文件指定WDL文件中流程所需要的参数。比如</a></p>
 <pre>sudo java -jar cromwell.jar run workflow.wdl --inputs workflow.inputs.json</pre>
 
 <p>我们只需要修改json文件中的参数就可以运行gatk4 Best Practices，而不需要自己去搭建流程，简化了工作量，也遵循了Broad提供的推荐设置和流程。本文只介绍突变检测前的序列比对和recalibrate这部分的GATK best practices,该流程生成了用于variant calling的bam文件。</p>
-<h1 id="1，文件准备"><a href="#1，文件准备" class="headerlink" title="1，文件准备"></a>1，文件准备</h1><p><strong>WDL文件和json文件</strong><br>Broad在github上提供了进行突变检测call variant之前的数据处理data proceesing流程，见<a href="https://github.com/gatk-workflows/gatk4-data-processing" target="_blank" rel="noopener">https://github.com/gatk-workflows/gatk4-data-processing</a><br>从github上，我们需要下载两个文件<br><strong>processing-for-variant-discovery-gatk4.wdl</strong> （用于data pre-processing 的 pipeline）<br><strong>processing-for-variant-discovery-gatk4.hg38.wgs.inputs.json</strong>（指定WDL的参数文件）</p>
+<h1 id="1，文件准备"><a href="#1，文件准备" class="headerlink" title="1，文件准备"></a>1，文件准备</h1><p><strong>WDL文件和json文件</strong><br>Broad在github上提供了进行突变检测call variant之前的数据处理data proceesing流程，见<a href="https://github.com/gatk-workflows/gatk4-data-processing">https://github.com/gatk-workflows/gatk4-data-processing</a><br>从github上，我们需要下载两个文件<br><strong>processing-for-variant-discovery-gatk4.wdl</strong> （用于data pre-processing 的 pipeline）<br><strong>processing-for-variant-discovery-gatk4.hg38.wgs.inputs.json</strong>（指定WDL的参数文件）</p>
 <p><strong>ubam文件：</strong><br>要求ubam文件中要有RG tag，经过排序sort之后，该文件可以通过picard将fastq文件转换得到</p>
-<p><strong>GATK resoure bundle</strong>，从中下载GATK需要的dbsnp文件，known site等文件<br><a href="ftp://gsapubftp-anonymous@ftp.broadinstitute.org/bundle/">ftp://gsapubftp-anonymous@ftp.broadinstitute.org/bundle/</a><br><a href="https://console.cloud.google.com/storage/browser/genomics-public-data/resources/broad/hg38/v0/" target="_blank" rel="noopener">https://console.cloud.google.com/storage/browser/genomics-public-data/resources/broad/hg38/v0/</a></p>
-<h1 id="2，-软件准备"><a href="#2，-软件准备" class="headerlink" title="2， 软件准备"></a>2， 软件准备</h1><p>下载cromwell，用于运行WDL<br>官网：<a href="http://cromwell.readthedocs.io/en/develop/tutorials/FiveMinuteIntro/" target="_blank" rel="noopener">http://cromwell.readthedocs.io/en/develop/tutorials/FiveMinuteIntro/</a></p>
+<p><strong>GATK resoure bundle</strong>，从中下载GATK需要的dbsnp文件，known site等文件<br><a href="ftp://gsapubftp-anonymous@ftp.broadinstitute.org/bundle/">ftp://gsapubftp-anonymous@ftp.broadinstitute.org/bundle/</a><br><a href="https://console.cloud.google.com/storage/browser/genomics-public-data/resources/broad/hg38/v0/">https://console.cloud.google.com/storage/browser/genomics-public-data/resources/broad/hg38/v0/</a></p>
+<h1 id="2，-软件准备"><a href="#2，-软件准备" class="headerlink" title="2， 软件准备"></a>2， 软件准备</h1><p>下载cromwell，用于运行WDL<br>官网：<a href="http://cromwell.readthedocs.io/en/develop/tutorials/FiveMinuteIntro/">http://cromwell.readthedocs.io/en/develop/tutorials/FiveMinuteIntro/</a></p>
 <p>下载GATK docker镜像，根据json文件中的第5部分DOCKERS，还需要下载python和genomes in the cloud 镜像，pull命令中加入registry.docker-cn.com，可以指定docker从国内源中下载，避免下载速度较慢或不能下载。</p>
 <pre>sudo docker pull registry.docker-cn.com/broadinstitute/gatk:latest
 sudo docker pull registry.docker-cn.com/library/python:2.7
@@ -687,14 +774,14 @@ sudo docker pull registry.docker-cn.com/broadinstitute/genomes-in-the-cloud:2.3.
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2018-03-21 11:02:36" itemprop="dateCreated datePublished" datetime="2018-03-21T11:02:36+08:00">2018-03-21</time>
+              <time title="Created: 2018-03-21 11:02:36" itemprop="dateCreated datePublished" datetime="2018-03-21T11:02:36-08:00">2018-03-21</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-25 21:01:37" itemprop="dateModified" datetime="2020-05-25T21:01:37+08:00">2020-05-25</time>
+                <time title="Modified: 2020-05-28 15:19:29" itemprop="dateModified" datetime="2020-05-28T15:19:29-08:00">2020-05-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -775,14 +862,14 @@ sudo docker pull registry.docker-cn.com/broadinstitute/genomes-in-the-cloud:2.3.
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2018-03-01 11:14:06" itemprop="dateCreated datePublished" datetime="2018-03-01T11:14:06+08:00">2018-03-01</time>
+              <time title="Created: 2018-03-01 11:14:06" itemprop="dateCreated datePublished" datetime="2018-03-01T11:14:06-08:00">2018-03-01</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-25 21:11:29" itemprop="dateModified" datetime="2020-05-25T21:11:29+08:00">2020-05-25</time>
+                <time title="Modified: 2020-05-28 15:19:29" itemprop="dateModified" datetime="2020-05-28T15:19:29-08:00">2020-05-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -806,7 +893,7 @@ sudo docker pull registry.docker-cn.com/broadinstitute/genomes-in-the-cloud:2.3.
 
       
           <p>移动硬盘是ntfs格式的，服务器不能mount，报错 mount: unknown filesystem type ‘ntfs’</p>
-<p>解决方法：安装 NTFS-3G，官网 <a href="https://www.tuxera.com/community/open-source-ntfs-3g" target="_blank" rel="noopener">https://www.tuxera.com/community/open-source-ntfs-3g</a></p>
+<p>解决方法：安装 NTFS-3G，官网 <a href="https://www.tuxera.com/community/open-source-ntfs-3g">https://www.tuxera.com/community/open-source-ntfs-3g</a></p>
 <p>安装</p>
 <pre>wget -c https://tuxera.com/opensource/ntfs-3g_ntfsprogs-2017.3.23.tgz
 tar -xvzf ntfs-3g_ntfsprogs-2017.3.23.tgz 
@@ -862,14 +949,14 @@ sudo make install</pre>
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2018-02-27 14:27:45" itemprop="dateCreated datePublished" datetime="2018-02-27T14:27:45+08:00">2018-02-27</time>
+              <time title="Created: 2018-02-27 14:27:45" itemprop="dateCreated datePublished" datetime="2018-02-27T14:27:45-08:00">2018-02-27</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-25 19:54:26" itemprop="dateModified" datetime="2020-05-25T19:54:26+08:00">2020-05-25</time>
+                <time title="Modified: 2020-05-28 15:19:29" itemprop="dateModified" datetime="2020-05-28T15:19:29-08:00">2020-05-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -898,7 +985,7 @@ sudo make install</pre>
 <p>In addition to adding many alternate contigs, GRCh38 corrects thousands of SNPs and indels in the GRCh37 assembly that are absent in the population and are likely sequencing artifacts. It also includes synthetic centromeric sequence and updates non-nuclear genomic sequence.</p>
 <p><strong>除了添加了很多alternative contigs，GRCh38更正了数以千计的GRCh37版本中的SNPs和indels，这些SNPs和indels在人群中没有出现过、可能因为测序错误导致。GRCh38版本也包含了人工的着丝粒序列和更新了非核基因组序列。</strong></p>
 <p>The ability to recognize alternate haplotypes for loci is a drastic improvement that GRCh38 makes possible. Going forward, expanding genomics data will help identify variants for alternate haplotypes, improve existing and add additional alternate haplotypes and give us a better accounting of alternate haplotypes within populations. We are already seeing improvements and additions in the patch releases to reference genomes, e.g. the seven minor releases of GRCh38 available at the time of this writing.<br><strong>GRCh38大幅提高了识别alternate haplotype的能力，进一步提高了识别alternate haplotype的突变的能力。</strong></p>
-<p>BWA的作者Li Heng推荐GRCh37 primary assembly+ALT+decoy组成的参考基因组hs38DH，可以通过bwa下载，见<a href="https://github.com/lh3/bwa/blob/master/README-alt.md" target="_blank" rel="noopener">https://github.com/lh3/bwa/blob/master/README-alt.md</a> ：</p>
+<p>BWA的作者Li Heng推荐GRCh37 primary assembly+ALT+decoy组成的参考基因组hs38DH，可以通过bwa下载，见<a href="https://github.com/lh3/bwa/blob/master/README-alt.md">https://github.com/lh3/bwa/blob/master/README-alt.md</a> ：</p>
 <pre>bwa.kit/run-gen-ref hs38DH</pre>
 
 <p>作者的用NA12878做测试的比对结果如下，</p>
@@ -909,133 +996,9 @@ TP    2142260    2163113    2150844</pre>
 <p><strong>PS：</strong></p>
 <p>从改进来看，这些改进都将提高比对和突变检测的质量，<br>从结果看，38版本提高了TP的灵敏度，并降低了FP，<br>从趋势来看，37升级成38是大趋势，so请及时升级。</p>
 <p><strong>参考</strong></p>
-<p><a href="https://software.broadinstitute.org/gatk/documentation/article.php?id=7857" target="_blank" rel="noopener">https://software.broadinstitute.org/gatk/documentation/article.php?id=7857</a></p>
-<p><a href="https://gatkforums.broadinstitute.org/gatk/discussion/8180/9-takeaways-to-help-you-get-started-with-grch38" target="_blank" rel="noopener">https://gatkforums.broadinstitute.org/gatk/discussion/8180/9-takeaways-to-help-you-get-started-with-grch38</a><a href="https://software.broadinstitute.org/gatk/documentation/article.php?id=8017" target="_blank" rel="noopener">https://software.broadinstitute.org/gatk/documentation/article.php?id=8017</a></p>
-<p><a href="https://github.com/lh3/bwa/blob/master/README-alt.md" target="_blank" rel="noopener">https://github.com/lh3/bwa/blob/master/README-alt.md</a></p>
-<p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>#####################################################################</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/838/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Jason">
-      <meta itemprop="description" content="Share news">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Another Jason's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/archives/838/" class="post-title-link" itemprop="url">liftover,crossmap进行坐标转换时用到的chain文件介绍</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2018-02-12 21:46:41" itemprop="dateCreated datePublished" datetime="2018-02-12T21:46:41+08:00">2018-02-12</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-25 20:33:33" itemprop="dateModified" datetime="2020-05-25T20:33:33+08:00">2020-05-25</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-02-11-liftover-chain-description.png" alt="chain description"></p>
-<p>在做基因组坐标转换的时候，用crossmap和liftover的时候，会用到chain file。大家都在讲坐标转换会用到这个文件，却没有讲过chain文件的具体内容（百度和谷歌搜索结果都没有中文介绍，本文应该是第一个）。本文的内容都翻译自UCSC网站，原文<a href="https://genome.ucsc.edu/goldenpath/help/chain.html，希望能帮到大家了解这个文件。" target="_blank" rel="noopener">https://genome.ucsc.edu/goldenpath/help/chain.html，希望能帮到大家了解这个文件。</a></p>
-<p>UCSC chain文件 <a href="http://hgdownload.soe.ucsc.edu/goldenPath/hg38/liftOver/" target="_blank" rel="noopener">http://hgdownload.soe.ucsc.edu/goldenPath/hg38/liftOver/</a><br>Ensembl chain文件 <a href="https://sourceforge.net/projects/crossmap/files/Ensembl_chain_files/" target="_blank" rel="noopener">https://sourceforge.net/projects/crossmap/files/Ensembl_chain_files/</a></p>
-<p>chain file里面包含许多块alignment的信息（个人觉得可以理解为同源的地方，chain），其中每一块有一个header，记录alignment在两个版本中坐标，以及许多行alignment data line记录具体比对情况。</p>
-<p>即每一块有 Header Line 和 Alignment Data Lines组成。形式如下，有两个chain</p>
-<pre>    chain 4900 chrY 58368225 + 25985403 25985638 chr5 151006098 - 43257292 43257528 1
-     9       1       0
-     10      0       5
-     61      4       0
-     16      0       4
-     42      3       0
-     16      0       8
-     14      1       0
-     3       7       0
-     48
-
-     chain 4900 chrY 58368225 + 25985406 25985566 chr5 151006098 - 43549808 43549970 2
-     16      0       2
-     60      4       0
-     10      0       4
-     70
-</pre>
-
-<h1 id="Header-Lines"><a href="#Header-Lines" class="headerlink" title="Header Lines"></a>Header Lines</h1><p>记录两个版本的序列对应区域</p>
-<pre>chain score tName tSize tStrand tStart tEnd qName qSize qStrand qStart qEnd id</pre>
-
-<p>header line以chain开头<br>score – chain 值<br>tName – 染色体 (reference sequence)<br>tSize – 染色体大小 (reference sequence)<br>tStrand – 链strand (reference sequence)<br>tStart – 比对开始 (reference sequence)<br>tEnd – 比对结束 (reference sequence)<br>qName – 检索染色体 (query sequence，对应的另外一个基因组版本 )<br>qSize – 检索染色体大小 (query sequence)<br>qStrand – 链strand (query sequence)<br>qStart – 比对开始 (query sequence)<br>qEnd – 比对结束 (query sequence)<br>id – chain ID</p>
-<p>位置从0开始，前100bp的表示方法为0到100，接下的100bp为100到200，strand的值为-号时，对应的是反向互补序列。</p>
-<h1 id="Alignment-Data-Lines"><a href="#Alignment-Data-Lines" class="headerlink" title="Alignment Data Lines"></a>Alignment Data Lines</h1><p>Alignment Data Line有三列，记录区域内的具体对应信息，最后一行只有ungapped的序列长度。</p>
-<pre>    size dt dq</pre>
-
-<p>size – ungapped（一致的区域）的长度<br>dt – 该block块（一致的区域）的结束位置，到下一个block快（下一个一致的区域）起始位置的长度，其实就是gapped block不一致的区域的长度 (reference sequence)<br>dq – 该block块（一致的区域）的结束位置，到下一个block快（下一个一致的区域）起始位置的长度，其实就是gapped block不一致的区域的长度(query sequence)</p>
-<p>以chain id为2的chain为例</p>
-<pre>     chain 4900 chrY 58368225 + 25985406 25985566 chr5 151006098 - 43549808 43549970 2
-     16      0       2
-     60      4       0
-     10      0       4
-     70
-</pre>
-
-<p>我个人理解的，不一定正确，欢迎指正</p>
-<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-02-11-liftover-chain-description.png" alt="chain description"></p>
-<p>坐标转换在reference和query的位置为：<br>reference: start 25985406 end 25985566<br>query: start 43549808 end 43549970</p>
-<p>区域长度分别为：<br>reference region length = 25985566 - 25985406 = 160 bp<br>query region length = 43549970 - 43549808 = 162 bp</p>
-<p>一致的区域（ungapped）长度为<br>reference = query = 16 + 60 +10 + 70 = 156 bp</p>
-<p>不一致的区域（gapped）长度为<br>reference = 0 + 4 +0 =4<br>query = 2 + 0 + 4 =6</p>
-<p>区域长度也可以通过ungapped和gapped区域计算，分别为：<br>reference = ungapped + gapped = 156 + 4 =160 bp<br>query = ungapped + gapped = 156 + 6 =162 bp</p>
-<p>更多信息详见：</p>
-<p><a href="http://genomewiki.ucsc.edu/index.php/LiftOver_Howto" target="_blank" rel="noopener">http://genomewiki.ucsc.edu/index.php/LiftOver_Howto</a></p>
-<p><a href="https://genome.ucsc.edu/goldenpath/help/chain.html" target="_blank" rel="noopener">https://genome.ucsc.edu/goldenpath/help/chain.html</a></p>
+<p><a href="https://software.broadinstitute.org/gatk/documentation/article.php?id=7857">https://software.broadinstitute.org/gatk/documentation/article.php?id=7857</a></p>
+<p><a href="https://gatkforums.broadinstitute.org/gatk/discussion/8180/9-takeaways-to-help-you-get-started-with-grch38">https://gatkforums.broadinstitute.org/gatk/discussion/8180/9-takeaways-to-help-you-get-started-with-grch38</a><a href="https://software.broadinstitute.org/gatk/documentation/article.php?id=8017">https://software.broadinstitute.org/gatk/documentation/article.php?id=8017</a></p>
+<p><a href="https://github.com/lh3/bwa/blob/master/README-alt.md">https://github.com/lh3/bwa/blob/master/README-alt.md</a></p>
 <p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>#####################################################################</p>
 
       
@@ -1121,7 +1084,7 @@ TP    2142260    2163113    2150844</pre>
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">131</span>
+          <span class="site-state-item-count">132</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -1130,7 +1093,7 @@ TP    2142260    2163113    2150844</pre>
         <span class="site-state-item-name">categories</span>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">136</span>
+        <span class="site-state-item-count">137</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>
