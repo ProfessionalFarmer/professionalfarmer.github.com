@@ -83,5 +83,3 @@ Bootice-UEFI0修改启动序列-添加，在路径上，选择ESP下EFI/CLOVER/C
 [https://blog.daliansky.net/macOS-Catalina-10.15.5-19F96-Release-version-with-Clover-5118-original-image-Double-EFI-Version-UEFI-and-MBR.html](https://blog.daliansky.net/macOS-Catalina-10.15.5-19F96-Release-version-with-Clover-5118-original-image-Double-EFI-Version-UEFI-and-MBR.html)
 
 [https://blog.csdn.net/qq_28735663/article/details/99695786](https://blog.csdn.net/qq_28735663/article/details/99695786)
-
-<audio style="display: none;" controls="controls"></audio>
