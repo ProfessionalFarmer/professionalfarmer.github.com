@@ -147,6 +147,110 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/755/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="Share news">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Another Jason's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/archives/755/" class="post-title-link" itemprop="url">样本突变频谱分析和基于突变频谱的热图聚类</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-04-04 03:12:46" itemprop="dateCreated datePublished" datetime="2016-04-04T03:12:46+08:00">2016-04-04</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-05-29 07:19:29" itemprop="dateModified" datetime="2020-05-29T07:19:29+08:00">2020-05-29</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>对突变频谱（Mutation spectrum）进行分析，可以得知样本各种类型突变（如C:G&gt;T:A）的数量及样本是否具有某种类型突变的偏好性。</p>
+<p>单个碱基的替换一共有六种变异类型：C&gt;A/G&gt;T，C&gt;G/G&gt;C，C&gt;T/G&gt;A，T&gt;A/A&gt;T，T&gt;C/A&gt;G，T&gt;G/A&gt;C，有可以根据发生替换的碱基类别分为两大类：颠换transversion，嘌呤与嘧啶之间的替换，转换transition，嘌呤与嘌呤或嘧啶与嘧啶之间的替换。根据各类型点突变的比例，对样本和点突变类型进行聚类分析，可以研究样本点突变类型的偏好和各样本在点突变水平上的相似程度。</p>
+<h1 id="1，突变频谱数据准备"><a href="#1，突变频谱数据准备" class="headerlink" title="1，突变频谱数据准备"></a>1，突变频谱数据准备</h1><p>从VCF或者Annovar注释之后文件中，提取突变类型，第一列为样本名，第二列为突变类型，命名为type.txt。有来自来个实验的10个样本，分别为S1–S7和CHG。</p>
+<pre>Name    Type
+S5      T>C/A>G
+S5      T>C/A>G
+S5      C>T/G>A
+S5      T>A/A>T
+S5      T>C/A>G
+S1      C>T/G>A
+S1      T>C/A>G
+S1      C>T/G>A
+S1      T>C/A>G</pre>
+
+<h1 id="2，生成突变频谱图"><a href="#2，生成突变频谱图" class="headerlink" title="2，生成突变频谱图"></a>2，生成突变频谱图</h1><pre>library(ggplot2)
+data1<- read.table("/path/to/type.txt",sep='t',header=T,check=F)
+f1<- ggplot(data = data1, aes(x = Name, fill = Type)) + geom_bar(position = "fill") + labs(title = "Mutation Spectrum",x = "",y = "Fraction of Mutations") + theme(panel.background = element_blank(), axis.text.x  = element_text(angle=90), text = element_text(size=16) ) 
+svg(file="mutation_spectrum.svg")
+f1
+dev.off()</pre>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/archives/755/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+
+# <!-- Insert google ad blocks -->
+<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/752/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -171,14 +275,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2016-04-02 10:32:10" itemprop="dateCreated datePublished" datetime="2016-04-02T10:32:10-08:00">2016-04-02</time>
+              <time title="Created: 2016-04-03 02:32:10" itemprop="dateCreated datePublished" datetime="2016-04-03T02:32:10+08:00">2016-04-03</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-28 15:19:29" itemprop="dateModified" datetime="2020-05-28T15:19:29-08:00">2020-05-28</time>
+                <time title="Modified: 2020-05-29 07:19:29" itemprop="dateModified" datetime="2020-05-29T07:19:29+08:00">2020-05-29</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -233,6 +337,10 @@ pigz -k file</pre>
     
     
     
+
+
+# <!-- Insert google ad blocks -->
+<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
       <footer class="post-footer">
         <div class="post-eof"></div>
       </footer>
@@ -269,14 +377,14 @@ pigz -k file</pre>
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2016-04-01 22:33:28" itemprop="dateCreated datePublished" datetime="2016-04-01T22:33:28-08:00">2016-04-01</time>
+              <time title="Created: 2016-04-02 14:33:28" itemprop="dateCreated datePublished" datetime="2016-04-02T14:33:28+08:00">2016-04-02</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-28 15:19:29" itemprop="dateModified" datetime="2020-05-28T15:19:29-08:00">2020-05-28</time>
+                <time title="Modified: 2020-05-29 07:19:29" itemprop="dateModified" datetime="2020-05-29T07:19:29+08:00">2020-05-29</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -317,6 +425,10 @@ pigz -k file</pre>
     
     
     
+
+
+# <!-- Insert google ad blocks -->
+<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
       <footer class="post-footer">
         <div class="post-eof"></div>
       </footer>
@@ -353,14 +465,14 @@ pigz -k file</pre>
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2016-04-01 21:30:20" itemprop="dateCreated datePublished" datetime="2016-04-01T21:30:20-08:00">2016-04-01</time>
+              <time title="Created: 2016-04-02 13:30:20" itemprop="dateCreated datePublished" datetime="2016-04-02T13:30:20+08:00">2016-04-02</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-28 15:19:29" itemprop="dateModified" datetime="2020-05-28T15:19:29-08:00">2020-05-28</time>
+                <time title="Modified: 2020-05-29 07:19:29" itemprop="dateModified" datetime="2020-05-29T07:19:29+08:00">2020-05-29</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -417,6 +529,10 @@ sys     0m0.682s</pre>
     
     
     
+
+
+# <!-- Insert google ad blocks -->
+<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
       <footer class="post-footer">
         <div class="post-eof"></div>
       </footer>
@@ -453,14 +569,14 @@ sys     0m0.682s</pre>
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2016-03-30 21:13:19" itemprop="dateCreated datePublished" datetime="2016-03-30T21:13:19-08:00">2016-03-30</time>
+              <time title="Created: 2016-03-31 13:13:19" itemprop="dateCreated datePublished" datetime="2016-03-31T13:13:19+08:00">2016-03-31</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-28 15:19:29" itemprop="dateModified" datetime="2020-05-28T15:19:29-08:00">2020-05-28</time>
+                <time title="Modified: 2020-05-29 07:19:29" itemprop="dateModified" datetime="2020-05-29T07:19:29+08:00">2020-05-29</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -599,6 +715,10 @@ sys     0m0.682s</pre>
     
     
     
+
+
+# <!-- Insert google ad blocks -->
+<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
       <footer class="post-footer">
         <div class="post-eof"></div>
       </footer>
@@ -635,14 +755,14 @@ sys     0m0.682s</pre>
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2016-03-25 23:18:02" itemprop="dateCreated datePublished" datetime="2016-03-25T23:18:02-08:00">2016-03-25</time>
+              <time title="Created: 2016-03-26 15:18:02" itemprop="dateCreated datePublished" datetime="2016-03-26T15:18:02+08:00">2016-03-26</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-28 15:19:29" itemprop="dateModified" datetime="2020-05-28T15:19:29-08:00">2020-05-28</time>
+                <time title="Modified: 2020-05-29 07:19:29" itemprop="dateModified" datetime="2020-05-29T07:19:29+08:00">2020-05-29</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -681,6 +801,10 @@ sys     0m0.682s</pre>
     
     
     
+
+
+# <!-- Insert google ad blocks -->
+<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
       <footer class="post-footer">
         <div class="post-eof"></div>
       </footer>
@@ -717,14 +841,14 @@ sys     0m0.682s</pre>
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2016-03-20 20:38:26" itemprop="dateCreated datePublished" datetime="2016-03-20T20:38:26-08:00">2016-03-20</time>
+              <time title="Created: 2016-03-21 12:38:26" itemprop="dateCreated datePublished" datetime="2016-03-21T12:38:26+08:00">2016-03-21</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-28 15:19:29" itemprop="dateModified" datetime="2020-05-28T15:19:29-08:00">2020-05-28</time>
+                <time title="Modified: 2020-05-29 07:19:29" itemprop="dateModified" datetime="2020-05-29T07:19:29+08:00">2020-05-29</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -761,6 +885,10 @@ sys     0m0.682s</pre>
     
     
     
+
+
+# <!-- Insert google ad blocks -->
+<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
       <footer class="post-footer">
         <div class="post-eof"></div>
       </footer>
@@ -797,14 +925,14 @@ sys     0m0.682s</pre>
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2016-03-18 21:43:39" itemprop="dateCreated datePublished" datetime="2016-03-18T21:43:39-08:00">2016-03-18</time>
+              <time title="Created: 2016-03-19 13:43:39" itemprop="dateCreated datePublished" datetime="2016-03-19T13:43:39+08:00">2016-03-19</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-28 15:19:29" itemprop="dateModified" datetime="2020-05-28T15:19:29-08:00">2020-05-28</time>
+                <time title="Modified: 2020-05-29 07:19:29" itemprop="dateModified" datetime="2020-05-29T07:19:29+08:00">2020-05-29</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -851,6 +979,10 @@ sys     0m0.682s</pre>
     
     
     
+
+
+# <!-- Insert google ad blocks -->
+<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
       <footer class="post-footer">
         <div class="post-eof"></div>
       </footer>
@@ -887,14 +1019,14 @@ sys     0m0.682s</pre>
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2016-03-16 21:51:13" itemprop="dateCreated datePublished" datetime="2016-03-16T21:51:13-08:00">2016-03-16</time>
+              <time title="Created: 2016-03-17 13:51:13" itemprop="dateCreated datePublished" datetime="2016-03-17T13:51:13+08:00">2016-03-17</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-28 15:19:29" itemprop="dateModified" datetime="2020-05-28T15:19:29-08:00">2020-05-28</time>
+                <time title="Modified: 2020-05-29 07:19:29" itemprop="dateModified" datetime="2020-05-29T07:19:29+08:00">2020-05-29</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -937,6 +1069,10 @@ sys     0m0.682s</pre>
     
     
     
+
+
+# <!-- Insert google ad blocks -->
+<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
       <footer class="post-footer">
         <div class="post-eof"></div>
       </footer>
@@ -973,14 +1109,14 @@ sys     0m0.682s</pre>
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2016-03-13 10:32:21" itemprop="dateCreated datePublished" datetime="2016-03-13T10:32:21-08:00">2016-03-13</time>
+              <time title="Created: 2016-03-14 02:32:21" itemprop="dateCreated datePublished" datetime="2016-03-14T02:32:21+08:00">2016-03-14</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-28 15:19:29" itemprop="dateModified" datetime="2020-05-28T15:19:29-08:00">2020-05-28</time>
+                <time title="Modified: 2020-05-29 07:19:29" itemprop="dateModified" datetime="2020-05-29T07:19:29+08:00">2020-05-29</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -1022,92 +1158,10 @@ sys     0m0.682s</pre>
     
     
     
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/744/">
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Jason">
-      <meta itemprop="description" content="Share news">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Another Jason's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/archives/744/" class="post-title-link" itemprop="url">启动子分析预测数据库</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2016-03-12 23:16:31" itemprop="dateCreated datePublished" datetime="2016-03-12T23:16:31-08:00">2016-03-12</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-28 15:19:29" itemprop="dateModified" datetime="2020-05-28T15:19:29-08:00">2020-05-28</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <hr>
-<p><strong>Promoter 2.0 Prediction Server</strong><br><a href="http://www.cbs.dtu.dk/services/Promoter/">http://www.cbs.dtu.dk/services/Promoter/</a><br>很早之前的预测启动子在线软件，要求输入的gene序列为FASTA格式，可以在线做</p>
-<hr>
-<p><strong>Berkeley Drosophila Genome Group</strong><br><a href="http://fruitfly.org:9005/seq_tools/promoter.html">http://fruitfly.org:9005/seq_tools/promoter.html</a><br>果蝇基因组相关信息，利用神经网络预测启动子序列</p>
-<hr>
-<p><strong>McPromoter</strong><br><a href="http://tools.genome.duke.edu/generegulation/McPromoter/McPromoter.html">http://tools.genome.duke.edu/generegulation/McPromoter/McPromoter.html</a><br>马尔科夫预测gene的转录其实位点，新版本只提供果蝇</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/archives/744/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
+# <!-- Insert google ad blocks -->
+<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
       <footer class="post-footer">
         <div class="post-eof"></div>
       </footer>
@@ -1185,7 +1239,7 @@ sys     0m0.682s</pre>
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">132</span>
+          <span class="site-state-item-count">133</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -1194,7 +1248,7 @@ sys     0m0.682s</pre>
         <span class="site-state-item-name">categories</span>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">137</span>
+        <span class="site-state-item-count">139</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>

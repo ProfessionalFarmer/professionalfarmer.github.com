@@ -147,6 +147,110 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/1065/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="Share news">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Another Jason's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/archives/1065/" class="post-title-link" itemprop="url">RefSeq的gtf文件</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-12-05 20:31:49" itemprop="dateCreated datePublished" datetime="2019-12-05T20:31:49+08:00">2019-12-05</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-05-29 07:19:29" itemprop="dateModified" datetime="2020-05-29T07:19:29+08:00">2020-05-29</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>注释有很多版本，比如ensembl，gencode, ucsc known gene, NCBI的RefSeqGene。最近就需要NM id的注释，但NCBI提供的是gff3格式的，而且很乱。用UCSC table browser下载的gtf版本的RefSeq，没有转录本和基因之间的关系，也没有基因symbol。</p>
+<p>比如Ensembl，其实Ensembl的gtf挺好用的，不过这次我因为需要NM编号的注释（笨方法是将ensembl id转成NCBI的refSeq的ID，但这不是最优的方法，ID mapping有可能对不上，不如直接用NM的注释）。</p>
+<pre>chr1    ensembl_havana  gene    11869   14412   .       +       .       gene_id "ENSG00000223972"; gene_version "4"; gene_name "DDX11L1"; gene_source "ensembl_havana"; gene_biotype "pseudogene";
+chr1    havana  transcript      11869   14409   .       +       .       gene_id "ENSG00000223972"; gene_version "4"; transcript_id "ENST00000456328"; transcript_version "2"; gene_name "DDX11L1"; gene_source "ensembl_havana"; gene_biotype "pseudogene"; transcript_name "DDX11L1-002"; transcript_source "havana"; transcript_biotype "processed_transcript"; havana_transcript "OTTHUMT00000362751"; havana_transcript_version "1"; tag "basic";
+chr1    havana  exon    11869   12227   .       +       .       gene_id "ENSG00000223972"; gene_version "4"; transcript_id "ENST00000456328"; transcript_version "2"; exon_number "1"; gene_name "DDX11L1"; gene_source "ensembl_havana"; gene_biotype "pseudogene"; transcript_name "DDX11L1-002"; transcript_source "havana"; transcript_biotype "processed_transcript"; havana_transcript "OTTHUMT00000362751"; havana_transcript_version "1"; exon_id "ENSE00002234944"; exon_version "1"; tag "basic";</pre>
+
+<p>UCSC table browser下载的refGene的gtf，这个文件不对的地方是gene id和transcript id是一个，而我需要gene和transcript的关系</p>
+<pre>chr1    hg19_refGene    exon    66999276        66999355        0.000000        +       .       gene_id "NM_001308203"; transcript_id "NM_001308203";
+chr1    hg19_refGene    start_codon     67000042        67000044        0.000000        +       .       gene_id "NM_001308203"; transcript_id "NM_001308203";
+chr1    hg19_refGene    CDS     67000042        67000051        0.000000        +       0       gene_id "NM_001308203"; transcript_id "NM_001308203";
+chr1    hg19_refGene    exon    66999929        67000051        0.000000        +       .       gene_id "NM_001308203"; transcript_id "NM_001308203";
+chr1    hg19_refGene    CDS     67091530        67091593        0.000000        +       2       gene_id "NM_001308203"; transcript_id "NM_001308203";
+chr1    hg19_refGene    exon    67091530        67091593        0.000000        +       .       gene_id "NM_001308203"; transcript_id "NM_001308203";</pre>
+
+
+<p>中间找了很多，终于找到一个方法，<a href="https://bioinformatics.stackexchange.com/questions/2548/hg38-gtf-file-with-refseq-annotations">https://bioinformatics.stackexchange.com/questions/2548/hg38-gtf-file-with-refseq-annotations</a></p>
+<pre>mysql --user=genome --host=genome-mysql.cse.ucsc.edu -A -N -e "select * from refGene" hg19 ' cut -f2- ' genePredToGtf -source=hg19.refGene.ucsc file stdin stdout > refSeq.hg19.gtf</pre>
+
+<p>genePredToGtf可以从UCSC下载，需要注意的直接下载refFlat的文件（不通过mysql），用genePhredToGtf生成的文件和UCSC table browser下载的gtf文件是一样的，通过mysql下载用genephreadToGtf是我想要的。</p>
+<p>比如这样，这才是我想要的</p>
+<pre>chrX    hg19.refGene.ucsc       exon    70683674        70685855        .       +       .       gene_id "TAF1"; transcript_id "NM_138923"; exon_number "38"; exon_id "NM_138923.38"; gene_name "TAF1";
+chrX    hg19.refGene.ucsc       CDS     70683674        70683893        .       +       1       gene_id "TAF1"; transcript_id "NM_138923"; exon_number "38"; exon_id "NM_138923.38"; gene_name "TAF1";
+chrX    hg19.refGene.ucsc       start_codon     70586225        70586227        .       +       0       gene_id "TAF1"; transcript_id "NM_138923"; exon_number "1"; exon_id "NM_138923.1"; gene_name "TAF1";
+chrX    hg19.refGene.ucsc       stop_codon      70683894        70683896        .       +       0       gene_id "TAF1"; transcript_id "NM_138923"; exon_number "38"; exon_id "NM_138923.38"; gene_name "TAF1";</pre>
+
+<p>Ref: <a href="https://bioinformatics.stackexchange.com/questions/2548/hg38-gtf-file-with-refseq-annotations">https://bioinformatics.stackexchange.com/questions/2548/hg38-gtf-file-with-refseq-annotations</a></p>
+<p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>#####################################################################</p>
+
+      
+    </div>
+
+    
+    
+    
+
+
+# <!-- Insert google ad blocks -->
+<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/1063/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -171,14 +275,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2019-06-10 10:30:37" itemprop="dateCreated datePublished" datetime="2019-06-10T10:30:37-08:00">2019-06-10</time>
+              <time title="Created: 2019-06-11 02:30:37" itemprop="dateCreated datePublished" datetime="2019-06-11T02:30:37+08:00">2019-06-11</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-28 15:19:29" itemprop="dateModified" datetime="2020-05-28T15:19:29-08:00">2020-05-28</time>
+                <time title="Modified: 2020-05-29 07:19:29" itemprop="dateModified" datetime="2020-05-29T07:19:29+08:00">2020-05-29</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -282,6 +386,10 @@ ggsurvplot(fit,pval=TRUE)</pre>
     
     
     
+
+
+# <!-- Insert google ad blocks -->
+<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
       <footer class="post-footer">
         <div class="post-eof"></div>
       </footer>
@@ -318,14 +426,14 @@ ggsurvplot(fit,pval=TRUE)</pre>
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2019-05-19 14:34:05" itemprop="dateCreated datePublished" datetime="2019-05-19T14:34:05-08:00">2019-05-19</time>
+              <time title="Created: 2019-05-20 06:34:05" itemprop="dateCreated datePublished" datetime="2019-05-20T06:34:05+08:00">2019-05-20</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-28 15:19:29" itemprop="dateModified" datetime="2020-05-28T15:19:29-08:00">2020-05-28</time>
+                <time title="Modified: 2020-05-29 07:19:29" itemprop="dateModified" datetime="2020-05-29T07:19:29+08:00">2020-05-29</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -361,6 +469,10 @@ ggsurvplot(fit,pval=TRUE)</pre>
     
     
     
+
+
+# <!-- Insert google ad blocks -->
+<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
       <footer class="post-footer">
         <div class="post-eof"></div>
       </footer>
@@ -397,14 +509,14 @@ ggsurvplot(fit,pval=TRUE)</pre>
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2019-05-15 09:45:45" itemprop="dateCreated datePublished" datetime="2019-05-15T09:45:45-08:00">2019-05-15</time>
+              <time title="Created: 2019-05-16 01:45:45" itemprop="dateCreated datePublished" datetime="2019-05-16T01:45:45+08:00">2019-05-16</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-28 15:19:29" itemprop="dateModified" datetime="2020-05-28T15:19:29-08:00">2020-05-28</time>
+                <time title="Modified: 2020-05-29 07:19:29" itemprop="dateModified" datetime="2020-05-29T07:19:29+08:00">2020-05-29</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -439,6 +551,10 @@ ggsurvplot(fit,pval=TRUE)</pre>
     
     
     
+
+
+# <!-- Insert google ad blocks -->
+<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
       <footer class="post-footer">
         <div class="post-eof"></div>
       </footer>
@@ -475,14 +591,14 @@ ggsurvplot(fit,pval=TRUE)</pre>
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2019-05-02 20:48:43" itemprop="dateCreated datePublished" datetime="2019-05-02T20:48:43-08:00">2019-05-02</time>
+              <time title="Created: 2019-05-03 12:48:43" itemprop="dateCreated datePublished" datetime="2019-05-03T12:48:43+08:00">2019-05-03</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-28 15:19:29" itemprop="dateModified" datetime="2020-05-28T15:19:29-08:00">2020-05-28</time>
+                <time title="Modified: 2020-05-29 07:19:29" itemprop="dateModified" datetime="2020-05-29T07:19:29+08:00">2020-05-29</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -556,6 +672,10 @@ vi /etc/fstab
     
     
     
+
+
+# <!-- Insert google ad blocks -->
+<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
       <footer class="post-footer">
         <div class="post-eof"></div>
       </footer>
@@ -592,14 +712,14 @@ vi /etc/fstab
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2019-04-21 17:50:08" itemprop="dateCreated datePublished" datetime="2019-04-21T17:50:08-08:00">2019-04-21</time>
+              <time title="Created: 2019-04-22 09:50:08" itemprop="dateCreated datePublished" datetime="2019-04-22T09:50:08+08:00">2019-04-22</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-28 15:19:29" itemprop="dateModified" datetime="2020-05-28T15:19:29-08:00">2020-05-28</time>
+                <time title="Modified: 2020-05-29 07:19:29" itemprop="dateModified" datetime="2020-05-29T07:19:29+08:00">2020-05-29</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -634,6 +754,10 @@ vi /etc/fstab
     
     
     
+
+
+# <!-- Insert google ad blocks -->
+<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
       <footer class="post-footer">
         <div class="post-eof"></div>
       </footer>
@@ -670,14 +794,14 @@ vi /etc/fstab
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2019-04-11 19:08:25" itemprop="dateCreated datePublished" datetime="2019-04-11T19:08:25-08:00">2019-04-11</time>
+              <time title="Created: 2019-04-12 11:08:25" itemprop="dateCreated datePublished" datetime="2019-04-12T11:08:25+08:00">2019-04-12</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-28 15:19:29" itemprop="dateModified" datetime="2020-05-28T15:19:29-08:00">2020-05-28</time>
+                <time title="Modified: 2020-05-29 07:19:29" itemprop="dateModified" datetime="2020-05-29T07:19:29+08:00">2020-05-29</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -714,6 +838,10 @@ vi /etc/fstab
     
     
     
+
+
+# <!-- Insert google ad blocks -->
+<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
       <footer class="post-footer">
         <div class="post-eof"></div>
       </footer>
@@ -750,14 +878,14 @@ vi /etc/fstab
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2019-03-29 18:39:05" itemprop="dateCreated datePublished" datetime="2019-03-29T18:39:05-08:00">2019-03-29</time>
+              <time title="Created: 2019-03-30 10:39:05" itemprop="dateCreated datePublished" datetime="2019-03-30T10:39:05+08:00">2019-03-30</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-28 15:19:29" itemprop="dateModified" datetime="2020-05-28T15:19:29-08:00">2020-05-28</time>
+                <time title="Modified: 2020-05-29 07:19:29" itemprop="dateModified" datetime="2020-05-29T07:19:29+08:00">2020-05-29</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -820,6 +948,10 @@ pbtranscript.py cluster \
     
     
     
+
+
+# <!-- Insert google ad blocks -->
+<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
       <footer class="post-footer">
         <div class="post-eof"></div>
       </footer>
@@ -856,14 +988,14 @@ pbtranscript.py cluster \
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2019-03-25 18:35:20" itemprop="dateCreated datePublished" datetime="2019-03-25T18:35:20-08:00">2019-03-25</time>
+              <time title="Created: 2019-03-26 10:35:20" itemprop="dateCreated datePublished" datetime="2019-03-26T10:35:20+08:00">2019-03-26</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-28 15:19:29" itemprop="dateModified" datetime="2020-05-28T15:19:29-08:00">2020-05-28</time>
+                <time title="Modified: 2020-05-29 07:19:29" itemprop="dateModified" datetime="2020-05-29T07:19:29+08:00">2020-05-29</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -901,6 +1033,10 @@ pbtranscript.py cluster \
     
     
     
+
+
+# <!-- Insert google ad blocks -->
+<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
       <footer class="post-footer">
         <div class="post-eof"></div>
       </footer>
@@ -937,14 +1073,14 @@ pbtranscript.py cluster \
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2019-03-22 18:23:09" itemprop="dateCreated datePublished" datetime="2019-03-22T18:23:09-08:00">2019-03-22</time>
+              <time title="Created: 2019-03-23 10:23:09" itemprop="dateCreated datePublished" datetime="2019-03-23T10:23:09+08:00">2019-03-23</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-28 15:19:29" itemprop="dateModified" datetime="2020-05-28T15:19:29-08:00">2020-05-28</time>
+                <time title="Modified: 2020-05-29 07:19:29" itemprop="dateModified" datetime="2020-05-29T07:19:29+08:00">2020-05-29</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -980,153 +1116,10 @@ pbtranscript.py cluster \
     
     
     
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/1043/">
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Jason">
-      <meta itemprop="description" content="Share news">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Another Jason's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/archives/1043/" class="post-title-link" itemprop="url">SpliceMap官网示例教程</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2019-03-21 18:21:55" itemprop="dateCreated datePublished" datetime="2019-03-21T18:21:55-08:00">2019-03-21</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-28 15:19:29" itemprop="dateModified" datetime="2020-05-28T15:19:29-08:00">2020-05-28</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>SpliceMap是一个从头开始发现和比对splice junction的工具。它提供高敏感度并且支持任意长度RNA-seq 序列片段read长度. SpliceMap将RNA-seq reads比对到参考基因组上用于发现splicing junctions. 它至少拥有与当前技术条件下其它分析工具同等的灵敏度和特异性。</p>
-<p>官网    <a href="http://web.stanford.edu/group/wonglab/SpliceMap/manual.html">http://web.stanford.edu/group/wonglab/SpliceMap/manual.html</a></p>
-<p>下载    <a href="http://web.stanford.edu/group/wonglab/SpliceMap/download.html">http://web.stanford.edu/group/wonglab/SpliceMap/download.html</a></p>
-<p>示例教程    <a href="https://web.stanford.edu/group/wonglab/SpliceMap/tutorial.html">https://web.stanford.edu/group/wonglab/SpliceMap/tutorial.html</a></p>
-<p>以官网SpliceMap 3.3.5.2 example (Linux-x86 64bit)为例，介绍如何用来自21号染色体的100k 条100bp的RNA reads寻找junction。</p>
-<p>测试是否正常./bin/runSpliceMap，如果报错的话，需要到src文件夹运行 ./install.sh ../bin来安装SpliceMap，运行./install-bowtie.sh ../bin来安装</p>
-<h1 id="示例文件夹下面的结构"><a href="#示例文件夹下面的结构" class="headerlink" title="示例文件夹下面的结构"></a>示例文件夹下面的结构</h1><pre>ls SpliceMap3352_example_linux-64
-all.gene.refFlat.txt  bin  data  genome  INSTALL  LICENSE  output  run.cfg  src  temp</pre>
-
-<h1 id="run-cfg"><a href="#run-cfg" class="headerlink" title="run.cfg"></a>run.cfg</h1><p>最重要的文件，为文本文件，包含测序reads路径，基因组文件路径，配置设置等详见<br><a href="https://web.stanford.edu/group/wonglab/SpliceMap/cfg.html，需要对每个数据集进行配置。在cfg文件中，注释以#开头，赋值用tag">https://web.stanford.edu/group/wonglab/SpliceMap/cfg.html，需要对每个数据集进行配置。在cfg文件中，注释以#开头，赋值用tag</a> = value表示，比如genome_dir = ../../genome/hg18，多值用如下表示</p>
-<pre>> tag
-value_1
-value_2
-...
-<</pre>
-
-<h1 id="genome-directory"><a href="#genome-directory" class="headerlink" title="genome directory"></a>genome directory</h1><p>该路径下包括物种的染色体，bowtie的索引，测试示例中仅放了21号染色体和相关bowtie的索引。</p>
-<pre>
-ls genome                                                      
-chr21.1.ebwt  chr21.2.ebwt  chr21.3.ebwt  chr21.4.ebwt  chr21.fa  chr21.rev.1.ebwt  chr21.rev.2.ebwt</pre>
-
-<h1 id="data-directory"><a href="#data-directory" class="headerlink" title="data directory"></a>data directory</h1><p>样本的测序reads，真实使用中可以是其他位置。</p>
-<h1 id="temp-directory"><a href="#temp-directory" class="headerlink" title="temp directory"></a>temp directory</h1><p>在SpliceMap运行过程中的临时文件，最初的序列比对结果存储在这里，所以这个文件夹可能会很大。</p>
-<h1 id="output-directory"><a href="#output-directory" class="headerlink" title="output directory"></a>output directory</h1><p>SpliceMap的输出结果文件夹。</p>
-<h1 id="all-gene-refFlat-txt"><a href="#all-gene-refFlat-txt" class="headerlink" title="all.gene.refFlat.txt"></a>all.gene.refFlat.txt</h1><p>包含来自ensembl，refseq，knowGene数据所有基因的注释，可以用来寻找新的junction。</p>
-<h1 id="bin"><a href="#bin" class="headerlink" title="bin"></a>bin</h1><p>SpliceMap的运行程序，不需要安装，可以拷贝到其他地方。</p>
-<h1 id="src"><a href="#src" class="headerlink" title="src"></a>src</h1><p>包含SpliceMap/Bowtie源程序的文件夹。</p>
-<h1 id="运行SpliceMap"><a href="#运行SpliceMap" class="headerlink" title="运行SpliceMap"></a>运行SpliceMap</h1><p>在example文件夹中，运行大概两到三分钟可以结束</p>
-<pre>./bin/runSpliceMap run.cfg</pre>
-
-<h1 id="输出结果文件夹output"><a href="#输出结果文件夹output" class="headerlink" title="输出结果文件夹output"></a>输出结果文件夹output</h1><h1 id="junction-color-bed"><a href="#junction-color-bed" class="headerlink" title="junction_color.bed"></a>junction_color.bed</h1><p>包含发现的junctions，novel junction在bed文件中用红色表示，可以用UCSC基因组浏览器或cisGenome浏览器看。</p>
-<pre>track   name=junctions  description="SpliceMap junctions" itemRgb="On"
-chr21   14669961        14672440        (2)[49_2](2/0)  50      -       14669961        14672440        96,96,96        2 50,50    0,2429
-chr21   16125769        16127587        (1)[1_1](1/0)   50      +       16125769        16127587        192,192,192     2 50,50    0,1768</pre>
-
-<h1 id="junction-color-new-bed"><a href="#junction-color-new-bed" class="headerlink" title="junction_color.new.bed"></a>junction_color.new.bed</h1><p>不在all.gene.refFlat.txt文件中的新的junction。</p>
-<pre>track   name=junctions  description="SpliceMap junctions" itemRgb="On"
-chr21   17186728        17208745        (2)[6_2](2/0)   50      +       17186728        17208745        255,0,0 2       50,50      0,21967
-chr21   23658336        23666569        (1)[1_1](1/0)   50      -       23658336        23666569        255,192,192     2 50,50    0,8183</pre>
-
-<h1 id="junction-nUM-color-bed"><a href="#junction-nUM-color-bed" class="headerlink" title="junction_nUM_color.bed"></a>junction_nUM_color.bed</h1><p>junction_color.bed文件中的至少被一条唯一比对的read支持的junction。</p>
-<pre>track   name=junctions  description="SpliceMap junctions" itemRgb="On"
-chr21   14669961        14672440        (2)[49_2](2/0)  50      -       14669961        14672440        96,96,96        2 50,50    0,2429
-chr21   16125769        16127587        (1)[1_1](1/0)   50      +       16125769        16127587        192,192,192     2 50,50    0,1768</pre>
-
-<h1 id="junction-nUM-color-new-bed"><a href="#junction-nUM-color-new-bed" class="headerlink" title="junction_nUM_color.new.bed"></a>junction_nUM_color.new.bed</h1><p>在junction_nUM_color.bed中且不在all.gene.refFlat.txt中的junction。</p>
-<pre>track   name=junctions  description="SpliceMap junctions" itemRgb="On"
-chr21   17186728        17208745        (2)[6_2](2/0)   50      +       17186728        17208745        255,0,0 2       50,50      0,21967
-chr21   23658336        23666569        (1)[1_1](1/0)   50      -       23658336        23666569        255,192,192     2 50,50    0,8183</pre>
-
-<h1 id="coverage-up-wig"><a href="#coverage-up-wig" class="headerlink" title="coverage_up.wig"></a>coverage_up.wig</h1><p>染色体位置中唯一比对的reads的覆盖度</p>
-<pre>track   type=bedGraph   name="SpliceMap unique coverage"
-chr21   9944337 9944421 1
-chr21   14070536        14070619        1</pre>
-
-<h1 id="coverage-down-wig"><a href="#coverage-down-wig" class="headerlink" title="coverage_down.wig"></a>coverage_down.wig</h1><p>染色体位置中多重比对的reads的覆盖度</p>
-<pre>track   type=bedGraph   name="SpliceMap non-unique coverage"
-chr21   16276385        16276484        -0.5
-chr21   16277073        16277137        -0.5</pre>
-
-<h1 id="coverage-all-wig"><a href="#coverage-all-wig" class="headerlink" title="coverage_all.wig"></a>coverage_all.wig</h1><p>所以比对上的reads在染色体上的覆盖度</p>
-<pre>track   type=bedGraph   name="SpliceMap all coverage"
-chr21   9944337 9944421 1
-chr21   14070536        14070619        1</pre>
-
-<h1 id="good-hits-sam"><a href="#good-hits-sam" class="headerlink" title="good_hits.sam"></a>good_hits.sam</h1><p>SAM格式存储的比对好的reads</p>
-<pre>R[87976]        73      chr21   9944337 255     85M     *       0       0       CATGTATCAACACCAAGTGCCATTTCTCTTAAGGATGCAAGGATGTTTTTTCCAAGATGGCAGATTACAGGCTTTTAGCATGCCT      IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII      NM:i:0  XC:i:15
-R[28405]        177     chr21   14070536        255     100M    =       14070620        -15     GCAGAGGCTATTATTCATGGACTATCCAGTCTAACAGCTTGCCAGTTGAGAACGATATACATATGTCAGTTTTTGACAAGAATTTCAGCAGGAAAAACCC       IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII       MD:Z:40A43G15   NM:i:2  XC:i:0
-R[28405]        113     chr21   14070620        255     100M    =       14070536        -15     GCAGCAGGAAAAACCCTTGATGCACAGTTTGAAAATGATGAACGAATTACACCCTTGGAATCAGCCCTGATGATTTGGGGTTCAATTGAAAAGGAACATG       IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII       MD:Z:42T42C14   NM:i:2  XC:i:0</pre>
-
-<h1 id="debug-logs"><a href="#debug-logs" class="headerlink" title="debug_logs"></a>debug_logs</h1><p>输出log</p>
-<h1 id="用自己的数据"><a href="#用自己的数据" class="headerlink" title="用自己的数据"></a>用自己的数据</h1><p>重点修改cfg文件中genome_dir （参考基因组路径），reads_list1和2（fastq文件），annotations （基因注释文件），temp_path（中间数据存放路径），out_path（结果文件夹），bowtie_base_dir （bowtie2的index文件，如果没有，会在temp_path生成）</p>
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="https://web.stanford.edu/group/wonglab/SpliceMap/tutorial.html">https://web.stanford.edu/group/wonglab/SpliceMap/tutorial.html</a><br>大部分翻译这个tutorial，具体数据是自己跑tutorial得到的。</p>
-<p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>#####################################################################</p>
-
-      
-    </div>
-
-    
-    
-    
+# <!-- Insert google ad blocks -->
+<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
       <footer class="post-footer">
         <div class="post-eof"></div>
       </footer>
@@ -1204,7 +1197,7 @@ R[28405]        113     chr21   14070620        255     100M    =       14070536
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">132</span>
+          <span class="site-state-item-count">133</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -1213,7 +1206,7 @@ R[28405]        113     chr21   14070620        255     100M    =       14070536
         <span class="site-state-item-name">categories</span>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">137</span>
+        <span class="site-state-item-count">139</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>
