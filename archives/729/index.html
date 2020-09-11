@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 4.2.1">
+<meta name="generator" content="Hexo 5.1.1">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -27,8 +27,8 @@
 <meta property="og:site_name" content="Another Jason&#39;s blog">
 <meta property="og:description" content="statistic GC content by interval. BED format file include arget interval information. BEDTool statistic read number and extract sequence, awk statistic GC content. bedtools map -a interval.bed -b samp">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2016-01-13T06:19:45.000Z">
-<meta property="article:modified_time" content="2020-05-28T23:19:29.624Z">
+<meta property="article:published_time" content="2016-01-12T14:19:45.000Z">
+<meta property="article:modified_time" content="2020-09-11T14:36:21.671Z">
 <meta property="article:author" content="Jason">
 <meta property="article:tag" content="GC content">
 <meta property="article:tag" content="BEDtools">
@@ -175,14 +175,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2016-01-13 14:19:45" itemprop="dateCreated datePublished" datetime="2016-01-13T14:19:45+08:00">2016-01-13</time>
+              <time title="Created: 2016-01-12 22:19:45" itemprop="dateCreated datePublished" datetime="2016-01-12T22:19:45+08:00">2016-01-12</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-29 07:19:29" itemprop="dateModified" datetime="2020-05-29T07:19:29+08:00">2020-05-29</time>
+                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -206,7 +206,8 @@
 
       
         <p>statistic GC content by interval. BED format file include arget interval information. BEDTool statistic read number and extract sequence, awk statistic GC content.</p>
-<pre><code>bedtools map -a interval.bed -b sample.bam -c 10,10 -o count,concat | awk -v OFS=&quot;t&quot; &apos;{n=length($5); gc=gsub(&quot;[gcGC]&quot;, &quot;&quot;, $5); print $1,$2,$3,$4,gc/n}&apos;</code></pre><p>思路：利用bedtools的map工具，首先找到map到interval.bed中的每个interval的reads的序列，然后统计这些序列中有多少GC。 </p>
+<pre><code>bedtools map -a interval.bed -b sample.bam -c 10,10 -o count,concat | awk -v OFS=&quot;t&quot; &#39;&#123;n=length($5); gc=gsub(&quot;[gcGC]&quot;, &quot;&quot;, $5); print $1,$2,$3,$4,gc/n&#125;&#39;</code></pre>
+<p>思路：利用bedtools的map工具，首先找到map到interval.bed中的每个interval的reads的序列，然后统计这些序列中有多少GC。 </p>
 <p>缺点是，该map找到的是覆盖到interval的reads的序列，有可能read有一半与interval重叠，但bedtools会把该reads的所有序列都提出来。 </p>
 <p>PS：Bedtools是基因组特征genome feature比对工具，用起来非常非常的爽。</p>
 
@@ -215,10 +216,6 @@
     
     
     
-
-
-# <!-- Insert google ad blocks -->
-<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 
       <footer class="post-footer">
           <div class="post-tags">
@@ -310,7 +307,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">133</span>
+          <span class="site-state-item-count">134</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -319,7 +316,7 @@
         <span class="site-state-item-name">categories</span>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">139</span>
+        <span class="site-state-item-count">141</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>

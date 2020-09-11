@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 4.2.1">
+<meta name="generator" content="Hexo 5.1.1">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -27,8 +27,8 @@
 <meta property="og:site_name" content="Another Jason&#39;s blog">
 <meta property="og:description" content="SpliceMap是一个从头开始发现和比对splice junction的工具。它提供高敏感度并且支持任意长度RNA-seq 序列片段read长度. SpliceMap将RNA-seq reads比对到参考基因组上用于发现splicing junctions. 它至少拥有与当前技术条件下其它分析工具同等的灵敏度和特异性。 官网    http:&#x2F;&#x2F;web.stanford.edu&#x2F;group&#x2F;wo">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2019-03-22T02:21:55.000Z">
-<meta property="article:modified_time" content="2020-05-28T23:19:29.674Z">
+<meta property="article:published_time" content="2019-03-21T10:21:55.000Z">
+<meta property="article:modified_time" content="2020-09-11T14:36:21.739Z">
 <meta property="article:author" content="Jason">
 <meta property="article:tag" content="RNA">
 <meta name="twitter:card" content="summary">
@@ -174,14 +174,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2019-03-22 10:21:55" itemprop="dateCreated datePublished" datetime="2019-03-22T10:21:55+08:00">2019-03-22</time>
+              <time title="Created: 2019-03-21 18:21:55" itemprop="dateCreated datePublished" datetime="2019-03-21T18:21:55+08:00">2019-03-21</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-29 07:19:29" itemprop="dateModified" datetime="2020-05-29T07:19:29+08:00">2020-05-29</time>
+                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -205,15 +205,15 @@
 
       
         <p>SpliceMap是一个从头开始发现和比对splice junction的工具。它提供高敏感度并且支持任意长度RNA-seq 序列片段read长度. SpliceMap将RNA-seq reads比对到参考基因组上用于发现splicing junctions. 它至少拥有与当前技术条件下其它分析工具同等的灵敏度和特异性。</p>
-<p>官网    <a href="http://web.stanford.edu/group/wonglab/SpliceMap/manual.html">http://web.stanford.edu/group/wonglab/SpliceMap/manual.html</a></p>
-<p>下载    <a href="http://web.stanford.edu/group/wonglab/SpliceMap/download.html">http://web.stanford.edu/group/wonglab/SpliceMap/download.html</a></p>
-<p>示例教程    <a href="https://web.stanford.edu/group/wonglab/SpliceMap/tutorial.html">https://web.stanford.edu/group/wonglab/SpliceMap/tutorial.html</a></p>
+<p>官网    <a target="_blank" rel="noopener" href="http://web.stanford.edu/group/wonglab/SpliceMap/manual.html">http://web.stanford.edu/group/wonglab/SpliceMap/manual.html</a></p>
+<p>下载    <a target="_blank" rel="noopener" href="http://web.stanford.edu/group/wonglab/SpliceMap/download.html">http://web.stanford.edu/group/wonglab/SpliceMap/download.html</a></p>
+<p>示例教程    <a target="_blank" rel="noopener" href="https://web.stanford.edu/group/wonglab/SpliceMap/tutorial.html">https://web.stanford.edu/group/wonglab/SpliceMap/tutorial.html</a></p>
 <p>以官网SpliceMap 3.3.5.2 example (Linux-x86 64bit)为例，介绍如何用来自21号染色体的100k 条100bp的RNA reads寻找junction。</p>
 <p>测试是否正常./bin/runSpliceMap，如果报错的话，需要到src文件夹运行 ./install.sh ../bin来安装SpliceMap，运行./install-bowtie.sh ../bin来安装</p>
 <h1 id="示例文件夹下面的结构"><a href="#示例文件夹下面的结构" class="headerlink" title="示例文件夹下面的结构"></a>示例文件夹下面的结构</h1><pre>ls SpliceMap3352_example_linux-64
 all.gene.refFlat.txt  bin  data  genome  INSTALL  LICENSE  output  run.cfg  src  temp</pre>
 
-<h1 id="run-cfg"><a href="#run-cfg" class="headerlink" title="run.cfg"></a>run.cfg</h1><p>最重要的文件，为文本文件，包含测序reads路径，基因组文件路径，配置设置等详见<br><a href="https://web.stanford.edu/group/wonglab/SpliceMap/cfg.html，需要对每个数据集进行配置。在cfg文件中，注释以#开头，赋值用tag">https://web.stanford.edu/group/wonglab/SpliceMap/cfg.html，需要对每个数据集进行配置。在cfg文件中，注释以#开头，赋值用tag</a> = value表示，比如genome_dir = ../../genome/hg18，多值用如下表示</p>
+<h1 id="run-cfg"><a href="#run-cfg" class="headerlink" title="run.cfg"></a>run.cfg</h1><p>最重要的文件，为文本文件，包含测序reads路径，基因组文件路径，配置设置等详见<br><a target="_blank" rel="noopener" href="https://web.stanford.edu/group/wonglab/SpliceMap/cfg.html%EF%BC%8C%E9%9C%80%E8%A6%81%E5%AF%B9%E6%AF%8F%E4%B8%AA%E6%95%B0%E6%8D%AE%E9%9B%86%E8%BF%9B%E8%A1%8C%E9%85%8D%E7%BD%AE%E3%80%82%E5%9C%A8cfg%E6%96%87%E4%BB%B6%E4%B8%AD%EF%BC%8C%E6%B3%A8%E9%87%8A%E4%BB%A5#%E5%BC%80%E5%A4%B4%EF%BC%8C%E8%B5%8B%E5%80%BC%E7%94%A8tag">https://web.stanford.edu/group/wonglab/SpliceMap/cfg.html，需要对每个数据集进行配置。在cfg文件中，注释以#开头，赋值用tag</a> = value表示，比如genome_dir = ../../genome/hg18，多值用如下表示</p>
 <pre>> tag
 value_1
 value_2
@@ -276,7 +276,7 @@ R[28405]        113     chr21   14070620        255     100M    =       14070536
 
 <h1 id="debug-logs"><a href="#debug-logs" class="headerlink" title="debug_logs"></a>debug_logs</h1><p>输出log</p>
 <h1 id="用自己的数据"><a href="#用自己的数据" class="headerlink" title="用自己的数据"></a>用自己的数据</h1><p>重点修改cfg文件中genome_dir （参考基因组路径），reads_list1和2（fastq文件），annotations （基因注释文件），temp_path（中间数据存放路径），out_path（结果文件夹），bowtie_base_dir （bowtie2的index文件，如果没有，会在temp_path生成）</p>
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="https://web.stanford.edu/group/wonglab/SpliceMap/tutorial.html">https://web.stanford.edu/group/wonglab/SpliceMap/tutorial.html</a><br>大部分翻译这个tutorial，具体数据是自己跑tutorial得到的。</p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a target="_blank" rel="noopener" href="https://web.stanford.edu/group/wonglab/SpliceMap/tutorial.html">https://web.stanford.edu/group/wonglab/SpliceMap/tutorial.html</a><br>大部分翻译这个tutorial，具体数据是自己跑tutorial得到的。</p>
 <p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>#####################################################################</p>
 
     </div>
@@ -284,10 +284,6 @@ R[28405]        113     chr21   14070620        255     100M    =       14070536
     
     
     
-
-
-# <!-- Insert google ad blocks -->
-<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 
       <footer class="post-footer">
           <div class="post-tags">
@@ -365,7 +361,7 @@ R[28405]        113     chr21   14070620        255     100M    =       14070536
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#示例文件夹下面的结构"><span class="nav-number">1.</span> <span class="nav-text">示例文件夹下面的结构</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#run-cfg"><span class="nav-number">2.</span> <span class="nav-text">run.cfg</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#genome-directory"><span class="nav-number">3.</span> <span class="nav-text">genome directory</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#data-directory"><span class="nav-number">4.</span> <span class="nav-text">data directory</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#temp-directory"><span class="nav-number">5.</span> <span class="nav-text">temp directory</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#output-directory"><span class="nav-number">6.</span> <span class="nav-text">output directory</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#all-gene-refFlat-txt"><span class="nav-number">7.</span> <span class="nav-text">all.gene.refFlat.txt</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#bin"><span class="nav-number">8.</span> <span class="nav-text">bin</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#src"><span class="nav-number">9.</span> <span class="nav-text">src</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#运行SpliceMap"><span class="nav-number">10.</span> <span class="nav-text">运行SpliceMap</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#输出结果文件夹output"><span class="nav-number">11.</span> <span class="nav-text">输出结果文件夹output</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#junction-color-bed"><span class="nav-number">12.</span> <span class="nav-text">junction_color.bed</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#junction-color-new-bed"><span class="nav-number">13.</span> <span class="nav-text">junction_color.new.bed</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#junction-nUM-color-bed"><span class="nav-number">14.</span> <span class="nav-text">junction_nUM_color.bed</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#junction-nUM-color-new-bed"><span class="nav-number">15.</span> <span class="nav-text">junction_nUM_color.new.bed</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#coverage-up-wig"><span class="nav-number">16.</span> <span class="nav-text">coverage_up.wig</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#coverage-down-wig"><span class="nav-number">17.</span> <span class="nav-text">coverage_down.wig</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#coverage-all-wig"><span class="nav-number">18.</span> <span class="nav-text">coverage_all.wig</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#good-hits-sam"><span class="nav-number">19.</span> <span class="nav-text">good_hits.sam</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#debug-logs"><span class="nav-number">20.</span> <span class="nav-text">debug_logs</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#用自己的数据"><span class="nav-number">21.</span> <span class="nav-text">用自己的数据</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">22.</span> <span class="nav-text">参考</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B%E6%96%87%E4%BB%B6%E5%A4%B9%E4%B8%8B%E9%9D%A2%E7%9A%84%E7%BB%93%E6%9E%84"><span class="nav-number">1.</span> <span class="nav-text">示例文件夹下面的结构</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#run-cfg"><span class="nav-number">2.</span> <span class="nav-text">run.cfg</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#genome-directory"><span class="nav-number">3.</span> <span class="nav-text">genome directory</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#data-directory"><span class="nav-number">4.</span> <span class="nav-text">data directory</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#temp-directory"><span class="nav-number">5.</span> <span class="nav-text">temp directory</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#output-directory"><span class="nav-number">6.</span> <span class="nav-text">output directory</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#all-gene-refFlat-txt"><span class="nav-number">7.</span> <span class="nav-text">all.gene.refFlat.txt</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#bin"><span class="nav-number">8.</span> <span class="nav-text">bin</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#src"><span class="nav-number">9.</span> <span class="nav-text">src</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%BF%90%E8%A1%8CSpliceMap"><span class="nav-number">10.</span> <span class="nav-text">运行SpliceMap</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%BE%93%E5%87%BA%E7%BB%93%E6%9E%9C%E6%96%87%E4%BB%B6%E5%A4%B9output"><span class="nav-number">11.</span> <span class="nav-text">输出结果文件夹output</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#junction-color-bed"><span class="nav-number">12.</span> <span class="nav-text">junction_color.bed</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#junction-color-new-bed"><span class="nav-number">13.</span> <span class="nav-text">junction_color.new.bed</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#junction-nUM-color-bed"><span class="nav-number">14.</span> <span class="nav-text">junction_nUM_color.bed</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#junction-nUM-color-new-bed"><span class="nav-number">15.</span> <span class="nav-text">junction_nUM_color.new.bed</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#coverage-up-wig"><span class="nav-number">16.</span> <span class="nav-text">coverage_up.wig</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#coverage-down-wig"><span class="nav-number">17.</span> <span class="nav-text">coverage_down.wig</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#coverage-all-wig"><span class="nav-number">18.</span> <span class="nav-text">coverage_all.wig</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#good-hits-sam"><span class="nav-number">19.</span> <span class="nav-text">good_hits.sam</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#debug-logs"><span class="nav-number">20.</span> <span class="nav-text">debug_logs</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%94%A8%E8%87%AA%E5%B7%B1%E7%9A%84%E6%95%B0%E6%8D%AE"><span class="nav-number">21.</span> <span class="nav-text">用自己的数据</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">22.</span> <span class="nav-text">参考</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -379,7 +375,7 @@ R[28405]        113     chr21   14070620        255     100M    =       14070536
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">133</span>
+          <span class="site-state-item-count">134</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -388,7 +384,7 @@ R[28405]        113     chr21   14070620        255     100M    =       14070536
         <span class="site-state-item-name">categories</span>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">139</span>
+        <span class="site-state-item-count">141</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>

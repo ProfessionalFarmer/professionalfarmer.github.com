@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 4.2.1">
+<meta name="generator" content="Hexo 5.1.1">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -29,8 +29,8 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-04-25-EXON-CNV-call-rate.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-04-25-EXON-CNV-PPV-PPA.png">
-<meta property="article:published_time" content="2018-04-26T00:53:36.000Z">
-<meta property="article:modified_time" content="2020-05-28T23:19:29.663Z">
+<meta property="article:published_time" content="2018-04-25T08:53:36.000Z">
+<meta property="article:modified_time" content="2020-09-11T14:36:21.723Z">
 <meta property="article:author" content="Jason">
 <meta property="article:tag" content="CNV">
 <meta property="article:tag" content="Copynumber">
@@ -180,14 +180,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2018-04-26 08:53:36" itemprop="dateCreated datePublished" datetime="2018-04-26T08:53:36+08:00">2018-04-26</time>
+              <time title="Created: 2018-04-25 16:53:36" itemprop="dateCreated datePublished" datetime="2018-04-25T16:53:36+08:00">2018-04-25</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-29 07:19:29" itemprop="dateModified" datetime="2020-05-29T07:19:29+08:00">2020-05-29</time>
+                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -214,12 +214,12 @@
 <h1 id="需要解决的实践问题"><a href="#需要解决的实践问题" class="headerlink" title="需要解决的实践问题"></a>需要解决的实践问题</h1><p>1）成本问题：如果利用原有测序数据（全外显子测序数据或panel 测序），而不重复进行实验，实现一次测序，解决多种问题<br>2）灵敏度和特异性的问题：希望在高灵敏度的情况下，获得尽可能高的特异性<br>3）分辨率：需要外显子水平而非基因组范围内的拷贝数变异</p>
 <h1 id="样本"><a href="#样本" class="headerlink" title="样本"></a>样本</h1><p>我们测了Coriell的已知有特定基因拷贝数变异的样本作为阳性样本，把正常人的样本作为对照样本</p>
 <h1 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h1><p>随着分析技术的发展，针对外显子水平的分析工具开始出现，CoNVaDING、DECoN、PureCN、panelcn.MOPS、ExomeDepth、CODEX2，这些软件都利用了外显子区域的覆盖度信息，用参考基因组GC含量校正，然后根据不同算法来识别拷贝数变异。<br>从中选择了两种最新的软件CoNVaDING和DECoN。因为这两种软件不需要配对样本数据，只需提供实验样本和对照样本组即可，另外这两个软件较新。<br>CoNVaDING利用一组可能的对照样本，并从中选择模式pattern最相似的样本作为对照样本，并对每个基因所有目标区域的depth进行标准化，通过比较阳性样本和对照样本之间计算z score和ratio score判断外显子是否发生拷贝数变异。DECoN则是对ExomeDepth工具进行了优化，而ExomeDepth利用贝塔二项分布来描述特定区域正常样本和对照样本的覆盖度比值，用隐马尔可夫模型来预测。</p>
-<p>DECoN    1.0.1    外显子拷贝数检测软件   <a href="https://github.com/RahmanTeam/DECoN">https://github.com/RahmanTeam/DECoN</a><br>CoNVaDING    1.2.0    外显子拷贝数检测软件   <a href="https://github.com/molgenis/CoNVaDING">https://github.com/molgenis/CoNVaDING</a></p>
+<p>DECoN    1.0.1    外显子拷贝数检测软件   <a target="_blank" rel="noopener" href="https://github.com/RahmanTeam/DECoN">https://github.com/RahmanTeam/DECoN</a><br>CoNVaDING    1.2.0    外显子拷贝数检测软件   <a target="_blank" rel="noopener" href="https://github.com/molgenis/CoNVaDING">https://github.com/molgenis/CoNVaDING</a></p>
 <h1 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h1><p>我们做了很多工作来验证拷贝数分析工具的性能，涉及数据问题，只能简略的讨论一下CoNVaDING和DECoN的性能。</p>
 <h2 id="lt-灵敏度-gt"><a href="#lt-灵敏度-gt" class="headerlink" title="&lt;灵敏度&gt;"></a>&lt;灵敏度&gt;</h2><p>灵敏度 PPA = Sensitivity = True positive/(True positive + false negative)</p>
-<p>我们的多个拷贝数阳性样本，总共有22个外显子DUP和40个外显子DEL（分布在不同阳性样本上，且区域不尽相同）。各个流程的结果如下图，<br><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-04-25-EXON-CNV-call-rate.png" alt=""></p>
+<p>我们的多个拷贝数阳性样本，总共有22个外显子DUP和40个外显子DEL（分布在不同阳性样本上，且区域不尽相同）。各个流程的结果如下图，<br><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-04-25-EXON-CNV-call-rate.png"></p>
 <p>可以看出CoNVaDING、DECoN和自研流程都将大部分外显子水平的拷贝数变异检测出，特别是DEL变异。检测性能最好的是DECoN，40个DEL变异全部检测出，而22个DUP变异中检测出21个。我们自己研发的流程和CoNVaDING都检测出了22个DUP变异中的18个。这说明检测的灵敏度尚可，且DECoN最佳。</p>
-<h2 id="lt-特异性-gt"><a href="#lt-特异性-gt" class="headerlink" title="&lt;特异性&gt;"></a>&lt;特异性&gt;</h2><p>如果我能检测出拷贝数变异，但是存在于100个假阳性中，从这么多假阳性变异中找到真的拷贝数变异无疑是一项巨大的工作。所以我们要尽可能的提高特异性。<br>特异度 PPV = Specificity = True negative/(True negative + false positive)<br>各流程的灵敏度和特异性结果如下图<br><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-04-25-EXON-CNV-PPV-PPA.png" alt=""><br>可以看出，DECoN的性能又是最佳，特异性达到了88%。自研流程因为缺陷问题，PPV最小。</p>
+<h2 id="lt-特异性-gt"><a href="#lt-特异性-gt" class="headerlink" title="&lt;特异性&gt;"></a>&lt;特异性&gt;</h2><p>如果我能检测出拷贝数变异，但是存在于100个假阳性中，从这么多假阳性变异中找到真的拷贝数变异无疑是一项巨大的工作。所以我们要尽可能的提高特异性。<br>特异度 PPV = Specificity = True negative/(True negative + false positive)<br>各流程的灵敏度和特异性结果如下图<br><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-04-25-EXON-CNV-PPV-PPA.png"><br>可以看出，DECoN的性能又是最佳，特异性达到了88%。自研流程因为缺陷问题，PPV最小。</p>
 <h2 id="lt-其他-gt"><a href="#lt-其他-gt" class="headerlink" title="&lt;其他&gt;"></a>&lt;其他&gt;</h2><p>我们还比较了对照样本数目对外显子拷贝数变异分析的影响，比较了DUP和DEL类别下的各流程的灵敏度和特异性。结果均显示DECoN可以在少量对照样本的情况下，达到分析要求，展示出最优异的性能。</p>
 <h1 id="结论和讨论"><a href="#结论和讨论" class="headerlink" title="结论和讨论"></a>结论和讨论</h1><p>DECoN与CoNVaDING比起来，DECoN的性能更加，可以用来检测外显子水平的拷贝数变异。<br>1）在分析外显子拷贝数变异时应增加对照样本数目，提高PPV和PPA指标。此外在挑选对照样本时，应尽量选择与阳性样本同一测序平台、同一测序批次、相近数据量的样本。<br>2）在分析特定基因的外显子拷贝数变异时，不应只提供目标基因的区域，而应提供更多的额外基因区域，供软件来分析基因覆盖度的范式pattern，以提高软件分析目标区域外显子拷贝时的性能。</p>
 <a id="more"></a>
@@ -241,10 +241,6 @@ Rscript makeCNVcalls.R --Rdata result.RData --transProb 0.01  --custom FALSE --o
     
     
     
-
-
-# <!-- Insert google ad blocks -->
-<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 
       <footer class="post-footer">
           <div class="post-tags">
@@ -325,7 +321,7 @@ Rscript makeCNVcalls.R --Rdata result.RData --transProb 0.01  --custom FALSE --o
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#目的"><span class="nav-number">1.</span> <span class="nav-text">目的</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#需要解决的实践问题"><span class="nav-number">2.</span> <span class="nav-text">需要解决的实践问题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#样本"><span class="nav-number">3.</span> <span class="nav-text">样本</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#工具"><span class="nav-number">4.</span> <span class="nav-text">工具</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#结果"><span class="nav-number">5.</span> <span class="nav-text">结果</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#lt-灵敏度-gt"><span class="nav-number">5.1.</span> <span class="nav-text">&lt;灵敏度&gt;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#lt-特异性-gt"><span class="nav-number">5.2.</span> <span class="nav-text">&lt;特异性&gt;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#lt-其他-gt"><span class="nav-number">5.3.</span> <span class="nav-text">&lt;其他&gt;</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#结论和讨论"><span class="nav-number">6.</span> <span class="nav-text">结论和讨论</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#背景"><span class="nav-number">7.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#流程"><span class="nav-number">8.</span> <span class="nav-text">流程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#CoNVaDING分析流程："><span class="nav-number">8.1.</span> <span class="nav-text">CoNVaDING分析流程：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DECoN分析流程："><span class="nav-number">8.2.</span> <span class="nav-text">DECoN分析流程：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自研分析流程："><span class="nav-number">8.3.</span> <span class="nav-text">自研分析流程：</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%9B%AE%E7%9A%84"><span class="nav-number">1.</span> <span class="nav-text">目的</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%9C%80%E8%A6%81%E8%A7%A3%E5%86%B3%E7%9A%84%E5%AE%9E%E8%B7%B5%E9%97%AE%E9%A2%98"><span class="nav-number">2.</span> <span class="nav-text">需要解决的实践问题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%A0%B7%E6%9C%AC"><span class="nav-number">3.</span> <span class="nav-text">样本</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B7%A5%E5%85%B7"><span class="nav-number">4.</span> <span class="nav-text">工具</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BB%93%E6%9E%9C"><span class="nav-number">5.</span> <span class="nav-text">结果</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#lt-%E7%81%B5%E6%95%8F%E5%BA%A6-gt"><span class="nav-number">5.1.</span> <span class="nav-text">&lt;灵敏度&gt;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#lt-%E7%89%B9%E5%BC%82%E6%80%A7-gt"><span class="nav-number">5.2.</span> <span class="nav-text">&lt;特异性&gt;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#lt-%E5%85%B6%E4%BB%96-gt"><span class="nav-number">5.3.</span> <span class="nav-text">&lt;其他&gt;</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BB%93%E8%AE%BA%E5%92%8C%E8%AE%A8%E8%AE%BA"><span class="nav-number">6.</span> <span class="nav-text">结论和讨论</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%83%8C%E6%99%AF"><span class="nav-number">7.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B5%81%E7%A8%8B"><span class="nav-number">8.</span> <span class="nav-text">流程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#CoNVaDING%E5%88%86%E6%9E%90%E6%B5%81%E7%A8%8B%EF%BC%9A"><span class="nav-number">8.1.</span> <span class="nav-text">CoNVaDING分析流程：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DECoN%E5%88%86%E6%9E%90%E6%B5%81%E7%A8%8B%EF%BC%9A"><span class="nav-number">8.2.</span> <span class="nav-text">DECoN分析流程：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%87%AA%E7%A0%94%E5%88%86%E6%9E%90%E6%B5%81%E7%A8%8B%EF%BC%9A"><span class="nav-number">8.3.</span> <span class="nav-text">自研分析流程：</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -339,7 +335,7 @@ Rscript makeCNVcalls.R --Rdata result.RData --transProb 0.01  --custom FALSE --o
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">133</span>
+          <span class="site-state-item-count">134</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -348,7 +344,7 @@ Rscript makeCNVcalls.R --Rdata result.RData --transProb 0.01  --custom FALSE --o
         <span class="site-state-item-name">categories</span>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">139</span>
+        <span class="site-state-item-count">141</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>

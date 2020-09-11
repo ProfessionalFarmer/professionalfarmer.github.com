@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 4.2.1">
+<meta name="generator" content="Hexo 5.1.1">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -27,8 +27,8 @@
 <meta property="og:site_name" content="Another Jason&#39;s blog">
 <meta property="og:description" content="SRA(NCBI) stores all the sequencing run as single “sra” or “lite.sra” file. You may want separate files if you want to use the data from paired-end sequencing. When I run SRA toolkit’s “fastq-dump” ut">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2013-06-21T05:29:02.000Z">
-<meta property="article:modified_time" content="2020-05-28T23:19:29.602Z">
+<meta property="article:published_time" content="2013-06-20T13:29:02.000Z">
+<meta property="article:modified_time" content="2020-09-11T14:36:21.639Z">
 <meta property="article:author" content="Jason">
 <meta property="article:tag" content="SRA">
 <meta name="twitter:card" content="summary">
@@ -174,14 +174,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2013-06-21 13:29:02" itemprop="dateCreated datePublished" datetime="2013-06-21T13:29:02+08:00">2013-06-21</time>
+              <time title="Created: 2013-06-20 21:29:02" itemprop="dateCreated datePublished" datetime="2013-06-20T21:29:02+08:00">2013-06-20</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-29 07:19:29" itemprop="dateModified" datetime="2020-05-29T07:19:29+08:00">2020-05-29</time>
+                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -206,8 +206,8 @@
       
         <p>SRA(NCBI) stores all the sequencing run as single “sra” or “lite.sra” file. You may want separate files if you want to use the data from paired-end sequencing. When I run SRA toolkit’s “fastq-dump” utility on paired-end sequencing SRA files, sometimes I get only one files where all the mate-pairs are stored in one file rather than two or three files. The solution for the problem is to always run fastq-dump with “-split-3” option. If the experiment is single-end sequencing, only one fastq file will be generated. If it is paired-end sequencing, there may be two or three fastq files. Two files (with suffix “1” and “2”) are matched mate-pair read file where as the third one (without any suffix) contains all the reads that do not have any mate-paires (or SRA couldn’t resolve mate-paires for them).</p>
 <p>Hope my experiences with NCBI SRA data handling help the readership.</p>
-<p>source：<a href="http://vinaykmittal.blogspot.com/2012/02/how-to-extract-paired-end-reads-from.html" title="http://vinaykmittal.blogspot.com/2012/02/how-to-extract-paired-end-reads-from.html"></a></p>
-<p>SRA toolkit document：<a href="http://www.ncbi.nlm.nih.gov/Traces/sra/sra.cgi?view=toolkit_doc&f=fastq-dump" title="http://www.ncbi.nlm.nih.gov/Traces/sra/sra.cgi?view=toolkit_doc&amp;f=fastq-dump"></a></p>
+<p>source：<a target="_blank" rel="noopener" href="http://vinaykmittal.blogspot.com/2012/02/how-to-extract-paired-end-reads-from.html" title="http://vinaykmittal.blogspot.com/2012/02/how-to-extract-paired-end-reads-from.html"></a></p>
+<p>SRA toolkit document：<a target="_blank" rel="noopener" href="http://www.ncbi.nlm.nih.gov/Traces/sra/sra.cgi?view=toolkit_doc&f=fastq-dump" title="http://www.ncbi.nlm.nih.gov/Traces/sra/sra.cgi?view=toolkit_doc&amp;f=fastq-dump"></a></p>
 <p>An example command:</p>
 <p><code>./fastq-dump.2 -split-3 ~/Desktop/ERR068552.sra -O ~/Desktop/temp.fastaq/</code></p>
 <p>PS: 如果测序使用的是ligation，结果为2 base encoding的color-space reads，可以加入-B选项使得fastq中的序列为base space reads</p>
@@ -217,10 +217,6 @@
     
     
     
-
-
-# <!-- Insert google ad blocks -->
-<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 
       <footer class="post-footer">
           <div class="post-tags">
@@ -311,7 +307,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">133</span>
+          <span class="site-state-item-count">134</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -320,7 +316,7 @@
         <span class="site-state-item-name">categories</span>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">139</span>
+        <span class="site-state-item-count">141</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>

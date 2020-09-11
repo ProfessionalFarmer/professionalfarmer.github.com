@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 4.2.1">
+<meta name="generator" content="Hexo 5.1.1">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -147,6 +147,87 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/724/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="Share news">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Another Jason's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/archives/724/" class="post-title-link" itemprop="url">人基因组每条染色体的GC含量GC content of human chromosomes</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-01-10 22:04:53" itemprop="dateCreated datePublished" datetime="2016-01-10T22:04:53+08:00">2016-01-10</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>The GC content is the molar ratio of guanine+cytosine bases in DNA. The human genome is a mosaic of GC-rich and GC-poor regions, of around 300kb in length, called isochores. GC content is an important factor in many experiments and bioinformatic analysis. This is especially true for next-generation sequencing where the DNA being sequenced has gone through multiple rounds of PCR amplification.<br><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2016-01-10-chr_gc_content.png"> </p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/archives/724/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/722/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -171,14 +252,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2016-01-11 05:57:37" itemprop="dateCreated datePublished" datetime="2016-01-11T05:57:37+08:00">2016-01-11</time>
+              <time title="Created: 2016-01-10 13:57:37" itemprop="dateCreated datePublished" datetime="2016-01-10T13:57:37+08:00">2016-01-10</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-29 07:19:29" itemprop="dateModified" datetime="2020-05-29T07:19:29+08:00">2020-05-29</time>
+                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -202,7 +283,7 @@
 
       
           <p>在得到下机数据之后，首先会对下机数据进行质控，并对碱基质量碱基分布等进行统计和绘图，得到质控报告。大家常用的质控软件有Faxtx tookit，fastqc，Trimmomatic 等，但出图要么是自己根据统计结果自己画图要么是用fastqc的图。个人觉得fastqc的图有点土，于是找到了Rqc包，顾名思义R quality control。发现国内没有人介绍该包，在此向广大人民群众推荐该包。</p>
-<p><strong>Rqc包</strong>的介绍网址在<a href="http://www.bioconductor.org/packages/release/bioc/html/Rqc.html" title="http://www.bioconductor.org/packages/release/bioc/html/Rqc.html">http://www.bioconductor.org/packages/release/bioc/html/Rqc.html</a></p>
+<p><strong>Rqc包</strong>的介绍网址在<a target="_blank" rel="noopener" href="http://www.bioconductor.org/packages/release/bioc/html/Rqc.html" title="http://www.bioconductor.org/packages/release/bioc/html/Rqc.html">http://www.bioconductor.org/packages/release/bioc/html/Rqc.html</a></p>
 <p>有两种安装方式，<br><strong>一种是通过bioconductor</strong><br><code>source(&quot;http://bioconductor.org/biocLite.R&quot;)</code></p>
 <h1 id="如果下载包的网速非常慢，请更换镜像chooseBioCmirror"><a href="#如果下载包的网速非常慢，请更换镜像chooseBioCmirror" class="headerlink" title="如果下载包的网速非常慢，请更换镜像chooseBioCmirror()"></a>如果下载包的网速非常慢，请更换镜像chooseBioCmirror()</h1><p><code>biocLite(&quot;Rqc&quot;)</code></p>
 <p><strong>另一种方式是通过github</strong></p>
@@ -216,7 +297,7 @@ folder rqc(path = folder, pattern = ".fastq.gz")</pre>
 
 <p>结果输出如下：</p>
 <p><strong>read质量分布Per Read Mean Quality Distribution of Files</strong></p>
-<p>![](<a href="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2016-01-10-Rqc-intro/Per">https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2016-01-10-Rqc-intro/Per</a> Read Mean Quality Distribution of Files.png)</p>
+<p>![](<a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2016-01-10-Rqc-intro/Per">https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2016-01-10-Rqc-intro/Per</a> Read Mean Quality Distribution of Files.png)</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/archives/722/#more" rel="contents">
@@ -231,10 +312,6 @@ folder rqc(path = folder, pattern = ".fastq.gz")</pre>
     
     
     
-
-
-# <!-- Insert google ad blocks -->
-<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
       <footer class="post-footer">
         <div class="post-eof"></div>
       </footer>
@@ -271,14 +348,14 @@ folder rqc(path = folder, pattern = ".fastq.gz")</pre>
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2016-01-10 17:41:52" itemprop="dateCreated datePublished" datetime="2016-01-10T17:41:52+08:00">2016-01-10</time>
+              <time title="Created: 2016-01-10 01:41:52" itemprop="dateCreated datePublished" datetime="2016-01-10T01:41:52+08:00">2016-01-10</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-29 07:19:29" itemprop="dateModified" datetime="2020-05-29T07:19:29+08:00">2020-05-29</time>
+                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -307,7 +384,7 @@ folder rqc(path = folder, pattern = ".fastq.gz")</pre>
 <p>PCA分析通过分解协方差矩阵，找的是N个属性中对方差贡献靠前的X个属性，即能解释大部分variance。<br>样本1=0.5<em>属性1N1+0.2</em>属性1N4<br>样本2=0.5<em>属性1N2+0.2</em>属性2N4</p>
 <p>NMF分析找的是X组包含对N个属性的加权值（或系数）的向量（每个属性的分解成由X个特征表示）， M<em>N=M</em>X x X<em>N，M</em>N为原始矩阵，M<em>X为基矩阵（每一列对应X组特征的基值），X</em>N为系数矩阵（每一行为一组特征）。最终还是利用了N个属性，但是利用的X组特征，每一组特征包含不同权重的N个属，X组特征共同对原始值有贡献（贡献的强度不同而已）。<br>样本1=0.5<em>特征a+0.2</em>特征b+0.3<em>特征c<br>样本2=0.1</em>特征a+0.2<em>特征b+0.7</em>特征c</p>
 <p>PCA主要用于降维<br>NMF应用于非负的矩阵，一是可以降维，二还可以提取特征，看哪些特征贡献大。</p>
-<p>参考阅读：<br><a href="http://www.cnblogs.com/zhangchaoyang/articles/2222048.html">http://www.cnblogs.com/zhangchaoyang/articles/2222048.html</a><br><a href="http://blog.csdn.net/acdreamers/article/details/44663421">http://blog.csdn.net/acdreamers/article/details/44663421</a></p>
+<p>参考阅读：<br><a target="_blank" rel="noopener" href="http://www.cnblogs.com/zhangchaoyang/articles/2222048.html">http://www.cnblogs.com/zhangchaoyang/articles/2222048.html</a><br><a target="_blank" rel="noopener" href="http://blog.csdn.net/acdreamers/article/details/44663421">http://blog.csdn.net/acdreamers/article/details/44663421</a></p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/archives/721/#more" rel="contents">
@@ -322,10 +399,6 @@ folder rqc(path = folder, pattern = ".fastq.gz")</pre>
     
     
     
-
-
-# <!-- Insert google ad blocks -->
-<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
       <footer class="post-footer">
         <div class="post-eof"></div>
       </footer>
@@ -362,14 +435,14 @@ folder rqc(path = folder, pattern = ".fastq.gz")</pre>
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2016-01-09 17:26:21" itemprop="dateCreated datePublished" datetime="2016-01-09T17:26:21+08:00">2016-01-09</time>
+              <time title="Created: 2016-01-09 01:26:21" itemprop="dateCreated datePublished" datetime="2016-01-09T01:26:21+08:00">2016-01-09</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-29 07:19:29" itemprop="dateModified" datetime="2020-05-29T07:19:29+08:00">2020-05-29</time>
+                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -395,18 +468,20 @@ folder rqc(path = folder, pattern = ".fastq.gz")</pre>
           <h2 id="一，介绍"><a href="#一，介绍" class="headerlink" title="一，介绍"></a>一，介绍</h2><p>BreakDancer包含两个互补的程序：BreakDancerMax和BreakDancerMini。</p>
 <p>BreakDancerMax根据二代测序read比对时，出现的异常比对，预测插入，缺失，倒位，染色体间或染色体内易位等五种结构突变。 </p>
 <p>BreakDancerMini则侧重于检测small indel。新版本的breakdancer已经不在包含BreakDancerMini，作者推荐使用<strong>Pindel</strong>检测small indels (10-80 bp)。</p>
-<p>项目地址：<a href="https://github.com/genome/breakdancer" title="https://github.com/genome/breakdancer">https://github.com/genome/breakdancer</a> <a href="http://breakdancer.sourceforge.net/" title="http://breakdancer.sourceforge.net/">http://breakdancer.sourceforge.net/</a></p>
+<p>项目地址：<a target="_blank" rel="noopener" href="https://github.com/genome/breakdancer" title="https://github.com/genome/breakdancer">https://github.com/genome/breakdancer</a> <a target="_blank" rel="noopener" href="http://breakdancer.sourceforge.net/" title="http://breakdancer.sourceforge.net/">http://breakdancer.sourceforge.net/</a></p>
 <h2 id="二，安装"><a href="#二，安装" class="headerlink" title="二，安装"></a>二，安装</h2><p>BreakDancer利用跨平台编译工具cmake进行编译,如果没有安装cmake，要先安装cmake<br><code>$ sudo apt-get install cmake</code></p>
 <p>git clone BreakDancer项目到本地，–recursive要添加，因为添加这个参数之后，BreakDancer引用的其他模块才会一并克隆到本地。modules说明在.gitmodules文件中。 </p>
 <p><code>$ git clone --recursive https://github.com/genome/breakdancer.git</code> </p>
 <p>创建build文件夹，并进入</p>
 <pre><code>$ cd breakdancer 
 $ mkdir build 
-$ cd build</code></pre><p>执行cmake命令，指定编译发行版，并制定安装路径</p>
+$ cd build</code></pre>
+<p>执行cmake命令，指定编译发行版，并制定安装路径</p>
 <p><code>$ cmake .. -DCMAKE_BUILD_TYPE=release -DCMAKE_INSTALL_PREFIX=/usr/local</code> </p>
 <p>编译 </p>
 <pre><code>$ make 
-$ sudo make install</code></pre><p>有些教程提到要将samtools的路径添加到系统变量中，即在<del>/.profile或者</del>./bashrc中export PATH=”${PATH}:/path/to/samtools。因为本人的服务器samtools本来就在环境变量中，所以没有设置，我在后续运行过程中发现breakdancer会调用samtools，所以请确保samtools在环境变量中。</p>
+$ sudo make install</code></pre>
+<p>有些教程提到要将samtools的路径添加到系统变量中，即在<del>/.profile或者</del>./bashrc中export PATH=”${PATH}:/path/to/samtools。因为本人的服务器samtools本来就在环境变量中，所以没有设置，我在后续运行过程中发现breakdancer会调用samtools，所以请确保samtools在环境变量中。</p>
 <p>在/path/tp/breakdancer/build/bin的目录下，会看到breakdancer-max。运行下试试，是不是正确输出了用法啦。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">$ ./breakdancer-max</span><br><span class="line"></span><br><span class="line">breakdancer-max version 1.4.5-unstable-66-4e44b43 (commit 4e44b43)</span><br><span class="line"></span><br><span class="line">Usage: breakdancer-max</span><br><span class="line"></span><br><span class="line">Options:</span><br><span class="line">-o STRING operate on a single chromosome [all chromosome]</span><br><span class="line">-s INT minimum length of a region [7]</span><br><span class="line">-c INT cutoff <span class="keyword">in</span> unit of standard deviation [3]</span><br><span class="line">-m INT maximum SV size [1000000000]</span><br><span class="line">-q INT minimum alternative mapping quality [35]</span><br><span class="line">-r INT minimum number of <span class="built_in">read</span> pairs required to establish a connection [2]</span><br><span class="line">-x INT maximum threshold of haploid sequence coverage <span class="keyword">for</span> regions to be ignored [1000]</span><br><span class="line">-b INT buffer size <span class="keyword">for</span> building connection [100]</span><br><span class="line">-t only detect transchromosomal rearrangement, by default off</span><br><span class="line">-d STRING prefix of fastq files that SV supporting reads will be saved by library</span><br><span class="line">-g STRING dump SVs and supporting reads <span class="keyword">in</span> BED format <span class="keyword">for</span> GBrowse</span><br><span class="line">-l analyze Illumina long insert (mate-pair) library</span><br><span class="line">-a <span class="built_in">print</span> out copy number and support reads per library rather than per bam, by default off</span><br><span class="line">-h <span class="built_in">print</span> out Allele Frequency column, by default off</span><br><span class="line">-y INT output score filter [30]</span><br></pre></td></tr></table></figure>
 
@@ -420,14 +495,15 @@ $ sudo make install</code></pre><p>有些教程提到要将samtools的路径添�
 <h3 id="配置bam2cfg-pl所依赖的包"><a href="#配置bam2cfg-pl所依赖的包" class="headerlink" title="配置bam2cfg.pl所依赖的包"></a>配置bam2cfg.pl所依赖的包</h3><p>bam2cfg.pl在/path/to/breakdancer/perl/中,但是在运行bam2cfg.pl时报错： </p>
 <p>还有其他各种各样的错，比如安装GD时，提示我’YAML’ not installed，安装yaml提示我 libyaml-cpp0.3-dev : Conflicts: libyaml-cpp-dev but 0.5.1-1 is to be installed E: Unable to correct problems, you have held broken packages. 还提示我Could not find gdlib-config in the search path. Please install libgd 2.0.28 or higher. Warning: ExtUtils::CBuilder not installed or no compiler detected Has already been unwrapped into directory .cpan/build/GD-2.56-hyKkKj ‘/usr/bin/perl Build.PL –installdirs site’ returned status 512, won’t make等等 </p>
 <p>解决办法，下面按顺序包含了解决我运行bam2cfg.pl时遇到问题的命令：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get install aptitude</span><br><span class="line">$ sudo aptitude install yaml* <span class="comment">#解决 install YAML # 'YAML' not installed libyaml-cpp0.3-dev : Conflicts: libyaml-cpp-dev but 0.5.1-1 is to be installed E: Unable to correct problems, you have held broken packages.</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">$ wget https://github.com/libgd/libgd/releases/download/gd-2.1.1/libgd-2.1.1.tar.gz -P ./</span><br><span class="line">$ tar -xvzf libgd-2.1.1.tar.gz</span><br><span class="line">$ <span class="built_in">cd</span> libgd-2.1.1</span><br><span class="line">$ ./configure</span><br><span class="line">$ make</span><br><span class="line">$ sudo make install</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">$ sudo apt-get -y install libgd2-xpm-dev build-essential <span class="comment">#Could not find gdlib-config in the</span></span><br><span class="line">$ search path. Please install libgd 2.0.28 or higher.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#install GD</span></span><br><span class="line"><span class="comment">#解决Checking for stray libgd header files...none found.</span></span><br><span class="line">$ wget http://search.cpan.org/CPAN/authors/id/L/LD/LDS/GD-2.53.tar.gz -P ./</span><br><span class="line">$ tar -xvzf GD-2.53.tar.gz</span><br><span class="line">$ <span class="built_in">cd</span> GD-2.53</span><br><span class="line">$ perl Makefile.PL</span><br><span class="line">$ make</span><br><span class="line">$ make install</span><br><span class="line">$ <span class="built_in">cd</span> ../</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#install dependency</span></span><br><span class="line"><span class="comment">#need sudo，解决依赖</span></span><br><span class="line">$ sudo cpan install ExtUtils::CBuilder</span><br><span class="line">$ sudo cpan install YAML</span><br><span class="line">$ sudo cpan install GD::Text</span><br><span class="line">$ sudo cpan install GD::Graph</span><br><span class="line">$ sudo cpan install GD::Graph::histogram</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get install aptitude</span><br><span class="line">$ sudo aptitude install yaml* <span class="comment">#解决 install YAML # &#x27;YAML&#x27; not installed libyaml-cpp0.3-dev : Conflicts: libyaml-cpp-dev but 0.5.1-1 is to be installed E: Unable to correct problems, you have held broken packages.</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">$ wget https://github.com/libgd/libgd/releases/download/gd-2.1.1/libgd-2.1.1.tar.gz -P ./</span><br><span class="line">$ tar -xvzf libgd-2.1.1.tar.gz</span><br><span class="line">$ <span class="built_in">cd</span> libgd-2.1.1</span><br><span class="line">$ ./configure</span><br><span class="line">$ make</span><br><span class="line">$ sudo make install</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">$ sudo apt-get -y install libgd2-xpm-dev build-essential <span class="comment">#Could not find gdlib-config in the</span></span><br><span class="line">$ search path. Please install libgd 2.0.28 or higher.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#install GD</span></span><br><span class="line"><span class="comment">#解决Checking for stray libgd header files...none found.</span></span><br><span class="line">$ wget http://search.cpan.org/CPAN/authors/id/L/LD/LDS/GD-2.53.tar.gz -P ./</span><br><span class="line">$ tar -xvzf GD-2.53.tar.gz</span><br><span class="line">$ <span class="built_in">cd</span> GD-2.53</span><br><span class="line">$ perl Makefile.PL</span><br><span class="line">$ make</span><br><span class="line">$ make install</span><br><span class="line">$ <span class="built_in">cd</span> ../</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#install dependency</span></span><br><span class="line"><span class="comment">#need sudo，解决依赖</span></span><br><span class="line">$ sudo cpan install ExtUtils::CBuilder</span><br><span class="line">$ sudo cpan install YAML</span><br><span class="line">$ sudo cpan install GD::Text</span><br><span class="line">$ sudo cpan install GD::Graph</span><br><span class="line">$ sudo cpan install GD::Graph::histogram</span><br></pre></td></tr></table></figure>
 
-<p>其实，我前面的文章中就提到过安装GD module，而且也把脚本和模块打包了，不过当时我是找的别人的脚本，想知道在哪吗，<a href="http://wp.zxzyl.com/?p=81" title="自己去找">自己去找</a>（来打我呀）。今天心血来潮非要想自己解决，折腾了一天。亲，我告诉你，一定要先安装libgd，别问我为什么，妹的，我一层一层解决问题，最终发现先安装libgd就可以了（cry）。</p>
+<p>其实，我前面的文章中就提到过安装GD module，而且也把脚本和模块打包了，不过当时我是找的别人的脚本，想知道在哪吗，<a target="_blank" rel="noopener" href="http://wp.zxzyl.com/?p=81" title="自己去找">自己去找</a>（来打我呀）。今天心血来潮非要想自己解决，折腾了一天。亲，我告诉你，一定要先安装libgd，别问我为什么，妹的，我一层一层解决问题，最终发现先安装libgd就可以了（cry）。</p>
 <p>此时运行bam2cfg.pl会显示</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Usage: bam2cfg.pl</span><br><span class="line">Options:</span><br><span class="line">-q  INT Minimum mapping quality \[35\]</span><br><span class="line">-m  Using mapping quality instead of alternative mapping quality</span><br><span class="line">-s  Minimal mean insert size \[50\]</span><br><span class="line">-C  Change default system from Illumina to SOLiD</span><br><span class="line">-c  FLOAT Cutoff <span class="keyword">in</span> unit of standard deviation \[4\]</span><br><span class="line">-n  INT Number of observation required to estimate mean and s.d. insert size \[10000\]</span><br><span class="line">-v  FLOAT Cutoff on coefficients of variation \[1\]</span><br><span class="line">-f  STRING A two column tab-delimited text file (RG, LIB) specify the RG=&gt;LIB mapping, useful when BAM header is incomplete</span><br><span class="line">-b  INT Number of bins <span class="keyword">in</span> the histogram \[50\]</span><br><span class="line">-g  Output mapping flag distribution</span><br><span class="line">-h  Plot insert size histogram <span class="keyword">for</span> each BAM library</span><br></pre></td></tr></table></figure>
 
 <h3 id="运行bam2cfg-pl生成配置文件"><a href="#运行bam2cfg-pl生成配置文件" class="headerlink" title="运行bam2cfg.pl生成配置文件"></a>运行bam2cfg.pl生成配置文件</h3><pre><code>$ cd /path/to/data 
-$ perl /path/to/breakdancer/perl/bam2cfg.pl ./your.bam</code></pre><p>若报错：</p>
+$ perl /path/to/breakdancer/perl/bam2cfg.pl ./your.bam</code></pre>
+<p>若报错：</p>
 <p>Coefficient of variation <strong>* in library *</strong> is larger than the cutoff 1, poor quality data, excluding from further analysis. </p>
 <p>则添加-v 参数，即<code>perl /path/to/breakdancer/perl/bam2cfg.pl -v float ./your.bam</code> </p>
 <p>输出如下<br>[Sat Jan 9 00:11:50 2016 ../software/breakdancer/perl/bam2cfg.pl] Processing bam: ZZ3.sort.bam<br>[Sat Jan 9 00:11:52 2016 ../software/breakdancer/perl/bam2cfg.pl] selected_libs is : 1 [Sat Jan 9 00:11:52 2016 ../software/breakdancer/perl/bam2cfg.pl] Closing BAM file<br>[Sat Jan 9 00:11:52 2016 ../software/breakdancer/perl/bam2cfg.pl] Send TERM signal for 17060<br>[Sat Jan 9 00:11:54 2016 ../software/breakdancer/perl/bam2cfg.pl] samtools pid process 17060 is still there…<br>[Sat Jan 9 00:11:54 2016 ../software/breakdancer/perl/bam2cfg.pl] invoking kill -9 on 17060 …<br>[Sat Jan 9 00:11:54 2016 ../software/breakdancer/perl/bam2cfg.pl] Closing samtools process : 17060<br>readgroup:N63_S1 platform:ILLUMINA map:your.bam readlen:95.56 lib:N63_S1 num:9994 lower:0.00 upper:747397.59 mean:458.80 std:8964.47 SWnormality:minus infinity exe:samtools view </p>
@@ -435,14 +511,15 @@ $ perl /path/to/breakdancer/perl/bam2cfg.pl ./your.bam</code></pre><p>若报错�
 <p><code>$ perl /path/to/breakdancer/perl/bam2cfg.pl -v float ./your.bam &gt; your.bam.cfg</code> </p>
 <p>悄悄的告诉你，不要担心前几行会被重定向到文件中，因为前几行诗错误输出，后两行才是标准输出，只有后两行会被重定向到文件中。 运行breakdancer-max 检测结构突变</p>
 <pre><code>$ cd /path/to/data
-$ /path/to/breakdancer/build/bin/breakdancer-max your.bam.cfg</code></pre><p>输出文件格式： </p>
+$ /path/to/breakdancer/build/bin/breakdancer-max your.bam.cfg</code></pre>
+<p>输出文件格式： </p>
 <p>#Chr1 Pos1 Orientation1 Chr2 Pos2 Orientation2 Type Size Score num_Reads num_Reads_lib ZZ3.sort.bam<br>chr1 762050 367+5- chr1 762176 367+5- ITX -368 50 5 your.bam|5 NA chr1 976553 217+7-<br>chr1 976928 217+7- ITX -374 40 7 your.bam|7 NA<br>chr1 946728 7+0- chr1 1256543 105+0- INV 309173 61 2 your.bam|2 10.05 </p>
 <p>1-3列和4-6列被用来指定两个SV断点的坐标。一列为染色体chr，一列为位置pos，一列为方向orientation，正负号代表reads比对到anchoring区域的方向，数字代表比对到这个位置的reads数目。 </p>
 <p>第7列表示SV的类型，分别有： DEL (deletions), INS (insertion), INV (inversion), ITX (intra-chromosomal translocation), CTX (inter-chromosomal translocation), and Unknown. </p>
 <p>第8列表示SV的大小，可以忽略正负号的意义，对染色体间易位无用。 </p>
 <p>第9列可信度得分。 </p>
 <p>第10列支持该SV的reads数目。 </p>
-<p>第11列，library中支持该SV的reads数目 第12列run parameter Ref：<a href="https://github.com/genome/breakdancer">https://github.com/genome/breakdancer</a></p>
+<p>第11列，library中支持该SV的reads数目 第12列run parameter Ref：<a target="_blank" rel="noopener" href="https://github.com/genome/breakdancer">https://github.com/genome/breakdancer</a></p>
 <p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>#####################################################################</p>
 
       
@@ -451,10 +528,6 @@ $ /path/to/breakdancer/build/bin/breakdancer-max your.bam.cfg</code></pre><p>输
     
     
     
-
-
-# <!-- Insert google ad blocks -->
-<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
       <footer class="post-footer">
         <div class="post-eof"></div>
       </footer>
@@ -491,14 +564,14 @@ $ /path/to/breakdancer/build/bin/breakdancer-max your.bam.cfg</code></pre><p>输
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2016-01-08 14:56:16" itemprop="dateCreated datePublished" datetime="2016-01-08T14:56:16+08:00">2016-01-08</time>
+              <time title="Created: 2016-01-07 22:56:16" itemprop="dateCreated datePublished" datetime="2016-01-07T22:56:16+08:00">2016-01-07</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-29 07:19:29" itemprop="dateModified" datetime="2020-05-29T07:19:29+08:00">2020-05-29</time>
+                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -525,12 +598,16 @@ $ /path/to/breakdancer/build/bin/breakdancer-max your.bam.cfg</code></pre><p>输
 <p>废话不多说了，为什么我不会R，却还要发这个帖子呢，因为我在做Fastq文件质控的时候，需要一个R包，我不会写R，但是会照猫画虎的用哈，不过在安装这个包的时候提示我<code>package not available for R</code>。当时想，是不是服务器上的版本有点老啊。于是弱弱的用百度搜了下，竟然有人说要先卸载再安装。我想，这不科学啊，还是谷歌了一下。</p>
 <p>上干货</p>
 <p>1，这一步的目的是添加cran到apt的源中，cran也可以换成其他的。</p>
-<pre><code>sudo echo &quot;deb http://mirrors.aliyun.com/CRAN/bin/linux/ubuntu/ trusty/&quot; &gt;&gt; /etc/apt/sources.list</code></pre><p>2，从公钥服务器上获得缺失的公钥，公钥服务器也可以换成其他地方的。Fetch the secure APT key</p>
+<pre><code>sudo echo &quot;deb http://mirrors.aliyun.com/CRAN/bin/linux/ubuntu/ trusty/&quot; &gt;&gt; /etc/apt/sources.list</code></pre>
+<p>2，从公钥服务器上获得缺失的公钥，公钥服务器也可以换成其他地方的。Fetch the secure APT key</p>
 <pre><code>gpg --keyserver keyserver.ubuntu.com --recv-key E084DAB9 `
 或者
-`gpg --hkp://keyserver keyserver.ubuntu.com:80 --recv-key E084DAB9</code></pre><p>4，导入公钥 Feed it to apt-key</p>
-<pre><code>gpg -a --export E084DAB9 &apos; sudo apt-key add -</code></pre><p>5， </p>
-<pre><code>sudo apt-get update &amp;&amp; sudo apt-get install r-base</code></pre><p>然后完成R语言的更新。
+`gpg --hkp://keyserver keyserver.ubuntu.com:80 --recv-key E084DAB9</code></pre>
+<p>4，导入公钥 Feed it to apt-key</p>
+<pre><code>gpg -a --export E084DAB9 &#39; sudo apt-key add -</code></pre>
+<p>5， </p>
+<pre><code>sudo apt-get update &amp;&amp; sudo apt-get install r-base</code></pre>
+<p>然后完成R语言的更新。
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/archives/719/#more" rel="contents">
@@ -545,10 +622,6 @@ $ /path/to/breakdancer/build/bin/breakdancer-max your.bam.cfg</code></pre><p>输
     
     
     
-
-
-# <!-- Insert google ad blocks -->
-<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
       <footer class="post-footer">
         <div class="post-eof"></div>
       </footer>
@@ -585,14 +658,14 @@ $ /path/to/breakdancer/build/bin/breakdancer-max your.bam.cfg</code></pre><p>输
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2016-01-07 12:56:41" itemprop="dateCreated datePublished" datetime="2016-01-07T12:56:41+08:00">2016-01-07</time>
+              <time title="Created: 2016-01-06 20:56:41" itemprop="dateCreated datePublished" datetime="2016-01-06T20:56:41+08:00">2016-01-06</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-29 07:19:29" itemprop="dateModified" datetime="2020-05-29T07:19:29+08:00">2020-05-29</time>
+                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -615,8 +688,8 @@ $ /path/to/breakdancer/build/bin/breakdancer-max your.bam.cfg</code></pre><p>输
     <div class="post-body" itemprop="articleBody">
 
       
-          <p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2016-01-06-SNPediaIntro/SNPedia_logo_155x46_transColor.png" alt=""> </p>
-<p><strong>SNPedia</strong>: <a href="http://www.snpedia.com/index.php/SNPedia" title="http://www.snpedia.com/index.php/SNPedia">http://www.snpedia.com/index.php/SNPedia</a></p>
+          <p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2016-01-06-SNPediaIntro/SNPedia_logo_155x46_transColor.png"> </p>
+<p><strong>SNPedia</strong>: <a target="_blank" rel="noopener" href="http://www.snpedia.com/index.php/SNPedia" title="http://www.snpedia.com/index.php/SNPedia">http://www.snpedia.com/index.php/SNPedia</a></p>
 <ul>
 <li>SNPedia是一个基于wiki格式SNP数据库</li>
 <li>创建者：遗传学家 Greg Lennon和程序员Mike Cariaso</li>
@@ -638,10 +711,6 @@ $ /path/to/breakdancer/build/bin/breakdancer-max your.bam.cfg</code></pre><p>输
     
     
     
-
-
-# <!-- Insert google ad blocks -->
-<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
       <footer class="post-footer">
         <div class="post-eof"></div>
       </footer>
@@ -678,14 +747,14 @@ $ /path/to/breakdancer/build/bin/breakdancer-max your.bam.cfg</code></pre><p>输
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2015-12-26 13:29:26" itemprop="dateCreated datePublished" datetime="2015-12-26T13:29:26+08:00">2015-12-26</time>
+              <time title="Created: 2015-12-25 21:29:26" itemprop="dateCreated datePublished" datetime="2015-12-25T21:29:26+08:00">2015-12-25</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-29 07:19:29" itemprop="dateModified" datetime="2020-05-29T07:19:29+08:00">2020-05-29</time>
+                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -708,8 +777,8 @@ $ /path/to/breakdancer/build/bin/breakdancer-max your.bam.cfg</code></pre><p>输
     <div class="post-body" itemprop="articleBody">
 
       
-          <p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2015-12-25-cost_per_megabase_oct2015.jpg" alt=""> </p>
-<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2015-12-25-cost_per_genome_oct2015.jpg" alt="">  </p>
+          <p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2015-12-25-cost_per_megabase_oct2015.jpg"> </p>
+<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2015-12-25-cost_per_genome_oct2015.jpg">  </p>
 <p>When I in senior high school, the Human Genome Project (HGP) was comparable with Project Apollo for human beings.</p>
 <p>我上高中的时候，生物课本上有关于人类基因组计划的介绍。那个时候人们以为将人类的基因组序列搞清楚之后，就可以破译生命的奥秘。人类基因组计划耗费了很长时间很多年，但人类还是无法掌握生命的奥秘，更不知道这项工程还有多大价值。</p>
 <p>但正是因为这项计划，促使科技的进步使得高通量测序技术出现，发展，普及。现在的生物学研究，已经离不开高通量测序，测序带来的信息量是前所未有的。正是这前所未有的信息和数据，才显得那么迷人。</p>
@@ -727,10 +796,6 @@ $ /path/to/breakdancer/build/bin/breakdancer-max your.bam.cfg</code></pre><p>输
     
     
     
-
-
-# <!-- Insert google ad blocks -->
-<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
       <footer class="post-footer">
         <div class="post-eof"></div>
       </footer>
@@ -767,14 +832,14 @@ $ /path/to/breakdancer/build/bin/breakdancer-max your.bam.cfg</code></pre><p>输
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2015-12-12 13:34:40" itemprop="dateCreated datePublished" datetime="2015-12-12T13:34:40+08:00">2015-12-12</time>
+              <time title="Created: 2015-12-11 21:34:40" itemprop="dateCreated datePublished" datetime="2015-12-11T21:34:40+08:00">2015-12-11</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-29 07:19:29" itemprop="dateModified" datetime="2020-05-29T07:19:29+08:00">2020-05-29</time>
+                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -798,10 +863,11 @@ $ /path/to/breakdancer/build/bin/breakdancer-max your.bam.cfg</code></pre><p>输
 
       
           <p>1,下载control freec</p>
-<p>地址：<a href="http://bioinfo-out.curie.fr/projects/freec/src/FREEC_Linux64.tar.gz" title="http://bioinfo-out.curie.fr/projects/freec/src/FREEC_Linux64.tar.gz">http://bioinfo-out.curie.fr/projects/freec/src/FREEC_Linux64.tar.gz</a></p>
+<p>地址：<a target="_blank" rel="noopener" href="http://bioinfo-out.curie.fr/projects/freec/src/FREEC_Linux64.tar.gz" title="http://bioinfo-out.curie.fr/projects/freec/src/FREEC_Linux64.tar.gz">http://bioinfo-out.curie.fr/projects/freec/src/FREEC_Linux64.tar.gz</a></p>
 <p>2，编译</p>
 <pre><code>tar -zxvf FREEC_Linux64.tar.gz
-make</code></pre><p>3，control freec根据配置文件进行工作，运行control freec之前需要进行的准备工作有</p>
+make</code></pre>
+<p>3，control freec根据配置文件进行工作，运行control freec之前需要进行的准备工作有</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/archives/717/#more" rel="contents">
@@ -816,10 +882,6 @@ make</code></pre><p>3，control freec根据配置文件进行工作，运行cont
     
     
     
-
-
-# <!-- Insert google ad blocks -->
-<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
       <footer class="post-footer">
         <div class="post-eof"></div>
       </footer>
@@ -856,14 +918,14 @@ make</code></pre><p>3，control freec根据配置文件进行工作，运行cont
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2015-11-17 12:39:10" itemprop="dateCreated datePublished" datetime="2015-11-17T12:39:10+08:00">2015-11-17</time>
+              <time title="Created: 2015-11-16 20:39:10" itemprop="dateCreated datePublished" datetime="2015-11-16T20:39:10+08:00">2015-11-16</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-29 07:19:29" itemprop="dateModified" datetime="2020-05-29T07:19:29+08:00">2020-05-29</time>
+                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -887,11 +949,11 @@ make</code></pre><p>3，control freec根据配置文件进行工作，运行cont
 
       
           <p>生物信息学中，David（the Database for Annotation,Visualization and Integrated Discovery）是常用的注视工具，可以对基因进行GO注释，KEGG pathway注释等，David提供接口供批量注释调用。</p>
-<p>David的网址<a href="https://david.ncifcrf.gov/" title="https://david.ncifcrf.gov/">https://david.ncifcrf.gov/</a>，api介绍<a href="https://david.ncifcrf.gov/content.jsp?file=DAVID_API.html" title="https://david.ncifcrf.gov/content.jsp?file=DAVID_API.html">https://david.ncifcrf.gov/content.jsp?file=DAVID_API.html</a></p>
+<p>David的网址<a target="_blank" rel="noopener" href="https://david.ncifcrf.gov/" title="https://david.ncifcrf.gov/">https://david.ncifcrf.gov/</a>，api介绍<a target="_blank" rel="noopener" href="https://david.ncifcrf.gov/content.jsp?file=DAVID_API.html" title="https://david.ncifcrf.gov/content.jsp?file=DAVID_API.html">https://david.ncifcrf.gov/content.jsp?file=DAVID_API.html</a></p>
 <p>不是生物信息学的朋友，可以重点关注分析思路。<br>以Entrez gene id为1002的基因为例，返回GO，interpro等注释信息的api格式为</p>
-<p><a href="http://david.abcc.ncifcrf.gov/api.jsp?type=ENTREZ_GENE_ID&ids=1002,&tool=annotationReport&annot=GOTERM_BP_FAT,GOTERM_CC_FAT,GOTERM_MF_FAT,INTERPRO,PIR_SUPERFAMILY,SMART,BBID,BIOCARTA,KEGG_PATHWAY,COG_ONTOLOGY,SP_PIR_KEYWORDS,UP_SEQ_FEATURE,GENETIC_ASSOCIATION_DB_DISEASE,OMIM_DISEASE" title="http://david.abcc.ncifcrf.gov/api.jsp?type=ENTREZ_GENE_ID&amp;ids=1002,&amp;tool=annotationReport&amp;annot=GOTERM_BP_FAT,GOTERM_CC_FAT,GOTERM_MF_FAT,INTERPRO,PIR_SUPERFAMILY,SMART,BBID,BIOCARTA,KEGG_PATHWAY,COG_ONTOLOGY,SP_PIR_KEYWORDS,UP_SEQ_FEATURE,GENETIC_ASSOCIATION_DB_DISEASE,OMIM_DISEASE">http://david.abcc.ncifcrf.gov/api.jsp?type=ENTREZ_GENE_ID&amp;ids=1002,&amp;tool=annotationReport&amp;annot=GOTERM_BP_FAT,GOTERM_CC_FAT,GOTERM_MF_FAT,INTERPRO,PIR_SUPERFAMILY,SMART,BBID,BIOCARTA,KEGG_PATHWAY,COG_ONTOLOGY,SP_PIR_KEYWORDS,UP_SEQ_FEATURE,GENETIC_ASSOCIATION_DB_DISEASE,OMIM_DISEASE</a>。</p>
+<p><a target="_blank" rel="noopener" href="http://david.abcc.ncifcrf.gov/api.jsp?type=ENTREZ_GENE_ID&ids=1002,&tool=annotationReport&annot=GOTERM_BP_FAT,GOTERM_CC_FAT,GOTERM_MF_FAT,INTERPRO,PIR_SUPERFAMILY,SMART,BBID,BIOCARTA,KEGG_PATHWAY,COG_ONTOLOGY,SP_PIR_KEYWORDS,UP_SEQ_FEATURE,GENETIC_ASSOCIATION_DB_DISEASE,OMIM_DISEASE" title="http://david.abcc.ncifcrf.gov/api.jsp?type=ENTREZ_GENE_ID&amp;ids=1002,&amp;tool=annotationReport&amp;annot=GOTERM_BP_FAT,GOTERM_CC_FAT,GOTERM_MF_FAT,INTERPRO,PIR_SUPERFAMILY,SMART,BBID,BIOCARTA,KEGG_PATHWAY,COG_ONTOLOGY,SP_PIR_KEYWORDS,UP_SEQ_FEATURE,GENETIC_ASSOCIATION_DB_DISEASE,OMIM_DISEASE">http://david.abcc.ncifcrf.gov/api.jsp?type=ENTREZ_GENE_ID&amp;ids=1002,&amp;tool=annotationReport&amp;annot=GOTERM_BP_FAT,GOTERM_CC_FAT,GOTERM_MF_FAT,INTERPRO,PIR_SUPERFAMILY,SMART,BBID,BIOCARTA,KEGG_PATHWAY,COG_ONTOLOGY,SP_PIR_KEYWORDS,UP_SEQ_FEATURE,GENETIC_ASSOCIATION_DB_DISEASE,OMIM_DISEASE</a>。</p>
 <p>用python应用urllib2的包，抓取上述网页的结果为</p>
-<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2015-11-16-python-read-page-1.png" alt=""> </p>
+<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2015-11-16-python-read-page-1.png"> </p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/archives/716/#more" rel="contents">
@@ -906,10 +968,6 @@ make</code></pre><p>3，control freec根据配置文件进行工作，运行cont
     
     
     
-
-
-# <!-- Insert google ad blocks -->
-<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
       <footer class="post-footer">
         <div class="post-eof"></div>
       </footer>
@@ -946,14 +1004,14 @@ make</code></pre><p>3，control freec根据配置文件进行工作，运行cont
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2015-08-13 10:44:11" itemprop="dateCreated datePublished" datetime="2015-08-13T10:44:11+08:00">2015-08-13</time>
+              <time title="Created: 2015-08-12 18:44:11" itemprop="dateCreated datePublished" datetime="2015-08-12T18:44:11+08:00">2015-08-12</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-29 07:19:29" itemprop="dateModified" datetime="2020-05-29T07:19:29+08:00">2020-05-29</time>
+                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -992,97 +1050,6 @@ make</code></pre><p>3，control freec根据配置文件进行工作，运行cont
     
     
     
-
-
-# <!-- Insert google ad blocks -->
-<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/714/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Jason">
-      <meta itemprop="description" content="Share news">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Another Jason's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/archives/714/" class="post-title-link" itemprop="url">三代测序组拼接组装工具Falcon</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2015-07-29 10:47:41" itemprop="dateCreated datePublished" datetime="2015-07-29T10:47:41+08:00">2015-07-29</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-29 07:19:29" itemprop="dateModified" datetime="2020-05-29T07:19:29+08:00">2020-05-29</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>基因组装配工具Falcon工作流程</p>
-<h1 id="1-Falcon简介"><a href="#1-Falcon简介" class="headerlink" title="1 Falcon简介"></a>1 Falcon简介</h1><p>Falcon (Fast Alignment and CONsensus)，是由PacBio(太平洋生物科技公司)新开发的二倍体基因组从头拼接组装工具，由HGAP（Hierarchical Genome Assembly Process）扩展而来，但拥有更快的拼接组装效率。<br>Falcon的正常运行，需要DAZZ_DB模块用来构建序列的数据库，DALIGNER模块进行序列比对寻找序列之间的重叠和pypeFLOW模块记录和追踪流程进度。</p>
-<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2015-07-28-falcon-introduction.png" alt=""></p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/archives/714/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-
-# <!-- Insert google ad blocks -->
-<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
       <footer class="post-footer">
         <div class="post-eof"></div>
       </footer>
@@ -1160,7 +1127,7 @@ make</code></pre><p>3，control freec根据配置文件进行工作，运行cont
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">133</span>
+          <span class="site-state-item-count">134</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -1169,7 +1136,7 @@ make</code></pre><p>3，control freec根据配置文件进行工作，运行cont
         <span class="site-state-item-name">categories</span>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">139</span>
+        <span class="site-state-item-count">141</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>

@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 4.2.1">
+<meta name="generator" content="Hexo 5.1.1">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -27,8 +27,8 @@
 <meta property="og:site_name" content="Another Jason&#39;s blog">
 <meta property="og:description" content="In computational biology, the N50 statistic is a statistic of a set of contig lengths. The N50 is similar to a mean or median, but has greater weight given to the longer contigs. It is used widely in">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2013-06-24T22:00:01.000Z">
-<meta property="article:modified_time" content="2020-05-28T23:19:29.603Z">
+<meta property="article:published_time" content="2013-06-24T06:00:01.000Z">
+<meta property="article:modified_time" content="2020-09-11T14:36:21.640Z">
 <meta property="article:author" content="Jason">
 <meta property="article:tag" content="Sequencing">
 <meta name="twitter:card" content="summary">
@@ -174,14 +174,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2013-06-25 06:00:01" itemprop="dateCreated datePublished" datetime="2013-06-25T06:00:01+08:00">2013-06-25</time>
+              <time title="Created: 2013-06-24 14:00:01" itemprop="dateCreated datePublished" datetime="2013-06-24T14:00:01+08:00">2013-06-24</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-29 07:19:29" itemprop="dateModified" datetime="2020-05-29T07:19:29+08:00">2020-05-29</time>
+                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -207,17 +207,13 @@
         <p>In computational biology, the N50 statistic is a statistic of a set of contig lengths. The N50 is similar to a mean or median, but has greater weight given to the longer contigs. It is used widely in genome assembly, especially in reference to contig lengths within a draft assembly. Given a set of contigs, each with its own length, the N50 length is defined as the length for which the collection of all contigs of that length or longer contains at least half of the total of the lengths of the contigs, and for which the collection of all contigs of that length or shorter contains at least half of the total of the lengths of the contigs. (When more than one value of length meets both these criteria then the N50 is the average of the longest and shortest lengths that meet these criteria.) This can be thought of as the point of half of the mass of the distribution; the number of bases from all contigs shorter than the N50 will be close to equal to the number of bases from all contigs longer than the N50. The N90 statistic is smaller than or equal to the N50 statistic; it is the length for which the collection of all contigs of that length or longer contains at least 90% of the total of the lengths of the contigs, and for which the collection of all contigs of that length or shorter contains at least 10% of the total of the lengths of the contigs.<a id="more"></a></p>
 <p>For example, for a genome of 600Mb, when the assembled contigs add up to 500Mb, the N50 can be calculated by sorting the contigs from longest to shortest and finding the length of the contig where the cumulative size reaches 250Mb. Note that N50 is calculated in the context of the assembly size rather than the genome size. The NG50 statistic is the same as the N50 except that the genome size is used rather than the assembly size.</p>
 <p>N50 can be found mathematically for a list L of positive integers as follows:<br>Create another list L’ , which is identical to L, except that every element n in L has been replaced with n copies of itself.<br>The median of L’ is the N50 of L. (The 10% quantile of L’ is the N90 statistic.)<br>For example: If L = (2, 2, 2, 3, 3, 4, 8, 8), then L’ consists of six 2’s, six 3’s, four 4’s, and sixteen 8’s. That is, L’ has twice as many 2s as L; it has three times as many 3s as L; it has four times as many 4s; etc. The median of the 32-element set L’ is the average of the 16th smallest element, 4, and 17th smallest element, 8, so the N50 is 6. We can see that the sum of all values in the list L that are smaller than or equal to the N50 of 6 is 16 = 2+2+2+3+3+4 and the sum of all values in the list L that are larger than or equal to 6 is also 16 = 8+8. For comparison with the N50 of 6, note that the mean of the list L is 4 while the median is 3.</p>
-<p>wiki：<a href="http://en.wikipedia.org/wiki/N50_statistic" title="http://en.wikipedia.org/wiki/N50_statistic"></a></p>
+<p>wiki：<a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/N50_statistic" title="http://en.wikipedia.org/wiki/N50_statistic"></a></p>
 
     </div>
 
     
     
     
-
-
-# <!-- Insert google ad blocks -->
-<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 
       <footer class="post-footer">
           <div class="post-tags">
@@ -308,7 +304,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">133</span>
+          <span class="site-state-item-count">134</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -317,7 +313,7 @@
         <span class="site-state-item-name">categories</span>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">139</span>
+        <span class="site-state-item-count">141</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>

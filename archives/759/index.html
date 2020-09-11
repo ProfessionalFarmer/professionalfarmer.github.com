@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 4.2.1">
+<meta name="generator" content="Hexo 5.1.1">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -28,8 +28,8 @@
 <meta property="og:description" content="bismark调用bowtie2进行比对，调用samtools生成bam文件，因此在运行bismark之前，需要安装bowtie2和samtools  请注意，fastq文件要进行质控，比如去掉低质量的reads，去掉adaptor等，可以看本文最下方推荐的PPT,本文不介绍，此外本本只介绍到序列比对，后续的统计分析没有介绍，有兴趣的朋友可以关注swDMR和methykit工具包。   安装bis">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2016-05-21-bismark-bisulfite-seq.png">
-<meta property="article:published_time" content="2016-05-22T05:58:40.000Z">
-<meta property="article:modified_time" content="2020-05-28T23:19:29.643Z">
+<meta property="article:published_time" content="2016-05-21T13:58:40.000Z">
+<meta property="article:modified_time" content="2020-09-11T14:36:21.696Z">
 <meta property="article:author" content="Jason">
 <meta property="article:tag" content="Sequencing">
 <meta property="article:tag" content="BS-Seq">
@@ -177,14 +177,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2016-05-22 13:58:40" itemprop="dateCreated datePublished" datetime="2016-05-22T13:58:40+08:00">2016-05-22</time>
+              <time title="Created: 2016-05-21 21:58:40" itemprop="dateCreated datePublished" datetime="2016-05-21T21:58:40+08:00">2016-05-21</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-29 07:19:29" itemprop="dateModified" datetime="2020-05-29T07:19:29+08:00">2020-05-29</time>
+                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -209,26 +209,30 @@
       
         <p>bismark调用bowtie2进行比对，调用samtools生成bam文件，因此在运行bismark之前，需要安装bowtie2和samtools </p>
 <p>请注意，fastq文件要进行质控，比如去掉低质量的reads，去掉adaptor等，可以看本文最下方推荐的PPT,本文不介绍，此外本本只介绍到序列比对，后续的统计分析没有介绍，有兴趣的朋友可以关注swDMR和methykit工具包。 </p>
-<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2016-05-21-bismark-bisulfite-seq.png" alt=""></p>
+<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2016-05-21-bismark-bisulfite-seq.png"></p>
 <h2 id="安装bismark"><a href="#安装bismark" class="headerlink" title="安装bismark"></a>安装bismark</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wget http://www.bioinformatics.babraham.ac.uk/projects/bismark/bismark_v0.16.1.tar.gz</span><br><span class="line">tar -xvzf bismark_v0.16.1.tar.gz</span><br></pre></td></tr></table></figure>
 
 <h2 id="生成转换后的基因组"><a href="#生成转换后的基因组" class="headerlink" title="生成转换后的基因组"></a>生成转换后的基因组</h2><pre><code># --path\_to\_bowtie后面跟的是文件夹
 # --verbose 输出log信息
 # ./ref 文件夹中有一个基因组fasta文件
 # --bowtie2指明用的是bowtie2
-./bismark\_v0.16.1/bismark\_genome\_preparation --path\_to_bowtie /home/zzx/bowtie2-2.2.9/ --bowtie2 --verbose ./ref/</code></pre><p>因为在重亚硫酸盐甲基化测序中，因为未甲基化的C会变为T，在正链表现为C–&gt;T，但是在负链有C变为T，转换为正链时，即为G–&gt;A，所以基因组需要进行两种转化，才能用于比对。在基因组目录下产生Bisulfite_Genome目录，有CT_conversion和GA_conversion文件夹，这两个文件夹包含转换后的fasta文件和bowtie2建立的索引bt2文件。</p>
+./bismark\_v0.16.1/bismark\_genome\_preparation --path\_to_bowtie /home/zzx/bowtie2-2.2.9/ --bowtie2 --verbose ./ref/</code></pre>
+<p>因为在重亚硫酸盐甲基化测序中，因为未甲基化的C会变为T，在正链表现为C–&gt;T，但是在负链有C变为T，转换为正链时，即为G–&gt;A，所以基因组需要进行两种转化，才能用于比对。在基因组目录下产生Bisulfite_Genome目录，有CT_conversion和GA_conversion文件夹，这两个文件夹包含转换后的fasta文件和bowtie2建立的索引bt2文件。</p>
 <p>fastq中的BS转换后的read与转换的参考基因组比对，得到在参考基因组中的位置，再与原始的参考基因组比较，确定methylate call</p>
 <h2 id="bismark比对"><a href="#bismark比对" class="headerlink" title="bismark比对"></a>bismark比对</h2><pre><code>--non_bs_mm     Optionally outputs an extra column specifying the number of non-bisulfite mismatches a read during the alignment step. 
---nucleotide_coverage   该选项 会生成nucleotide_stats.txt文件。creates a &apos;...nucleotide_stats.txt&apos; file that is also automatically detected by bismark2report and incorporated into the HTML report.
+--nucleotide_coverage   该选项 会生成nucleotide_stats.txt文件。creates a &#39;...nucleotide_stats.txt&#39; file that is also automatically detected by bismark2report and incorporated into the HTML report.
 --multicore   Sets the number of parallel instances of Bismark to be run concurrently. 一个实例已经将1个核分配给bismark，两个或者4个核分配给bowtie2，一个分给samtools
-./bismark\_v0.16.1/bismark --genome\_folder ./ref --bowtie2 --nucleotide\_coverage --non\_bs\_mm --basename test --temp\_dir ./tmp --samtools\_path ./samtools-1.2/ --path\_to\_bowtie ./bowtie2-2.2.9/ -1 1.fastq -2 2.fastq --output\_dir ./</code></pre><p>生成bam文件，bam文件可以用samtools view转成sam格式 </p>
+./bismark\_v0.16.1/bismark --genome\_folder ./ref --bowtie2 --nucleotide\_coverage --non\_bs\_mm --basename test --temp\_dir ./tmp --samtools\_path ./samtools-1.2/ --path\_to\_bowtie ./bowtie2-2.2.9/ -1 1.fastq -2 2.fastq --output\_dir ./</code></pre>
+<p>生成bam文件，bam文件可以用samtools view转成sam格式 </p>
 <p>SAM文件</p>
-<pre><code>ST-E00206:135:HMMMWCCXX:4:1101:3710:1801\_1:N:0:GATCAG 163 chr13 20584212 40 90M = 20584274 183 TTTTCCATATTTTAAACTTTTAATTTTTCTTATAAATATCTTAATACATATACGATAATATCTCATAATTTTAATTTACATTTCCCTAAT A,&lt;FFKAKKKKKKA,AFF&lt;FK,&lt;AFKKKAKK&lt;AAF&lt;KA&lt;&lt;FKF&lt;F,,7FFFA,&lt;&lt;AA&lt;K,&lt;AFA7AA,FKKKA7FKF7A7AKKK,AA,A7 NM:i:16  MD:Z:8G6G5G9G2G8G1G3G1G2G1G0G8G0G4G4G12 M:Z:........h......h.....h.........h..h........h.h...h.h.Zx.hh........hh....h....h............ XR:Z:GA XG:Z:GA XB:Z:0 </code></pre><p>(11) QUAL (Phred33 scale) </p>
+<pre><code>ST-E00206:135:HMMMWCCXX:4:1101:3710:1801\_1:N:0:GATCAG 163 chr13 20584212 40 90M = 20584274 183 TTTTCCATATTTTAAACTTTTAATTTTTCTTATAAATATCTTAATACATATACGATAATATCTCATAATTTTAATTTACATTTCCCTAAT A,&lt;FFKAKKKKKKA,AFF&lt;FK,&lt;AFKKKAKK&lt;AAF&lt;KA&lt;&lt;FKF&lt;F,,7FFFA,&lt;&lt;AA&lt;K,&lt;AFA7AA,FKKKA7FKF7A7AKKK,AA,A7 NM:i:16  MD:Z:8G6G5G9G2G8G1G3G1G2G1G0G8G0G4G4G12 M:Z:........h......h.....h.........h..h........h.h...h.h.Zx.hh........hh....h....h............ XR:Z:GA XG:Z:GA XB:Z:0 </code></pre>
+<p>(11) QUAL (Phred33 scale) </p>
 <p>(12) NM-tag (edit distance to the reference) </p>
 <p>Edit distance to the reference, including ambiguous bases but excluding clipping NM-tag，与bowtie中NM:i相同。read string转换成reference string需要的最少核苷酸的edits:插入/缺失/替换</p>
 <p>(13) MD-tag (base-by-base mismatches to the reference) </p>
 <p>String for mismatching positions </p>
-<pre><code>eg.XX:Z:2C4C2C6C1C1AC18C3C15C4C2CC14 </code></pre><p>表示2个碱基完全匹配，一个C替换，接着4个碱基完全匹配，一个C发生替换. </p>
+<pre><code>eg.XX:Z:2C4C2C6C1C1AC18C3C15C4C2CC14 </code></pre>
+<p>表示2个碱基完全匹配，一个C替换，接着4个碱基完全匹配，一个C发生替换. </p>
 <p>(14) XM-tag (methylation call string) </p>
 <p>methylation call： </p>
 <pre><code>X for methylated C in CHG context (was protected) CHG上的C发生了甲基化 
@@ -237,16 +241,20 @@ H for methylated C in CHH context (was protected) CHH上的C发生了甲基化
 h for not methylated C in CHH context (was converted) CHH上的C未发生甲基化 
 Z for methylated C in CpG context (was protected) CpG上的C发生了甲基化 
 z for not methylated C in CpG context (was converted) CpG上的C未发生甲基化 
-. for any bases not involving cytosines </code></pre><p>(15) XR-tag (read conversion state for the alignment) </p>
+. for any bases not involving cytosines </code></pre>
+<p>(15) XR-tag (read conversion state for the alignment) </p>
 <p>共两种转换：CT和GA，GA就是指将read里的所有G转换成A </p>
-<pre><code>eg.XR:Z:CT </code></pre><p>(16) XG-tag (genome conversion state for the alignment) </p>
+<pre><code>eg.XR:Z:CT </code></pre>
+<p>(16) XG-tag (genome conversion state for the alignment) </p>
 <p>共两种：GA和CT。</p>
 <p>CT是指将全基因组上所有的C转换成T </p>
-<pre><code>eg.XG:Z:CT </code></pre><p>此外还会生成一个比对的PE_report.txt文件，后续生成html版本的report会用到</p>
+<pre><code>eg.XG:Z:CT </code></pre>
+<p>此外还会生成一个比对的PE_report.txt文件，后续生成html版本的report会用到</p>
 <h2 id="deduplicate-去重"><a href="#deduplicate-去重" class="headerlink" title="deduplicate 去重"></a>deduplicate 去重</h2><p>会生成deduplicated.bam为后缀的文件</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./bismark\_v0.16.1/deduplicate\_bismark --paired --bam --samtools_path ./samtools-1.2/ /path/to/bam</span><br></pre></td></tr></table></figure>
 
-<h2 id="提取甲基化信息"><a href="#提取甲基化信息" class="headerlink" title="提取甲基化信息"></a>提取甲基化信息</h2><pre><code>bismark_methylation_extractor --no_overlap --paired-end --bedGraph --comprehensive  --counts --remove_spaces  --buffer_size 10G --cytosine_report --genome_folder ref/ --output ./test_pe.deduplicated.bam</code></pre><p>–remove_spaces Replaces whitespaces in the sequence ID field with underscores to allow sorting. </p>
+<h2 id="提取甲基化信息"><a href="#提取甲基化信息" class="headerlink" title="提取甲基化信息"></a>提取甲基化信息</h2><pre><code>bismark_methylation_extractor --no_overlap --paired-end --bedGraph --comprehensive  --counts --remove_spaces  --buffer_size 10G --cytosine_report --genome_folder ref/ --output ./test_pe.deduplicated.bam</code></pre>
+<p>–remove_spaces Replaces whitespaces in the sequence ID field with underscores to allow sorting. </p>
 <p>–cytosine_report 指报道全基因组所有的CpG。只有当指定</p>
 <p>–cytosine_report时才需要genome_folder。生成的文件很大 After the conversion to bedGraph has completed, the option </p>
 <p>–cytosine_report produces a genome-wide methylation report for all cytosines in the genome. By default, the output uses 1-based chromosome coordinates (zero-based cords are optional) and reports CpG context only (all cytosine context is optional). –bedGraph 指将产生一个BedGraph文件存储CpG的甲基化信息 </p>
@@ -276,10 +284,10 @@ z for not methylated C in CpG context (was converted) CpG上的C未发生甲基�
 <h2 id="生成report"><a href="#生成report" class="headerlink" title="生成report"></a>生成report</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># test\_PE\_report.txt 在比对结束时生成</span></span><br><span class="line"><span class="comment"># --dir 输出路径</span></span><br><span class="line">./bismark_v0.16.1/bismark2report --alignment_report ./test_PE_report.txt --dir ./</span><br></pre></td></tr></table></figure>
 
 <p>会生成一个html文件，可以在浏览器中打开</p>
-<h2 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h2><p><a href="http://blog.sciencenet.cn/home.php/fgcfmt/home.php?mod=space&uid=1271266&do=blog&id=842711">http://blog.sciencenet.cn/home.php/fgcfmt/home.php?mod=space&amp;uid=1271266&amp;do=blog&amp;id=842711</a></p>
-<p><a href="http://www.bioinformatics.babraham.ac.uk/projects/bismark/">www.bioinformatics.babraham.ac.uk/projects/bismark/</a></p>
-<p><a href="http://www.bioinformatics.babraham.ac.uk/training/Methylation_Course/BS-Seq%20theory%20and%20QC%20lecture.pptx">http://www.bioinformatics.babraham.ac.uk/training/Methylation_Course/BS-Seq%20theory%20and%20QC%20lecture.pptx</a> 强烈推荐阅读该PPT，介绍了甲基化测序，质控，比对，去重等</p>
-<p><a href="http://www.bioinformatics.babraham.ac.uk/projects/bismark/Bismark_User_Guide.pdf">http://www.bioinformatics.babraham.ac.uk/projects/bismark/Bismark_User_Guide.pdf</a> </p>
+<h2 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h2><p><a target="_blank" rel="noopener" href="http://blog.sciencenet.cn/home.php/fgcfmt/home.php?mod=space&uid=1271266&do=blog&id=842711">http://blog.sciencenet.cn/home.php/fgcfmt/home.php?mod=space&amp;uid=1271266&amp;do=blog&amp;id=842711</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.bioinformatics.babraham.ac.uk/projects/bismark/">www.bioinformatics.babraham.ac.uk/projects/bismark/</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.bioinformatics.babraham.ac.uk/training/Methylation_Course/BS-Seq%20theory%20and%20QC%20lecture.pptx">http://www.bioinformatics.babraham.ac.uk/training/Methylation_Course/BS-Seq%20theory%20and%20QC%20lecture.pptx</a> 强烈推荐阅读该PPT，介绍了甲基化测序，质控，比对，去重等</p>
+<p><a target="_blank" rel="noopener" href="http://www.bioinformatics.babraham.ac.uk/projects/bismark/Bismark_User_Guide.pdf">http://www.bioinformatics.babraham.ac.uk/projects/bismark/Bismark_User_Guide.pdf</a> </p>
 <p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>####################################################################</p>
 
     </div>
@@ -287,10 +295,6 @@ z for not methylated C in CpG context (was converted) CpG上的C未发生甲基�
     
     
     
-
-
-# <!-- Insert google ad blocks -->
-<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 
       <footer class="post-footer">
           <div class="post-tags">
@@ -369,7 +373,7 @@ z for not methylated C in CpG context (was converted) CpG上的C未发生甲基�
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装bismark"><span class="nav-number">1.</span> <span class="nav-text">安装bismark</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#生成转换后的基因组"><span class="nav-number">2.</span> <span class="nav-text">生成转换后的基因组</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#bismark比对"><span class="nav-number">3.</span> <span class="nav-text">bismark比对</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#deduplicate-去重"><span class="nav-number">4.</span> <span class="nav-text">deduplicate 去重</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#提取甲基化信息"><span class="nav-number">5.</span> <span class="nav-text">提取甲基化信息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#生成report"><span class="nav-number">6.</span> <span class="nav-text">生成report</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考："><span class="nav-number">7.</span> <span class="nav-text">参考：</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85bismark"><span class="nav-number">1.</span> <span class="nav-text">安装bismark</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%9F%E6%88%90%E8%BD%AC%E6%8D%A2%E5%90%8E%E7%9A%84%E5%9F%BA%E5%9B%A0%E7%BB%84"><span class="nav-number">2.</span> <span class="nav-text">生成转换后的基因组</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#bismark%E6%AF%94%E5%AF%B9"><span class="nav-number">3.</span> <span class="nav-text">bismark比对</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#deduplicate-%E5%8E%BB%E9%87%8D"><span class="nav-number">4.</span> <span class="nav-text">deduplicate 去重</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8F%90%E5%8F%96%E7%94%B2%E5%9F%BA%E5%8C%96%E4%BF%A1%E6%81%AF"><span class="nav-number">5.</span> <span class="nav-text">提取甲基化信息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%9F%E6%88%90report"><span class="nav-number">6.</span> <span class="nav-text">生成report</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%EF%BC%9A"><span class="nav-number">7.</span> <span class="nav-text">参考：</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -383,7 +387,7 @@ z for not methylated C in CpG context (was converted) CpG上的C未发生甲基�
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">133</span>
+          <span class="site-state-item-count">134</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -392,7 +396,7 @@ z for not methylated C in CpG context (was converted) CpG上的C未发生甲基�
         <span class="site-state-item-name">categories</span>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">139</span>
+        <span class="site-state-item-count">141</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>

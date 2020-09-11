@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 4.2.1">
+<meta name="generator" content="Hexo 5.1.1">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -147,6 +147,85 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/1044/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="Share news">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Another Jason's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/archives/1044/" class="post-title-link" itemprop="url">Generate Accurate Consensus Sequences from a Single SMRTbell</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-03-22 18:23:09" itemprop="dateCreated datePublished" datetime="2019-03-22T18:23:09+08:00">2019-03-22</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2019-03-22-PACBIO-ZMW-read.png" alt="Circular-Consensus-Sequence"></p>
+<h1 id="bax2bam"><a href="#bax2bam" class="headerlink" title="bax2bam"></a>bax2bam</h1><p>bax2bam -o mynewbam mydata.1.bax.h5 mydata.2.bax.h5 mydata.3.bax.h5</p>
+<h1 id="circus-consensus-sequence"><a href="#circus-consensus-sequence" class="headerlink" title="circus consensus sequence"></a>circus consensus sequence</h1><p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2019-03-22-PB-PACBIO-Circular-Consensus-Sequence.png" alt="Circular-Consensus-Sequence"></p>
+<p>ccs –minLength=100 myData.subreads.bam myResult.bam</p>
+<p>进行CCS由pacbio测序系统决定的，插入序列测多遍之后，可以用来校正随机错误。</p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a target="_blank" rel="noopener" href="https://github.com/PacificBiosciences/unanimity/blob/develop/doc/PBCCS.md">https://github.com/PacificBiosciences/unanimity/blob/develop/doc/PBCCS.md</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/1043/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -171,14 +250,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2019-03-22 10:21:55" itemprop="dateCreated datePublished" datetime="2019-03-22T10:21:55+08:00">2019-03-22</time>
+              <time title="Created: 2019-03-21 18:21:55" itemprop="dateCreated datePublished" datetime="2019-03-21T18:21:55+08:00">2019-03-21</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-29 07:19:29" itemprop="dateModified" datetime="2020-05-29T07:19:29+08:00">2020-05-29</time>
+                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -202,15 +281,15 @@
 
       
           <p>SpliceMap是一个从头开始发现和比对splice junction的工具。它提供高敏感度并且支持任意长度RNA-seq 序列片段read长度. SpliceMap将RNA-seq reads比对到参考基因组上用于发现splicing junctions. 它至少拥有与当前技术条件下其它分析工具同等的灵敏度和特异性。</p>
-<p>官网    <a href="http://web.stanford.edu/group/wonglab/SpliceMap/manual.html">http://web.stanford.edu/group/wonglab/SpliceMap/manual.html</a></p>
-<p>下载    <a href="http://web.stanford.edu/group/wonglab/SpliceMap/download.html">http://web.stanford.edu/group/wonglab/SpliceMap/download.html</a></p>
-<p>示例教程    <a href="https://web.stanford.edu/group/wonglab/SpliceMap/tutorial.html">https://web.stanford.edu/group/wonglab/SpliceMap/tutorial.html</a></p>
+<p>官网    <a target="_blank" rel="noopener" href="http://web.stanford.edu/group/wonglab/SpliceMap/manual.html">http://web.stanford.edu/group/wonglab/SpliceMap/manual.html</a></p>
+<p>下载    <a target="_blank" rel="noopener" href="http://web.stanford.edu/group/wonglab/SpliceMap/download.html">http://web.stanford.edu/group/wonglab/SpliceMap/download.html</a></p>
+<p>示例教程    <a target="_blank" rel="noopener" href="https://web.stanford.edu/group/wonglab/SpliceMap/tutorial.html">https://web.stanford.edu/group/wonglab/SpliceMap/tutorial.html</a></p>
 <p>以官网SpliceMap 3.3.5.2 example (Linux-x86 64bit)为例，介绍如何用来自21号染色体的100k 条100bp的RNA reads寻找junction。</p>
 <p>测试是否正常./bin/runSpliceMap，如果报错的话，需要到src文件夹运行 ./install.sh ../bin来安装SpliceMap，运行./install-bowtie.sh ../bin来安装</p>
 <h1 id="示例文件夹下面的结构"><a href="#示例文件夹下面的结构" class="headerlink" title="示例文件夹下面的结构"></a>示例文件夹下面的结构</h1><pre>ls SpliceMap3352_example_linux-64
 all.gene.refFlat.txt  bin  data  genome  INSTALL  LICENSE  output  run.cfg  src  temp</pre>
 
-<h1 id="run-cfg"><a href="#run-cfg" class="headerlink" title="run.cfg"></a>run.cfg</h1><p>最重要的文件，为文本文件，包含测序reads路径，基因组文件路径，配置设置等详见<br><a href="https://web.stanford.edu/group/wonglab/SpliceMap/cfg.html，需要对每个数据集进行配置。在cfg文件中，注释以#开头，赋值用tag">https://web.stanford.edu/group/wonglab/SpliceMap/cfg.html，需要对每个数据集进行配置。在cfg文件中，注释以#开头，赋值用tag</a> = value表示，比如genome_dir = ../../genome/hg18，多值用如下表示</p>
+<h1 id="run-cfg"><a href="#run-cfg" class="headerlink" title="run.cfg"></a>run.cfg</h1><p>最重要的文件，为文本文件，包含测序reads路径，基因组文件路径，配置设置等详见<br><a target="_blank" rel="noopener" href="https://web.stanford.edu/group/wonglab/SpliceMap/cfg.html%EF%BC%8C%E9%9C%80%E8%A6%81%E5%AF%B9%E6%AF%8F%E4%B8%AA%E6%95%B0%E6%8D%AE%E9%9B%86%E8%BF%9B%E8%A1%8C%E9%85%8D%E7%BD%AE%E3%80%82%E5%9C%A8cfg%E6%96%87%E4%BB%B6%E4%B8%AD%EF%BC%8C%E6%B3%A8%E9%87%8A%E4%BB%A5#%E5%BC%80%E5%A4%B4%EF%BC%8C%E8%B5%8B%E5%80%BC%E7%94%A8tag">https://web.stanford.edu/group/wonglab/SpliceMap/cfg.html，需要对每个数据集进行配置。在cfg文件中，注释以#开头，赋值用tag</a> = value表示，比如genome_dir = ../../genome/hg18，多值用如下表示</p>
 <pre>> tag
 value_1
 value_2
@@ -273,7 +352,7 @@ R[28405]        113     chr21   14070620        255     100M    =       14070536
 
 <h1 id="debug-logs"><a href="#debug-logs" class="headerlink" title="debug_logs"></a>debug_logs</h1><p>输出log</p>
 <h1 id="用自己的数据"><a href="#用自己的数据" class="headerlink" title="用自己的数据"></a>用自己的数据</h1><p>重点修改cfg文件中genome_dir （参考基因组路径），reads_list1和2（fastq文件），annotations （基因注释文件），temp_path（中间数据存放路径），out_path（结果文件夹），bowtie_base_dir （bowtie2的index文件，如果没有，会在temp_path生成）</p>
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="https://web.stanford.edu/group/wonglab/SpliceMap/tutorial.html">https://web.stanford.edu/group/wonglab/SpliceMap/tutorial.html</a><br>大部分翻译这个tutorial，具体数据是自己跑tutorial得到的。</p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a target="_blank" rel="noopener" href="https://web.stanford.edu/group/wonglab/SpliceMap/tutorial.html">https://web.stanford.edu/group/wonglab/SpliceMap/tutorial.html</a><br>大部分翻译这个tutorial，具体数据是自己跑tutorial得到的。</p>
 <p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>#####################################################################</p>
 
       
@@ -282,10 +361,6 @@ R[28405]        113     chr21   14070620        255     100M    =       14070536
     
     
     
-
-
-# <!-- Insert google ad blocks -->
-<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
       <footer class="post-footer">
         <div class="post-eof"></div>
       </footer>
@@ -322,14 +397,14 @@ R[28405]        113     chr21   14070620        255     100M    =       14070536
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2019-03-21 10:08:34" itemprop="dateCreated datePublished" datetime="2019-03-21T10:08:34+08:00">2019-03-21</time>
+              <time title="Created: 2019-03-20 18:08:34" itemprop="dateCreated datePublished" datetime="2019-03-20T18:08:34+08:00">2019-03-20</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-29 07:19:29" itemprop="dateModified" datetime="2020-05-29T07:19:29+08:00">2020-05-29</time>
+                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -411,16 +486,16 @@ R[28405]        113     chr21   14070620        255     100M    =       14070536
 
 <p>表示测错的概率，用的是phred socre，和Illumina类似。当然，我看的这个文件可以看出测序质量并不是很好。</p>
 <p>具体的组和数据集的说明，可以参考：</p>
-<p><a href="https://s3.amazonaws.com/files.pacb.com/software/instrument/2.0.0/bas.h5+Reference+Guide.pdf">https://s3.amazonaws.com/files.pacb.com/software/instrument/2.0.0/bas.h5+Reference+Guide.pdf</a></p>
-<h1 id="metadata-xml"><a href="#metadata-xml" class="headerlink" title="metadata.xml"></a>metadata.xml</h1><p>包含测序仪ID，样本名，测序酶，试剂等元数据。<br>参考文件：<a href="https://s3.amazonaws.com/files.pacb.com/software/instrument/2.0.0/Metadata+Output+Guide.pdf">https://s3.amazonaws.com/files.pacb.com/software/instrument/2.0.0/Metadata+Output+Guide.pdf</a></p>
-<h1 id="sts-xml"><a href="#sts-xml" class="headerlink" title="sts.xml"></a>sts.xml</h1><p>包含了单个movie的概括统计<br>参考文件：<a href="https://s3.amazonaws.com/files.pacb.com/software/instrument/1.3.1/Statistics+Output+Guide.pdf">https://s3.amazonaws.com/files.pacb.com/software/instrument/1.3.1/Statistics+Output+Guide.pdf</a></p>
+<p><a target="_blank" rel="noopener" href="https://s3.amazonaws.com/files.pacb.com/software/instrument/2.0.0/bas.h5+Reference+Guide.pdf">https://s3.amazonaws.com/files.pacb.com/software/instrument/2.0.0/bas.h5+Reference+Guide.pdf</a></p>
+<h1 id="metadata-xml"><a href="#metadata-xml" class="headerlink" title="metadata.xml"></a>metadata.xml</h1><p>包含测序仪ID，样本名，测序酶，试剂等元数据。<br>参考文件：<a target="_blank" rel="noopener" href="https://s3.amazonaws.com/files.pacb.com/software/instrument/2.0.0/Metadata+Output+Guide.pdf">https://s3.amazonaws.com/files.pacb.com/software/instrument/2.0.0/Metadata+Output+Guide.pdf</a></p>
+<h1 id="sts-xml"><a href="#sts-xml" class="headerlink" title="sts.xml"></a>sts.xml</h1><p>包含了单个movie的概括统计<br>参考文件：<a target="_blank" rel="noopener" href="https://s3.amazonaws.com/files.pacb.com/software/instrument/1.3.1/Statistics+Output+Guide.pdf">https://s3.amazonaws.com/files.pacb.com/software/instrument/1.3.1/Statistics+Output+Guide.pdf</a></p>
 <h1 id="用h5dump查看pacbio数据"><a href="#用h5dump查看pacbio数据" class="headerlink" title="用h5dump查看pacbio数据"></a>用h5dump查看pacbio数据</h1><p>查看h5格式的文件可以用hdf5下的h5dump工具查看,安装如下</p>
 <pre>wget -c https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.10/hdf5-1.10.5/src/hdf5-1.10.5.tar.gz
 tar -xzvf hdf5-1.10.5.tar.gz
 cd hdf5-1.10.5  
 ./configure &&make && make install</pre>
 
-<h1 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h1><p><a href="https://www.cnblogs.com/xudongliang/p/6908953.html">https://www.cnblogs.com/xudongliang/p/6908953.html</a><br><a href="https://smrt-analysis.readthedocs.io/en/latest/Data-files-you-received-from-your-service-provider/">https://smrt-analysis.readthedocs.io/en/latest/Data-files-you-received-from-your-service-provider/</a></p>
+<h1 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h1><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/xudongliang/p/6908953.html">https://www.cnblogs.com/xudongliang/p/6908953.html</a><br><a target="_blank" rel="noopener" href="https://smrt-analysis.readthedocs.io/en/latest/Data-files-you-received-from-your-service-provider/">https://smrt-analysis.readthedocs.io/en/latest/Data-files-you-received-from-your-service-provider/</a></p>
 <p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>#####################################################################</p>
 
       
@@ -429,10 +504,6 @@ cd hdf5-1.10.5
     
     
     
-
-
-# <!-- Insert google ad blocks -->
-<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
       <footer class="post-footer">
         <div class="post-eof"></div>
       </footer>
@@ -469,14 +540,14 @@ cd hdf5-1.10.5
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2018-09-15 07:08:57" itemprop="dateCreated datePublished" datetime="2018-09-15T07:08:57+08:00">2018-09-15</time>
+              <time title="Created: 2018-09-14 15:08:57" itemprop="dateCreated datePublished" datetime="2018-09-14T15:08:57+08:00">2018-09-14</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-29 07:19:29" itemprop="dateModified" datetime="2020-05-29T07:19:29+08:00">2020-05-29</time>
+                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -502,11 +573,11 @@ cd hdf5-1.10.5
           <p>基于我们有的HLA序列，可以和HLA序列的数据库比较，看与哪个HLA allele最相似。</p>
 <p>HLA （human leukocyte antigen，人类白细胞抗原）是人类主要组织相容性复合体（major histocompatibility complex，MHC）的表达产物，根据HLA抗原结构、功能及组织分布的不同，分为I类，II类，III类分子，其中I类分子包括HLA-A，-B，-C系列抗原，广泛分布于各组织有核系统表面。</p>
 <p>BLAST表示局部比对搜索工具，用来将新的序列与已有的数据库中的序列进行比较，可以发现区域的相似性，进而为功能和进化研究提供线索。<br>EBI（欧洲生物信息学中心）提供基于IPD-IMGT/HLA（IMGT国际免疫遗传学数据库）数据库的BLAST库。BLAST工具会搜索数据库中的HLA allele的核苷酸、蛋白质及相关对的序列。</p>
-<p>HLA BLAST在线服务的链接如下：<br><a href="https://www.ebi.ac.uk/Tools/services/web_ncbiblast/toolform.ebi?tool=ncbiblast&context=nucleotide&database=imgthla">https://www.ebi.ac.uk/Tools/services/web_ncbiblast/toolform.ebi?tool=ncbiblast&amp;context=nucleotide&amp;database=imgthla</a></p>
-<h2 id="1）选择数据库"><a href="#1）选择数据库" class="headerlink" title="1）选择数据库"></a>1）选择数据库</h2><p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-09-14-EBI-EMBL-HLA-BLAST1.png" alt=""> </p>
+<p>HLA BLAST在线服务的链接如下：<br><a target="_blank" rel="noopener" href="https://www.ebi.ac.uk/Tools/services/web_ncbiblast/toolform.ebi?tool=ncbiblast&context=nucleotide&database=imgthla">https://www.ebi.ac.uk/Tools/services/web_ncbiblast/toolform.ebi?tool=ncbiblast&amp;context=nucleotide&amp;database=imgthla</a></p>
+<h2 id="1）选择数据库"><a href="#1）选择数据库" class="headerlink" title="1）选择数据库"></a>1）选择数据库</h2><p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-09-14-EBI-EMBL-HLA-BLAST1.png"> </p>
 <p>选择IMGT下的IMGT/HLA (genomic)数据据，表示与HLA的基因组序列进行比对，如果需要和编码区序列进行比对，可以选择IMGT/HLA (cds)。</p>
 <h2 id="2）输入待比对的序列"><a href="#2）输入待比对的序列" class="headerlink" title="2）输入待比对的序列"></a>2）输入待比对的序列</h2><p>BLAST支持简并碱基的比对，比如用R表示G或A (puRine)，用A表示M表示A或C。</p>
-<h2 id="3）设置参数"><a href="#3）设置参数" class="headerlink" title="3）设置参数"></a>3）设置参数</h2><p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-09-14-EBI-EMBL-HLA-BLAST3.png" alt=""></p>
+<h2 id="3）设置参数"><a href="#3）设置参数" class="headerlink" title="3）设置参数"></a>3）设置参数</h2><p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-09-14-EBI-EMBL-HLA-BLAST3.png"></p>
 <p>选择blastn表示进行核苷酸序列比对，task可以用megablast也可以用blastn，其他参数可以选择默认。</p>
 <h2 id="4）提交任务"><a href="#4）提交任务" class="headerlink" title="4）提交任务"></a>4）提交任务</h2><p>点击submit提交任务。</p>
 <h2 id="5）等待结果"><a href="#5）等待结果" class="headerlink" title="5）等待结果"></a>5）等待结果</h2><p>一般情况下，会在10秒左右进入比对结果页面。结果页面包含相似性和显著性结果。</p>
@@ -520,7 +591,7 @@ AAATCCCCGCGGGTTGGTCGGGGCGGGGCGGGGCTCGGGGGACGGGGCTGACCGCGGGGCCGGGGCCAGGGTCTCACACT
 TGGCAGACGATGTATGGCTGCGACCTGGGGCCGGACGGGCGCCTCCTCCGCGGGCATAACCAGTTAGCTACGACGGCAGG</pre>
 
 <p>该序列的测试结果，与本地blast的结果一致。</p>
-<h2 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h2><p><a href="https://www.ebi.ac.uk/ipd/imgt/hla/blast.html">https://www.ebi.ac.uk/ipd/imgt/hla/blast.html</a></p>
+<h2 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h2><p><a target="_blank" rel="noopener" href="https://www.ebi.ac.uk/ipd/imgt/hla/blast.html">https://www.ebi.ac.uk/ipd/imgt/hla/blast.html</a></p>
 <p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>#####################################################################</p>
 
       
@@ -529,10 +600,6 @@ TGGCAGACGATGTATGGCTGCGACCTGGGGCCGGACGGGCGCCTCCTCCGCGGGCATAACCAGTTAGCTACGACGGCAGG
     
     
     
-
-
-# <!-- Insert google ad blocks -->
-<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
       <footer class="post-footer">
         <div class="post-eof"></div>
       </footer>
@@ -569,14 +636,14 @@ TGGCAGACGATGTATGGCTGCGACCTGGGGCCGGACGGGCGCCTCCTCCGCGGGCATAACCAGTTAGCTACGACGGCAGG
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2018-09-11 03:14:45" itemprop="dateCreated datePublished" datetime="2018-09-11T03:14:45+08:00">2018-09-11</time>
+              <time title="Created: 2018-09-10 11:14:45" itemprop="dateCreated datePublished" datetime="2018-09-10T11:14:45+08:00">2018-09-10</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-29 07:19:29" itemprop="dateModified" datetime="2020-05-29T07:19:29+08:00">2020-05-29</time>
+                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -623,7 +690,7 @@ TGGCAGACGATGTATGGCTGCGACCTGGGGCCGGACGGGCGCCTCCTCCGCGGGCATAACCAGTTAGCTACGACGGCAGG
 
 <p>本着有轮子不造轮子的原则，可以用VCFTOOLS和GATK来实现，当然如果想自己拆分的话，可以根据VCF中是否有SNP和INDEL的tag标签，或者根据ALT和REF中的碱基长度是否一致来实现拆分。</p>
 <p>参考：</p>
-<p><a href="https://www.biostars.org/p/48204/">https://www.biostars.org/p/48204/</a><br><a href="https://software.broadinstitute.org/gatk/documentation/tooldocs/3.8-0/org_broadinstitute_gatk_tools_walkers_variantutils_SelectVariants.php">https://software.broadinstitute.org/gatk/documentation/tooldocs/3.8-0/org_broadinstitute_gatk_tools_walkers_variantutils_SelectVariants.php</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.biostars.org/p/48204/">https://www.biostars.org/p/48204/</a><br><a target="_blank" rel="noopener" href="https://software.broadinstitute.org/gatk/documentation/tooldocs/3.8-0/org_broadinstitute_gatk_tools_walkers_variantutils_SelectVariants.php">https://software.broadinstitute.org/gatk/documentation/tooldocs/3.8-0/org_broadinstitute_gatk_tools_walkers_variantutils_SelectVariants.php</a></p>
 <p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>#####################################################################</p>
 
       
@@ -632,10 +699,6 @@ TGGCAGACGATGTATGGCTGCGACCTGGGGCCGGACGGGCGCCTCCTCCGCGGGCATAACCAGTTAGCTACGACGGCAGG
     
     
     
-
-
-# <!-- Insert google ad blocks -->
-<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
       <footer class="post-footer">
         <div class="post-eof"></div>
       </footer>
@@ -672,14 +735,14 @@ TGGCAGACGATGTATGGCTGCGACCTGGGGCCGGACGGGCGCCTCCTCCGCGGGCATAACCAGTTAGCTACGACGGCAGG
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2018-08-01 04:50:00" itemprop="dateCreated datePublished" datetime="2018-08-01T04:50:00+08:00">2018-08-01</time>
+              <time title="Created: 2018-07-31 12:50:00" itemprop="dateCreated datePublished" datetime="2018-07-31T12:50:00+08:00">2018-07-31</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-29 07:19:29" itemprop="dateModified" datetime="2020-05-29T07:19:29+08:00">2020-05-29</time>
+                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -703,9 +766,9 @@ TGGCAGACGATGTATGGCTGCGACCTGGGGCCGGACGGGCGCCTCCTCCGCGGGCATAACCAGTTAGCTACGACGGCAGG
 
       
           <p>分析带UMI标签的测序数据</p>
-<p>检测癌组织的低频突变，为了提高检测低频突变的灵敏度，往往进行高深度的测序。但样本之间存在交叉污染，测序有存在一定概率的错误，这些因素会导致高深度测序过程中将假阳性的信号放到，得到假阳性的结果。解决交叉污染的方法，有公司比如IDT采用唯一配对的样本index，只有配对的index中的reads才属于特定样本。解决测序错误的方法，研究人员在建库的时候，先对分子加上UMI碱基，unique molecular identifier -&gt; UMI，然后根据来源于同一个分子的测序数据进行测序错误修正，得到正确的分子序列。两种方法结合可以减少交叉污染提高准确性（<a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5759201/）。">https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5759201/）。</a></p>
-<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-07-30-UMI-analysis.png" alt=""></p>
-<p>如图中所示，左侧一个分子被测了5次，其中第二次有一个测序错误，但该错误并没有在每个测序数据中出现，所以在后续合成一个分子的时候，测序错误被修正，只保留了真正的突变。（<a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5852328/）">https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5852328/）</a></p>
+<p>检测癌组织的低频突变，为了提高检测低频突变的灵敏度，往往进行高深度的测序。但样本之间存在交叉污染，测序有存在一定概率的错误，这些因素会导致高深度测序过程中将假阳性的信号放到，得到假阳性的结果。解决交叉污染的方法，有公司比如IDT采用唯一配对的样本index，只有配对的index中的reads才属于特定样本。解决测序错误的方法，研究人员在建库的时候，先对分子加上UMI碱基，unique molecular identifier -&gt; UMI，然后根据来源于同一个分子的测序数据进行测序错误修正，得到正确的分子序列。两种方法结合可以减少交叉污染提高准确性（<a target="_blank" rel="noopener" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5759201/%EF%BC%89%E3%80%82">https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5759201/）。</a></p>
+<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-07-30-UMI-analysis.png"></p>
+<p>如图中所示，左侧一个分子被测了5次，其中第二次有一个测序错误，但该错误并没有在每个测序数据中出现，所以在后续合成一个分子的时候，测序错误被修正，只保留了真正的突变。（<a target="_blank" rel="noopener" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5852328/%EF%BC%89">https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5852328/）</a></p>
 <p>常规的肿瘤配对测序分析，或者遗传性突变位点的分析，并不需要UMI信息，所以包含UMI的数据分析是需要不一样的分析流程来得到准确的分析结果，其中包括提取UMI分子标签，合并来自同一个分子的测序reads，低频突变检测而非胚系突变检测等。</p>
 <p>大致流程为：</p>
 <pre>-----prepare analysis ready BAM file------
@@ -768,10 +831,6 @@ R2----ZA:Z:TC ZB:Z:TA RG:Z:test       RX:Z:TC-TA</pre>
     
     
     
-
-
-# <!-- Insert google ad blocks -->
-<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
       <footer class="post-footer">
         <div class="post-eof"></div>
       </footer>
@@ -808,14 +867,14 @@ R2----ZA:Z:TC ZB:Z:TA RG:Z:test       RX:Z:TC-TA</pre>
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2018-07-13 07:00:46" itemprop="dateCreated datePublished" datetime="2018-07-13T07:00:46+08:00">2018-07-13</time>
+              <time title="Created: 2018-07-12 15:00:46" itemprop="dateCreated datePublished" datetime="2018-07-12T15:00:46+08:00">2018-07-12</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-29 07:19:29" itemprop="dateModified" datetime="2020-05-29T07:19:29+08:00">2020-05-29</time>
+                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -842,15 +901,15 @@ R2----ZA:Z:TC ZB:Z:TA RG:Z:test       RX:Z:TC-TA</pre>
 <p>但与ubam文件相比，FASTQ并不是最理想的：</p>
 <h1 id="1）单个文件更容易分析"><a href="#1）单个文件更容易分析" class="headerlink" title="1）单个文件更容易分析"></a>1）单个文件更容易分析</h1><p>在双端测序中，有些软件希望配对的reads放在一个文件中，有些希望配对的文件，有些软件直接根据read在文件中的位置判断read是否配对，当然现在FASTQ通过在文件中加入/1和/2来表明配对的read解决这一问题。在生信分析的时候，一个FASTQ文件往往和另一个FASTQ文件关联配对，比如R1和R2，往往会花费更多时间来验证read是否配对。但如果通过bam文件的话，会更简单。只需要在FLAG这个地方加入对应的值，比如77和141，就能指定。单个文件更加简单，能储存更多metadata的信息。</p>
 <h1 id="2）BAM文件可以储存更多信息"><a href="#2）BAM文件可以储存更多信息" class="headerlink" title="2）BAM文件可以储存更多信息"></a>2）BAM文件可以储存更多信息</h1><p>实际上，正是这个原因，我才开始用ubam文件的。<br>因为FASTQ文件格式的问题，很多其他信息不能存在FASTQ文件中，而BAM/SAM文件可以储存很多信息，只需加tag或者header就行。如果你想放，可以放用了什么软件，平台，样本标签等。</p>
-<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-07-12-advantage-ubam-1.jpg" alt=""></p>
+<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-07-12-advantage-ubam-1.jpg"></p>
 <p>上图是不利用ubam文件的流程，下图是利用ubam文件的流程。</p>
-<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-07-12-advantage-ubam-2.png" alt=""> </p>
+<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-07-12-advantage-ubam-2.png"> </p>
 <p>这个我体会很深，比如我在分析带分子标签UMI的数据时，需要在bam文件中添加read的UMI标签序列，具有相同的UMI标签的序列说明来自同一个分子。如果我将带UMI标签的reads直接比对基因组，UMI标签序列会影响比对质量，而且后续对bam文件的处理提取UMI时，需要考虑CIGAR标签，这个时候就头大了。实际上，我是先将fastq转成ubam文件（picard的FastqToSam工具），然后提取ubam文件中的UMI，生成新的ubam，将ubam转成fastq文件（reads都放在一个文件fastq文件中，bwa能识别其中的配对reads），与参考基因组进行比对。这个时候问题就来了，比对之后生成的bam文件，不包含我提取的UMI标签序列信息，因为这个信息在ubam文件中。不要着急，picard的另外一个工具MergeBamAlignment，可以将ubam文件和bam文件合并，这样ubam文件中的tag信息，比如UMI标签信息，就会补充到新的bam文件中。这样生成的bam文件供下一步数据分析。</p>
 <h1 id="3）BAM能实现随机读写"><a href="#3）BAM能实现随机读写" class="headerlink" title="3）BAM能实现随机读写"></a>3）BAM能实现随机读写</h1><p>BAM文件采用的是BGZF压缩，可以通过随机读写快速读取文件特定位置的数据。对于未比对的reads（unaligned reads），这个功能不是很吸引人，因为后续序列比对都是顺序比对的，不可能跳着比对。</p>
-<p>参考：<br><a href="https://blastedbio.blogspot.com/2011/10/fastq-must-die-long-live-sambam.html">https://blastedbio.blogspot.com/2011/10/fastq-must-die-long-live-sambam.html</a></p>
-<p><a href="https://gatkforums.broadinstitute.org/gatk/discussion/5990/what-is-ubam-and-why-is-it-better-than-fastq-for-storing-unmapped-sequence-data">https://gatkforums.broadinstitute.org/gatk/discussion/5990/what-is-ubam-and-why-is-it-better-than-fastq-for-storing-unmapped-sequence-data</a></p>
-<p><a href="https://gatkforums.broadinstitute.org/gatk/discussion/11694/why-is-converting-from-fastq-to-ubam-nesessary-before-preprocessing">https://gatkforums.broadinstitute.org/gatk/discussion/11694/why-is-converting-from-fastq-to-ubam-nesessary-before-preprocessing</a></p>
-<p><a href="https://gatkforums.broadinstitute.org/gatk/discussion/6484/how-to-generate-an-unmapped-bam-from-fastq-or-aligned-bam">https://gatkforums.broadinstitute.org/gatk/discussion/6484/how-to-generate-an-unmapped-bam-from-fastq-or-aligned-bam</a></p>
+<p>参考：<br><a target="_blank" rel="noopener" href="https://blastedbio.blogspot.com/2011/10/fastq-must-die-long-live-sambam.html">https://blastedbio.blogspot.com/2011/10/fastq-must-die-long-live-sambam.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://gatkforums.broadinstitute.org/gatk/discussion/5990/what-is-ubam-and-why-is-it-better-than-fastq-for-storing-unmapped-sequence-data">https://gatkforums.broadinstitute.org/gatk/discussion/5990/what-is-ubam-and-why-is-it-better-than-fastq-for-storing-unmapped-sequence-data</a></p>
+<p><a target="_blank" rel="noopener" href="https://gatkforums.broadinstitute.org/gatk/discussion/11694/why-is-converting-from-fastq-to-ubam-nesessary-before-preprocessing">https://gatkforums.broadinstitute.org/gatk/discussion/11694/why-is-converting-from-fastq-to-ubam-nesessary-before-preprocessing</a></p>
+<p><a target="_blank" rel="noopener" href="https://gatkforums.broadinstitute.org/gatk/discussion/6484/how-to-generate-an-unmapped-bam-from-fastq-or-aligned-bam">https://gatkforums.broadinstitute.org/gatk/discussion/6484/how-to-generate-an-unmapped-bam-from-fastq-or-aligned-bam</a></p>
 <p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>#####################################################################</p>
 
       
@@ -859,10 +918,6 @@ R2----ZA:Z:TC ZB:Z:TA RG:Z:test       RX:Z:TC-TA</pre>
     
     
     
-
-
-# <!-- Insert google ad blocks -->
-<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
       <footer class="post-footer">
         <div class="post-eof"></div>
       </footer>
@@ -899,14 +954,14 @@ R2----ZA:Z:TC ZB:Z:TA RG:Z:test       RX:Z:TC-TA</pre>
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2018-06-21 06:10:10" itemprop="dateCreated datePublished" datetime="2018-06-21T06:10:10+08:00">2018-06-21</time>
+              <time title="Created: 2018-06-20 14:10:10" itemprop="dateCreated datePublished" datetime="2018-06-20T14:10:10+08:00">2018-06-20</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-29 07:19:29" itemprop="dateModified" datetime="2020-05-29T07:19:29+08:00">2020-05-29</time>
+                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -931,12 +986,12 @@ R2----ZA:Z:TC ZB:Z:TA RG:Z:test       RX:Z:TC-TA</pre>
       
           <p>在测序的时候，我们先拿到的是样本fastq压缩后的gzip文件，这个时候可能最关心的是数据量够不够，那么fastq.gz文件大小和测序数据量有什么关系呢。</p>
 <p>我用Miseq测序数据（gz文件200M左右），Hiseq panel（gz文件50M左右）和WES测序数据（gz文件4G左右）进行了简单的分析。有意思的地方是，虽然R1和R2的数据量是一样的，解压出来的文件大小是一样的，但R2的gzip文件总比R1大。不管是Miseq还是Hiseq的panel测序，压缩后的R2均大于R1文件，且文件越小，差异越大。</p>
-<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-06-20-different-ratio-R1R2.png" alt=""></p>
+<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-06-20-different-ratio-R1R2.png"></p>
 <p>因为R1和R2数据量相同的原因，我只看R1的真实文件和gz文件大小与数据量之间的关系。<br>数据量=FASTQ文件行数/4*151/1000/1000  单位为M<br>真实文件大小估计=FASTQ文件行数/4*357/1024/1024 单位为M，预测值，差别不大，因为FASTQ文件中每四行357个字符（和平台和设置有关系），每个字符1byte。<br>GZ文件大小通过ll -h查看</p>
 <p>因为FASTQ文件是规范的，每四行字符基本一致，所以FASTQ真实文件大小和数据量成正比。比如我前面提到的每四行有357个字符，其中序列只占151个字符，也就是说FASTQ文件大小大概是测序量的357/151≈2.3倍多。但因为FASTQ文件为文本文件，占用空间较大，所以一般将FASTQ文件压缩成gzip格式文件。</p>
-<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-06-20-compression-ratio.png" alt=""> </p>
+<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-06-20-compression-ratio.png"> </p>
 <p>用gzip文件大小除以估计的真实文件大小，得到压缩比，发现压缩比和测序平台有关系，Miseq的压缩比在0.35左右，Hiseq平台中的panel测序在0.24左右，WES在0.2左右。可以发现WES的数据的压缩效率最高，猜测不同平台在压缩过程中设置的压缩比例不同。Hiseq测序平台的gzip文件压缩性能大于Miseq平台。</p>
-<p> <img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-06-20-gzip-file-size-correlation.png" alt=""></p>
+<p> <img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-06-20-gzip-file-size-correlation.png"></p>
 <p>以Miseq的gzip文件大小和数据量作图，可以很直观的发现gzip文件大小和数据量之间的线性关系。如图，斜率是1.245，截距可以忽略不计，因为纵坐标很大。也就是说R1文件的数据量约等于gzip文件的1.245倍。</p>
 <p><strong>从另外一个角度计算</strong>，R1文件的数据量=gzip文件大小/压缩效率/2.3，则因为Miseq的压缩效率在0.35，Hiseq在0.23左右，所以Miseq R1文件的数据量大概是gzip文件的1.242倍（1/0.35/2.3），和上图拟合的结果很相近，Hiseq约在1.89(1/0.23/2.3)倍。真实的数据量其实是R1文件数据量的2倍（R2文件中的数据量和R1文件相同）。</p>
 <p><strong>结论：</strong>不同平台和不同测序方法之间的fastq文件压缩比例并不一致，但同一种方法和平台内的压缩比例是相近的，因而可以根据gzip文件的大小推测出测序的数据量。</p>
@@ -949,10 +1004,6 @@ R2----ZA:Z:TC ZB:Z:TA RG:Z:test       RX:Z:TC-TA</pre>
     
     
     
-
-
-# <!-- Insert google ad blocks -->
-<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
       <footer class="post-footer">
         <div class="post-eof"></div>
       </footer>
@@ -989,14 +1040,14 @@ R2----ZA:Z:TC ZB:Z:TA RG:Z:test       RX:Z:TC-TA</pre>
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2018-06-09 06:49:53" itemprop="dateCreated datePublished" datetime="2018-06-09T06:49:53+08:00">2018-06-09</time>
+              <time title="Created: 2018-06-08 14:49:53" itemprop="dateCreated datePublished" datetime="2018-06-08T14:49:53+08:00">2018-06-08</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-29 07:19:29" itemprop="dateModified" datetime="2020-05-29T07:19:29+08:00">2020-05-29</time>
+                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -1021,7 +1072,7 @@ R2----ZA:Z:TC ZB:Z:TA RG:Z:test       RX:Z:TC-TA</pre>
       
           <p>一个全基因组或者全外显子组会产生几万、几十万乃至百万数量的突变。而目标突变往往只有几个或者几十个。我们需要大海捞针似得把我们想要分析的突变找到。突变过滤就是尽可能的将无关突变过滤掉，尽可能的保留目标突变，找出最可能致病的突变。关联性分析则不需要，因为关联性分析根据的是突变在对照和研究人群中的分布。</p>
 <p>突变的过滤需要根据分析需要，比如需要寻找一个完全没有研究过的突变，则需要根据dbSNP来过滤等。如果需要寻找新生突变，要同时用到父母双方的突变数据。</p>
-<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-06-08-filter-var.png" alt=""></p>
+<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-06-08-filter-var.png"></p>
 <p>常用的过滤条件可以分为一下几类：<br>1）根据突变频率进行过滤：每个位点的基因型在人群中频率是不一样的，一般来说，在人群中频率高的基因型往往没有致病性，而是背景突变，只是人群中的多态性。通常用到的频率数据库有gnomAD，ESP，ExAC，1000 Genome等，这些项目检测或搜集了从上千到成万的样本数据，并把数据开放给学术界和产业界。一般过滤的阈值有0.05，0.01，0.001等。<br>2）根据突变位置进行过滤：不同的分析目的，关注的突变并不一样。有人关于调控区域的突变，有人关注编码区的突变，有人关注剪切位点突变等。根据分析目的不同，需要将非关注的区域内的突变过滤掉。如果关注编码区突变，则需要将基因间、内含子、非编码区的突变过滤掉。<br>3）根据突变类型进行过滤：编码区的突变，有同义突变、错义突变、终止密码子突变等。同义突变虽然可能会导致疾病的发生，导致调控紊乱，但一般分析会将同意突变过滤掉（和分析目的有关，如果想要研究同义突变，则不能过滤）。往往移码突变和终止密码子突变是需要关注的。<br>4）根据突变危害预测进行过滤：现在有很多算法在预测位点导致的氨基酸变化的危害性，通常这些算法会分析致病的突变所处的区域、氨基酸变化类型等特征，比如PolyPhen、SIFT等，进而预测出检测出的突变危害性。有些算法会分析序列的保守型，预测突变所处区域是否保守，比如PhastCon，保守区域的突变较非保守区域的突变危害性大。此外，还可以根据氨基酸类型的带电性变化进行过滤，或者根据BLOSUM等打分矩阵分值进行过滤。不同的算法预测的危害性不一定一致。一般统计多个算法预测中，预测危害性较大的比例。<br>5）根据先验知识库进行过滤：注释软件可以注释关联性分析的信息，也可以注释Clinvar相关数据，这些信息在后续的突变位点解读和分析中有很重要的作用。这些信息可以告诉分析人员位点和哪些疾病有关，或者在Clinvar中的致病性评级。可以根据显著性、是否为良性突变、疾病信息等内容对突变 进行过滤。<br>6）根据数据库标识进行过滤：注释软件会注释突变在dbSNP、COSMIC等数据库中的编号。如果研究的疾病非常非常罕见，以往没有研究过，可以尝试寻找非dbSNP数据库中的突变。如果研究和癌症相关的突变，可以寻找COSMIC数据库中出现的突变。<br>7）根据遗传方式进行过滤：如果疾病呈现家族性分布，可以根据系谱图推断出的遗传类型进行过滤。比如如果是隐形突变，则只考虑病人中的纯合突变。如果有线索指示突变为新生突变，则需要根据父母双方的突变数据，将后代中同样位点的突变过滤掉。<br>8）根据其他条件进行过滤：突变过滤还可以有其他的方式，最终还是要根据分析目的进行选择。比如有四个散发样本的突变数据，同样的表型，往往寻找四个样本在相同基因内是否都发生突变，或者是否有相同的高危害突变（比如移码突变）。</p>
 <p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>#####################################################################</p>
 
@@ -1031,10 +1082,6 @@ R2----ZA:Z:TC ZB:Z:TA RG:Z:test       RX:Z:TC-TA</pre>
     
     
     
-
-
-# <!-- Insert google ad blocks -->
-<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
       <footer class="post-footer">
         <div class="post-eof"></div>
       </footer>
@@ -1071,14 +1118,14 @@ R2----ZA:Z:TC ZB:Z:TA RG:Z:test       RX:Z:TC-TA</pre>
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2018-05-29 14:20:37" itemprop="dateCreated datePublished" datetime="2018-05-29T14:20:37+08:00">2018-05-29</time>
+              <time title="Created: 2018-05-28 22:20:37" itemprop="dateCreated datePublished" datetime="2018-05-28T22:20:37+08:00">2018-05-28</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-29 07:19:29" itemprop="dateModified" datetime="2020-05-29T07:19:29+08:00">2020-05-29</time>
+                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -1103,8 +1150,8 @@ R2----ZA:Z:TC ZB:Z:TA RG:Z:test       RX:Z:TC-TA</pre>
       
           <p>很早就知道神器zsh的存在，一直没有用，今天手痒装了一下，哈哈，用起来还不错。</p>
 <p>zsh是bash的增强版，可以兼容bash，可谓是shell中的战斗机，非常方便的命令提示、补全、忽略大小写等功能，一个字爽，可参见</p>
-<p><a href="https://www.zhihu.com/question/21418449">https://www.zhihu.com/question/21418449</a></p>
-<p>不过通常zsh配置起来比较复杂麻烦，于是诞生了oh-my-zsh，专门为简化zsh的配置而开发，<a href="http://ohmyz.sh，极大的简化了zsh的配置，还是一个字，爽。">http://ohmyz.sh，极大的简化了zsh的配置，还是一个字，爽。</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/21418449">https://www.zhihu.com/question/21418449</a></p>
+<p>不过通常zsh配置起来比较复杂麻烦，于是诞生了oh-my-zsh，专门为简化zsh的配置而开发，<a target="_blank" rel="noopener" href="http://ohmyz.sh,极大的简化了zsh的配置,还是一个字,爽./">http://ohmyz.sh，极大的简化了zsh的配置，还是一个字，爽。</a></p>
 <h1 id="安装zsh"><a href="#安装zsh" class="headerlink" title="安装zsh"></a>安装zsh</h1><p>首先查看系统是否安装了zsh，发现系统没有安装zsh<br>cat /etc/shells 或者chsh -l</p>
 <pre>/bin/sh
 /bin/bash
@@ -1130,13 +1177,13 @@ exec /share/apps/zsh/bin/zsh -l
 
 <h1 id="安装oh-my-zsh"><a href="#安装oh-my-zsh" class="headerlink" title="安装oh my zsh"></a>安装oh my zsh</h1><pre>sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"</pre>
 
-<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-05-28-install-oh-my-zsh.png" alt=""> </p>
-<p>既然用了zsh，我也尝试了一下新的虚拟终端MobaXterm。<br><a href="https://mobaxterm.mobatek.net">https://mobaxterm.mobatek.net</a></p>
-<p>安利的文章可以看这个，<a href="https://www.isharebest.com/mobaxterm.htm">https://www.isharebest.com/mobaxterm.htm</a></p>
+<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-05-28-install-oh-my-zsh.png"> </p>
+<p>既然用了zsh，我也尝试了一下新的虚拟终端MobaXterm。<br><a target="_blank" rel="noopener" href="https://mobaxterm.mobatek.net/">https://mobaxterm.mobatek.net</a></p>
+<p>安利的文章可以看这个，<a target="_blank" rel="noopener" href="https://www.isharebest.com/mobaxterm.htm">https://www.isharebest.com/mobaxterm.htm</a></p>
 <p>这个虚拟终端的功能非常丰富，但用起来有时候莫名其妙的卡。或许zsh和Xshell更搭。</p>
 <p>尝试了下命令提示的功能，如图，还是很方便的，后续以后会经常用zsh了。</p>
-<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-05-28-autopromote.png" alt=""> </p>
-<p>oh my zsh的主题列表<a href="https://github.com/robbyrussell/oh-my-zsh/wiki/themes">https://github.com/robbyrussell/oh-my-zsh/wiki/themes</a></p>
+<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-05-28-autopromote.png"> </p>
+<p>oh my zsh的主题列表<a target="_blank" rel="noopener" href="https://github.com/robbyrussell/oh-my-zsh/wiki/themes">https://github.com/robbyrussell/oh-my-zsh/wiki/themes</a></p>
 <p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>#####################################################################</p>
 
       
@@ -1145,182 +1192,6 @@ exec /share/apps/zsh/bin/zsh -l
     
     
     
-
-
-# <!-- Insert google ad blocks -->
-<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/996/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Jason">
-      <meta itemprop="description" content="Share news">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Another Jason's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/archives/996/" class="post-title-link" itemprop="url">BCFTOOLS支持的表达式</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2018-05-25 07:20:52" itemprop="dateCreated datePublished" datetime="2018-05-25T07:20:52+08:00">2018-05-25</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-29 07:19:29" itemprop="dateModified" datetime="2020-05-29T07:19:29+08:00">2020-05-29</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>翻译<a href="https://samtools.github.io/bcftools/bcftools-man.html#expressions">https://samtools.github.io/bcftools/bcftools-man.html#expressions</a></p>
-<h1 id="有效的表达式可能包含"><a href="#有效的表达式可能包含" class="headerlink" title="有效的表达式可能包含"></a>有效的表达式可能包含</h1><ul>
-<li><p>数字常量，字符常量，文件名</p>
-<p>1, 1.0, 1e-4<br>“String”<br>@file_name</p>
-</li>
-<li><p>算数运算符：</p>
-<p>+,*,-,/</p>
-</li>
-<li><p>比较运算符：</p>
-<p>== (同=), &gt;, &gt;=, &lt;=, &lt;, !=</p>
-</li>
-<li><p>正则运算符”<del>“及其非值”!</del>“。大小写敏感，加”/i”这大小写不敏感：</p>
-<p>INFO/HAYSTACK ~ “needle”<br>INFO/HAYSTACK ~ “NEEDless/i”</p>
-</li>
-<li><p>括号：</p>
-<p>(, )</p>
-</li>
-<li><p>逻辑运算符：</p>
-<p>&amp;&amp; (同&amp;), ||,  |</p>
-</li>
-<li><p>VCF/BCF中的INFO tags, FORMAT tags, column names：</p>
-<p>INFO tags: INFO/DP or DP<br>FORMAT tags: FORMAT/DV, FMT/DV, or DV<br>column names:  FILTER, QUAL, ID, POS, REF, ALT[0]</p>
-</li>
-<li><p>1 (或0) 检测flag的存在 (或不存在) ：</p>
-<p>FlagA=1 &amp;&amp; FlagB=0</p>
-</li>
-<li><p>“.” 检测缺失值：</p>
-<p>DP=”.”, DP!=”.”, ALT=”.”</p>
-</li>
-<li><p>不论分型phase或者倍体ploid(“.|.”, “./.”, “.”) ，缺失的基因型genotype可以通过以下表达式匹配：</p>
-<p>GT<del>“\.”, GT!</del>“\.”</p>
-</li>
-<li><p>包括分型phase或者倍体ploid(“.|.”, “./.”, “.”) ，可以通过以下表达式匹配：</p>
-<p>GT=”.|.”, GT=”./.”, GT=”.”</p>
-</li>
-<li><p>样本基因型genotype：参考</p>
-<p>参考基因型（单倍体或二倍体）:  GT=”ref”<br>突变基因型 （纯合或杂合，单倍体或二倍体）： GT=”alt”<br>缺失基因型：GT=”mis”<br>纯合：GT=”hom”<br>杂合：GT=”het”<br>单倍体： GT=”hap”<br>纯合参考：GT=”RR”<br>纯合突变： GT=”AA”<br>ref-alt杂合： GT=”RA” or GT=”AR”<br>alt-alt杂合：GT=”Aa” or GT=”aA”<br>haploid ref： GT=”R”<br>haploid alt：GT=”A”<br>大小写不敏感</p>
-</li>
-<li><p>在REF和ALT列中的突变类型：（indel，snp，mnp，ref，bnd（断点breakend？），other），”\~” 表示至少一个等位基因是这种类型，”=” 要求所有等位基因是这个类型：</p>
-<p>TYPE=”snp”<br>TYPE<del>“snp”<br>TYPE!=”snp”<br>TYPE!</del>“snp”</p>
-</li>
-<li><p>数组下标（0开始）， “*” 任意元素， “-“ 表示范围。在检索FORMAT向量时，冒号”:” 可以用来选择样本和元素，如下：</p>
-<p>INFO/AF[0] &gt; 0.3             ..   第一个AF值大于0.3<br>FORMAT/AD[0:0] &gt; 30          ..   第一个样本的第一个AD值大于30<br>FORMAT/AD[0:1]               ..   第一个样本的第二个AD值<br>FORMAT/AD[1:0]               ..   第二个样本的第一个AD值<br>DP4[<em>] == 0                  ..   任意DP4的值<br>FORMAT/DP[0]   &gt; 30         ..   第一个样本的DP值大于30<br>FORMAT/DP[1-3] &gt; 10         ..  第二到四的样本<br>FORMAT/DP[1-]  &lt; 7          ..    除了第一个样本的其他所有样本<br>FORMAT/DP[0,2-4] &gt; 20       ..   第一，三到五个样本<br>FORMAT/AD[0:1]              ..   第一个样本的第二个AD field<br>FORMAT/AD[0:*], AD[0:] or AD[0] ..  第一个样本得到所有AD field<br>FORMAT/AD[</em>:1] or AD[:1]        ..   所有样本的AD field<br>(DP4[0]+DP4[1])/(DP4[2]+DP4[3]) &gt; 0.3<br>CSQ[<em>] ~ “missense_variant.</em>deleterious”</p>
-</li>
-<li><p>基于FORMAT tags和INFO tags的函数：</p>
-<p>MAX, MIN, AVG, SUM, STRLEN, ABS, COUNT</p>
-</li>
-<li><p>变量可以快速计算得到：</p>
-<p>alternate allele的数目：N_ALT<br>样本数目：N_SAMPLES<br>alternate allele的的计数：AC<br>次等位基因计数，与AC相似，但统计的是小于0.5的等位基因）：MAC,<br>alternate等位基因的频率（AF=AC/AN）：AF<br>次等位基因频率（MAF=MAC/AN）： MAF<br>在called genotypes中等位基因的数目： AN<br>有missing genotype的样本数目：N_MISSING<br>有missing genotype的样本比例：F_MISSING</p>
-</li>
-<li><p>配置perl过滤。注意这个命令默认是没有编译的，在安装的时候可以查看INSTALL文件的Optional Compilation with Perl部分，misc/demo-flt.pl 是一个示例，这个示例中定义了一个名为severity的perl子程序，并被以下命令行调用：</p>
-<p>perl:path/to/script.pl; perl.severity(INFO/CSQ) &gt; 3</p>
-</li>
-</ul>
-<h1 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h1><p>字符和正则表达式都是不区分大小写的，除了tag名外，变量和函数名也是不区分大小写的。例如”qual” 等同 “QUAL”，”strlen()”等同”STRLEN()” ，但是”dp” 不等同 “DP”。 当检索多个值时，所有的元素都会被测试，通过或逻辑（OR）得到结果。比如检索”TAG=1,2,3,4”时：</p>
-<pre><code>-i &apos;TAG\[*\]=1&apos;   .. true, 真，该条记录会被打印
--i &apos;TAG\[*\]!=1&apos;  .. true
--e &apos;TAG\[*\]=1&apos;   .. false,否，该条打印会被丢弃
--e &apos;TAG\[*\]!=1&apos;  .. false
--i &apos;TAG\[0\]=1&apos;   .. true
--i &apos;TAG\[0\]!=1&apos;  .. false
--e &apos;TAG\[0\]=1&apos;   .. false
--e &apos;TAG\[0\]!=1&apos;  .. true</code></pre><h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><pre><code>MIN(DV)&gt;5
-MIN(DV/DP)&gt;0.3
-MIN(DP)&gt;10 &amp; MIN(DV)&gt;3
-FMT/DP&gt;10  &amp; FMT/GQ&gt;10 ..   同一个样本需满足两个条件 
-FMT/DP&gt;10 &amp;&amp; FMT/GQ&gt;10 ..  允许不同样本间可以满足这两个条件
-QUAL&gt;10 |  FMT/GQ&gt;10   ..   对QUAL&gt;10 的位点或者 FMT/GQ&gt;10的样本为真，但只选择FMT/GQ&gt;10的样本
-QUAL&gt;10 || FMT/GQ&gt;10   .. 对QUAL&gt;10 的位点或者 FMT/GQ&gt;10的样本为真，选择该位点的所有样本
-TYPE=&quot;snp&quot; &amp;&amp; QUAL&gt;=10 &amp;&amp; (DP4\[2\]+DP4\[3\] &gt; 2)
-COUNT(GT=&quot;hom&quot;)=0
-MIN(DP)&gt;35 &amp;&amp; AVG(GQ)&gt;50
-ID=@file       ..   选择出现在文件file中的ID
-ID!=@~/file    ..   忽略出现在文件file中的ID
-MAF\[0\]&lt;0.05    ..   以5%为阈值，选择rare variant
-POS&gt;=100   ..   限制检索范围，比如20:100-200内的突变</code></pre><h1 id="Shell-扩展"><a href="#Shell-扩展" class="headerlink" title="Shell 扩展"></a>Shell 扩展</h1><p>表达式需要用单引号引起来，因为一些字符可能在shell中有特殊含义。比如</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bcftools view -i <span class="string">'%ID!="." &amp; MAF\[0\]&lt;0.01'</span></span><br></pre></td></tr></table></figure>
-
-<h1 id="用bcftools进行突变筛选的示例"><a href="#用bcftools进行突变筛选的示例" class="headerlink" title="用bcftools进行突变筛选的示例"></a>用bcftools进行突变筛选的示例</h1><p><strong>摘自公众号生信开发者</strong> </p>
-<p>#选出位于bed文件中的所有区域的突变位点</p>
-<p><code>bcftools view -R target.bed sample.filter.vcf.bgz</code></p>
-<p>#选出INFO中SAO=1的所有位点</p>
-<p><code>bcftools view -i &#39;SAO=1&#39; sample.filter..b37.vcf</code></p>
-<p>#选出INFO中AC&gt;2的所有位点</p>
-<p><code>bcftools view -i &quot;AC&gt;=2&quot; ExAC.r1.sites.vep.vcf.gz</code></p>
-<p>#选出遗传方式是AR或XR的位点（需INFO字段中已有INHERITANCE注释）</p>
-<p><code>bcftools view -i &#39;INHERITANCE\[*\] = &quot;AR&quot; || INHERITANCE\[*\] = &quot;XR&quot;&#39; sample.filter.annovar.hg19_multianno.Fun.ar.vcf</code></p>
-<p>#选出位于区域X:31136335-33358725的所有位点</p>
-<p><code>bcftools view sample.filter.vcf.bgz X:31136335-33358725</code></p>
-<p>#选出除了INFO字段CLINSIG匹配”Benign”以外的所有</p>
-<p><code>bcftools view -e &#39;CLINSIG~&quot;Benign&quot;&#39; sample.filter.hg19_multianno.Fun.vcf</code></p>
-<p>#选出最小的depth&gt;500而且，肿瘤样品的VAF&gt;0.05的所有位点</p>
-<p><code>bcftools view -i &quot; MIN(FMT/DP)&gt;500 &amp;&amp; FORMAT/AD\[1:1\]/FORMAT/DP\[1\]&gt;0.05 &quot; annovar.exdbsnp.exCOSMIC.exTSG.cds.vcf | sed &#39;/^#/d&#39;</code></p>
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p>表达式手册翻译自<a href="https://samtools.github.io/bcftools/bcftools-man.html#expressions">https://samtools.github.io/bcftools/bcftools-man.html#expressions</a> </p>
-<p>bcftools突变筛选摘自<strong>公众号生信开发者</strong></p>
-
-      
-    </div>
-
-    
-    
-    
-
-
-# <!-- Insert google ad blocks -->
-<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
       <footer class="post-footer">
         <div class="post-eof"></div>
       </footer>
@@ -1398,7 +1269,7 @@ POS&gt;=100   ..   限制检索范围，比如20:100-200内的突变</code></pre
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">133</span>
+          <span class="site-state-item-count">134</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -1407,7 +1278,7 @@ POS&gt;=100   ..   限制检索范围，比如20:100-200内的突变</code></pre
         <span class="site-state-item-name">categories</span>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">139</span>
+        <span class="site-state-item-count">141</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>

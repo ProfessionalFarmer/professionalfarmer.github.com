@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 4.2.1">
+<meta name="generator" content="Hexo 5.1.1">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -147,6 +147,109 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/1067/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="Share news">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Another Jason's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/archives/1067/" class="post-title-link" itemprop="url">统计GTF文件中转录本的长度 Calculate transcript length from gtf file</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-12-09 05:37:46" itemprop="dateCreated datePublished" datetime="2019-12-09T05:37:46+08:00">2019-12-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>gtf 文件INPUT</p>
+<pre>chr1    PacBio  exon    763020  763155  .       +       .       gene_id "XLOC_000001"; transcript_id "TCONS_00000001"; exon_number "1"; gene_name "LINC01128"; oId "PB.5.1"; nearest_ref "NR_047519"; class_code "j"; tss_id "TSS1";
+chr1    PacBio  exon    764383  764484  .       +       .       gene_id "XLOC_000001"; transcript_id "TCONS_00000001"; exon_number "2"; gene_name "LINC01128"; oId "PB.5.1"; nearest_ref "NR_047519"; class_code "j"; tss_id "TSS1";
+chr1    PacBio  exon    776580  776753  .       +       .       gene_id "XLOC_000001"; transcript_id "TCONS_00000001"; exon_number "3"; gene_name "LINC01128"; oId "PB.5.1"; nearest_ref "NR_047519"; class_code "j"; tss_id "TSS1";</pre>
+
+<p>Code</p>
+<pre>awk -F"\t" '
+{
+if ($3=="exon")
+    {
+        split($9, a, " ");
+        ID=a[4]; 
+        L[ID]+=$5-$4+1
+    } 
+}
+END{
+    for(i in L)
+        {print i"\t"L[i]}
+    }
+' gtf-file >output
+</pre>
+
+<p>You can change array index and feature type to choose what you want to count. For example, if you want to calculate gene length, change exon to gene (make sure your gtf file has this feature).</p>
+<p>输出OUTPUT</p>
+<pre>"TCONS_00052437";       5950
+"TCONS_00049398";       988
+"TCONS_00031225";       6005
+"TCONS_00026369";       825</pre>
+
+<p>参考：<a target="_blank" rel="noopener" href="https://gist.github.com/sp00nman/10372555">https://gist.github.com/sp00nman/10372555</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/1065/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -171,14 +274,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2019-12-05 20:31:49" itemprop="dateCreated datePublished" datetime="2019-12-05T20:31:49+08:00">2019-12-05</time>
+              <time title="Created: 2019-12-05 04:31:49" itemprop="dateCreated datePublished" datetime="2019-12-05T04:31:49+08:00">2019-12-05</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-29 07:19:29" itemprop="dateModified" datetime="2020-05-29T07:19:29+08:00">2020-05-29</time>
+                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -216,7 +319,7 @@ chr1    hg19_refGene    CDS     67091530        67091593        0.000000        
 chr1    hg19_refGene    exon    67091530        67091593        0.000000        +       .       gene_id "NM_001308203"; transcript_id "NM_001308203";</pre>
 
 
-<p>中间找了很多，终于找到一个方法，<a href="https://bioinformatics.stackexchange.com/questions/2548/hg38-gtf-file-with-refseq-annotations">https://bioinformatics.stackexchange.com/questions/2548/hg38-gtf-file-with-refseq-annotations</a></p>
+<p>中间找了很多，终于找到一个方法，<a target="_blank" rel="noopener" href="https://bioinformatics.stackexchange.com/questions/2548/hg38-gtf-file-with-refseq-annotations">https://bioinformatics.stackexchange.com/questions/2548/hg38-gtf-file-with-refseq-annotations</a></p>
 <pre>mysql --user=genome --host=genome-mysql.cse.ucsc.edu -A -N -e "select * from refGene" hg19 ' cut -f2- ' genePredToGtf -source=hg19.refGene.ucsc file stdin stdout > refSeq.hg19.gtf</pre>
 
 <p>genePredToGtf可以从UCSC下载，需要注意的直接下载refFlat的文件（不通过mysql），用genePhredToGtf生成的文件和UCSC table browser下载的gtf文件是一样的，通过mysql下载用genephreadToGtf是我想要的。</p>
@@ -226,7 +329,7 @@ chrX    hg19.refGene.ucsc       CDS     70683674        70683893        .       
 chrX    hg19.refGene.ucsc       start_codon     70586225        70586227        .       +       0       gene_id "TAF1"; transcript_id "NM_138923"; exon_number "1"; exon_id "NM_138923.1"; gene_name "TAF1";
 chrX    hg19.refGene.ucsc       stop_codon      70683894        70683896        .       +       0       gene_id "TAF1"; transcript_id "NM_138923"; exon_number "38"; exon_id "NM_138923.38"; gene_name "TAF1";</pre>
 
-<p>Ref: <a href="https://bioinformatics.stackexchange.com/questions/2548/hg38-gtf-file-with-refseq-annotations">https://bioinformatics.stackexchange.com/questions/2548/hg38-gtf-file-with-refseq-annotations</a></p>
+<p>Ref: <a target="_blank" rel="noopener" href="https://bioinformatics.stackexchange.com/questions/2548/hg38-gtf-file-with-refseq-annotations">https://bioinformatics.stackexchange.com/questions/2548/hg38-gtf-file-with-refseq-annotations</a></p>
 <p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>#####################################################################</p>
 
       
@@ -235,10 +338,6 @@ chrX    hg19.refGene.ucsc       stop_codon      70683894        70683896        
     
     
     
-
-
-# <!-- Insert google ad blocks -->
-<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
       <footer class="post-footer">
         <div class="post-eof"></div>
       </footer>
@@ -275,14 +374,14 @@ chrX    hg19.refGene.ucsc       stop_codon      70683894        70683896        
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2019-06-11 02:30:37" itemprop="dateCreated datePublished" datetime="2019-06-11T02:30:37+08:00">2019-06-11</time>
+              <time title="Created: 2019-06-10 10:30:37" itemprop="dateCreated datePublished" datetime="2019-06-10T10:30:37+08:00">2019-06-10</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-29 07:19:29" itemprop="dateModified" datetime="2020-05-29T07:19:29+08:00">2020-05-29</time>
+                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -305,7 +404,7 @@ chrX    hg19.refGene.ucsc       stop_codon      70683894        70683896        
     <div class="post-body" itemprop="articleBody">
 
       
-          <p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2019-06-09-TCGABiolinks-Rplot.png" alt=""></p>
+          <p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2019-06-09-TCGABiolinks-Rplot.png"></p>
 <p>以前的工作是全基因组或全外分析，不涉及癌症和生存分析，但现在的工作主要围绕癌症方面，生存分析一定少不了。实验室小伙伴推荐用TCGAbiolinks下载TCGA的数据，于是研究了如何用TCGABiolinks下载TCGA的数据，以下载RNA的count数据为例，并做生存分析。</p>
 <pre># 安装相关的包
 if (!requireNamespace("BiocManager", quietly=TRUE))   
@@ -386,10 +485,6 @@ ggsurvplot(fit,pval=TRUE)</pre>
     
     
     
-
-
-# <!-- Insert google ad blocks -->
-<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
       <footer class="post-footer">
         <div class="post-eof"></div>
       </footer>
@@ -426,14 +521,14 @@ ggsurvplot(fit,pval=TRUE)</pre>
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2019-05-20 06:34:05" itemprop="dateCreated datePublished" datetime="2019-05-20T06:34:05+08:00">2019-05-20</time>
+              <time title="Created: 2019-05-19 14:34:05" itemprop="dateCreated datePublished" datetime="2019-05-19T14:34:05+08:00">2019-05-19</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-29 07:19:29" itemprop="dateModified" datetime="2020-05-29T07:19:29+08:00">2020-05-29</time>
+                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -459,7 +554,7 @@ ggsurvplot(fit,pval=TRUE)</pre>
           <p>因为对hyper-v不是很熟悉，点了一下检查点，生成了一个avhdx文件，这个文件其实后续hyper-v会将其合并到vhdx的虚拟磁盘中。而我当时手贱手工的删除了avhdx文件，导致hyper-v找不到这个文件，vhdx也挂起等待合并，虚拟机迟迟不能启动。</p>
 <p>有一种解决办法是文件恢复，但我用了几个文件都没有恢复成。实验室师兄（超级牛）新建了一个虚拟机挂载已有的vhdx文件，尝试用vhdx文件启动，显示不能启动，但在新的虚拟机下没有提示要合并，提示老系统的vhdx还有戏。</p>
 <p>于是又新建了一个虚拟机实例，创建虚拟机实例之后，尝试将以前的vhdx文件挂载到新的虚拟机上，重启发现竟然以老的系统启动了。感谢能够启动，避免实验室的数据丢失。</p>
-<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2019-05-19-hyper-v.png" alt=""> </p>
+<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2019-05-19-hyper-v.png"> </p>
 <p>根据结果反推，第一个shimx64.efi和Ubuntu.vhdx都是以前的系统，第二个shimx64.efi新的虚拟机的，硬盘驱动器已经换成了老系统的。</p>
 <p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>#####################################################################</p>
 
@@ -469,10 +564,6 @@ ggsurvplot(fit,pval=TRUE)</pre>
     
     
     
-
-
-# <!-- Insert google ad blocks -->
-<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
       <footer class="post-footer">
         <div class="post-eof"></div>
       </footer>
@@ -509,14 +600,14 @@ ggsurvplot(fit,pval=TRUE)</pre>
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2019-05-16 01:45:45" itemprop="dateCreated datePublished" datetime="2019-05-16T01:45:45+08:00">2019-05-16</time>
+              <time title="Created: 2019-05-15 09:45:45" itemprop="dateCreated datePublished" datetime="2019-05-15T09:45:45+08:00">2019-05-15</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-29 07:19:29" itemprop="dateModified" datetime="2020-05-29T07:19:29+08:00">2020-05-29</time>
+                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -539,11 +630,11 @@ ggsurvplot(fit,pval=TRUE)</pre>
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>STAR-FUSION和FusonAnnotator都属于Trinity Trinity Cancer Transcriptome Analysis Toolkit Fusion-finding modules。<br>CTAT_HumanFusionLib现阶段整合了各种资源帮助分析癌症生物学相关的fusion，同样也鉴别可能在正常样本只能出现的fusion。下载地址：<a href="https://data.broadinstitute.org/Trinity/CTAT_RESOURCE_LIB/">https://data.broadinstitute.org/Trinity/CTAT_RESOURCE_LIB/</a></p>
+          <p>STAR-FUSION和FusonAnnotator都属于Trinity Trinity Cancer Transcriptome Analysis Toolkit Fusion-finding modules。<br>CTAT_HumanFusionLib现阶段整合了各种资源帮助分析癌症生物学相关的fusion，同样也鉴别可能在正常样本只能出现的fusion。下载地址：<a target="_blank" rel="noopener" href="https://data.broadinstitute.org/Trinity/CTAT_RESOURCE_LIB/">https://data.broadinstitute.org/Trinity/CTAT_RESOURCE_LIB/</a></p>
 <p>FusionAnnotator –genome_lib_dir GRCh37_gencode_v19_CTAT_lib_July192017/ctat_genome_lib_build_dir/ <br>                   –annotate fusions.list.txt<br>fusions.list.txt为star-fusion的结果中的第一列，两个参与融合的基因中间用–连在一起，就可以用FusionAnnotator进行注释，相关的标签会注释到融合基因上。</p>
 <p>会有三类标签，每类下面又有很多具体的来源标签：<br>Fusions relevant to cancer biology<br>Individual genes of cancer relevance, which may show up in fusions<br>Red Herrings: Fusion pairs that may not be relevant to cancer, and potential false positives.</p>
 <p>通过注释，就可以了解到分析结果中的融合基因是否在其他数据库中出现过，或者可能是和癌症无关的突变。</p>
-<p>参考：<a href="https://github.com/FusionAnnotator/CTAT_HumanFusionLib/wiki">https://github.com/FusionAnnotator/CTAT_HumanFusionLib/wiki</a></p>
+<p>参考：<a target="_blank" rel="noopener" href="https://github.com/FusionAnnotator/CTAT_HumanFusionLib/wiki">https://github.com/FusionAnnotator/CTAT_HumanFusionLib/wiki</a></p>
 
       
     </div>
@@ -551,10 +642,6 @@ ggsurvplot(fit,pval=TRUE)</pre>
     
     
     
-
-
-# <!-- Insert google ad blocks -->
-<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
       <footer class="post-footer">
         <div class="post-eof"></div>
       </footer>
@@ -591,14 +678,14 @@ ggsurvplot(fit,pval=TRUE)</pre>
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2019-05-03 12:48:43" itemprop="dateCreated datePublished" datetime="2019-05-03T12:48:43+08:00">2019-05-03</time>
+              <time title="Created: 2019-05-02 20:48:43" itemprop="dateCreated datePublished" datetime="2019-05-02T20:48:43+08:00">2019-05-02</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-29 07:19:29" itemprop="dateModified" datetime="2020-05-29T07:19:29+08:00">2020-05-29</time>
+                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -623,7 +710,7 @@ ggsurvplot(fit,pval=TRUE)</pre>
       
           <p>需求，把多台服务器组成一个cluster(<strong>SGE</strong>)，把一台电脑（比如存储）的home文件件共享给其他服务器(<strong>NFS</strong>)，共用一个home文件夹，并进行用户的统一管理(<strong>NIS</strong>)。</p>
 <p>操作系统为操作系统：CentOS，用virtual box虚拟出来的系统做测试。<br>server端：10.0.2.5<br>client或compute端：在同样网段</p>
-<p>![](<a href="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020">https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020</a><br>/2019-05-02-NSF-SGE-NIS.png)</p>
+<p>![](<a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020">https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020</a><br>/2019-05-02-NSF-SGE-NIS.png)</p>
 <h1 id="1，NFS共享存储"><a href="#1，NFS共享存储" class="headerlink" title="1，NFS共享存储"></a>1，NFS共享存储</h1><p>通过nfs，实现每台服务器都有同样的路径和文件，便于后续集群管理。这里共享两个路径，一个是server端的/home路径，实现每个服务器都有同样的家目录，一个是/opt/gridengine用于安装SGE。</p>
 <h2 id="1-1-Server端："><a href="#1-1-Server端：" class="headerlink" title="1.1 Server端："></a>1.1 Server端：</h2><p>安装相关软件，NFS的端口是不固定的（因此如果客户端连不上的时候，往往需要iptables -F清理一下），客户端要准确的获得NFS服务器所使用的端口，就需要RPC服务。RPC最主要的功能就是记录每个NFS功能所对应的端口号，并且在NFS客户端请求时将该端口和功能对应的信息传递给请求数据的NFS客户端，让客户端可以链接到正确的端口上去，从而实现数据传输。</p>
 <pre>yum install nfs-utils rpcbind</pre>
@@ -672,10 +759,6 @@ vi /etc/fstab
     
     
     
-
-
-# <!-- Insert google ad blocks -->
-<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
       <footer class="post-footer">
         <div class="post-eof"></div>
       </footer>
@@ -712,14 +795,14 @@ vi /etc/fstab
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2019-04-22 09:50:08" itemprop="dateCreated datePublished" datetime="2019-04-22T09:50:08+08:00">2019-04-22</time>
+              <time title="Created: 2019-04-21 17:50:08" itemprop="dateCreated datePublished" datetime="2019-04-21T17:50:08+08:00">2019-04-21</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-29 07:19:29" itemprop="dateModified" datetime="2020-05-29T07:19:29+08:00">2020-05-29</time>
+                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -754,10 +837,6 @@ vi /etc/fstab
     
     
     
-
-
-# <!-- Insert google ad blocks -->
-<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
       <footer class="post-footer">
         <div class="post-eof"></div>
       </footer>
@@ -794,14 +873,14 @@ vi /etc/fstab
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2019-04-12 11:08:25" itemprop="dateCreated datePublished" datetime="2019-04-12T11:08:25+08:00">2019-04-12</time>
+              <time title="Created: 2019-04-11 19:08:25" itemprop="dateCreated datePublished" datetime="2019-04-11T19:08:25+08:00">2019-04-11</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-29 07:19:29" itemprop="dateModified" datetime="2020-05-29T07:19:29+08:00">2020-05-29</time>
+                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -838,10 +917,6 @@ vi /etc/fstab
     
     
     
-
-
-# <!-- Insert google ad blocks -->
-<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
       <footer class="post-footer">
         <div class="post-eof"></div>
       </footer>
@@ -878,14 +953,14 @@ vi /etc/fstab
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2019-03-30 10:39:05" itemprop="dateCreated datePublished" datetime="2019-03-30T10:39:05+08:00">2019-03-30</time>
+              <time title="Created: 2019-03-29 18:39:05" itemprop="dateCreated datePublished" datetime="2019-03-29T18:39:05+08:00">2019-03-29</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-29 07:19:29" itemprop="dateModified" datetime="2020-05-29T07:19:29+08:00">2020-05-29</time>
+                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -908,7 +983,7 @@ vi /etc/fstab
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>最近找smrt analysis 2.3的程序，真是太辛苦了。我不想用SMRT的图形界面，pacbio又把github上的相关项目obsolete了，tofu项目也没了，pbtranscript装起来各种错误，实在要放弃了，还好看到有人做了2.3的docker镜像。用最近的SMRT6.0中的isoseq3的同学可以忽略本文，isoseq3请移步<a href="https://github.com/PacificBiosciences/IsoSeq3/blob/master/README_v3.1.md">https://github.com/PacificBiosciences/IsoSeq3/blob/master/README_v3.1.md</a>。</p>
+          <p>最近找smrt analysis 2.3的程序，真是太辛苦了。我不想用SMRT的图形界面，pacbio又把github上的相关项目obsolete了，tofu项目也没了，pbtranscript装起来各种错误，实在要放弃了，还好看到有人做了2.3的docker镜像。用最近的SMRT6.0中的isoseq3的同学可以忽略本文，isoseq3请移步<a target="_blank" rel="noopener" href="https://github.com/PacificBiosciences/IsoSeq3/blob/master/README_v3.1.md">https://github.com/PacificBiosciences/IsoSeq3/blob/master/README_v3.1.md</a>。</p>
 <pre>docker pull bowhan/smrtanalysis-2.3.0.140936
 docker run -it -v /home/bowhan/myData:/data bowhan/smrtanalysis-2.3.0.140936 bash
 # -v 挂载目录
@@ -940,7 +1015,7 @@ pbtranscript.py cluster \
     --cDNA_size under1k --quiver --blasr_nproc 8 \
     --quiver_nproc 8 </pre>
 
-<p>本文转自<a href="https://hub.docker.com/r/bowhan/smrtanalysis-2.3.0.140936/">https://hub.docker.com/r/bowhan/smrtanalysis-2.3.0.140936/</a><br>其他参考：<a href="https://github.com/ben-lerch/IsoSeq-3.0">https://github.com/ben-lerch/IsoSeq-3.0</a></p>
+<p>本文转自<a target="_blank" rel="noopener" href="https://hub.docker.com/r/bowhan/smrtanalysis-2.3.0.140936/">https://hub.docker.com/r/bowhan/smrtanalysis-2.3.0.140936/</a><br>其他参考：<a target="_blank" rel="noopener" href="https://github.com/ben-lerch/IsoSeq-3.0">https://github.com/ben-lerch/IsoSeq-3.0</a></p>
 
       
     </div>
@@ -948,10 +1023,6 @@ pbtranscript.py cluster \
     
     
     
-
-
-# <!-- Insert google ad blocks -->
-<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
       <footer class="post-footer">
         <div class="post-eof"></div>
       </footer>
@@ -988,14 +1059,14 @@ pbtranscript.py cluster \
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2019-03-26 10:35:20" itemprop="dateCreated datePublished" datetime="2019-03-26T10:35:20+08:00">2019-03-26</time>
+              <time title="Created: 2019-03-25 18:35:20" itemprop="dateCreated datePublished" datetime="2019-03-25T18:35:20+08:00">2019-03-25</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-29 07:19:29" itemprop="dateModified" datetime="2020-05-29T07:19:29+08:00">2020-05-29</time>
+                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -1033,93 +1104,6 @@ pbtranscript.py cluster \
     
     
     
-
-
-# <!-- Insert google ad blocks -->
-<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/1044/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Jason">
-      <meta itemprop="description" content="Share news">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Another Jason's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/archives/1044/" class="post-title-link" itemprop="url">Generate Accurate Consensus Sequences from a Single SMRTbell</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2019-03-23 10:23:09" itemprop="dateCreated datePublished" datetime="2019-03-23T10:23:09+08:00">2019-03-23</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-29 07:19:29" itemprop="dateModified" datetime="2020-05-29T07:19:29+08:00">2020-05-29</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2019-03-22-PACBIO-ZMW-read.png" alt="Circular-Consensus-Sequence"></p>
-<h1 id="bax2bam"><a href="#bax2bam" class="headerlink" title="bax2bam"></a>bax2bam</h1><p>bax2bam -o mynewbam mydata.1.bax.h5 mydata.2.bax.h5 mydata.3.bax.h5</p>
-<h1 id="circus-consensus-sequence"><a href="#circus-consensus-sequence" class="headerlink" title="circus consensus sequence"></a>circus consensus sequence</h1><p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2019-03-22-PB-PACBIO-Circular-Consensus-Sequence.png" alt="Circular-Consensus-Sequence"></p>
-<p>ccs –minLength=100 myData.subreads.bam myResult.bam</p>
-<p>进行CCS由pacbio测序系统决定的，插入序列测多遍之后，可以用来校正随机错误。</p>
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="https://github.com/PacificBiosciences/unanimity/blob/develop/doc/PBCCS.md">https://github.com/PacificBiosciences/unanimity/blob/develop/doc/PBCCS.md</a></p>
-
-      
-    </div>
-
-    
-    
-    
-
-
-# <!-- Insert google ad blocks -->
-<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
       <footer class="post-footer">
         <div class="post-eof"></div>
       </footer>
@@ -1197,7 +1181,7 @@ pbtranscript.py cluster \
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">133</span>
+          <span class="site-state-item-count">134</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -1206,7 +1190,7 @@ pbtranscript.py cluster \
         <span class="site-state-item-name">categories</span>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">139</span>
+        <span class="site-state-item-count">141</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>

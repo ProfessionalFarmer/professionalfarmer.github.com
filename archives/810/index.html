@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 4.2.1">
+<meta name="generator" content="Hexo 5.1.1">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -28,8 +28,8 @@
 <meta property="og:description" content="不论是目标区域测序还是外显子组测序还是全基因组测序之后，我们会关注目标区域在特定深度下的覆盖度。比如20X的比例，50X的比例。如果只计算特定深度的覆盖度，我们了解不到其他深度下的覆盖度情况。如果每个都列出来，又不直观，这个时候用图片来表示就非常直观了。 获取统计数据我们需要知道在每个深度下碱基的比例，这个时候强大的bedtools就出场了。 bedtools coverage -sorted -">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-02-01-target-region-coverage.png">
-<meta property="article:published_time" content="2018-02-01T23:56:04.000Z">
-<meta property="article:modified_time" content="2020-05-28T23:19:29.657Z">
+<meta property="article:published_time" content="2018-02-01T07:56:04.000Z">
+<meta property="article:modified_time" content="2020-09-11T14:36:21.714Z">
 <meta property="article:author" content="Jason">
 <meta property="article:tag" content="Coverage">
 <meta property="article:tag" content="PLOT">
@@ -177,14 +177,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2018-02-02 07:56:04" itemprop="dateCreated datePublished" datetime="2018-02-02T07:56:04+08:00">2018-02-02</time>
+              <time title="Created: 2018-02-01 15:56:04" itemprop="dateCreated datePublished" datetime="2018-02-01T15:56:04+08:00">2018-02-01</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-29 07:19:29" itemprop="dateModified" datetime="2020-05-29T07:19:29+08:00">2020-05-29</time>
+                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -255,12 +255,12 @@ legend("topright", legend=labs, col=cols, lty=1, lwd=4)
 
 dev.off()</pre>
 
-<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-02-01-target-region-coverage.png" alt=""></p>
+<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-02-01-target-region-coverage.png"></p>
 <p>图片也可以用ggplot2来做。横坐标是DP，纵坐标是大于等于&gt;=该DP的碱基比例。该图还有一个好处，是可以多个样本同时放在一张图上，便于进行样本间比较。</p>
 <p>可以看出smp2的覆盖度最好，随着横左边的增加，下降最缓慢。smp1和smp3最不好，在20X以后，覆盖度显著下降。如果样本smp来自不同的测序实验，则smp2所用的方法是最有的。</p>
 <p>最后还是那句话，图片表达的信息量多而且直观。让我们用图片说话。</p>
 <p>主要CLONE参考：</p>
-<p><a href="http://www.gettinggeneticsdone.com/2014/03/visualize-coverage-exome-targeted-ngs-bedtools.html">http://www.gettinggeneticsdone.com/2014/03/visualize-coverage-exome-targeted-ngs-bedtools.html</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.gettinggeneticsdone.com/2014/03/visualize-coverage-exome-targeted-ngs-bedtools.html">http://www.gettinggeneticsdone.com/2014/03/visualize-coverage-exome-targeted-ngs-bedtools.html</a></p>
 <p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>#####################################################################</p>
 
     </div>
@@ -268,10 +268,6 @@ dev.off()</pre>
     
     
     
-
-
-# <!-- Insert google ad blocks -->
-<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 
       <footer class="post-footer">
           <div class="post-tags">
@@ -350,7 +346,7 @@ dev.off()</pre>
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#获取统计数据"><span class="nav-number">1.</span> <span class="nav-text">获取统计数据</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#作图"><span class="nav-number">2.</span> <span class="nav-text">作图</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96%E7%BB%9F%E8%AE%A1%E6%95%B0%E6%8D%AE"><span class="nav-number">1.</span> <span class="nav-text">获取统计数据</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BD%9C%E5%9B%BE"><span class="nav-number">2.</span> <span class="nav-text">作图</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -364,7 +360,7 @@ dev.off()</pre>
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">133</span>
+          <span class="site-state-item-count">134</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -373,7 +369,7 @@ dev.off()</pre>
         <span class="site-state-item-name">categories</span>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">139</span>
+        <span class="site-state-item-count">141</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>

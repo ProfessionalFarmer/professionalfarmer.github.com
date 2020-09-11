@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 4.2.1">
+<meta name="generator" content="Hexo 5.1.1">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -20,15 +20,15 @@
     var CONFIG = {"hostname":"md.zxzyl.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="1,下载control freec 地址：http:&#x2F;&#x2F;bioinfo-out.curie.fr&#x2F;projects&#x2F;freec&#x2F;src&#x2F;FREEC_Linux64.tar.gz 2，编译 tar -zxvf FREEC_Linux64.tar.gz make3，control freec根据配置文件进行工作，运行control freec之前需要进行的准备工作有">
+  <meta name="description" content="1,下载control freec 地址：http:&#x2F;&#x2F;bioinfo-out.curie.fr&#x2F;projects&#x2F;freec&#x2F;src&#x2F;FREEC_Linux64.tar.gz 2，编译 tar -zxvf FREEC_Linux64.tar.gz make 3，control freec根据配置文件进行工作，运行control freec之前需要进行的准备工作有">
 <meta property="og:type" content="article">
 <meta property="og:title" content="ControlFreec检测CNV">
 <meta property="og:url" content="http://md.zxzyl.com/archives/717/index.html">
 <meta property="og:site_name" content="Another Jason&#39;s blog">
-<meta property="og:description" content="1,下载control freec 地址：http:&#x2F;&#x2F;bioinfo-out.curie.fr&#x2F;projects&#x2F;freec&#x2F;src&#x2F;FREEC_Linux64.tar.gz 2，编译 tar -zxvf FREEC_Linux64.tar.gz make3，control freec根据配置文件进行工作，运行control freec之前需要进行的准备工作有">
+<meta property="og:description" content="1,下载control freec 地址：http:&#x2F;&#x2F;bioinfo-out.curie.fr&#x2F;projects&#x2F;freec&#x2F;src&#x2F;FREEC_Linux64.tar.gz 2，编译 tar -zxvf FREEC_Linux64.tar.gz make 3，control freec根据配置文件进行工作，运行control freec之前需要进行的准备工作有">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2015-12-12T05:34:40.000Z">
-<meta property="article:modified_time" content="2020-05-28T23:19:29.617Z">
+<meta property="article:published_time" content="2015-12-11T13:34:40.000Z">
+<meta property="article:modified_time" content="2020-09-11T14:36:21.661Z">
 <meta property="article:author" content="Jason">
 <meta property="article:tag" content="CNV">
 <meta name="twitter:card" content="summary">
@@ -174,14 +174,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2015-12-12 13:34:40" itemprop="dateCreated datePublished" datetime="2015-12-12T13:34:40+08:00">2015-12-12</time>
+              <time title="Created: 2015-12-11 21:34:40" itemprop="dateCreated datePublished" datetime="2015-12-11T21:34:40+08:00">2015-12-11</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-29 07:19:29" itemprop="dateModified" datetime="2020-05-29T07:19:29+08:00">2020-05-29</time>
+                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -205,18 +205,19 @@
 
       
         <p>1,下载control freec</p>
-<p>地址：<a href="http://bioinfo-out.curie.fr/projects/freec/src/FREEC_Linux64.tar.gz" title="http://bioinfo-out.curie.fr/projects/freec/src/FREEC_Linux64.tar.gz">http://bioinfo-out.curie.fr/projects/freec/src/FREEC_Linux64.tar.gz</a></p>
+<p>地址：<a target="_blank" rel="noopener" href="http://bioinfo-out.curie.fr/projects/freec/src/FREEC_Linux64.tar.gz" title="http://bioinfo-out.curie.fr/projects/freec/src/FREEC_Linux64.tar.gz">http://bioinfo-out.curie.fr/projects/freec/src/FREEC_Linux64.tar.gz</a></p>
 <p>2，编译</p>
 <pre><code>tar -zxvf FREEC_Linux64.tar.gz
-make</code></pre><p>3，control freec根据配置文件进行工作，运行control freec之前需要进行的准备工作有</p>
+make</code></pre>
+<p>3，control freec根据配置文件进行工作，运行control freec之前需要进行的准备工作有</p>
 <a id="more"></a>
 
-<p>1）生成配置参数chrLenFile对应的文件hg19.len，储存染色体长度，具体格式和内容可以直接拷贝<a href="http://bioinfo-out.curie.fr/projects/freec/src/hg19.len" title="http://bioinfo-out.curie.fr/projects/freec/src/hg19.len">http://bioinfo-out.curie.fr/projects/freec/src/hg19.len</a></p>
+<p>1）生成配置参数chrLenFile对应的文件hg19.len，储存染色体长度，具体格式和内容可以直接拷贝<a target="_blank" rel="noopener" href="http://bioinfo-out.curie.fr/projects/freec/src/hg19.len" title="http://bioinfo-out.curie.fr/projects/freec/src/hg19.len">http://bioinfo-out.curie.fr/projects/freec/src/hg19.len</a></p>
 <p>2）生成配置参数chrFiles对应的文件夹，/path/to/grch_chr，文件夹内里面包含1.fa, 2.fa…..,文件名必须以染色体为单位和开头</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> &#123;1..22&#125;;</span><br><span class="line"><span class="keyword">do</span> gunzip -c /path/to/Homo_sapiens.GRCh37.75.dna.chromosome.<span class="variable">$i</span>.fa.gz &gt;<span class="variable">$i</span>.fa;</span><br><span class="line"><span class="keyword">done</span></span><br><span class="line"><span class="keyword">do</span> gunzip -c /path/to/Homo_sapiens.GRCh37.75.dna.chromosome.X.fa.gz &gt;X.fa;</span><br><span class="line"><span class="keyword">do</span> gunzip -c /path/to/Homo_sapiens.GRCh37.75.dna.chromosome.Y.fa.gz &gt;Y.fa;</span><br></pre></td></tr></table></figure>
 
 <p>3）在没有对照样本的情况下，chrFiles和GCcontentProfile必须配置，第二步已经生成了chrFiles对应的文件夹，此步用于生成配置参数GCcontentProfile对应的文件</p>
-<p>下载<a href="http://bioinfo-out.curie.fr/projects/freec/src/gccount.tar.gz，解压并编译">http://bioinfo-out.curie.fr/projects/freec/src/gccount.tar.gz，解压并编译</a></p>
+<p>下载<a target="_blank" rel="noopener" href="http://bioinfo-out.curie.fr/projects/freec/src/gccount.tar.gz%EF%BC%8C%E8%A7%A3%E5%8E%8B%E5%B9%B6%E7%BC%96%E8%AF%91">http://bioinfo-out.curie.fr/projects/freec/src/gccount.tar.gz，解压并编译</a></p>
 <p>编写gccount的配置文件test.conf，gccount和freec可以共用配置文件，配置文件内容如下</p>
 <pre>[general]
 ##染色体长度，在2）生成
@@ -232,7 +233,7 @@ chrFiles = /path/to/grch_chr</pre>
 
 <p>运行gccount -conf test.conf会生成GC_profile.cnp文件，该文件对应配置参数GCcontentProfile</p>
 <p>4)配置参数samtools对应的samtools路径</p>
-<p>下载samtools，地址<a href="https://github.com/samtools/samtools/releases/latest/" title="https://github.com/samtools/samtools/releases/latest/">https://github.com/samtools/samtools/releases/latest/</a></p>
+<p>下载samtools，地址<a target="_blank" rel="noopener" href="https://github.com/samtools/samtools/releases/latest/" title="https://github.com/samtools/samtools/releases/latest/">https://github.com/samtools/samtools/releases/latest/</a></p>
 <pre>tar -jvxf samtools.tar.bz2
 cd samtools-1.2
 make
@@ -264,8 +265,8 @@ mateOrientation = FR</pre>
 <p>5，运行freec</p>
 <p><code>freec -conf test.conf</code></p>
 <p>会在outputDir生成sample.bam_CNVs等文件。</p>
-<p>文件格式参见：<a href="http://bioinfo-out.curie.fr/projects/freec/tutorial.html#OUTPUT" title="http://bioinfo-out.curie.fr/projects/freec/tutorial.html#OUTPUT">http://bioinfo-out.curie.fr/projects/freec/tutorial.html#OUTPUT</a></p>
-<p>参考文档：<a href="http://bioinfo-out.curie.fr/projects/freec/tutorial.html">http://bioinfo-out.curie.fr/projects/freec/tutorial.html</a></p>
+<p>文件格式参见：<a target="_blank" rel="noopener" href="http://bioinfo-out.curie.fr/projects/freec/tutorial.html#OUTPUT" title="http://bioinfo-out.curie.fr/projects/freec/tutorial.html#OUTPUT">http://bioinfo-out.curie.fr/projects/freec/tutorial.html#OUTPUT</a></p>
+<p>参考文档：<a target="_blank" rel="noopener" href="http://bioinfo-out.curie.fr/projects/freec/tutorial.html">http://bioinfo-out.curie.fr/projects/freec/tutorial.html</a></p>
 <p>#########################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#########################################################################</p>
 
     </div>
@@ -273,10 +274,6 @@ mateOrientation = FR</pre>
     
     
     
-
-
-# <!-- Insert google ad blocks -->
-<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 
       <footer class="post-footer">
           <div class="post-tags">
@@ -367,7 +364,7 @@ mateOrientation = FR</pre>
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">133</span>
+          <span class="site-state-item-count">134</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -376,7 +373,7 @@ mateOrientation = FR</pre>
         <span class="site-state-item-name">categories</span>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">139</span>
+        <span class="site-state-item-count">141</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>

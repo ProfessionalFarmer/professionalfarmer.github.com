@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 4.2.1">
+<meta name="generator" content="Hexo 5.1.1">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -27,8 +27,8 @@
 <meta property="og:site_name" content="Another Jason&#39;s blog">
 <meta property="og:description" content="翻译https:&#x2F;&#x2F;samtools.github.io&#x2F;bcftools&#x2F;bcftools-man.html#expressions 有效的表达式可能包含 数字常量，字符常量，文件名 1, 1.0, 1e-4“String”@file_name  算数运算符： +,*,-,&#x2F;  比较运算符： &#x3D;&#x3D; (同&#x3D;), &gt;, &gt;&#x3D;, &lt;&#x3D;, &lt;, !&#x3D;  正则运算符”“及其非值”!">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2018-05-24T23:20:52.000Z">
-<meta property="article:modified_time" content="2020-05-28T23:19:29.667Z">
+<meta property="article:published_time" content="2018-05-24T07:20:52.000Z">
+<meta property="article:modified_time" content="2020-09-11T14:36:21.729Z">
 <meta property="article:author" content="Jason">
 <meta property="article:tag" content="VCF">
 <meta property="article:tag" content="Variant">
@@ -176,14 +176,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2018-05-25 07:20:52" itemprop="dateCreated datePublished" datetime="2018-05-25T07:20:52+08:00">2018-05-25</time>
+              <time title="Created: 2018-05-24 15:20:52" itemprop="dateCreated datePublished" datetime="2018-05-24T15:20:52+08:00">2018-05-24</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-29 07:19:29" itemprop="dateModified" datetime="2020-05-29T07:19:29+08:00">2020-05-29</time>
+                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -206,7 +206,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>翻译<a href="https://samtools.github.io/bcftools/bcftools-man.html#expressions">https://samtools.github.io/bcftools/bcftools-man.html#expressions</a></p>
+        <p>翻译<a target="_blank" rel="noopener" href="https://samtools.github.io/bcftools/bcftools-man.html#expressions">https://samtools.github.io/bcftools/bcftools-man.html#expressions</a></p>
 <h1 id="有效的表达式可能包含"><a href="#有效的表达式可能包含" class="headerlink" title="有效的表达式可能包含"></a>有效的表达式可能包含</h1><ul>
 <li><p>数字常量，字符常量，文件名</p>
 <p>1, 1.0, 1e-4<br>“String”<br>@file_name</p>
@@ -248,7 +248,7 @@
 <p>TYPE=”snp”<br>TYPE<del>“snp”<br>TYPE!=”snp”<br>TYPE!</del>“snp”</p>
 </li>
 <li><p>数组下标（0开始）， “*” 任意元素， “-“ 表示范围。在检索FORMAT向量时，冒号”:” 可以用来选择样本和元素，如下：</p>
-<p>INFO/AF[0] &gt; 0.3             ..   第一个AF值大于0.3<br>FORMAT/AD[0:0] &gt; 30          ..   第一个样本的第一个AD值大于30<br>FORMAT/AD[0:1]               ..   第一个样本的第二个AD值<br>FORMAT/AD[1:0]               ..   第二个样本的第一个AD值<br>DP4[<em>] == 0                  ..   任意DP4的值<br>FORMAT/DP[0]   &gt; 30         ..   第一个样本的DP值大于30<br>FORMAT/DP[1-3] &gt; 10         ..  第二到四的样本<br>FORMAT/DP[1-]  &lt; 7          ..    除了第一个样本的其他所有样本<br>FORMAT/DP[0,2-4] &gt; 20       ..   第一，三到五个样本<br>FORMAT/AD[0:1]              ..   第一个样本的第二个AD field<br>FORMAT/AD[0:*], AD[0:] or AD[0] ..  第一个样本得到所有AD field<br>FORMAT/AD[</em>:1] or AD[:1]        ..   所有样本的AD field<br>(DP4[0]+DP4[1])/(DP4[2]+DP4[3]) &gt; 0.3<br>CSQ[<em>] ~ “missense_variant.</em>deleterious”</p>
+<p>INFO/AF[0] &gt; 0.3             ..   第一个AF值大于0.3<br>FORMAT/AD[0:0] &gt; 30          ..   第一个样本的第一个AD值大于30<br>FORMAT/AD[0:1]               ..   第一个样本的第二个AD值<br>FORMAT/AD[1:0]               ..   第二个样本的第一个AD值<br>DP4[*] == 0                  ..   任意DP4的值<br>FORMAT/DP[0]   &gt; 30         ..   第一个样本的DP值大于30<br>FORMAT/DP[1-3] &gt; 10         ..  第二到四的样本<br>FORMAT/DP[1-]  &lt; 7          ..    除了第一个样本的其他所有样本<br>FORMAT/DP[0,2-4] &gt; 20       ..   第一，三到五个样本<br>FORMAT/AD[0:1]              ..   第一个样本的第二个AD field<br>FORMAT/AD[0:<em>], AD[0:] or AD[0] ..  第一个样本得到所有AD field<br>FORMAT/AD[</em>:1] or AD[:1]        ..   所有样本的AD field<br>(DP4[0]+DP4[1])/(DP4[2]+DP4[3]) &gt; 0.3<br>CSQ[*] ~ “missense_variant.*deleterious”</p>
 </li>
 <li><p>基于FORMAT tags和INFO tags的函数：</p>
 <p>MAX, MIN, AVG, SUM, STRLEN, ABS, COUNT</p>
@@ -261,14 +261,15 @@
 </li>
 </ul>
 <h1 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h1><p>字符和正则表达式都是不区分大小写的，除了tag名外，变量和函数名也是不区分大小写的。例如”qual” 等同 “QUAL”，”strlen()”等同”STRLEN()” ，但是”dp” 不等同 “DP”。 当检索多个值时，所有的元素都会被测试，通过或逻辑（OR）得到结果。比如检索”TAG=1,2,3,4”时：</p>
-<pre><code>-i &apos;TAG\[*\]=1&apos;   .. true, 真，该条记录会被打印
--i &apos;TAG\[*\]!=1&apos;  .. true
--e &apos;TAG\[*\]=1&apos;   .. false,否，该条打印会被丢弃
--e &apos;TAG\[*\]!=1&apos;  .. false
--i &apos;TAG\[0\]=1&apos;   .. true
--i &apos;TAG\[0\]!=1&apos;  .. false
--e &apos;TAG\[0\]=1&apos;   .. false
--e &apos;TAG\[0\]!=1&apos;  .. true</code></pre><h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><pre><code>MIN(DV)&gt;5
+<pre><code>-i &#39;TAG\[*\]=1&#39;   .. true, 真，该条记录会被打印
+-i &#39;TAG\[*\]!=1&#39;  .. true
+-e &#39;TAG\[*\]=1&#39;   .. false,否，该条打印会被丢弃
+-e &#39;TAG\[*\]!=1&#39;  .. false
+-i &#39;TAG\[0\]=1&#39;   .. true
+-i &#39;TAG\[0\]!=1&#39;  .. false
+-e &#39;TAG\[0\]=1&#39;   .. false
+-e &#39;TAG\[0\]!=1&#39;  .. true</code></pre>
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><pre><code>MIN(DV)&gt;5
 MIN(DV/DP)&gt;0.3
 MIN(DP)&gt;10 &amp; MIN(DV)&gt;3
 FMT/DP&gt;10  &amp; FMT/GQ&gt;10 ..   同一个样本需满足两个条件 
@@ -281,25 +282,26 @@ MIN(DP)&gt;35 &amp;&amp; AVG(GQ)&gt;50
 ID=@file       ..   选择出现在文件file中的ID
 ID!=@~/file    ..   忽略出现在文件file中的ID
 MAF\[0\]&lt;0.05    ..   以5%为阈值，选择rare variant
-POS&gt;=100   ..   限制检索范围，比如20:100-200内的突变</code></pre><h1 id="Shell-扩展"><a href="#Shell-扩展" class="headerlink" title="Shell 扩展"></a>Shell 扩展</h1><p>表达式需要用单引号引起来，因为一些字符可能在shell中有特殊含义。比如</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bcftools view -i <span class="string">'%ID!="." &amp; MAF\[0\]&lt;0.01'</span></span><br></pre></td></tr></table></figure>
+POS&gt;=100   ..   限制检索范围，比如20:100-200内的突变</code></pre>
+<h1 id="Shell-扩展"><a href="#Shell-扩展" class="headerlink" title="Shell 扩展"></a>Shell 扩展</h1><p>表达式需要用单引号引起来，因为一些字符可能在shell中有特殊含义。比如</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bcftools view -i <span class="string">&#x27;%ID!=&quot;.&quot; &amp; MAF\[0\]&lt;0.01&#x27;</span> </span><br></pre></td></tr></table></figure>
 
 <h1 id="用bcftools进行突变筛选的示例"><a href="#用bcftools进行突变筛选的示例" class="headerlink" title="用bcftools进行突变筛选的示例"></a>用bcftools进行突变筛选的示例</h1><p><strong>摘自公众号生信开发者</strong> </p>
 <p>#选出位于bed文件中的所有区域的突变位点</p>
-<p><code>bcftools view -R target.bed sample.filter.vcf.bgz</code></p>
+<p><code>bcftools view -R target.bed sample.filter.vcf.bgz </code></p>
 <p>#选出INFO中SAO=1的所有位点</p>
-<p><code>bcftools view -i &#39;SAO=1&#39; sample.filter..b37.vcf</code></p>
+<p><code>bcftools view -i &#39;SAO=1&#39; sample.filter..b37.vcf </code></p>
 <p>#选出INFO中AC&gt;2的所有位点</p>
-<p><code>bcftools view -i &quot;AC&gt;=2&quot; ExAC.r1.sites.vep.vcf.gz</code></p>
+<p><code>bcftools view -i &quot;AC&gt;=2&quot; ExAC.r1.sites.vep.vcf.gz </code></p>
 <p>#选出遗传方式是AR或XR的位点（需INFO字段中已有INHERITANCE注释）</p>
-<p><code>bcftools view -i &#39;INHERITANCE\[*\] = &quot;AR&quot; || INHERITANCE\[*\] = &quot;XR&quot;&#39; sample.filter.annovar.hg19_multianno.Fun.ar.vcf</code></p>
+<p><code>bcftools view -i &#39;INHERITANCE\[*\] = &quot;AR&quot; || INHERITANCE\[*\] = &quot;XR&quot;&#39; sample.filter.annovar.hg19_multianno.Fun.ar.vcf </code></p>
 <p>#选出位于区域X:31136335-33358725的所有位点</p>
 <p><code>bcftools view sample.filter.vcf.bgz X:31136335-33358725</code></p>
 <p>#选出除了INFO字段CLINSIG匹配”Benign”以外的所有</p>
-<p><code>bcftools view -e &#39;CLINSIG~&quot;Benign&quot;&#39; sample.filter.hg19_multianno.Fun.vcf</code></p>
+<p><code>bcftools view -e &#39;CLINSIG~&quot;Benign&quot;&#39; sample.filter.hg19_multianno.Fun.vcf </code></p>
 <p>#选出最小的depth&gt;500而且，肿瘤样品的VAF&gt;0.05的所有位点</p>
-<p><code>bcftools view -i &quot; MIN(FMT/DP)&gt;500 &amp;&amp; FORMAT/AD\[1:1\]/FORMAT/DP\[1\]&gt;0.05 &quot; annovar.exdbsnp.exCOSMIC.exTSG.cds.vcf | sed &#39;/^#/d&#39;</code></p>
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p>表达式手册翻译自<a href="https://samtools.github.io/bcftools/bcftools-man.html#expressions">https://samtools.github.io/bcftools/bcftools-man.html#expressions</a> </p>
+<p><code>bcftools view -i &quot; MIN(FMT/DP)&gt;500 &amp;&amp; FORMAT/AD\[1:1\]/FORMAT/DP\[1\]&gt;0.05 &quot; annovar.exdbsnp.exCOSMIC.exTSG.cds.vcf | sed &#39;/^#/d&#39; </code></p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p>表达式手册翻译自<a target="_blank" rel="noopener" href="https://samtools.github.io/bcftools/bcftools-man.html#expressions">https://samtools.github.io/bcftools/bcftools-man.html#expressions</a> </p>
 <p>bcftools突变筛选摘自<strong>公众号生信开发者</strong></p>
 
     </div>
@@ -307,10 +309,6 @@ POS&gt;=100   ..   限制检索范围，比如20:100-200内的突变</code></pre
     
     
     
-
-
-# <!-- Insert google ad blocks -->
-<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 
       <footer class="post-footer">
           <div class="post-tags">
@@ -390,7 +388,7 @@ POS&gt;=100   ..   限制检索范围，比如20:100-200内的突变</code></pre
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#有效的表达式可能包含"><span class="nav-number">1.</span> <span class="nav-text">有效的表达式可能包含</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#注意"><span class="nav-number">2.</span> <span class="nav-text">注意</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#示例"><span class="nav-number">3.</span> <span class="nav-text">示例</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Shell-扩展"><span class="nav-number">4.</span> <span class="nav-text">Shell 扩展</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#用bcftools进行突变筛选的示例"><span class="nav-number">5.</span> <span class="nav-text">用bcftools进行突变筛选的示例</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">6.</span> <span class="nav-text">参考</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9C%89%E6%95%88%E7%9A%84%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%8F%AF%E8%83%BD%E5%8C%85%E5%90%AB"><span class="nav-number">1.</span> <span class="nav-text">有效的表达式可能包含</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B3%A8%E6%84%8F"><span class="nav-number">2.</span> <span class="nav-text">注意</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B"><span class="nav-number">3.</span> <span class="nav-text">示例</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Shell-%E6%89%A9%E5%B1%95"><span class="nav-number">4.</span> <span class="nav-text">Shell 扩展</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%94%A8bcftools%E8%BF%9B%E8%A1%8C%E7%AA%81%E5%8F%98%E7%AD%9B%E9%80%89%E7%9A%84%E7%A4%BA%E4%BE%8B"><span class="nav-number">5.</span> <span class="nav-text">用bcftools进行突变筛选的示例</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">6.</span> <span class="nav-text">参考</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -404,7 +402,7 @@ POS&gt;=100   ..   限制检索范围，比如20:100-200内的突变</code></pre
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">133</span>
+          <span class="site-state-item-count">134</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -413,7 +411,7 @@ POS&gt;=100   ..   限制检索范围，比如20:100-200内的突变</code></pre
         <span class="site-state-item-name">categories</span>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">139</span>
+        <span class="site-state-item-count">141</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>

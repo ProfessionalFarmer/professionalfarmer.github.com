@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 4.2.1">
+<meta name="generator" content="Hexo 5.1.1">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -147,6 +147,93 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/860/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="Share news">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Another Jason's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/archives/860/" class="post-title-link" itemprop="url">解决 mount: unknown filesystem type ntfs</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-03-01 11:14:06" itemprop="dateCreated datePublished" datetime="2018-03-01T11:14:06+08:00">2018-03-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>移动硬盘是ntfs格式的，服务器不能mount，报错 mount: unknown filesystem type ‘ntfs’</p>
+<p>解决方法：安装 NTFS-3G，官网 <a target="_blank" rel="noopener" href="https://www.tuxera.com/community/open-source-ntfs-3g">https://www.tuxera.com/community/open-source-ntfs-3g</a></p>
+<p>安装</p>
+<pre>wget -c https://tuxera.com/opensource/ntfs-3g_ntfsprogs-2017.3.23.tgz
+tar -xvzf ntfs-3g_ntfsprogs-2017.3.23.tgz 
+cd ntfs-3g_ntfsprogs-2017.3.23
+./configure 
+make 
+sudo make install</pre>
+
+<p>挂载</p>
+<pre>mount -t ntfs-3g /dev/sd**  /target</pre>
+
+<p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>###########################################################################</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/848/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -171,14 +258,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2018-02-28 06:27:45" itemprop="dateCreated datePublished" datetime="2018-02-28T06:27:45+08:00">2018-02-28</time>
+              <time title="Created: 2018-02-27 14:27:45" itemprop="dateCreated datePublished" datetime="2018-02-27T14:27:45+08:00">2018-02-27</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-29 07:19:29" itemprop="dateModified" datetime="2020-05-29T07:19:29+08:00">2020-05-29</time>
+                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -207,7 +294,7 @@
 <p>In addition to adding many alternate contigs, GRCh38 corrects thousands of SNPs and indels in the GRCh37 assembly that are absent in the population and are likely sequencing artifacts. It also includes synthetic centromeric sequence and updates non-nuclear genomic sequence.</p>
 <p><strong>除了添加了很多alternative contigs，GRCh38更正了数以千计的GRCh37版本中的SNPs和indels，这些SNPs和indels在人群中没有出现过、可能因为测序错误导致。GRCh38版本也包含了人工的着丝粒序列和更新了非核基因组序列。</strong></p>
 <p>The ability to recognize alternate haplotypes for loci is a drastic improvement that GRCh38 makes possible. Going forward, expanding genomics data will help identify variants for alternate haplotypes, improve existing and add additional alternate haplotypes and give us a better accounting of alternate haplotypes within populations. We are already seeing improvements and additions in the patch releases to reference genomes, e.g. the seven minor releases of GRCh38 available at the time of this writing.<br><strong>GRCh38大幅提高了识别alternate haplotype的能力，进一步提高了识别alternate haplotype的突变的能力。</strong></p>
-<p>BWA的作者Li Heng推荐GRCh37 primary assembly+ALT+decoy组成的参考基因组hs38DH，可以通过bwa下载，见<a href="https://github.com/lh3/bwa/blob/master/README-alt.md">https://github.com/lh3/bwa/blob/master/README-alt.md</a> ：</p>
+<p>BWA的作者Li Heng推荐GRCh37 primary assembly+ALT+decoy组成的参考基因组hs38DH，可以通过bwa下载，见<a target="_blank" rel="noopener" href="https://github.com/lh3/bwa/blob/master/README-alt.md">https://github.com/lh3/bwa/blob/master/README-alt.md</a> ：</p>
 <pre>bwa.kit/run-gen-ref hs38DH</pre>
 
 <p>作者的用NA12878做测试的比对结果如下，</p>
@@ -218,9 +305,9 @@ TP    2142260    2163113    2150844</pre>
 <p><strong>PS：</strong></p>
 <p>从改进来看，这些改进都将提高比对和突变检测的质量，<br>从结果看，38版本提高了TP的灵敏度，并降低了FP，<br>从趋势来看，37升级成38是大趋势，so请及时升级。</p>
 <p><strong>参考</strong></p>
-<p><a href="https://software.broadinstitute.org/gatk/documentation/article.php?id=7857">https://software.broadinstitute.org/gatk/documentation/article.php?id=7857</a></p>
-<p><a href="https://gatkforums.broadinstitute.org/gatk/discussion/8180/9-takeaways-to-help-you-get-started-with-grch38">https://gatkforums.broadinstitute.org/gatk/discussion/8180/9-takeaways-to-help-you-get-started-with-grch38</a><a href="https://software.broadinstitute.org/gatk/documentation/article.php?id=8017">https://software.broadinstitute.org/gatk/documentation/article.php?id=8017</a></p>
-<p><a href="https://github.com/lh3/bwa/blob/master/README-alt.md">https://github.com/lh3/bwa/blob/master/README-alt.md</a></p>
+<p><a target="_blank" rel="noopener" href="https://software.broadinstitute.org/gatk/documentation/article.php?id=7857">https://software.broadinstitute.org/gatk/documentation/article.php?id=7857</a></p>
+<p><a target="_blank" rel="noopener" href="https://gatkforums.broadinstitute.org/gatk/discussion/8180/9-takeaways-to-help-you-get-started-with-grch38">https://gatkforums.broadinstitute.org/gatk/discussion/8180/9-takeaways-to-help-you-get-started-with-grch38</a><a target="_blank" rel="noopener" href="https://software.broadinstitute.org/gatk/documentation/article.php?id=8017">https://software.broadinstitute.org/gatk/documentation/article.php?id=8017</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/lh3/bwa/blob/master/README-alt.md">https://github.com/lh3/bwa/blob/master/README-alt.md</a></p>
 <p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>#####################################################################</p>
 
       
@@ -229,10 +316,6 @@ TP    2142260    2163113    2150844</pre>
     
     
     
-
-
-# <!-- Insert google ad blocks -->
-<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
       <footer class="post-footer">
         <div class="post-eof"></div>
       </footer>
@@ -269,14 +352,14 @@ TP    2142260    2163113    2150844</pre>
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2018-02-13 13:46:41" itemprop="dateCreated datePublished" datetime="2018-02-13T13:46:41+08:00">2018-02-13</time>
+              <time title="Created: 2018-02-12 21:46:41" itemprop="dateCreated datePublished" datetime="2018-02-12T21:46:41+08:00">2018-02-12</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-29 07:19:29" itemprop="dateModified" datetime="2020-05-29T07:19:29+08:00">2020-05-29</time>
+                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -300,8 +383,8 @@ TP    2142260    2163113    2150844</pre>
 
       
           <p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-02-11-liftover-chain-description.png" alt="chain description"></p>
-<p>在做基因组坐标转换的时候，用crossmap和liftover的时候，会用到chain file。大家都在讲坐标转换会用到这个文件，却没有讲过chain文件的具体内容（百度和谷歌搜索结果都没有中文介绍，本文应该是第一个）。本文的内容都翻译自UCSC网站，原文<a href="https://genome.ucsc.edu/goldenpath/help/chain.html，希望能帮到大家了解这个文件。">https://genome.ucsc.edu/goldenpath/help/chain.html，希望能帮到大家了解这个文件。</a></p>
-<p>UCSC chain文件 <a href="http://hgdownload.soe.ucsc.edu/goldenPath/hg38/liftOver/">http://hgdownload.soe.ucsc.edu/goldenPath/hg38/liftOver/</a><br>Ensembl chain文件 <a href="https://sourceforge.net/projects/crossmap/files/Ensembl_chain_files/">https://sourceforge.net/projects/crossmap/files/Ensembl_chain_files/</a></p>
+<p>在做基因组坐标转换的时候，用crossmap和liftover的时候，会用到chain file。大家都在讲坐标转换会用到这个文件，却没有讲过chain文件的具体内容（百度和谷歌搜索结果都没有中文介绍，本文应该是第一个）。本文的内容都翻译自UCSC网站，原文<a target="_blank" rel="noopener" href="https://genome.ucsc.edu/goldenpath/help/chain.html%EF%BC%8C%E5%B8%8C%E6%9C%9B%E8%83%BD%E5%B8%AE%E5%88%B0%E5%A4%A7%E5%AE%B6%E4%BA%86%E8%A7%A3%E8%BF%99%E4%B8%AA%E6%96%87%E4%BB%B6%E3%80%82">https://genome.ucsc.edu/goldenpath/help/chain.html，希望能帮到大家了解这个文件。</a></p>
+<p>UCSC chain文件 <a target="_blank" rel="noopener" href="http://hgdownload.soe.ucsc.edu/goldenPath/hg38/liftOver/">http://hgdownload.soe.ucsc.edu/goldenPath/hg38/liftOver/</a><br>Ensembl chain文件 <a target="_blank" rel="noopener" href="https://sourceforge.net/projects/crossmap/files/Ensembl_chain_files/">https://sourceforge.net/projects/crossmap/files/Ensembl_chain_files/</a></p>
 <p>chain file里面包含许多块alignment的信息（个人觉得可以理解为同源的地方，chain），其中每一块有一个header，记录alignment在两个版本中坐标，以及许多行alignment data line记录具体比对情况。</p>
 <p>即每一块有 Header Line 和 Alignment Data Lines组成。形式如下，有两个chain</p>
 <pre>    chain 4900 chrY 58368225 + 25985403 25985638 chr5 151006098 - 43257292 43257528 1
@@ -347,8 +430,8 @@ TP    2142260    2163113    2150844</pre>
 <p>不一致的区域（gapped）长度为<br>reference = 0 + 4 +0 =4<br>query = 2 + 0 + 4 =6</p>
 <p>区域长度也可以通过ungapped和gapped区域计算，分别为：<br>reference = ungapped + gapped = 156 + 4 =160 bp<br>query = ungapped + gapped = 156 + 6 =162 bp</p>
 <p>更多信息详见：</p>
-<p><a href="http://genomewiki.ucsc.edu/index.php/LiftOver_Howto">http://genomewiki.ucsc.edu/index.php/LiftOver_Howto</a></p>
-<p><a href="https://genome.ucsc.edu/goldenpath/help/chain.html">https://genome.ucsc.edu/goldenpath/help/chain.html</a></p>
+<p><a target="_blank" rel="noopener" href="http://genomewiki.ucsc.edu/index.php/LiftOver_Howto">http://genomewiki.ucsc.edu/index.php/LiftOver_Howto</a></p>
+<p><a target="_blank" rel="noopener" href="https://genome.ucsc.edu/goldenpath/help/chain.html">https://genome.ucsc.edu/goldenpath/help/chain.html</a></p>
 <p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>#####################################################################</p>
 
       
@@ -357,10 +440,6 @@ TP    2142260    2163113    2150844</pre>
     
     
     
-
-
-# <!-- Insert google ad blocks -->
-<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
       <footer class="post-footer">
         <div class="post-eof"></div>
       </footer>
@@ -397,14 +476,14 @@ TP    2142260    2163113    2150844</pre>
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2018-02-12 03:39:11" itemprop="dateCreated datePublished" datetime="2018-02-12T03:39:11+08:00">2018-02-12</time>
+              <time title="Created: 2018-02-11 11:39:11" itemprop="dateCreated datePublished" datetime="2018-02-11T11:39:11+08:00">2018-02-11</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-29 07:19:29" itemprop="dateModified" datetime="2020-05-29T07:19:29+08:00">2020-05-29</time>
+                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -428,7 +507,7 @@ TP    2142260    2163113    2150844</pre>
 
       
           <p>分析时使用的基因组版本，可能会与其他来源数据所使用的基因组版本不一致，需要统一成同一个版本的坐标，才能方便下一步的分析。</p>
-<p>常用的有NCBI的Remap在线服务和UCSC的liftover，其实还有很多，本文暂时总结部分工具的用法。以将APOA1的编码区坐标（利用UCSC的genome browser下载，或者下载该文件<a href="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/FileAttach/2018-02-11-APOA1.bed">APOA1.bed</a>）转换为例，从hg19转到hg38版本坐标上。需要注意的是，在使用的时候，需要注意是否支持对应的格式。</p>
+<p>常用的有NCBI的Remap在线服务和UCSC的liftover，其实还有很多，本文暂时总结部分工具的用法。以将APOA1的编码区坐标（利用UCSC的genome browser下载，或者下载该文件<a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/FileAttach/2018-02-11-APOA1.bed">APOA1.bed</a>）转换为例，从hg19转到hg38版本坐标上。需要注意的是，在使用的时候，需要注意是否支持对应的格式。</p>
 <table>
 <thead>
 <tr>
@@ -443,40 +522,40 @@ TP    2142260    2163113    2150844</pre>
 <td>Liftover</td>
 <td>在线</td>
 <td>bed</td>
-<td><a href="http://genome.ucsc.edu/cgi-bin/hgLiftOver">http://genome.ucsc.edu/cgi-bin/hgLiftOver</a></td>
+<td><a target="_blank" rel="noopener" href="http://genome.ucsc.edu/cgi-bin/hgLiftOver">http://genome.ucsc.edu/cgi-bin/hgLiftOver</a></td>
 <td>一般</td>
 </tr>
 <tr>
 <td>Liftover</td>
 <td>本地</td>
 <td>bed和gff</td>
-<td><a href="http://hgdownload.cse.ucsc.edu/admin/exe/linux.x86_64/liftOver">http://hgdownload.cse.ucsc.edu/admin/exe/linux.x86_64/liftOver</a></td>
+<td><a target="_blank" rel="noopener" href="http://hgdownload.cse.ucsc.edu/admin/exe/linux.x86_64/liftOver">http://hgdownload.cse.ucsc.edu/admin/exe/linux.x86_64/liftOver</a></td>
 <td>推荐</td>
 </tr>
 <tr>
 <td>Remap</td>
 <td>在线</td>
 <td>hgvs，bed，gvf，gff，gtf，Text ASN.1，Binary ASN.1，UCSC Region和VCF</td>
-<td><a href="https://www.ncbi.nlm.nih.gov/genome/tools/remap">https://www.ncbi.nlm.nih.gov/genome/tools/remap</a></td>
+<td><a target="_blank" rel="noopener" href="https://www.ncbi.nlm.nih.gov/genome/tools/remap">https://www.ncbi.nlm.nih.gov/genome/tools/remap</a></td>
 <td>推荐</td>
 </tr>
 <tr>
 <td>CrossMap</td>
 <td>本地</td>
 <td>SAM/BAM,，Wiggle/BigWig， bed， gff/gtf，VCF</td>
-<td><a href="http://crossmap.sourceforge.net/">http://crossmap.sourceforge.net/</a></td>
+<td><a target="_blank" rel="noopener" href="http://crossmap.sourceforge.net/">http://crossmap.sourceforge.net/</a></td>
 <td>推荐</td>
 </tr>
 <tr>
 <td>picard</td>
 <td>本地</td>
 <td>interval和VCF</td>
-<td><a href="http://broadinstitute.github.io/picard/">http://broadinstitute.github.io/picard/</a></td>
+<td><a target="_blank" rel="noopener" href="http://broadinstitute.github.io/picard/">http://broadinstitute.github.io/picard/</a></td>
 <td></td>
 </tr>
 </tbody></table>
 <h1 id="在线版"><a href="#在线版" class="headerlink" title="在线版"></a>在线版</h1><h2 id="Liftover"><a href="#Liftover" class="headerlink" title="Liftover"></a>Liftover</h2><p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-02-11-screencapture-UCSC-hgLiftOver.png" alt="hg-liftover-ucsc"> </p>
-<p>服务地址： <a href="http://genome.ucsc.edu/cgi-bin/hgLiftOver">http://genome.ucsc.edu/cgi-bin/hgLiftOver</a></p>
+<p>服务地址： <a target="_blank" rel="noopener" href="http://genome.ucsc.edu/cgi-bin/hgLiftOver">http://genome.ucsc.edu/cgi-bin/hgLiftOver</a></p>
 <ul>
 <li><ul>
 <li>1，首先选择检索和目标基因组<pre>Original Genome:    Human
@@ -494,7 +573,7 @@ New Assembly:    Dec. 2013 (GRCh38/hg38)
 </ul>
 <h2 id="Remap"><a href="#Remap" class="headerlink" title="Remap"></a>Remap</h2><p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-02-11-screencapture-NCBI-remap.png" alt="NCBI-remap"></p>
 <p>支持hgvs，bed，gvf，gff，gtf，Text ASN.1，Binary ASN.1，UCSC Region和VCF，如果数据量较少，可以考虑该方法。</p>
-<p>服务地址：<a href="https://www.ncbi.nlm.nih.gov/genome/tools/remap">https://www.ncbi.nlm.nih.gov/genome/tools/remap</a></p>
+<p>服务地址：<a target="_blank" rel="noopener" href="https://www.ncbi.nlm.nih.gov/genome/tools/remap">https://www.ncbi.nlm.nih.gov/genome/tools/remap</a></p>
 <ul>
 <li><ul>
 <li>1，在Assembly-Assembly中选择<pre>Source Organism *：Homo sapiens
@@ -509,12 +588,12 @@ Target Assembly *:    GRCh38(hg38)
 <li><p>3，点击submit，页面会跳转到结果页面，Summary Data告诉你有多少条匹配，Mapping Report告诉你对应关系。这些都可以下载，NCBI remap的结果文件前几列是原来的内容，后几列是转换后的坐标。</p>
 </li>
 </ul>
-<h2 id="Ensembl-Assembly-Converter"><a href="#Ensembl-Assembly-Converter" class="headerlink" title="Ensembl Assembly Converter"></a>Ensembl Assembly Converter</h2><p><a href="http://asia.ensembl.org/Homo_sapiens/Tools/AssemblyConverter?db=core">http://asia.ensembl.org/Homo_sapiens/Tools/AssemblyConverter?db=core</a></p>
-<h1 id="本地版"><a href="#本地版" class="headerlink" title="本地版"></a>本地版</h1><p>本地工具需要利用chain file，才能知道两个版本的坐标对应关系。chain文件可以从UCSC下载。我们需要的是hg19Thg38.over.chain.gz<br><a href="http://hgdownload.soe.ucsc.edu/goldenPath/hg19/liftOver/hg19ToHg38.over.chain.gz">http://hgdownload.soe.ucsc.edu/goldenPath/hg19/liftOver/hg19ToHg38.over.chain.gz</a><br>chain文件后续会有介绍。</p>
+<h2 id="Ensembl-Assembly-Converter"><a href="#Ensembl-Assembly-Converter" class="headerlink" title="Ensembl Assembly Converter"></a>Ensembl Assembly Converter</h2><p><a target="_blank" rel="noopener" href="http://asia.ensembl.org/Homo_sapiens/Tools/AssemblyConverter?db=core">http://asia.ensembl.org/Homo_sapiens/Tools/AssemblyConverter?db=core</a></p>
+<h1 id="本地版"><a href="#本地版" class="headerlink" title="本地版"></a>本地版</h1><p>本地工具需要利用chain file，才能知道两个版本的坐标对应关系。chain文件可以从UCSC下载。我们需要的是hg19Thg38.over.chain.gz<br><a target="_blank" rel="noopener" href="http://hgdownload.soe.ucsc.edu/goldenPath/hg19/liftOver/hg19ToHg38.over.chain.gz">http://hgdownload.soe.ucsc.edu/goldenPath/hg19/liftOver/hg19ToHg38.over.chain.gz</a><br>chain文件后续会有介绍。</p>
 <h2 id="CrossMap"><a href="#CrossMap" class="headerlink" title="CrossMap"></a>CrossMap</h2><p>CrossMap支持SAM/BAM, Wiggle/BigWig, BED, GFF/GTF, VCF格式。支持的格式较多，用起来方便。</p>
-<p>软件网址：<a href="http://crossmap.sourceforge.net/">http://crossmap.sourceforge.net/</a></p>
+<p>软件网址：<a target="_blank" rel="noopener" href="http://crossmap.sourceforge.net/">http://crossmap.sourceforge.net/</a></p>
 <p>安装：pip install CrossMap</p>
-<p>当然也可以从源码编译安装，官网有说明（<a href="http://crossmap.sourceforge.net/#install-crossmap-from-source-code）。">http://crossmap.sourceforge.net/#install-crossmap-from-source-code）。</a></p>
+<p>当然也可以从源码编译安装，官网有说明（<a target="_blank" rel="noopener" href="http://crossmap.sourceforge.net/#install-crossmap-from-source-code%EF%BC%89%E3%80%82">http://crossmap.sourceforge.net/#install-crossmap-from-source-code）。</a></p>
 <pre>python CrossMap.py bed    hg19ToHg38.over.chain      APOA1.bed      APOA1.hg38.bed</pre>
 
 <h2 id="Liftover-1"><a href="#Liftover-1" class="headerlink" title="Liftover"></a>Liftover</h2><p>支持bed和gff格式</p>
@@ -524,7 +603,7 @@ chmod 755 liftOver
 liftOver   APOA1.bed    hg19ToHg38.over.chain    APOA1.hg38.bed   unMapped.txt
 </pre>
 
-<h2 id="Picard"><a href="#Picard" class="headerlink" title="Picard"></a>Picard</h2><p>地址： <a href="http://broadinstitute.github.io/picard/">http://broadinstitute.github.io/picard/</a></p>
+<h2 id="Picard"><a href="#Picard" class="headerlink" title="Picard"></a>Picard</h2><p>地址： <a target="_blank" rel="noopener" href="http://broadinstitute.github.io/picard/">http://broadinstitute.github.io/picard/</a></p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/archives/834/#more" rel="contents">
@@ -539,10 +618,6 @@ liftOver   APOA1.bed    hg19ToHg38.over.chain    APOA1.hg38.bed   unMapped.txt
     
     
     
-
-
-# <!-- Insert google ad blocks -->
-<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
       <footer class="post-footer">
         <div class="post-eof"></div>
       </footer>
@@ -579,14 +654,14 @@ liftOver   APOA1.bed    hg19ToHg38.over.chain    APOA1.hg38.bed   unMapped.txt
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2018-02-10 07:37:02" itemprop="dateCreated datePublished" datetime="2018-02-10T07:37:02+08:00">2018-02-10</time>
+              <time title="Created: 2018-02-09 15:37:02" itemprop="dateCreated datePublished" datetime="2018-02-09T15:37:02+08:00">2018-02-09</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-29 07:19:29" itemprop="dateModified" datetime="2020-05-29T07:19:29+08:00">2020-05-29</time>
+                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -631,7 +706,7 @@ liftOver   APOA1.bed    hg19ToHg38.over.chain    APOA1.hg38.bed   unMapped.txt
 <p>这些更改有利于序列比对和突变检测，降低假阳性与b37兼容。</p>
 <p>PS：正如以前讲到的（文章《思考在比对时，关于是否将chr<em><em>random和chrUn</em></em>序列放在参考基因组中的思考》），序列比对不要只放chr1到chr22，chrX，chrY和MT（我见过国内知名测序公司有这么干的），其他序列和诱饵序列非常重要，可以提高比对的准确率，降低假阳性。</p>
 <p>详情见：<a href="ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/technical/reference/phase2_reference_assembly_sequence/hs37d5.slides.pdf">ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/technical/reference/phase2_reference_assembly_sequence/hs37d5.slides.pdf</a><br>下载地址：<a href="ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/technical/reference/phase2_reference_assembly_sequence">ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/technical/reference/phase2_reference_assembly_sequence</a></p>
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="http://googlegenomics.readthedocs.io/en/latest/use_cases/discover_public_data/reference_genomes.html">http://googlegenomics.readthedocs.io/en/latest/use_cases/discover_public_data/reference_genomes.html</a><br><a href="https://wiki.dnanexus.com/Scientific-Notes/human-genome">https://wiki.dnanexus.com/Scientific-Notes/human-genome</a></p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a target="_blank" rel="noopener" href="http://googlegenomics.readthedocs.io/en/latest/use_cases/discover_public_data/reference_genomes.html">http://googlegenomics.readthedocs.io/en/latest/use_cases/discover_public_data/reference_genomes.html</a><br><a target="_blank" rel="noopener" href="https://wiki.dnanexus.com/Scientific-Notes/human-genome">https://wiki.dnanexus.com/Scientific-Notes/human-genome</a></p>
 <p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>#####################################################################</p>
 
       
@@ -640,10 +715,6 @@ liftOver   APOA1.bed    hg19ToHg38.over.chain    APOA1.hg38.bed   unMapped.txt
     
     
     
-
-
-# <!-- Insert google ad blocks -->
-<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
       <footer class="post-footer">
         <div class="post-eof"></div>
       </footer>
@@ -680,14 +751,14 @@ liftOver   APOA1.bed    hg19ToHg38.over.chain    APOA1.hg38.bed   unMapped.txt
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2018-02-08 03:34:40" itemprop="dateCreated datePublished" datetime="2018-02-08T03:34:40+08:00">2018-02-08</time>
+              <time title="Created: 2018-02-07 11:34:40" itemprop="dateCreated datePublished" datetime="2018-02-07T11:34:40+08:00">2018-02-07</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-29 07:19:29" itemprop="dateModified" datetime="2020-05-29T07:19:29+08:00">2020-05-29</time>
+                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -710,7 +781,7 @@ liftOver   APOA1.bed    hg19ToHg38.over.chain    APOA1.hg38.bed   unMapped.txt
     <div class="post-body" itemprop="articleBody">
 
       
-          <p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2016-04-0301.jpg" alt=""></p>
+          <p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2016-04-0301.jpg"></p>
 <h1 id="BCL文件"><a href="#BCL文件" class="headerlink" title="BCL文件"></a>BCL文件</h1><p>测序产生的原始文件是BCL（binary base call）文件，测序仪在测序的时候，每个cycle都会测量编码不同颜色的通道强度，并确定最有可能的碱基类型。Real Time Analysis (RTA) 软件会将碱基类型和可信度（一个质量分数）。与FASTQ文件不同的是，BCL文件是实时产生，每个cycle的每个tile都会有一个对应文件，文件放在</p>
 <p><code>&lt;run directory&gt;/Data/Intensities/BaseCalls/L&lt;lane&gt;/C&lt;cycle&gt;.1</code></p>
 <p>文件的命名</p>
@@ -722,10 +793,10 @@ liftOver   APOA1.bed    hg19ToHg38.over.chain    APOA1.hg38.bed   unMapped.txt
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">unzip bcl2fastq2-v2.17.1.14.tar.zip</span><br><span class="line">tar -xvzf bcl2fastq2-v2.17.1.14.tar.gz</span><br><span class="line">./bcl2fastq/src/configure --prefix=/path/to/install/</span><br><span class="line">make</span><br><span class="line">make install</span><br></pre></td></tr></table></figure>
 
 <p>安装过程中，如果遇到一下问题，请更新gcc版本 问题1 cc1plus: error: unrecognized command line option “-std=c++11” 问题2 undefined reference to `boost::re_detail::perl_matcher collect2: error: ld returned 1 exit status 软件选项说明如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line">BCL to FASTQ file converter</span><br><span class="line">bcl2fastq v2<span class="number">.17</span><span class="number">.1</span><span class="number">.14</span></span><br><span class="line">Copyright (c) <span class="number">2007</span>-<span class="number">2015</span> Illumina, Inc.</span><br><span class="line"></span><br><span class="line">Command-line options:</span><br><span class="line">  -h [ --help ]                                     produce help message and exit</span><br><span class="line">  -v [ --version ]                                print program version information</span><br><span class="line">  -l [ --min-log-level ] arg (=INFO)              minimum log level</span><br><span class="line">                                                          recognized values: NONE, FATAL, ERROR, WARNING, INFO, DEBUG, TRACE</span><br><span class="line">  -i [ --input-dir ] arg (=&lt;runfolder-dir&gt;/Data/Intensities/BaseCalls/)</span><br><span class="line">                                                          path to input directory</span><br><span class="line">  -R [ --runfolder-dir ] arg (=./)         path to runfolder directory</span><br><span class="line">  --intensities-<span class="function">dir <span class="title">arg</span> <span class="params">(=&lt;input-dir&gt;/../)</span>        path to intensities directory</span></span><br><span class="line"><span class="function">                                                          <span class="keyword">if</span> intensities directory is specified, also input directory must be specified</span></span><br><span class="line"><span class="function">  -o [ --output-dir ] <span class="title">arg</span> <span class="params">(=&lt;input-dir&gt;)</span>                path to demultiplexed output</span></span><br><span class="line"><span class="function">  --interop-dir <span class="title">arg</span> <span class="params">(=&lt;runfolder-dir&gt;/InterOp/)</span>   path to demultiplexing statistics directory</span></span><br><span class="line"><span class="function">  --stats-dir <span class="title">arg</span> <span class="params">(=&lt;output-dir&gt;/Stats/)</span>                path to human-readable demultiplexing statistics directory</span></span><br><span class="line"><span class="function">  --reports-dir <span class="title">arg</span> <span class="params">(=&lt;output-dir&gt;/Reports/)</span>       path to reporting directory</span></span><br><span class="line"><span class="function">  --sample-sheet <span class="title">arg</span> <span class="params">(=&lt;runfolder-dir&gt;/SampleSheet.csv)</span></span></span><br><span class="line"><span class="function">                                                                              path to the sample sheet</span></span><br><span class="line"><span class="function">  --aggregated-tiles <span class="title">arg</span> <span class="params">(=AUTO)</span>                  tiles aggregation flag determining structure of input files</span></span><br><span class="line"><span class="function">                                                   recognized values:</span></span><br><span class="line"><span class="function">                                                      AUTO Try to detect correct setting</span></span><br><span class="line"><span class="function">                                                      YES  Tiles are aggregated into single input file</span></span><br><span class="line"><span class="function">                                                      NO   There are separate input files <span class="keyword">for</span> individual tiles</span></span><br><span class="line"><span class="function">                                                  </span></span><br><span class="line"><span class="function">  -r [ --loading-threads ] <span class="title">arg</span> <span class="params">(=<span class="number">4</span>)</span>               number of threads used <span class="keyword">for</span> loading BCL data</span></span><br><span class="line"><span class="function">  -d [ --demultiplexing-threads ] arg          number of threads used <span class="keyword">for</span> demultiplexing</span></span><br><span class="line"><span class="function">  -p [ --processing-threads ] arg                 number of threads used <span class="keyword">for</span> processing demultiplexed data</span></span><br><span class="line"><span class="function">  -w [ --writing-threads ] <span class="title">arg</span> <span class="params">(=<span class="number">4</span>)</span>               number of threads used <span class="keyword">for</span> writing FASTQ data</span></span><br><span class="line"><span class="function">                                                                    <span class="keyword">this</span> must not be higher than number of samples</span></span><br><span class="line"><span class="function">  --tiles arg                                 Comma-separated list of regular expressions to select only a subset of the tiles </span></span><br><span class="line"><span class="function">                                                  available in the flow-cell. Multiple entries allowed, each applies to the corresponding base-calls.</span></span><br><span class="line"><span class="function">                                                  For example:</span></span><br><span class="line"><span class="function">                                                   * to select all the tiles ending with '5' in all lanes:</span></span><br><span class="line"><span class="function">                                                       --tiles [0-9][0-9][0-9]5</span></span><br><span class="line"><span class="function">                                                   * to select tile 2 in lane 1 and all the tiles in the other lanes:</span></span><br><span class="line"><span class="function">                                                       --tiles s_1_0002,s_[2-8]</span></span><br><span class="line"><span class="function">  --minimum-trimmed-read-length <span class="title">arg</span> <span class="params">(=<span class="number">35</span>)</span>         minimum read length after adapter trimming</span></span><br><span class="line"><span class="function">  --use-bases-mask arg                                             Specifies how to use each cycle.</span></span><br><span class="line"><span class="function">  --mask-<span class="keyword">short</span>-adapter-reads <span class="title">arg</span> <span class="params">(=<span class="number">22</span>)</span>            smallest number of remaining <span class="title">bases</span> <span class="params">(after masking bases below the minimum </span></span></span><br><span class="line"><span class="function"><span class="params">                                                                           trimmed read  length)</span> below which whole read is masked</span></span><br><span class="line"><span class="function">  --adapter-stringency <span class="title">arg</span> <span class="params">(=<span class="number">0.9</span>)</span>                  adapter stringency</span></span><br><span class="line"><span class="function">  --ignore-missing-bcls                                 assume 'N'/'#' <span class="keyword">for</span> missing calls</span></span><br><span class="line"><span class="function">  --ignore-missing-filter                                assume '<span class="keyword">true</span>' <span class="keyword">for</span> missing filters</span></span><br><span class="line"><span class="function">  --ignore-missing-positions                         assume \[0,i\] <span class="keyword">for</span> missing positions, where i is incremented starting from 0</span></span><br><span class="line"><span class="function">  --ignore-missing-controls                           assume 0 <span class="keyword">for</span> missing controls</span></span><br><span class="line"><span class="function">  --write-fastq-reverse-complement              Generate FASTQs containing reverse complements of actual data</span></span><br><span class="line"><span class="function">  --with-failed-reads                                        include non-PF clusters</span></span><br><span class="line"><span class="function">  --create-fastq-<span class="keyword">for</span>-index-reads                     create FASTQ files also <span class="keyword">for</span> index reads</span></span><br><span class="line"><span class="function">  --find-adapters-with-sliding-window           find adapters with simple sliding window algorithm</span></span><br><span class="line"><span class="function">  --no-bgzf-compression                                Turn off BGZF compression <span class="keyword">for</span> FASTQ files</span></span><br><span class="line"><span class="function">  --fastq-compression-level <span class="title">arg</span> <span class="params">(=<span class="number">4</span>)</span>              Zlib compression <span class="title">level</span> <span class="params">(<span class="number">1</span><span class="number">-9</span>)</span> used <span class="keyword">for</span> FASTQ files</span></span><br><span class="line"><span class="function">  --barcode-mismatches <span class="title">arg</span> <span class="params">(=<span class="number">1</span>)</span>                   number of allowed mismatches per index</span></span><br><span class="line"><span class="function">                                                                        multiple entries, comma delimited entries, allowed</span>; each entry is applied to the </span><br><span class="line">                                                                        corresponding index;last entry applies to all remaining indices</span><br><span class="line">  --no-lane-splitting                             Do not split fastq files by lane.</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line">BCL to FASTQ file converter</span><br><span class="line">bcl2fastq v2.<span class="number">17.1</span>.<span class="number">14</span></span><br><span class="line">Copyright (c) <span class="number">2007</span>-<span class="number">2015</span> Illumina, Inc.</span><br><span class="line"></span><br><span class="line">Command-line options:</span><br><span class="line">  -h [ --help ]                                     produce help message and exit</span><br><span class="line">  -v [ --version ]                                print program version information</span><br><span class="line">  -l [ --min-log-level ] arg (=INFO)              minimum log level</span><br><span class="line">                                                          recognized values: NONE, FATAL, ERROR, WARNING, INFO, DEBUG, TRACE</span><br><span class="line">  -i [ --input-dir ] arg (=&lt;runfolder-dir&gt;/Data/Intensities/BaseCalls/)</span><br><span class="line">                                                          path to input directory</span><br><span class="line">  -R [ --runfolder-dir ] arg (=./)         path to runfolder directory</span><br><span class="line">  --intensities-<span class="function">dir <span class="title">arg</span> <span class="params">(=&lt;input-dir&gt;/../)</span>        path to intensities directory</span></span><br><span class="line"><span class="function">                                                          <span class="keyword">if</span> intensities directory is specified, also input directory must be specified</span></span><br><span class="line"><span class="function">  -o [ --output-dir ] <span class="title">arg</span> <span class="params">(=&lt;input-dir&gt;)</span>                path to demultiplexed output</span></span><br><span class="line"><span class="function">  --interop-dir <span class="title">arg</span> <span class="params">(=&lt;runfolder-dir&gt;/InterOp/)</span>   path to demultiplexing statistics directory</span></span><br><span class="line"><span class="function">  --stats-dir <span class="title">arg</span> <span class="params">(=&lt;output-dir&gt;/Stats/)</span>                path to human-readable demultiplexing statistics directory</span></span><br><span class="line"><span class="function">  --reports-dir <span class="title">arg</span> <span class="params">(=&lt;output-dir&gt;/Reports/)</span>       path to reporting directory</span></span><br><span class="line"><span class="function">  --sample-sheet <span class="title">arg</span> <span class="params">(=&lt;runfolder-dir&gt;/SampleSheet.csv)</span></span></span><br><span class="line"><span class="function">                                                                              path to the sample sheet</span></span><br><span class="line"><span class="function">  --aggregated-tiles <span class="title">arg</span> <span class="params">(=AUTO)</span>                  tiles aggregation flag determining structure of input files</span></span><br><span class="line"><span class="function">                                                   recognized values:</span></span><br><span class="line"><span class="function">                                                      AUTO Try to detect correct setting</span></span><br><span class="line"><span class="function">                                                      YES  Tiles are aggregated into single input file</span></span><br><span class="line"><span class="function">                                                      NO   There are separate input files <span class="keyword">for</span> individual tiles</span></span><br><span class="line"><span class="function">                                                  </span></span><br><span class="line"><span class="function">  -r [ --loading-threads ] <span class="title">arg</span> <span class="params">(=<span class="number">4</span>)</span>               number of threads used <span class="keyword">for</span> loading BCL data</span></span><br><span class="line"><span class="function">  -d [ --demultiplexing-threads ] arg          number of threads used <span class="keyword">for</span> demultiplexing</span></span><br><span class="line"><span class="function">  -p [ --processing-threads ] arg                 number of threads used <span class="keyword">for</span> processing demultiplexed data</span></span><br><span class="line"><span class="function">  -w [ --writing-threads ] <span class="title">arg</span> <span class="params">(=<span class="number">4</span>)</span>               number of threads used <span class="keyword">for</span> writing FASTQ data</span></span><br><span class="line"><span class="function">                                                                    <span class="keyword">this</span> must not be higher than number of samples</span></span><br><span class="line"><span class="function">  --tiles arg                                 Comma-separated list of regular expressions to select only a subset of the tiles </span></span><br><span class="line"><span class="function">                                                  available in the flow-cell. Multiple entries allowed, each applies to the corresponding base-calls.</span></span><br><span class="line"><span class="function">                                                  For example:</span></span><br><span class="line"><span class="function">                                                   * to select all the tiles ending with &#x27;5&#x27; in all lanes:</span></span><br><span class="line"><span class="function">                                                       --tiles [0-9][0-9][0-9]5</span></span><br><span class="line"><span class="function">                                                   * to select tile 2 in lane 1 and all the tiles in the other lanes:</span></span><br><span class="line"><span class="function">                                                       --tiles s_1_0002,s_[2-8]</span></span><br><span class="line"><span class="function">  --minimum-trimmed-read-length <span class="title">arg</span> <span class="params">(=<span class="number">35</span>)</span>         minimum read length after adapter trimming</span></span><br><span class="line"><span class="function">  --use-bases-mask arg                                             Specifies how to use each cycle.</span></span><br><span class="line"><span class="function">  --mask-<span class="keyword">short</span>-adapter-reads <span class="title">arg</span> <span class="params">(=<span class="number">22</span>)</span>            smallest number of remaining <span class="title">bases</span> <span class="params">(after masking bases below the minimum </span></span></span><br><span class="line"><span class="function"><span class="params">                                                                           trimmed read  length)</span> below which whole read is masked</span></span><br><span class="line"><span class="function">  --adapter-stringency <span class="title">arg</span> <span class="params">(=<span class="number">0.9</span>)</span>                  adapter stringency</span></span><br><span class="line"><span class="function">  --ignore-missing-bcls                                 assume &#x27;N&#x27;/&#x27;#&#x27; <span class="keyword">for</span> missing calls</span></span><br><span class="line"><span class="function">  --ignore-missing-filter                                assume &#x27;<span class="keyword">true</span>&#x27; <span class="keyword">for</span> missing filters</span></span><br><span class="line"><span class="function">  --ignore-missing-positions                         assume \[0,i\] <span class="keyword">for</span> missing positions, where i is incremented starting from 0</span></span><br><span class="line"><span class="function">  --ignore-missing-controls                           assume 0 <span class="keyword">for</span> missing controls</span></span><br><span class="line"><span class="function">  --write-fastq-reverse-complement              Generate FASTQs containing reverse complements of actual data</span></span><br><span class="line"><span class="function">  --with-failed-reads                                        include non-PF clusters</span></span><br><span class="line"><span class="function">  --create-fastq-<span class="keyword">for</span>-index-reads                     create FASTQ files also <span class="keyword">for</span> index reads</span></span><br><span class="line"><span class="function">  --find-adapters-with-sliding-window           find adapters with simple sliding window algorithm</span></span><br><span class="line"><span class="function">  --no-bgzf-compression                                Turn off BGZF compression <span class="keyword">for</span> FASTQ files</span></span><br><span class="line"><span class="function">  --fastq-compression-level <span class="title">arg</span> <span class="params">(=<span class="number">4</span>)</span>              Zlib compression <span class="title">level</span> <span class="params">(<span class="number">1</span><span class="number">-9</span>)</span> used <span class="keyword">for</span> FASTQ files</span></span><br><span class="line"><span class="function">  --barcode-mismatches <span class="title">arg</span> <span class="params">(=<span class="number">1</span>)</span>                   number of allowed mismatches per index</span></span><br><span class="line"><span class="function">                                                                        multiple entries, comma delimited entries, allowed</span>; each entry is applied to the </span><br><span class="line">                                                                        corresponding index;last entry applies to all remaining indices</span><br><span class="line">  --no-lane-splitting                             Do not split fastq files by lane.</span><br></pre></td></tr></table></figure>
 
-<p>软件地址 <a href="http://support.illumina.com.cn/downloads/bcl2fastq-conversion-software-v217.html">http://support.illumina.com.cn/downloads/bcl2fastq-conversion-software-v217.html</a> </p>
-<p>文档手册 <a href="http://support.illumina.com/content/dam/illumina-support/documents/documentation/software\_documentation/bcl2fastq/bcl2fastq\_letterbooklet_15038058brpmi.pdf">http://support.illumina.com/content/dam/illumina-support/documents/documentation/software\_documentation/bcl2fastq/bcl2fastq\_letterbooklet_15038058brpmi.pdf</a></p>
+<p>软件地址 <a target="_blank" rel="noopener" href="http://support.illumina.com.cn/downloads/bcl2fastq-conversion-software-v217.html">http://support.illumina.com.cn/downloads/bcl2fastq-conversion-software-v217.html</a> </p>
+<p>文档手册 <a target="_blank" rel="noopener" href="http://support.illumina.com/content/dam/illumina-support/documents/documentation/software/_documentation/bcl2fastq/bcl2fastq/_letterbooklet_15038058brpmi.pdf">http://support.illumina.com/content/dam/illumina-support/documents/documentation/software\_documentation/bcl2fastq/bcl2fastq\_letterbooklet_15038058brpmi.pdf</a></p>
 <p>##################################################################### #版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>#####################################################################</p>
 
       
@@ -734,10 +805,6 @@ liftOver   APOA1.bed    hg19ToHg38.over.chain    APOA1.hg38.bed   unMapped.txt
     
     
     
-
-
-# <!-- Insert google ad blocks -->
-<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
       <footer class="post-footer">
         <div class="post-eof"></div>
       </footer>
@@ -774,14 +841,14 @@ liftOver   APOA1.bed    hg19ToHg38.over.chain    APOA1.hg38.bed   unMapped.txt
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2018-02-02 07:56:04" itemprop="dateCreated datePublished" datetime="2018-02-02T07:56:04+08:00">2018-02-02</time>
+              <time title="Created: 2018-02-01 15:56:04" itemprop="dateCreated datePublished" datetime="2018-02-01T15:56:04+08:00">2018-02-01</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-29 07:19:29" itemprop="dateModified" datetime="2020-05-29T07:19:29+08:00">2020-05-29</time>
+                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -852,12 +919,12 @@ legend("topright", legend=labs, col=cols, lty=1, lwd=4)
 
 dev.off()</pre>
 
-<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-02-01-target-region-coverage.png" alt=""></p>
+<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-02-01-target-region-coverage.png"></p>
 <p>图片也可以用ggplot2来做。横坐标是DP，纵坐标是大于等于&gt;=该DP的碱基比例。该图还有一个好处，是可以多个样本同时放在一张图上，便于进行样本间比较。</p>
 <p>可以看出smp2的覆盖度最好，随着横左边的增加，下降最缓慢。smp1和smp3最不好，在20X以后，覆盖度显著下降。如果样本smp来自不同的测序实验，则smp2所用的方法是最有的。</p>
 <p>最后还是那句话，图片表达的信息量多而且直观。让我们用图片说话。</p>
 <p>主要CLONE参考：</p>
-<p><a href="http://www.gettinggeneticsdone.com/2014/03/visualize-coverage-exome-targeted-ngs-bedtools.html">http://www.gettinggeneticsdone.com/2014/03/visualize-coverage-exome-targeted-ngs-bedtools.html</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.gettinggeneticsdone.com/2014/03/visualize-coverage-exome-targeted-ngs-bedtools.html">http://www.gettinggeneticsdone.com/2014/03/visualize-coverage-exome-targeted-ngs-bedtools.html</a></p>
 <p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>#####################################################################</p>
 
       
@@ -866,10 +933,6 @@ dev.off()</pre>
     
     
     
-
-
-# <!-- Insert google ad blocks -->
-<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
       <footer class="post-footer">
         <div class="post-eof"></div>
       </footer>
@@ -906,14 +969,14 @@ dev.off()</pre>
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2018-02-02 05:30:16" itemprop="dateCreated datePublished" datetime="2018-02-02T05:30:16+08:00">2018-02-02</time>
+              <time title="Created: 2018-02-01 13:30:16" itemprop="dateCreated datePublished" datetime="2018-02-01T13:30:16+08:00">2018-02-01</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-29 07:19:29" itemprop="dateModified" datetime="2020-05-29T07:19:29+08:00">2020-05-29</time>
+                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -944,12 +1007,12 @@ dev.off()</pre>
 <li>第三部分：L00*，泳道lane的编号</li>
 <li>第四部分：R*，R1表示read1，R2表示read2。R1和R2为paired end reads。同一个样本的配对的FASTQ，只有这个地方不同</li>
 <li>第五部分：001，通常为001</li>
-<li><em>Naming*</em><br>FASTQ files are named with the sample name and the sample number, which is a numeric assignment based on the order that the sample is listed in the sample sheet. </li>
-<li><em>Example:*</em><br>Data\Intensities\BaseCalls\SampleName_S1_L001_R1_001.fastq.gz<br>• SampleName-The sample name provided in the sample sheet. If a sample name is not provided, the file name includes the sample ID, which is a required field in the sample sheet and must be unique.<br>• S1-The sample number based on the order that samples are listed in the sample sheet starting with 1. In this example, S1 indicates that this sample is the first sample listed in the sample sheet.</li>
+<li>*Naming**<br>FASTQ files are named with the sample name and the sample number, which is a numeric assignment based on the order that the sample is listed in the sample sheet. </li>
+<li>*Example:**<br>Data\Intensities\BaseCalls\SampleName_S1_L001_R1_001.fastq.gz<br>• SampleName-The sample name provided in the sample sheet. If a sample name is not provided, the file name includes the sample ID, which is a required field in the sample sheet and must be unique.<br>• S1-The sample number based on the order that samples are listed in the sample sheet starting with 1. In this example, S1 indicates that this sample is the first sample listed in the sample sheet.</li>
 </ul>
 <p><strong>NOTE</strong><br>Reads that cannot be assigned to any sample are written to a FASTQ file for sample number 0, and excluded from downstream analysis.<br>• L001-The lane number.<br>• R1-The read. In this example, R1 means Read 1. For a paired-end run, there is at least one file with R2 in the file name for Read 2. When generated, index reads are I1 or I2.<br>• 001-The last segment is always 001.</p>
 <p><strong>参考：</strong></p>
-<p><a href="https://support.illumina.com/help/BaseSpace_OLH_009008/Content/Source/Informatics/BS/NamingConvention_FASTQ-files-swBS.htm">https://support.illumina.com/help/BaseSpace_OLH_009008/Content/Source/Informatics/BS/NamingConvention_FASTQ-files-swBS.htm</a></p>
+<p><a target="_blank" rel="noopener" href="https://support.illumina.com/help/BaseSpace_OLH_009008/Content/Source/Informatics/BS/NamingConvention_FASTQ-files-swBS.htm">https://support.illumina.com/help/BaseSpace_OLH_009008/Content/Source/Informatics/BS/NamingConvention_FASTQ-files-swBS.htm</a></p>
 <p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>#####################################################################</p>
 
       
@@ -958,10 +1021,6 @@ dev.off()</pre>
     
     
     
-
-
-# <!-- Insert google ad blocks -->
-<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
       <footer class="post-footer">
         <div class="post-eof"></div>
       </footer>
@@ -998,14 +1057,14 @@ dev.off()</pre>
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2018-01-21 12:46:55" itemprop="dateCreated datePublished" datetime="2018-01-21T12:46:55+08:00">2018-01-21</time>
+              <time title="Created: 2018-01-20 20:46:55" itemprop="dateCreated datePublished" datetime="2018-01-20T20:46:55+08:00">2018-01-20</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-29 07:19:29" itemprop="dateModified" datetime="2020-05-29T07:19:29+08:00">2020-05-29</time>
+                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -1037,7 +1096,7 @@ dev.off()</pre>
 <p>GATK4对性能、灵活性、速度、扩展性进行了广泛优化，并包含了可以在本地或者云设备上可以运行的点对点流程（Best practice）。</p>
 <p>该版本得益于Broad研究所大规模运行基因组分析流程的科学和业务专家，来自业界Intel, Google Cloud, Cloudera, Microsoft Genmics, IBM Research, Amazon Web Services and Alibaba Cloud的工程师，都为GATK4的的开发做出来贡献。</p>
 <p>2017成立的Intel-Broad基因组数据工程中心，Broad研究所的人员与Intel协同合作，对关键流程步骤做出了巨大优化。特别是Intel显著优化了基于GVCF的胚细胞joint-calling流程的扩展性，使得Broad团队可以在2个星期内完成15,000个全基因组样本的变异分析工作，而GATK3要处理3,000个全基因组样本需要至少6个星期。</p>
-<p><a href="https://software.broadinstitute.org/gatk/gatk4">https://software.broadinstitute.org/gatk/gatk4</a> <a href="https://github.com/broadinstitute/gatk">https://github.com/broadinstitute/gatk</a> <a href="http://jandan.net/2017/05/31/gatk4-open.html">http://jandan.net/2017/05/31/gatk4-open.html</a> <a href="http://www.eeboard.com/news/gatk4/">http://www.eeboard.com/news/gatk4/</a> <a href="http://ju.outofmemory.cn/entry/324861">http://ju.outofmemory.cn/entry/324861</a> <a href="https://gatkforums.broadinstitute.org/gatk/discussion/10502/gatk-4-0-will-be-released-jan-9-2018#latest">https://gatkforums.broadinstitute.org/gatk/discussion/10502/gatk-4-0-will-be-released-jan-9-2018#latest</a></p>
+<p><a target="_blank" rel="noopener" href="https://software.broadinstitute.org/gatk/gatk4">https://software.broadinstitute.org/gatk/gatk4</a> <a target="_blank" rel="noopener" href="https://github.com/broadinstitute/gatk">https://github.com/broadinstitute/gatk</a> <a target="_blank" rel="noopener" href="http://jandan.net/2017/05/31/gatk4-open.html">http://jandan.net/2017/05/31/gatk4-open.html</a> <a target="_blank" rel="noopener" href="http://www.eeboard.com/news/gatk4/">http://www.eeboard.com/news/gatk4/</a> <a target="_blank" rel="noopener" href="http://ju.outofmemory.cn/entry/324861">http://ju.outofmemory.cn/entry/324861</a> <a target="_blank" rel="noopener" href="https://gatkforums.broadinstitute.org/gatk/discussion/10502/gatk-4-0-will-be-released-jan-9-2018#latest">https://gatkforums.broadinstitute.org/gatk/discussion/10502/gatk-4-0-will-be-released-jan-9-2018#latest</a></p>
 
       
     </div>
@@ -1045,10 +1104,6 @@ dev.off()</pre>
     
     
     
-
-
-# <!-- Insert google ad blocks -->
-<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
       <footer class="post-footer">
         <div class="post-eof"></div>
       </footer>
@@ -1085,14 +1140,14 @@ dev.off()</pre>
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2018-01-11 12:13:11" itemprop="dateCreated datePublished" datetime="2018-01-11T12:13:11+08:00">2018-01-11</time>
+              <time title="Created: 2018-01-10 20:13:11" itemprop="dateCreated datePublished" datetime="2018-01-10T20:13:11+08:00">2018-01-10</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-29 07:19:29" itemprop="dateModified" datetime="2020-05-29T07:19:29+08:00">2020-05-29</time>
+                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -1124,8 +1179,8 @@ java -Xmx2g -Djava.io.tmpdir=$HOME/tmp -jar SortSam.jar SORT_ORDER=coordinate IN
 
 <p>不能使用<del>，picard会在工作目录下创建’</del>‘文件夹。</p>
 <p>参考：</p>
-<p><a href="https://www.biostars.org/p/42613/">https://www.biostars.org/p/42613/</a></p>
-<p><a href="https://www.cnblogs.com/hnrainll/archive/2011/06/08/2074976.html">https://www.cnblogs.com/hnrainll/archive/2011/06/08/2074976.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.biostars.org/p/42613/">https://www.biostars.org/p/42613/</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/hnrainll/archive/2011/06/08/2074976.html">https://www.cnblogs.com/hnrainll/archive/2011/06/08/2074976.html</a></p>
 <p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>#####################################################################</p>
 
       
@@ -1134,131 +1189,6 @@ java -Xmx2g -Djava.io.tmpdir=$HOME/tmp -jar SortSam.jar SORT_ORDER=coordinate IN
     
     
     
-
-
-# <!-- Insert google ad blocks -->
-<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/793/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Jason">
-      <meta itemprop="description" content="Share news">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Another Jason's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/archives/793/" class="post-title-link" itemprop="url">合并bed文件中的区域</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2018-01-07 15:04:51" itemprop="dateCreated datePublished" datetime="2018-01-07T15:04:51+08:00">2018-01-07</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-29 07:19:29" itemprop="dateModified" datetime="2020-05-29T07:19:29+08:00">2020-05-29</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>数据分析中会经常用到bed文件，有时候bed文件中的区域有重叠时会影响统计结果，或者没有按照顺序排序时会影响代码的逻辑。合并bed文件或者文件中的区域是经常进行的。</p>
-<p>我常用的工具是bedtools的merge功能，官方示例如下：</p>
-<pre>$ cat A.bed
-chr1  100  200
-chr1  180  250
-chr1  250  500
-chr1  501  1000
-
-$ bedtools merge -i A.bed
-chr1  100  500
-chr1  501  1000</pre>
-
-<p>bedtools的merge功能强大的地方，更在于在合并的时候，可以进行一下操作。如下操作，通过-c指定要操作的目标列，-o指定操作动作。</p>
-<pre>$ cat A.bed
-chr1  100  200   a1  1 +
-chr1  180  250   a2  2 +
-chr1  250  500   a3  3 -
-chr1  501  1000  a4  4 +
-
-$ bedtools merge -i A.bed -S +
-# 合并正链的区域feature或者interval
-chr1  100 250
-chr1  501 1000
-
-$  bedtools merge -i A.bed -c 5,5,5,6 -o mean,min,max,collapse
-# 计算重叠区域第五列的平均值、最小值、最大值
-# 将重叠区域的第六列按顺序列出
-chr1  100 500 2 1 3 +,+,-
-chr1  501 1000  4 4 4 +</pre>
-
-<p>我个人写的bash脚本如下：</p>
-<pre>
-#! /bin/bash
-
-# 1）合并所有传入脚本中的bed文件，并生成一个中间文件
-cat $@ ' sort -k1,1 -k2,2n > bedtools.in.sorted.bed
-# 2）合并中间文件，并输出到标准输出流中，供下一步处理
-bedtools merge -i bedtools.in.sorted.bed
-# 3）删除中间文件
-rm bedtools.in.sorted.bed</pre>
-
-<p>参考：</p>
-<p><a href="http://bedtools.readthedocs.io/en/latest/content/tools/merge.html">http://bedtools.readthedocs.io/en/latest/content/tools/merge.html</a></p>
-<p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>#####################################################################</p>
-
-      
-    </div>
-
-    
-    
-    
-
-
-# <!-- Insert google ad blocks -->
-<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
       <footer class="post-footer">
         <div class="post-eof"></div>
       </footer>
@@ -1336,7 +1266,7 @@ rm bedtools.in.sorted.bed</pre>
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">133</span>
+          <span class="site-state-item-count">134</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -1345,7 +1275,7 @@ rm bedtools.in.sorted.bed</pre>
         <span class="site-state-item-name">categories</span>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">139</span>
+        <span class="site-state-item-count">141</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>

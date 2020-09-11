@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 4.2.1">
+<meta name="generator" content="Hexo 5.1.1">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -27,8 +27,8 @@
 <meta property="og:site_name" content="Another Jason&#39;s blog">
 <meta property="og:description" content="Somehow, the only way to use LibSVM with Weka is by using the bash command-line.I have tried the second method successfully. As for you , etheir is good. Step 1: Get Weka.Assume the bleeding edge vers">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2013-06-21T15:47:08.000Z">
-<meta property="article:modified_time" content="2020-05-28T23:19:29.602Z">
+<meta property="article:published_time" content="2013-06-20T23:47:08.000Z">
+<meta property="article:modified_time" content="2020-09-11T14:36:21.639Z">
 <meta property="article:author" content="Jason">
 <meta property="article:tag" content="Weka">
 <meta name="twitter:card" content="summary">
@@ -174,14 +174,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2013-06-21 23:47:08" itemprop="dateCreated datePublished" datetime="2013-06-21T23:47:08+08:00">2013-06-21</time>
+              <time title="Created: 2013-06-21 07:47:08" itemprop="dateCreated datePublished" datetime="2013-06-21T07:47:08+08:00">2013-06-21</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-29 07:19:29" itemprop="dateModified" datetime="2020-05-29T07:19:29+08:00">2020-05-29</time>
+                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -206,7 +206,7 @@
       
         <p>Somehow, the only way to use LibSVM with Weka is by using the bash command-line.<br>I have tried the second method successfully. As for you , etheir is good.</p>
 <p>Step 1: Get Weka.Assume the bleeding edge version 3.7.0. Unzip and put in /Applications folder.</p>
-<p>Step 2: Get LibSVM.<br>a. Iowa State site (<a href="http://www.cs.iastate.edu/~yasser/wlsvm/wlsvm.zip" title="http://www.cs.iastate.edu/~yasser/wlsvm/wlsvm.zip"></a>):<br>If you use Safari to download, it will be unzipped in the Downloads directory. The files you need are <del>/Downloads/WLSVM/lib/wlsvm.jar and /Downloads/WLSVM/lib/libsvm.jar<br>b. Taiwan site([](<a href="http://www.csie.ntu.edu.tw/">http://www.csie.ntu.edu.tw/</a></del>cjlin/libsvm/libsvm-2.89.zip “<a href="http://www.csie.ntu.edu.tw/~cjlin/libsvm/libsvm-2.89.zip&quot;">http://www.csie.ntu.edu.tw/~cjlin/libsvm/libsvm-2.89.zip&quot;</a>)):<br>Using Safari to download, the file you need is ~/Downloads/libsvm-2.89/java/libsvm.jar</p>
+<p>Step 2: Get LibSVM.<br>a. Iowa State site (<a target="_blank" rel="noopener" href="http://www.cs.iastate.edu/~yasser/wlsvm/wlsvm.zip" title="http://www.cs.iastate.edu/~yasser/wlsvm/wlsvm.zip"></a>):<br>If you use Safari to download, it will be unzipped in the Downloads directory. The files you need are <del>/Downloads/WLSVM/lib/wlsvm.jar and /Downloads/WLSVM/lib/libsvm.jar<br>b. Taiwan site([](<a target="_blank" rel="noopener" href="http://www.csie.ntu.edu.tw/">http://www.csie.ntu.edu.tw/</a></del>cjlin/libsvm/libsvm-2.89.zip “<a target="_blank" rel="noopener" href="http://www.csie.ntu.edu.tw/~cjlin/libsvm/libsvm-2.89.zip&quot;">http://www.csie.ntu.edu.tw/~cjlin/libsvm/libsvm-2.89.zip&quot;</a>)):<br>Using Safari to download, the file you need is ~/Downloads/libsvm-2.89/java/libsvm.jar</p>
 <p>Step 3: Open Terminal and copy to Weka.app. Assume you have privileges to write into Weka.app.<br>a. Iowa State version:<br>$ cp ~/Downloads/WLSVM/lib/*.jar /Applications/Weka/weka-3-7-0.app/Contents/Resources/Java<br>b. Taiwan version:<br>$ cp ~/Downloads/libsvm-2.89/java/libsvm.jar /Applications/Weka/weka-3-7-0.app/Contents/Resources/Java</p>
 <p>Step 4: Set CLASSPATH<br>$ export CLASSPATH=$CLASSPATH:/Applications/Weka/weka-3-7-0.app/Contents/Resources/Java/<br>Step 5:Run Weka from Terminal!<br>$ java -classpath $CLASSPATH:weka.jar:libsvm.jar weka.gui.GUIChooser &amp;</p>
 <p>Another method below:<br>1.copy the libsvm.jar and wvsvm.jar into the app folder like told in the blog</p>
@@ -218,10 +218,6 @@
     
     
     
-
-
-# <!-- Insert google ad blocks -->
-<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 
       <footer class="post-footer">
           <div class="post-tags">
@@ -312,7 +308,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">133</span>
+          <span class="site-state-item-count">134</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -321,7 +317,7 @@
         <span class="site-state-item-name">categories</span>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">139</span>
+        <span class="site-state-item-count">141</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>

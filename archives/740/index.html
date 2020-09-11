@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 4.2.1">
+<meta name="generator" content="Hexo 5.1.1">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -27,8 +27,8 @@
 <meta property="og:site_name" content="Another Jason&#39;s blog">
 <meta property="og:description" content="VCF为variant call file格式，现为标准的SNV突变存储格式。通常情况下，一个VCF文件对应一个样本的突变。但VCF格式同样支持同时在一个文件中表示多个样本的突变，在每一行的最后几列，每一列代表一个样本在特定位点的突变情况，若样本在该位点没有突变，在代表样本的那一列在该位点的记录为.点号。此外，在生成VCF的时候，可以生成包含多个样本突变的VCF。但是要在序列比对生成SAM文件时要">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2016-03-01T04:47:58.000Z">
-<meta property="article:modified_time" content="2020-05-28T23:19:29.632Z">
+<meta property="article:published_time" content="2016-02-29T12:47:58.000Z">
+<meta property="article:modified_time" content="2020-09-11T14:36:21.682Z">
 <meta property="article:author" content="Jason">
 <meta property="article:tag" content="VCF">
 <meta name="twitter:card" content="summary">
@@ -174,14 +174,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2016-03-01 12:47:58" itemprop="dateCreated datePublished" datetime="2016-03-01T12:47:58+08:00">2016-03-01</time>
+              <time title="Created: 2016-02-29 20:47:58" itemprop="dateCreated datePublished" datetime="2016-02-29T20:47:58+08:00">2016-02-29</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-29 07:19:29" itemprop="dateModified" datetime="2020-05-29T07:19:29+08:00">2020-05-29</time>
+                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -240,8 +240,8 @@ vcf_merge   x.vcf.gz   y.vcf.gz   z.vcf.gz  > merged.vcf</pre>
 <pre>java -Xms2g -jar picard.jar CreateSequenceDictionary R=primary_assembly.sort.fa O=primary_assembly.sort.dict
 java -Xms2g -jar GenomeAnalysisTK.jar -T CombineVariants -R primary_assembly.sort.fa --variant x.vcf --variant .yvcf --variant z.vcf -o merged.vcf -genotypeMergeOptions UNIQUIFY</pre>
 
-<p>参考：<br><a href="https://vcftools.github.io/index.html" title="https://vcftools.github.io/index.html">https://vcftools.github.io/index.html</a></p>
-<p><a href="https://www.broadinstitute.org/gatk/guide/tooldocs/org_broadinstitute_gatk_tools_walkers_variantutils_CombineVariants.php" title="https://www.broadinstitute.org/gatk/guide/tooldocs/org_broadinstitute_gatk_tools_walkers_variantutils_CombineVariants.php">https://www.broadinstitute.org/gatk/guide/tooldocs/org_broadinstitute_gatk_tools_walkers_variantutils_CombineVariants.php</a></p>
+<p>参考：<br><a target="_blank" rel="noopener" href="https://vcftools.github.io/index.html" title="https://vcftools.github.io/index.html">https://vcftools.github.io/index.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.broadinstitute.org/gatk/guide/tooldocs/org_broadinstitute_gatk_tools_walkers_variantutils_CombineVariants.php" title="https://www.broadinstitute.org/gatk/guide/tooldocs/org_broadinstitute_gatk_tools_walkers_variantutils_CombineVariants.php">https://www.broadinstitute.org/gatk/guide/tooldocs/org_broadinstitute_gatk_tools_walkers_variantutils_CombineVariants.php</a></p>
 <p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>####################################################################</p>
 
     </div>
@@ -249,10 +249,6 @@ java -Xms2g -jar GenomeAnalysisTK.jar -T CombineVariants -R primary_assembly.sor
     
     
     
-
-
-# <!-- Insert google ad blocks -->
-<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 
       <footer class="post-footer">
           <div class="post-tags">
@@ -330,7 +326,7 @@ java -Xms2g -jar GenomeAnalysisTK.jar -T CombineVariants -R primary_assembly.sor
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一，vcftools"><span class="nav-number">1.</span> <span class="nav-text">一，vcftools</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#download-vcftools，install-vcftools"><span class="nav-number">1.1.</span> <span class="nav-text">download vcftools，install vcftools</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#compress-index-and-merge-VCF"><span class="nav-number">1.2.</span> <span class="nav-text">compress, index and merge VCF</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二，GATK的CombineVariants工具"><span class="nav-number">2.</span> <span class="nav-text">二，GATK的CombineVariants工具</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%EF%BC%8Cvcftools"><span class="nav-number">1.</span> <span class="nav-text">一，vcftools</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#download-vcftools%EF%BC%8Cinstall-vcftools"><span class="nav-number">1.1.</span> <span class="nav-text">download vcftools，install vcftools</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#compress-index-and-merge-VCF"><span class="nav-number">1.2.</span> <span class="nav-text">compress, index and merge VCF</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%EF%BC%8CGATK%E7%9A%84CombineVariants%E5%B7%A5%E5%85%B7"><span class="nav-number">2.</span> <span class="nav-text">二，GATK的CombineVariants工具</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -344,7 +340,7 @@ java -Xms2g -jar GenomeAnalysisTK.jar -T CombineVariants -R primary_assembly.sor
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">133</span>
+          <span class="site-state-item-count">134</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -353,7 +349,7 @@ java -Xms2g -jar GenomeAnalysisTK.jar -T CombineVariants -R primary_assembly.sor
         <span class="site-state-item-name">categories</span>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">139</span>
+        <span class="site-state-item-count">141</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>

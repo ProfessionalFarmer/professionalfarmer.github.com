@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 4.2.1">
+<meta name="generator" content="Hexo 5.1.1">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -29,8 +29,8 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-07-12-advantage-ubam-1.jpg">
 <meta property="og:image" content="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-07-12-advantage-ubam-2.png">
-<meta property="article:published_time" content="2018-07-12T23:00:46.000Z">
-<meta property="article:modified_time" content="2020-05-28T23:19:29.671Z">
+<meta property="article:published_time" content="2018-07-12T07:00:46.000Z">
+<meta property="article:modified_time" content="2020-09-11T14:36:21.732Z">
 <meta property="article:author" content="Jason">
 <meta property="article:tag" content="FASTQ">
 <meta property="article:tag" content="uBAM">
@@ -178,14 +178,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2018-07-13 07:00:46" itemprop="dateCreated datePublished" datetime="2018-07-13T07:00:46+08:00">2018-07-13</time>
+              <time title="Created: 2018-07-12 15:00:46" itemprop="dateCreated datePublished" datetime="2018-07-12T15:00:46+08:00">2018-07-12</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-29 07:19:29" itemprop="dateModified" datetime="2020-05-29T07:19:29+08:00">2020-05-29</time>
+                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -212,15 +212,15 @@
 <p>但与ubam文件相比，FASTQ并不是最理想的：</p>
 <h1 id="1）单个文件更容易分析"><a href="#1）单个文件更容易分析" class="headerlink" title="1）单个文件更容易分析"></a>1）单个文件更容易分析</h1><p>在双端测序中，有些软件希望配对的reads放在一个文件中，有些希望配对的文件，有些软件直接根据read在文件中的位置判断read是否配对，当然现在FASTQ通过在文件中加入/1和/2来表明配对的read解决这一问题。在生信分析的时候，一个FASTQ文件往往和另一个FASTQ文件关联配对，比如R1和R2，往往会花费更多时间来验证read是否配对。但如果通过bam文件的话，会更简单。只需要在FLAG这个地方加入对应的值，比如77和141，就能指定。单个文件更加简单，能储存更多metadata的信息。</p>
 <h1 id="2）BAM文件可以储存更多信息"><a href="#2）BAM文件可以储存更多信息" class="headerlink" title="2）BAM文件可以储存更多信息"></a>2）BAM文件可以储存更多信息</h1><p>实际上，正是这个原因，我才开始用ubam文件的。<br>因为FASTQ文件格式的问题，很多其他信息不能存在FASTQ文件中，而BAM/SAM文件可以储存很多信息，只需加tag或者header就行。如果你想放，可以放用了什么软件，平台，样本标签等。</p>
-<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-07-12-advantage-ubam-1.jpg" alt=""></p>
+<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-07-12-advantage-ubam-1.jpg"></p>
 <p>上图是不利用ubam文件的流程，下图是利用ubam文件的流程。</p>
-<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-07-12-advantage-ubam-2.png" alt=""> </p>
+<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-07-12-advantage-ubam-2.png"> </p>
 <p>这个我体会很深，比如我在分析带分子标签UMI的数据时，需要在bam文件中添加read的UMI标签序列，具有相同的UMI标签的序列说明来自同一个分子。如果我将带UMI标签的reads直接比对基因组，UMI标签序列会影响比对质量，而且后续对bam文件的处理提取UMI时，需要考虑CIGAR标签，这个时候就头大了。实际上，我是先将fastq转成ubam文件（picard的FastqToSam工具），然后提取ubam文件中的UMI，生成新的ubam，将ubam转成fastq文件（reads都放在一个文件fastq文件中，bwa能识别其中的配对reads），与参考基因组进行比对。这个时候问题就来了，比对之后生成的bam文件，不包含我提取的UMI标签序列信息，因为这个信息在ubam文件中。不要着急，picard的另外一个工具MergeBamAlignment，可以将ubam文件和bam文件合并，这样ubam文件中的tag信息，比如UMI标签信息，就会补充到新的bam文件中。这样生成的bam文件供下一步数据分析。</p>
 <h1 id="3）BAM能实现随机读写"><a href="#3）BAM能实现随机读写" class="headerlink" title="3）BAM能实现随机读写"></a>3）BAM能实现随机读写</h1><p>BAM文件采用的是BGZF压缩，可以通过随机读写快速读取文件特定位置的数据。对于未比对的reads（unaligned reads），这个功能不是很吸引人，因为后续序列比对都是顺序比对的，不可能跳着比对。</p>
-<p>参考：<br><a href="https://blastedbio.blogspot.com/2011/10/fastq-must-die-long-live-sambam.html">https://blastedbio.blogspot.com/2011/10/fastq-must-die-long-live-sambam.html</a></p>
-<p><a href="https://gatkforums.broadinstitute.org/gatk/discussion/5990/what-is-ubam-and-why-is-it-better-than-fastq-for-storing-unmapped-sequence-data">https://gatkforums.broadinstitute.org/gatk/discussion/5990/what-is-ubam-and-why-is-it-better-than-fastq-for-storing-unmapped-sequence-data</a></p>
-<p><a href="https://gatkforums.broadinstitute.org/gatk/discussion/11694/why-is-converting-from-fastq-to-ubam-nesessary-before-preprocessing">https://gatkforums.broadinstitute.org/gatk/discussion/11694/why-is-converting-from-fastq-to-ubam-nesessary-before-preprocessing</a></p>
-<p><a href="https://gatkforums.broadinstitute.org/gatk/discussion/6484/how-to-generate-an-unmapped-bam-from-fastq-or-aligned-bam">https://gatkforums.broadinstitute.org/gatk/discussion/6484/how-to-generate-an-unmapped-bam-from-fastq-or-aligned-bam</a></p>
+<p>参考：<br><a target="_blank" rel="noopener" href="https://blastedbio.blogspot.com/2011/10/fastq-must-die-long-live-sambam.html">https://blastedbio.blogspot.com/2011/10/fastq-must-die-long-live-sambam.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://gatkforums.broadinstitute.org/gatk/discussion/5990/what-is-ubam-and-why-is-it-better-than-fastq-for-storing-unmapped-sequence-data">https://gatkforums.broadinstitute.org/gatk/discussion/5990/what-is-ubam-and-why-is-it-better-than-fastq-for-storing-unmapped-sequence-data</a></p>
+<p><a target="_blank" rel="noopener" href="https://gatkforums.broadinstitute.org/gatk/discussion/11694/why-is-converting-from-fastq-to-ubam-nesessary-before-preprocessing">https://gatkforums.broadinstitute.org/gatk/discussion/11694/why-is-converting-from-fastq-to-ubam-nesessary-before-preprocessing</a></p>
+<p><a target="_blank" rel="noopener" href="https://gatkforums.broadinstitute.org/gatk/discussion/6484/how-to-generate-an-unmapped-bam-from-fastq-or-aligned-bam">https://gatkforums.broadinstitute.org/gatk/discussion/6484/how-to-generate-an-unmapped-bam-from-fastq-or-aligned-bam</a></p>
 <p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>#####################################################################</p>
 
     </div>
@@ -228,10 +228,6 @@
     
     
     
-
-
-# <!-- Insert google ad blocks -->
-<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 
       <footer class="post-footer">
           <div class="post-tags">
@@ -310,7 +306,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1）单个文件更容易分析"><span class="nav-number">1.</span> <span class="nav-text">1）单个文件更容易分析</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2）BAM文件可以储存更多信息"><span class="nav-number">2.</span> <span class="nav-text">2）BAM文件可以储存更多信息</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3）BAM能实现随机读写"><span class="nav-number">3.</span> <span class="nav-text">3）BAM能实现随机读写</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1%EF%BC%89%E5%8D%95%E4%B8%AA%E6%96%87%E4%BB%B6%E6%9B%B4%E5%AE%B9%E6%98%93%E5%88%86%E6%9E%90"><span class="nav-number">1.</span> <span class="nav-text">1）单个文件更容易分析</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2%EF%BC%89BAM%E6%96%87%E4%BB%B6%E5%8F%AF%E4%BB%A5%E5%82%A8%E5%AD%98%E6%9B%B4%E5%A4%9A%E4%BF%A1%E6%81%AF"><span class="nav-number">2.</span> <span class="nav-text">2）BAM文件可以储存更多信息</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3%EF%BC%89BAM%E8%83%BD%E5%AE%9E%E7%8E%B0%E9%9A%8F%E6%9C%BA%E8%AF%BB%E5%86%99"><span class="nav-number">3.</span> <span class="nav-text">3）BAM能实现随机读写</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -324,7 +320,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">133</span>
+          <span class="site-state-item-count">134</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -333,7 +329,7 @@
         <span class="site-state-item-name">categories</span>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">139</span>
+        <span class="site-state-item-count">141</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>

@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 4.2.1">
+<meta name="generator" content="Hexo 5.1.1">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -31,8 +31,8 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2016-04-01-SNP_S81_02B_CHG002683-P20150810-6-20_L008.4.snp_window.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2016-04-01-triotest.20.cov_depth_window.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2016-05-07-circos.png">
-<meta property="article:published_time" content="2016-04-02T06:33:28.000Z">
-<meta property="article:modified_time" content="2020-05-28T23:19:29.639Z">
+<meta property="article:published_time" content="2016-04-01T14:33:28.000Z">
+<meta property="article:modified_time" content="2020-09-11T14:36:21.691Z">
 <meta property="article:author" content="Jason">
 <meta property="article:tag" content="cirocs">
 <meta property="article:tag" content="Figure">
@@ -181,14 +181,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2016-04-02 14:33:28" itemprop="dateCreated datePublished" datetime="2016-04-02T14:33:28+08:00">2016-04-02</time>
+              <time title="Created: 2016-04-01 22:33:28" itemprop="dateCreated datePublished" datetime="2016-04-01T22:33:28+08:00">2016-04-01</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-29 07:19:29" itemprop="dateModified" datetime="2020-05-29T07:19:29+08:00">2020-05-29</time>
+                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -214,23 +214,23 @@
         <p>不光是生信，感觉整个生物领域越来越靠图吃饭了。谁的图漂亮，谁的分析就好。好吧，我也承认，图多图漂亮了，确实显得高大上哈。在我眼中图的信息量比较大，能够给人直观的表示，为了说明图的意义，我没把持住，在本文多放了几张和circos图无关的图，见谅。本文有多图，都是本人自己画的，请勿盗图，如果你想知道怎么做或者由更好的表示办法，欢迎留言讨论。</p>
 <p>想当年，我为了表示SNP在染色体上的数目分布，用python画了24个图，每个染色体一张SNP的密度分布。那可是我第一次用matplot。</p>
 <p>先上我年yi轻qian时做的图，那个时候我都佩服自己能想出可以用图的形式来表示突变的密度，哈哈哈,因为这样就能很直观的看出哪些地方突变频率比较高，突变频率比较高的地方，可能是突变热点区域，在肿瘤研究中常常有意义。</p>
-<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2016-04-01-chr8.number-distribution-by-window.png" alt=""> </p>
+<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2016-04-01-chr8.number-distribution-by-window.png"> </p>
 <a id="more"></a>
 
-<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2016-04-01-SNP_S81_02B_CHG002683-P20150810-6-20_L008.4.snp_window.png" alt=""> </p>
+<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2016-04-01-SNP_S81_02B_CHG002683-P20150810-6-20_L008.4.snp_window.png"> </p>
 <p>上面的两张图都比较丑，下面表示覆盖度和测序深度的图还算凑活。通过depth我们能够发现测序深度在整个染色体上比较均匀，为20X多。通过coverage我们可以看出，整条染色体的大部分都被reads覆盖到了。这种表示方法远比单纯告诉你测序深度多少要靠谱的多，你不仅能够看出染色体每个区域的测序深度，还能看到测序覆盖到的区域，很直观，不用列一堆数据在那，表示的信息量却相当丰富。这就是图的意义所在。</p>
-<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2016-04-01-triotest.20.cov_depth_window.png" alt=""></p>
+<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2016-04-01-triotest.20.cov_depth_window.png"></p>
 <p>其实那个时候我就想到了可以用circos图表示，但是那个时候项目催的急，我很久之前帮一个师兄玩过一次circos图，不想那么麻烦了。最近越看越觉得丑，实在看不下去了，遂决定用circos来表示，顺便复习一下用circos作图。</p>
 <p>circos我用的circos自带的测试数据，data/6/snp.number.1mb.txt。</p>
 <p>我一共画了三圈，最外面的一圈，表示karyotype，包括染色体带，这个需要在配置中设置show_bands = yes，中间的一圈，用热图的形式表示每个区域内的突变的数目，第三圈用线来表示突变的数目，不过设置了orientation = in，让它朝内。突变的数目其实对应突变密度，只不过数量级不一样罢了。</p>
 <p>上circos图，真心比我以前的图漂亮多了，而且是同一张图把整个基因组上的突变密度都表示出来了，非常直观漂亮。要是加上结构突变，覆盖度的信息，就更完美了，perfect！以后我会添上去的，嗯。</p>
-<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2016-05-07-circos.png" alt=""> </p>
+<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2016-05-07-circos.png"> </p>
 <p>这里想提一下，各位有空可以看看circos作者提到的关于图片美学的论述，看后受益匪浅，不过我现在都忘了，囧。这也让我想到了ggplot2，这些搞艺术的，理论真强悍。人家画出的图就是漂亮，yes！</p>
 <p>Circos图最大的优势是它以圈（track）的形式来表示，且可以画很多圈，能够表示的维度远比二维的要多。</p>
 <p>下面的内容我主要介绍下如何在Windows下安装circos，以及circos的配置文件。</p>
-<h1 id="windows下安装circos"><a href="#windows下安装circos" class="headerlink" title="windows下安装circos"></a>windows下安装circos</h1><p>下载perl，安装<br><a href="https://www.perl.org/get.html#win32">https://www.perl.org/get.html#win32</a></p>
-<p>下载circos，解压缩<br><a href="http://circos.ca/software/download">http://circos.ca/software/download</a></p>
-<p>下一步需要安装其他的模块<a href="http://circos.ca/tutorials/lessons/configuration/perl_and_modules/">http://circos.ca/tutorials/lessons/configuration/perl_and_modules/</a></p>
+<h1 id="windows下安装circos"><a href="#windows下安装circos" class="headerlink" title="windows下安装circos"></a>windows下安装circos</h1><p>下载perl，安装<br><a target="_blank" rel="noopener" href="https://www.perl.org/get.html#win32">https://www.perl.org/get.html#win32</a></p>
+<p>下载circos，解压缩<br><a target="_blank" rel="noopener" href="http://circos.ca/software/download">http://circos.ca/software/download</a></p>
+<p>下一步需要安装其他的模块<a target="_blank" rel="noopener" href="http://circos.ca/tutorials/lessons/configuration/perl_and_modules/">http://circos.ca/tutorials/lessons/configuration/perl_and_modules/</a></p>
 <pre>cd /path/to/circos/bin
 perl circos -modules # 检查缺失的模块
 
@@ -392,10 +392,6 @@ y1        = 0.002
     
     
 
-
-# <!-- Insert google ad blocks -->
-<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-
       <footer class="post-footer">
           <div class="post-tags">
               <a href="/tags/cirocs/" rel="tag"># cirocs</a>
@@ -474,7 +470,7 @@ y1        = 0.002
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#windows下安装circos"><span class="nav-number">1.</span> <span class="nav-text">windows下安装circos</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#circos配置文件"><span class="nav-number">2.</span> <span class="nav-text">circos配置文件</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#windows%E4%B8%8B%E5%AE%89%E8%A3%85circos"><span class="nav-number">1.</span> <span class="nav-text">windows下安装circos</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#circos%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="nav-number">2.</span> <span class="nav-text">circos配置文件</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -488,7 +484,7 @@ y1        = 0.002
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">133</span>
+          <span class="site-state-item-count">134</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -497,7 +493,7 @@ y1        = 0.002
         <span class="site-state-item-name">categories</span>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">139</span>
+        <span class="site-state-item-count">141</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>

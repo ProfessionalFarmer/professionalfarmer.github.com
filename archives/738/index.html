@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 4.2.1">
+<meta name="generator" content="Hexo 5.1.1">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -32,8 +32,8 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2016-02-20-biomaRt-listensembldatasetfilters.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2016-02-20-biomaRt-listensembldatasetattribute.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2016-02-20-biomaRt-hgmdresult.png">
-<meta property="article:published_time" content="2016-02-21T06:01:07.000Z">
-<meta property="article:modified_time" content="2020-05-28T23:19:29.631Z">
+<meta property="article:published_time" content="2016-02-20T14:01:07.000Z">
+<meta property="article:modified_time" content="2020-09-11T14:36:21.680Z">
 <meta property="article:author" content="Jason">
 <meta property="article:tag" content="Biomart">
 <meta name="twitter:card" content="summary">
@@ -180,14 +180,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2016-02-21 14:01:07" itemprop="dateCreated datePublished" datetime="2016-02-21T14:01:07+08:00">2016-02-21</time>
+              <time title="Created: 2016-02-20 22:01:07" itemprop="dateCreated datePublished" datetime="2016-02-20T22:01:07+08:00">2016-02-20</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-29 07:19:29" itemprop="dateModified" datetime="2020-05-29T07:19:29+08:00">2020-05-29</time>
+                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -210,7 +210,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p><a href="http://wp.zxzyl.com/?p=174" title="如何获取Ensembl gene id和NCBI的gene id及与HGNC的对应关系">前面</a>文章介绍了Ensembl的biomart，相信你对biomart应该有所了解了，在此再介绍一种方法，即通过R语言包biomaRt下载HGMD的数据。</p>
+        <p><a target="_blank" rel="noopener" href="http://wp.zxzyl.com/?p=174" title="如何获取Ensembl gene id和NCBI的gene id及与HGNC的对应关系">前面</a>文章介绍了Ensembl的biomart，相信你对biomart应该有所了解了，在此再介绍一种方法，即通过R语言包biomaRt下载HGMD的数据。</p>
 <p>HGMD的最新数据是需要购买授权才行，公开版信息不仅滞后，而且不能下载，不能得到基因组位置，在biostart上看到有人说Ensembl整合了HGMD的公开版，心想能获得公开版的数据也不错，于是采用biomaRt包下载。</p>
 <p>各位不要高兴，最终的结果是，只得到了所有突变的基因组位置，未能下到具体的突变类型，以及与表型的关系。不过能下载基因组的位置，也算不错，结合对这些位置的注释，能获取不少信息。如果您对这些位置的利用有更多或者更好的想法，欢迎与我讨论。</p>
 <h2 id="1，安装biomaRt包"><a href="#1，安装biomaRt包" class="headerlink" title="1，安装biomaRt包"></a>1，安装biomaRt包</h2><pre>source("http://bioconductor.org/biocLite.R")
@@ -223,7 +223,7 @@ listEnsembl()
 #如果要显示特定版本的，添加version参数
 #listEnsembl(version=78)</pre>
 
-<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2016-02-20-biomaRt-listensemblbiomart.png" alt=""> </p>
+<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2016-02-20-biomaRt-listensemblbiomart.png"> </p>
 <a id="more"></a>
 
 <h2 id="3，选择snp-mart"><a href="#3，选择snp-mart" class="headerlink" title="3，选择snp mart"></a>3，选择snp mart</h2><pre>#HGMD的数据，不用想，一定是属于SNP，所以选择snp
@@ -234,21 +234,21 @@ snp = useEnsembl(biomart="snp")
 <pre>listDatasets(snp) 
 snp = useEnsembl(biomart="snp",dataset="hsapiens_snp")</pre>
 
-<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2016-02-20-biomaRt-listensembldataset.png" alt=""></p>
+<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2016-02-20-biomaRt-listensembldataset.png"></p>
 <h2 id="5，显示过滤参数"><a href="#5，显示过滤参数" class="headerlink" title="5，显示过滤参数"></a>5，显示过滤参数</h2><p>有时候，我们并不是将整个数据集下载下来，有可能只关注一个基因或者一个RSID，就可以根据显示的过滤参数加上我们的条件，这样得到的数据只是我们关心的。因为我们要获得HGMD的数据，后续要选择variation_source。</p>
 <pre>listFilters(snp)</pre>
 
-<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2016-02-20-biomaRt-listensembldatasetfilters.png" alt=""></p>
+<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2016-02-20-biomaRt-listensembldatasetfilters.png"></p>
 <h2 id="6，显示属性"><a href="#6，显示属性" class="headerlink" title="6，显示属性"></a>6，显示属性</h2><p>如果你看过前两篇文章，应该能明白属性其实对应的是我们想得到的关于某一对象的属性，一个属性对应一列，比如SNP的属性就可以包括chr，pos等。后续我选择了’chr_name’, ‘chrom_start’,’chrom_end’,’refsnp_id’,’associated_gene’,’allele’,’phenotype_description’。我相信，你也关心这些信息，不过最终结果可能没有那么美好，请往下看</p>
 <pre>listAttributes(snp)</pre>
 
-<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2016-02-20-biomaRt-listensembldatasetattribute.png" alt=""></p>
+<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2016-02-20-biomaRt-listensembldatasetattribute.png"></p>
 <h2 id="7，通过getBM得到数据"><a href="#7，通过getBM得到数据" class="headerlink" title="7，通过getBM得到数据"></a>7，通过getBM得到数据</h2><p>attributes对应你想要获得的属性<br>filters对应你要过滤的项目，values对应filter的过滤参数<br>如果你有多个filter，values的参数对应的应该是个list</p>
 <pre>result <- getBM(attributes=c('chr_name', 'chrom_start','chrom_end','refsnp_id','associated_gene','allele','phenotype_description'), filters = 'variation_source', values ="HGMD-PUBLIC", mart = snp)
 write.table(result,sep="t",file="./hgmd.txt",quote=FALSE,row.names=F)
 head(result)</pre>
 
-<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2016-02-20-biomaRt-hgmdresult.png" alt=""></p>
+<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2016-02-20-biomaRt-hgmdresult.png"></p>
 <p>在这里只得到了突变的位置和基因，其他的未公开，想想也对，要是都能下载到了，HGMD的生意也会少了很多。不过HGMD官网没有提供基因组位置，这里能获得，再结合相关基因，这些数据还是很有用的。</p>
 <p>Ensembl官网提供的另外两个例子，也可以参考下</p>
 <pre>Example query: Fetch all the Ensembl gene, transcript IDs, HGNC symbols and chromosome locations located on the human chromosome 1
@@ -264,8 +264,8 @@ Example query: Fetch Ensembl Gene, Transcript IDs, HGNC IDs and symbols and Unip
 > hgnc_swissprot  hgnc_swissprot</pre>
 
 <p>参考：</p>
-<p><a href="http://asia.ensembl.org/info/data/biomart/biomart_r_package.html" title="http://asia.ensembl.org/info/data/biomart/biomart_r_package.html">http://asia.ensembl.org/info/data/biomart/biomart_r_package.html</a></p>
-<p><a href="https://bioconductor.org/packages/release/bioc/html/biomaRt.html" title="https://bioconductor.org/packages/release/bioc/html/biomaRt.html">https://bioconductor.org/packages/release/bioc/html/biomaRt.html</a></p>
+<p><a target="_blank" rel="noopener" href="http://asia.ensembl.org/info/data/biomart/biomart_r_package.html" title="http://asia.ensembl.org/info/data/biomart/biomart_r_package.html">http://asia.ensembl.org/info/data/biomart/biomart_r_package.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://bioconductor.org/packages/release/bioc/html/biomaRt.html" title="https://bioconductor.org/packages/release/bioc/html/biomaRt.html">https://bioconductor.org/packages/release/bioc/html/biomaRt.html</a></p>
 <p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>#####################################################################</p>
 
     </div>
@@ -273,10 +273,6 @@ Example query: Fetch Ensembl Gene, Transcript IDs, HGNC IDs and symbols and Unip
     
     
     
-
-
-# <!-- Insert google ad blocks -->
-<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 
       <footer class="post-footer">
           <div class="post-tags">
@@ -354,7 +350,7 @@ Example query: Fetch Ensembl Gene, Transcript IDs, HGNC IDs and symbols and Unip
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1，安装biomaRt包"><span class="nav-number">1.</span> <span class="nav-text">1，安装biomaRt包</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2，显示ensembl的biomart"><span class="nav-number">2.</span> <span class="nav-text">2，显示ensembl的biomart</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3，选择snp-mart"><span class="nav-number">3.</span> <span class="nav-text">3，选择snp mart</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4，显示snp-mart的数据集"><span class="nav-number">4.</span> <span class="nav-text">4，显示snp mart的数据集</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5，显示过滤参数"><span class="nav-number">5.</span> <span class="nav-text">5，显示过滤参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6，显示属性"><span class="nav-number">6.</span> <span class="nav-text">6，显示属性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7，通过getBM得到数据"><span class="nav-number">7.</span> <span class="nav-text">7，通过getBM得到数据</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1%EF%BC%8C%E5%AE%89%E8%A3%85biomaRt%E5%8C%85"><span class="nav-number">1.</span> <span class="nav-text">1，安装biomaRt包</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2%EF%BC%8C%E6%98%BE%E7%A4%BAensembl%E7%9A%84biomart"><span class="nav-number">2.</span> <span class="nav-text">2，显示ensembl的biomart</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3%EF%BC%8C%E9%80%89%E6%8B%A9snp-mart"><span class="nav-number">3.</span> <span class="nav-text">3，选择snp mart</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4%EF%BC%8C%E6%98%BE%E7%A4%BAsnp-mart%E7%9A%84%E6%95%B0%E6%8D%AE%E9%9B%86"><span class="nav-number">4.</span> <span class="nav-text">4，显示snp mart的数据集</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5%EF%BC%8C%E6%98%BE%E7%A4%BA%E8%BF%87%E6%BB%A4%E5%8F%82%E6%95%B0"><span class="nav-number">5.</span> <span class="nav-text">5，显示过滤参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6%EF%BC%8C%E6%98%BE%E7%A4%BA%E5%B1%9E%E6%80%A7"><span class="nav-number">6.</span> <span class="nav-text">6，显示属性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7%EF%BC%8C%E9%80%9A%E8%BF%87getBM%E5%BE%97%E5%88%B0%E6%95%B0%E6%8D%AE"><span class="nav-number">7.</span> <span class="nav-text">7，通过getBM得到数据</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -368,7 +364,7 @@ Example query: Fetch Ensembl Gene, Transcript IDs, HGNC IDs and symbols and Unip
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">133</span>
+          <span class="site-state-item-count">134</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -377,7 +373,7 @@ Example query: Fetch Ensembl Gene, Transcript IDs, HGNC IDs and symbols and Unip
         <span class="site-state-item-name">categories</span>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">139</span>
+        <span class="site-state-item-count">141</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>

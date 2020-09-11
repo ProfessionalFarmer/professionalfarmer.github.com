@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 4.2.1">
+<meta name="generator" content="Hexo 5.1.1">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -28,8 +28,8 @@
 <meta property="og:description" content="一个全基因组或者全外显子组会产生几万、几十万乃至百万数量的突变。而目标突变往往只有几个或者几十个。我们需要大海捞针似得把我们想要分析的突变找到。突变过滤就是尽可能的将无关突变过滤掉，尽可能的保留目标突变，找出最可能致病的突变。关联性分析则不需要，因为关联性分析根据的是突变在对照和研究人群中的分布。 突变的过滤需要根据分析需要，比如需要寻找一个完全没有研究过的突变，则需要根据dbSNP来过滤等。如果">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-06-08-filter-var.png">
-<meta property="article:published_time" content="2018-06-08T22:49:53.000Z">
-<meta property="article:modified_time" content="2020-05-28T23:19:29.669Z">
+<meta property="article:published_time" content="2018-06-08T06:49:53.000Z">
+<meta property="article:modified_time" content="2020-09-11T14:36:21.730Z">
 <meta property="article:author" content="Jason">
 <meta property="article:tag" content="Variant">
 <meta property="article:tag" content="Filter">
@@ -177,14 +177,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2018-06-09 06:49:53" itemprop="dateCreated datePublished" datetime="2018-06-09T06:49:53+08:00">2018-06-09</time>
+              <time title="Created: 2018-06-08 14:49:53" itemprop="dateCreated datePublished" datetime="2018-06-08T14:49:53+08:00">2018-06-08</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-29 07:19:29" itemprop="dateModified" datetime="2020-05-29T07:19:29+08:00">2020-05-29</time>
+                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -209,7 +209,7 @@
       
         <p>一个全基因组或者全外显子组会产生几万、几十万乃至百万数量的突变。而目标突变往往只有几个或者几十个。我们需要大海捞针似得把我们想要分析的突变找到。突变过滤就是尽可能的将无关突变过滤掉，尽可能的保留目标突变，找出最可能致病的突变。关联性分析则不需要，因为关联性分析根据的是突变在对照和研究人群中的分布。</p>
 <p>突变的过滤需要根据分析需要，比如需要寻找一个完全没有研究过的突变，则需要根据dbSNP来过滤等。如果需要寻找新生突变，要同时用到父母双方的突变数据。</p>
-<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-06-08-filter-var.png" alt=""></p>
+<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-06-08-filter-var.png"></p>
 <p>常用的过滤条件可以分为一下几类：<br>1）根据突变频率进行过滤：每个位点的基因型在人群中频率是不一样的，一般来说，在人群中频率高的基因型往往没有致病性，而是背景突变，只是人群中的多态性。通常用到的频率数据库有gnomAD，ESP，ExAC，1000 Genome等，这些项目检测或搜集了从上千到成万的样本数据，并把数据开放给学术界和产业界。一般过滤的阈值有0.05，0.01，0.001等。<br>2）根据突变位置进行过滤：不同的分析目的，关注的突变并不一样。有人关于调控区域的突变，有人关注编码区的突变，有人关注剪切位点突变等。根据分析目的不同，需要将非关注的区域内的突变过滤掉。如果关注编码区突变，则需要将基因间、内含子、非编码区的突变过滤掉。<br>3）根据突变类型进行过滤：编码区的突变，有同义突变、错义突变、终止密码子突变等。同义突变虽然可能会导致疾病的发生，导致调控紊乱，但一般分析会将同意突变过滤掉（和分析目的有关，如果想要研究同义突变，则不能过滤）。往往移码突变和终止密码子突变是需要关注的。<br>4）根据突变危害预测进行过滤：现在有很多算法在预测位点导致的氨基酸变化的危害性，通常这些算法会分析致病的突变所处的区域、氨基酸变化类型等特征，比如PolyPhen、SIFT等，进而预测出检测出的突变危害性。有些算法会分析序列的保守型，预测突变所处区域是否保守，比如PhastCon，保守区域的突变较非保守区域的突变危害性大。此外，还可以根据氨基酸类型的带电性变化进行过滤，或者根据BLOSUM等打分矩阵分值进行过滤。不同的算法预测的危害性不一定一致。一般统计多个算法预测中，预测危害性较大的比例。<br>5）根据先验知识库进行过滤：注释软件可以注释关联性分析的信息，也可以注释Clinvar相关数据，这些信息在后续的突变位点解读和分析中有很重要的作用。这些信息可以告诉分析人员位点和哪些疾病有关，或者在Clinvar中的致病性评级。可以根据显著性、是否为良性突变、疾病信息等内容对突变 进行过滤。<br>6）根据数据库标识进行过滤：注释软件会注释突变在dbSNP、COSMIC等数据库中的编号。如果研究的疾病非常非常罕见，以往没有研究过，可以尝试寻找非dbSNP数据库中的突变。如果研究和癌症相关的突变，可以寻找COSMIC数据库中出现的突变。<br>7）根据遗传方式进行过滤：如果疾病呈现家族性分布，可以根据系谱图推断出的遗传类型进行过滤。比如如果是隐形突变，则只考虑病人中的纯合突变。如果有线索指示突变为新生突变，则需要根据父母双方的突变数据，将后代中同样位点的突变过滤掉。<br>8）根据其他条件进行过滤：突变过滤还可以有其他的方式，最终还是要根据分析目的进行选择。比如有四个散发样本的突变数据，同样的表型，往往寻找四个样本在相同基因内是否都发生突变，或者是否有相同的高危害突变（比如移码突变）。</p>
 <p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>#####################################################################</p>
 
@@ -218,10 +218,6 @@
     
     
     
-
-
-# <!-- Insert google ad blocks -->
-<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 
       <footer class="post-footer">
           <div class="post-tags">
@@ -313,7 +309,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">133</span>
+          <span class="site-state-item-count">134</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -322,7 +318,7 @@
         <span class="site-state-item-name">categories</span>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">139</span>
+        <span class="site-state-item-count">141</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>

@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 4.2.1">
+<meta name="generator" content="Hexo 5.1.1">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -27,8 +27,8 @@
 <meta property="og:site_name" content="Another Jason&#39;s blog">
 <meta property="og:description" content="SAMtools不仅仅用来call snp。从samtools的软件名就能看出，是对SAM格式文件进行操作的工作，比如讲sam转成bam格式，index，rmdup等等。samtools结合linux命令比如grep，awk和SAM格式描述的flag，tag，亦是非常非常非常强大，比如根据flag过滤duplicate的reads，根据XA tag过滤multiple hit的reads。本文在此">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2016-01-12T06:51:33.000Z">
-<meta property="article:modified_time" content="2020-05-28T23:19:29.623Z">
+<meta property="article:published_time" content="2016-01-11T14:51:33.000Z">
+<meta property="article:modified_time" content="2020-09-11T14:36:21.670Z">
 <meta property="article:author" content="Jason">
 <meta property="article:tag" content="SAM">
 <meta property="article:tag" content="stat">
@@ -175,14 +175,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2016-01-12 14:51:33" itemprop="dateCreated datePublished" datetime="2016-01-12T14:51:33+08:00">2016-01-12</time>
+              <time title="Created: 2016-01-11 22:51:33" itemprop="dateCreated datePublished" datetime="2016-01-11T22:51:33+08:00">2016-01-11</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-29 07:19:29" itemprop="dateModified" datetime="2020-05-29T07:19:29+08:00">2020-05-29</time>
+                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -207,13 +207,13 @@
       
         <p><strong>SAMtools</strong>不仅仅用来call snp。从samtools的软件名就能看出，是对SAM格式文件进行操作的工作，比如讲sam转成bam格式，index，rmdup等等。samtools结合linux命令比如grep，awk和SAM格式描述的flag，tag，亦是非常非常非常强大，比如根据flag过滤duplicate的reads，根据XA tag过滤multiple hit的reads。本文在此只介绍一下samtools的统计命令，能快速对bam文件进行各种统计。</p>
 <p>samtools的自带的几种统计工具</p>
-<p>*<em>samtool idxstats *</em></p>
+<p>**samtool idxstats **</p>
 <p>检索和打印与输入文件相对应的index file里的统计信息，所以要对输入的bam文件进行index</p>
 <p>reference sequence name, sequence length, # mapped reads and # unmapped reads<br>chr1    249250621       4998344 1005<br>chr2    243199373       3020248 595<br>chr3    198022430       2418804 449</p>
 <p><strong>samtools bedcov</strong></p>
 <p>计算覆盖到每个区域的总碱基数目</p>
 <p>chr    start-1    end    totalbase<br>chr1    100000  1000000 1709228<br>chr2    2000000 65885852        64362582</p>
-<p>*<em>samtools depth *</em></p>
+<p>**samtools depth **</p>
 <p>计算每个位点的深度</p>
 <p>#chr    pos     depth<br>chr1    1       5<br>chr1    2       5</p>
 <p><strong>samtools flagstat</strong></p>
@@ -228,7 +228,7 @@
 <p>ACGT content per cycle<br>ACGT在每个cycle中的比例</p>
 <p>Insert sizes<br>插入长度的统计</p>
 <p>Read lengths<br>read的长度分布</p>
-<p>参考SAMtools的官网提供的document:<br><a href="http://www.htslib.org/doc/samtools.html">http://www.htslib.org/doc/samtools.html</a></p>
+<p>参考SAMtools的官网提供的document:<br><a target="_blank" rel="noopener" href="http://www.htslib.org/doc/samtools.html">http://www.htslib.org/doc/samtools.html</a></p>
 <p><strong>idxstats</strong></p>
 <p><code>samtools idxstats in.sam&#39;in.bam&#39;in.cram</code></p>
 <p>Retrieve and print stats in the index file corresponding to the input file. Before calling idxstats, the input BAM file must be indexed by samtools index.</p>
@@ -291,7 +291,7 @@
 <p>-q INT<br>Only count reads with base quality greater than INT</p>
 <p>-Q INT<br>Only count reads with mapping quality greater than INT</p>
 <p>-r CHR:FROM-TO<br>Only report depth in specified region.</p>
-<p>Ref:<a href="http://www.htslib.org/doc/samtools.html">http://www.htslib.org/doc/samtools.html</a></p>
+<p>Ref:<a target="_blank" rel="noopener" href="http://www.htslib.org/doc/samtools.html">http://www.htslib.org/doc/samtools.html</a></p>
 <p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason Zhu<br>#####################################################################</p>
 
     </div>
@@ -299,10 +299,6 @@
     
     
     
-
-
-# <!-- Insert google ad blocks -->
-<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 
       <footer class="post-footer">
           <div class="post-tags">
@@ -394,7 +390,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">133</span>
+          <span class="site-state-item-count">134</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -403,7 +399,7 @@
         <span class="site-state-item-name">categories</span>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">139</span>
+        <span class="site-state-item-count">141</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>

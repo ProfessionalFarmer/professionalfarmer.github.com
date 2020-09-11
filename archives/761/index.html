@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 4.2.1">
+<meta name="generator" content="Hexo 5.1.1">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -27,8 +27,8 @@
 <meta property="og:site_name" content="Another Jason&#39;s blog">
 <meta property="og:description" content="在1000genome的FTP服务器上可以下载一个all的vcf文件，里面可以看到AFR, AMR, EAS, EUR, SAS人群的allele频率，但是该种族下面的亚群的频率信息需要在http:&#x2F;&#x2F;grch37.ensembl.org搜索得到，比如 http:&#x2F;&#x2F;grch37.ensembl.org&#x2F;Homo_sapiens&#x2F;Variation&#x2F;Population?db&#x3D;core;r&#x3D;1:2">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2016-06-16T23:36:10.000Z">
-<meta property="article:modified_time" content="2020-05-28T23:19:29.644Z">
+<meta property="article:published_time" content="2016-06-16T07:36:10.000Z">
+<meta property="article:modified_time" content="2020-09-11T14:36:21.698Z">
 <meta property="article:author" content="Jason">
 <meta property="article:tag" content="1000 Genome">
 <meta property="article:tag" content="Frequency">
@@ -175,14 +175,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2016-06-17 07:36:10" itemprop="dateCreated datePublished" datetime="2016-06-17T07:36:10+08:00">2016-06-17</time>
+              <time title="Created: 2016-06-16 15:36:10" itemprop="dateCreated datePublished" datetime="2016-06-16T15:36:10+08:00">2016-06-16</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-29 07:19:29" itemprop="dateModified" datetime="2020-05-29T07:19:29+08:00">2020-05-29</time>
+                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -205,10 +205,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>在1000genome的FTP服务器上可以下载一个all的vcf文件，里面可以看到AFR, AMR, EAS, EUR, SAS人群的allele频率，但是该种族下面的亚群的频率信息需要在<a href="http://grch37.ensembl.org">http://grch37.ensembl.org</a>搜索得到，比如 <a href="http://grch37.ensembl.org/Homo_sapiens/Variation/Population?db=core;r=1:230845294-230846294;v=rs699;vdb=variation;vf=102788013">http://grch37.ensembl.org/Homo_sapiens/Variation/Population?db=core;r=1:230845294-230846294;v=rs699;vdb=variation;vf=102788013</a> ，还有一种方式，就是下载包含所有样本的突变信息的VCF文件，利用vcftools计算。</p>
-<p>The allele frequency of super population (AFR, AMR, EAS, EUR, SAS, see <a href="http://www.1000genomes.org/category/population/">http://www.1000genomes.org/category/population/</a>) can be obtained from <a href="ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/release/20130502/ALL.wgs.phase3_shapeit2_mvncall_integrated_v5b.20130502.sites.vcf.gz">all.vcf</a>.</p>
+        <p>在1000genome的FTP服务器上可以下载一个all的vcf文件，里面可以看到AFR, AMR, EAS, EUR, SAS人群的allele频率，但是该种族下面的亚群的频率信息需要在<a target="_blank" rel="noopener" href="http://grch37.ensembl.org/">http://grch37.ensembl.org</a>搜索得到，比如 <a target="_blank" rel="noopener" href="http://grch37.ensembl.org/Homo_sapiens/Variation/Population?db=core;r=1:230845294-230846294;v=rs699;vdb=variation;vf=102788013">http://grch37.ensembl.org/Homo_sapiens/Variation/Population?db=core;r=1:230845294-230846294;v=rs699;vdb=variation;vf=102788013</a> ，还有一种方式，就是下载包含所有样本的突变信息的VCF文件，利用vcftools计算。</p>
+<p>The allele frequency of super population (AFR, AMR, EAS, EUR, SAS, see <a target="_blank" rel="noopener" href="http://www.1000genomes.org/category/population/">http://www.1000genomes.org/category/population/</a>) can be obtained from <a href="ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/release/20130502/ALL.wgs.phase3_shapeit2_mvncall_integrated_v5b.20130502.sites.vcf.gz">all.vcf</a>.</p>
 <p>However, the allele population frequency in subpopulation is not well obtained.</p>
-<p>One way is search the web <a href="http://grch37.ensembl.org">http://grch37.ensembl.org</a> by rs identifier, E.g. <a href="http://grch37.ensembl.org/Homo_sapiens/Variation/Population?db=core;r=1:230845294-230846294;v=rs699;vdb=variation;vf=102788013">http://grch37.ensembl.org/Homo_sapiens/Variation/Population?db=core;r=1:230845294-230846294;v=rs699;vdb=variation;vf=102788013</a> .</p>
+<p>One way is search the web <a target="_blank" rel="noopener" href="http://grch37.ensembl.org/">http://grch37.ensembl.org</a> by rs identifier, E.g. <a target="_blank" rel="noopener" href="http://grch37.ensembl.org/Homo_sapiens/Variation/Population?db=core;r=1:230845294-230846294;v=rs699;vdb=variation;vf=102788013">http://grch37.ensembl.org/Homo_sapiens/Variation/Population?db=core;r=1:230845294-230846294;v=rs699;vdb=variation;vf=102788013</a> .</p>
 <p>Another way is calculated on your local machine. The following will introduce how to get allele frequency of CHB population in chr1 chromosome. CHB Han Chinese in Beijing</p>
 <h1 id="Prepare-file-and-software-dependency"><a href="#Prepare-file-and-software-dependency" class="headerlink" title="Prepare file and software dependency"></a>Prepare file and software dependency</h1><p>panel file contains sample information</p>
 <p>panel file: <a href="ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/release/20130502/integrated_call_samples_v3.20130502.ALL.panel">integrated_call_samples_v3.20130502.ALL.panel</a> </p>
@@ -251,8 +251,8 @@ CHROM   POS     N_ALLELES       N_CHR   {ALLELE:FREQ}
 <p>Because every sample has two chromosomes, so N_CHR = N_sample * 2</p>
 <p>Reference:</p>
 <p>Population structure</p>
-<p><a href="http://www.1000genomes.org/category/population/">http://www.1000genomes.org/category/population/</a></p>
-<p><a href="http://www.1000genomes.org/faq/how-can-i-get-allele-frequency-my-variant/">http://www.1000genomes.org/faq/how-can-i-get-allele-frequency-my-variant/</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.1000genomes.org/category/population/">http://www.1000genomes.org/category/population/</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.1000genomes.org/faq/how-can-i-get-allele-frequency-my-variant/">http://www.1000genomes.org/faq/how-can-i-get-allele-frequency-my-variant/</a></p>
 <p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>####################################################################</p>
 
     </div>
@@ -260,10 +260,6 @@ CHROM   POS     N_ALLELES       N_CHR   {ALLELE:FREQ}
     
     
     
-
-
-# <!-- Insert google ad blocks -->
-<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 
       <footer class="post-footer">
           <div class="post-tags">
@@ -356,7 +352,7 @@ CHROM   POS     N_ALLELES       N_CHR   {ALLELE:FREQ}
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">133</span>
+          <span class="site-state-item-count">134</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -365,7 +361,7 @@ CHROM   POS     N_ALLELES       N_CHR   {ALLELE:FREQ}
         <span class="site-state-item-name">categories</span>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">139</span>
+        <span class="site-state-item-count">141</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>

@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 4.2.1">
+<meta name="generator" content="Hexo 5.1.1">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -30,8 +30,8 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-05-08-FASTQ1.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-05-08-FASTQ2.png">
 <meta property="og:image" content="http://md.zxzyl.com/archives/954/2018-05-08-FASTQ3.png">
-<meta property="article:published_time" content="2018-05-09T05:49:09.000Z">
-<meta property="article:modified_time" content="2020-05-28T23:19:29.664Z">
+<meta property="article:published_time" content="2018-05-08T13:49:09.000Z">
+<meta property="article:modified_time" content="2020-09-11T14:36:21.725Z">
 <meta property="article:author" content="Jason">
 <meta property="article:tag" content="FASTQ">
 <meta property="article:tag" content="Tutorial">
@@ -179,14 +179,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2018-05-09 13:49:09" itemprop="dateCreated datePublished" datetime="2018-05-09T13:49:09+08:00">2018-05-09</time>
+              <time title="Created: 2018-05-08 21:49:09" itemprop="dateCreated datePublished" datetime="2018-05-08T21:49:09+08:00">2018-05-08</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-29 07:19:29" itemprop="dateModified" datetime="2020-05-29T07:19:29+08:00">2020-05-29</time>
+                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -212,9 +212,9 @@
         <p>在培训部门同事的时候，发现刚开始学生信的人，只是在学如何运行命令，但对自己手头的文件格式和内容却不了解，这对分析的流程的深入理解和研究是非常不好的，所以刚学习的人，应该在等待分析结果的时候，多去了解下文件的内容，程序的大体算法等，这对以后的工作优化是非常有好处的。本文简单介绍一下Fastq的文件格式，希望新手多查文档，多了解自己接触的东西。</p>
 <h1 id="文库构建和测序"><a href="#文库构建和测序" class="headerlink" title="文库构建和测序"></a>文库构建和测序</h1><p>DNA分子会通过超声波或者酶被打断成几百碱基的小片段，然后在小片段DNA分子的两端添加接头，便于测序和样本区分。当然现在也有转座酶技术，通过转座酶同时实现DNA片断化和加接头和引物的过程。将文库上机，文库中的DNA分子首先与flowcell上lane中的接头结合，通过桥式PCR进行扩增（cluster簇增长），待达到一定量之后，进行便合成边测序。</p>
 <h1 id="测序数据的产生"><a href="#测序数据的产生" class="headerlink" title="测序数据的产生"></a>测序数据的产生</h1><p>每进行一个cycle，测序仪会合成过程中产生的荧光进行拍照分析，将产生的数据记录在bcl（base calling）文件，测序仪后续会将bcl文件转化成fastq文件，并同时进行demultiplexing。Demultiplexing会将属于同一Index的reads放在同一个fastq文件中，就个过程是Illumina测序仪自动化进行的，如果涉及更复杂参数的demultiplexing，可以下载illumima的bcl2fastq程序，指定相关文件夹即可自己进行demultiplexing。因为在测序上机之前，会在测序仪中设置样本对应的index，这样通过demultiplexing，测序仪对每个样本产生一对fastq文件。Illumina测序仪会自动将拍照形成的bcl文件转换成FASTQ文件。此文件为数据分析的开始。</p>
-<h1 id="FASTQ文件格式简介"><a href="#FASTQ文件格式简介" class="headerlink" title="FASTQ文件格式简介"></a>FASTQ文件格式简介</h1><p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-05-08-FASTQ1.png" alt=""> </p>
+<h1 id="FASTQ文件格式简介"><a href="#FASTQ文件格式简介" class="headerlink" title="FASTQ文件格式简介"></a>FASTQ文件格式简介</h1><p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-05-08-FASTQ1.png"> </p>
 <p>Paired End(PE)测序，会生成的一对FASTQ文件，分别为R1和R2，正是因为双端测序的产生，使得序列拼接和比对更加准确，因为如果单端的话，只能依靠单端read的长短信息，如果双端的话，能依靠整个插入DNA片断长度的信息，通过判断配对序列的相近距离，确认reads的位置，减少了read比对到多个地方的情况发生。<br>配对的reads分别在两个FASTQ文件中，其中一个FASTQ文件的内容如下，每四行表示一条read：</p>
-<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-05-08-FASTQ2.png" alt=""> </p>
+<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-05-08-FASTQ2.png"> </p>
 <a id="more"></a>
 
 <pre>@M00001:22:000000000-FC706VJ:1:1101:20899:2936 1:N:0:10
@@ -303,7 +303,7 @@ BAABBFFFFF?BGGGBFGGGGGHCGHHGGGGGGFFCFHGHGCFHGFGHHHHHHGHFHGDGFFHHGGGGHGHHHDGHHHFF
 <td>99.99%</td>
 </tr>
 </tbody></table>
-<p>该碱基的Phred质量分值还需要换算成FASTQ中第四行的字符。将碱基的Phred质量分值加上33，得到的数换成对应的ASCII编码字符，即得到第四行中对应的字符。对应关系如下。<br><img src="2018-05-08-FASTQ3.png" alt=""></p>
+<p>该碱基的Phred质量分值还需要换算成FASTQ中第四行的字符。将碱基的Phred质量分值加上33，得到的数换成对应的ASCII编码字符，即得到第四行中对应的字符。对应关系如下。<br><img src="2018-05-08-FASTQ3.png"></p>
 <p>此时又叫做Phred+33，以前还有Phred+64，即将phred分值加上64后换成对应的ASCII编码字符。</p>
 <p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: 感谢好友SYY&amp;33，&amp; Jason<br>#####################################################################</p>
 
@@ -312,10 +312,6 @@ BAABBFFFFF?BGGGBFGGGGGHCGHHGGGGGGFFCFHGHGCFHGFGHHHHHHGHFHGDGFFHHGGGGHGHHHDGHHHFF
     
     
     
-
-
-# <!-- Insert google ad blocks -->
-<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 
       <footer class="post-footer">
           <div class="post-tags">
@@ -394,7 +390,7 @@ BAABBFFFFF?BGGGBFGGGGGHCGHHGGGGGGFFCFHGHGCFHGFGHHHHHHGHFHGDGFFHHGGGGHGHHHDGHHHFF
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#文库构建和测序"><span class="nav-number">1.</span> <span class="nav-text">文库构建和测序</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#测序数据的产生"><span class="nav-number">2.</span> <span class="nav-text">测序数据的产生</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#FASTQ文件格式简介"><span class="nav-number">3.</span> <span class="nav-text">FASTQ文件格式简介</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%96%87%E5%BA%93%E6%9E%84%E5%BB%BA%E5%92%8C%E6%B5%8B%E5%BA%8F"><span class="nav-number">1.</span> <span class="nav-text">文库构建和测序</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B5%8B%E5%BA%8F%E6%95%B0%E6%8D%AE%E7%9A%84%E4%BA%A7%E7%94%9F"><span class="nav-number">2.</span> <span class="nav-text">测序数据的产生</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#FASTQ%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E7%AE%80%E4%BB%8B"><span class="nav-number">3.</span> <span class="nav-text">FASTQ文件格式简介</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -408,7 +404,7 @@ BAABBFFFFF?BGGGBFGGGGGHCGHHGGGGGGFFCFHGHGCFHGFGHHHHHHGHFHGDGFFHHGGGGHGHHHDGHHHFF
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">133</span>
+          <span class="site-state-item-count">134</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -417,7 +413,7 @@ BAABBFFFFF?BGGGBFGGGGGHCGHHGGGGGGFFCFHGHGCFHGFGHHHHHHGHFHGDGFFHHGGGGHGHHHDGHHHFF
         <span class="site-state-item-name">categories</span>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">139</span>
+        <span class="site-state-item-count">141</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>
