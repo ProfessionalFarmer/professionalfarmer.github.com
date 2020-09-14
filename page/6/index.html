@@ -20,12 +20,10 @@
     var CONFIG = {"hostname":"md.zxzyl.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="Share news">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Another Jason&#39;s blog">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Zhongxu&#39;s blog">
 <meta property="og:url" content="http://md.zxzyl.com/page/6/index.html">
-<meta property="og:site_name" content="Another Jason&#39;s blog">
-<meta property="og:description" content="Share news">
+<meta property="og:site_name" content="Zhongxu&#39;s blog">
 <meta property="og:locale" content="en_US">
 <meta property="article:author" content="Jason">
 <meta name="twitter:card" content="summary">
@@ -43,7 +41,7 @@
   };
 </script>
 
-  <title>Another Jason's blog</title>
+  <title>Zhongxu's blog</title>
   
 
 
@@ -94,7 +92,7 @@
 
     <a href="/" class="brand" rel="start">
       <span class="logo-line-before"><i></i></span>
-      <h1 class="site-title">Another Jason's blog</h1>
+      <h1 class="site-title">Zhongxu's blog</h1>
       <span class="logo-line-after"><i></i></span>
     </a>
   </div>
@@ -147,16 +145,889 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/838/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhongxu's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/archives/838/" class="post-title-link" itemprop="url">liftover,crossmap进行坐标转换时用到的chain文件介绍</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-02-12 21:46:41" itemprop="dateCreated datePublished" datetime="2018-02-12T21:46:41+08:00">2018-02-12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-02-11-liftover-chain-description.png" alt="chain description"></p>
+<p>在做基因组坐标转换的时候，用crossmap和liftover的时候，会用到chain file。大家都在讲坐标转换会用到这个文件，却没有讲过chain文件的具体内容（百度和谷歌搜索结果都没有中文介绍，本文应该是第一个）。本文的内容都翻译自UCSC网站，原文<a target="_blank" rel="noopener" href="https://genome.ucsc.edu/goldenpath/help/chain.html%EF%BC%8C%E5%B8%8C%E6%9C%9B%E8%83%BD%E5%B8%AE%E5%88%B0%E5%A4%A7%E5%AE%B6%E4%BA%86%E8%A7%A3%E8%BF%99%E4%B8%AA%E6%96%87%E4%BB%B6%E3%80%82">https://genome.ucsc.edu/goldenpath/help/chain.html，希望能帮到大家了解这个文件。</a></p>
+<p>UCSC chain文件 <a target="_blank" rel="noopener" href="http://hgdownload.soe.ucsc.edu/goldenPath/hg38/liftOver/">http://hgdownload.soe.ucsc.edu/goldenPath/hg38/liftOver/</a><br>Ensembl chain文件 <a target="_blank" rel="noopener" href="https://sourceforge.net/projects/crossmap/files/Ensembl_chain_files/">https://sourceforge.net/projects/crossmap/files/Ensembl_chain_files/</a></p>
+<p>chain file里面包含许多块alignment的信息（个人觉得可以理解为同源的地方，chain），其中每一块有一个header，记录alignment在两个版本中坐标，以及许多行alignment data line记录具体比对情况。</p>
+<p>即每一块有 Header Line 和 Alignment Data Lines组成。形式如下，有两个chain</p>
+<pre>    chain 4900 chrY 58368225 + 25985403 25985638 chr5 151006098 - 43257292 43257528 1
+     9       1       0
+     10      0       5
+     61      4       0
+     16      0       4
+     42      3       0
+     16      0       8
+     14      1       0
+     3       7       0
+     48
+
+     chain 4900 chrY 58368225 + 25985406 25985566 chr5 151006098 - 43549808 43549970 2
+     16      0       2
+     60      4       0
+     10      0       4
+     70
+</pre>
+
+<h1 id="Header-Lines"><a href="#Header-Lines" class="headerlink" title="Header Lines"></a>Header Lines</h1><p>记录两个版本的序列对应区域</p>
+<pre>chain score tName tSize tStrand tStart tEnd qName qSize qStrand qStart qEnd id</pre>
+
+<p>header line以chain开头<br>score – chain 值<br>tName – 染色体 (reference sequence)<br>tSize – 染色体大小 (reference sequence)<br>tStrand – 链strand (reference sequence)<br>tStart – 比对开始 (reference sequence)<br>tEnd – 比对结束 (reference sequence)<br>qName – 检索染色体 (query sequence，对应的另外一个基因组版本 )<br>qSize – 检索染色体大小 (query sequence)<br>qStrand – 链strand (query sequence)<br>qStart – 比对开始 (query sequence)<br>qEnd – 比对结束 (query sequence)<br>id – chain ID</p>
+<p>位置从0开始，前100bp的表示方法为0到100，接下的100bp为100到200，strand的值为-号时，对应的是反向互补序列。</p>
+<h1 id="Alignment-Data-Lines"><a href="#Alignment-Data-Lines" class="headerlink" title="Alignment Data Lines"></a>Alignment Data Lines</h1><p>Alignment Data Line有三列，记录区域内的具体对应信息，最后一行只有ungapped的序列长度。</p>
+<pre>    size dt dq</pre>
+
+<p>size – ungapped（一致的区域）的长度<br>dt – 该block块（一致的区域）的结束位置，到下一个block快（下一个一致的区域）起始位置的长度，其实就是gapped block不一致的区域的长度 (reference sequence)<br>dq – 该block块（一致的区域）的结束位置，到下一个block快（下一个一致的区域）起始位置的长度，其实就是gapped block不一致的区域的长度(query sequence)</p>
+<p>以chain id为2的chain为例</p>
+<pre>     chain 4900 chrY 58368225 + 25985406 25985566 chr5 151006098 - 43549808 43549970 2
+     16      0       2
+     60      4       0
+     10      0       4
+     70
+</pre>
+
+<p>我个人理解的，不一定正确，欢迎指正</p>
+<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-02-11-liftover-chain-description.png" alt="chain description"></p>
+<p>坐标转换在reference和query的位置为：<br>reference: start 25985406 end 25985566<br>query: start 43549808 end 43549970</p>
+<p>区域长度分别为：<br>reference region length = 25985566 - 25985406 = 160 bp<br>query region length = 43549970 - 43549808 = 162 bp</p>
+<p>一致的区域（ungapped）长度为<br>reference = query = 16 + 60 +10 + 70 = 156 bp</p>
+<p>不一致的区域（gapped）长度为<br>reference = 0 + 4 +0 =4<br>query = 2 + 0 + 4 =6</p>
+<p>区域长度也可以通过ungapped和gapped区域计算，分别为：<br>reference = ungapped + gapped = 156 + 4 =160 bp<br>query = ungapped + gapped = 156 + 6 =162 bp</p>
+<p>更多信息详见：</p>
+<p><a target="_blank" rel="noopener" href="http://genomewiki.ucsc.edu/index.php/LiftOver_Howto">http://genomewiki.ucsc.edu/index.php/LiftOver_Howto</a></p>
+<p><a target="_blank" rel="noopener" href="https://genome.ucsc.edu/goldenpath/help/chain.html">https://genome.ucsc.edu/goldenpath/help/chain.html</a></p>
+<p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>#####################################################################</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/834/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhongxu's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/archives/834/" class="post-title-link" itemprop="url">基因组坐标转换工具-以BED文件为例，从hg19转换到hg38坐标</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-02-11 11:39:11" itemprop="dateCreated datePublished" datetime="2018-02-11T11:39:11+08:00">2018-02-11</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>分析时使用的基因组版本，可能会与其他来源数据所使用的基因组版本不一致，需要统一成同一个版本的坐标，才能方便下一步的分析。</p>
+<p>常用的有NCBI的Remap在线服务和UCSC的liftover，其实还有很多，本文暂时总结部分工具的用法。以将APOA1的编码区坐标（利用UCSC的genome browser下载，或者下载该文件<a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/FileAttach/2018-02-11-APOA1.bed">APOA1.bed</a>）转换为例，从hg19转到hg38版本坐标上。需要注意的是，在使用的时候，需要注意是否支持对应的格式。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>类型</th>
+<th>支持格式</th>
+<th>地址</th>
+<th>推荐指数</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Liftover</td>
+<td>在线</td>
+<td>bed</td>
+<td><a target="_blank" rel="noopener" href="http://genome.ucsc.edu/cgi-bin/hgLiftOver">http://genome.ucsc.edu/cgi-bin/hgLiftOver</a></td>
+<td>一般</td>
+</tr>
+<tr>
+<td>Liftover</td>
+<td>本地</td>
+<td>bed和gff</td>
+<td><a target="_blank" rel="noopener" href="http://hgdownload.cse.ucsc.edu/admin/exe/linux.x86_64/liftOver">http://hgdownload.cse.ucsc.edu/admin/exe/linux.x86_64/liftOver</a></td>
+<td>推荐</td>
+</tr>
+<tr>
+<td>Remap</td>
+<td>在线</td>
+<td>hgvs，bed，gvf，gff，gtf，Text ASN.1，Binary ASN.1，UCSC Region和VCF</td>
+<td><a target="_blank" rel="noopener" href="https://www.ncbi.nlm.nih.gov/genome/tools/remap">https://www.ncbi.nlm.nih.gov/genome/tools/remap</a></td>
+<td>推荐</td>
+</tr>
+<tr>
+<td>CrossMap</td>
+<td>本地</td>
+<td>SAM/BAM,，Wiggle/BigWig， bed， gff/gtf，VCF</td>
+<td><a target="_blank" rel="noopener" href="http://crossmap.sourceforge.net/">http://crossmap.sourceforge.net/</a></td>
+<td>推荐</td>
+</tr>
+<tr>
+<td>picard</td>
+<td>本地</td>
+<td>interval和VCF</td>
+<td><a target="_blank" rel="noopener" href="http://broadinstitute.github.io/picard/">http://broadinstitute.github.io/picard/</a></td>
+<td></td>
+</tr>
+</tbody></table>
+<h1 id="在线版"><a href="#在线版" class="headerlink" title="在线版"></a>在线版</h1><h2 id="Liftover"><a href="#Liftover" class="headerlink" title="Liftover"></a>Liftover</h2><p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-02-11-screencapture-UCSC-hgLiftOver.png" alt="hg-liftover-ucsc"> </p>
+<p>服务地址： <a target="_blank" rel="noopener" href="http://genome.ucsc.edu/cgi-bin/hgLiftOver">http://genome.ucsc.edu/cgi-bin/hgLiftOver</a></p>
+<ul>
+<li><ul>
+<li>1，首先选择检索和目标基因组<pre>Original Genome:    Human
+Original Assembly:    Feb. 2009 (GRCh37/hg19)
+New Genome:      Human
+New Assembly:    Dec. 2013 (GRCh38/hg38)   
+</pre>
+</li>
+</ul>
+</li>
+<li><p>2，将bed格式内容复制或者上传，如果是复制内容的话，点击submit；如果是上传文件的 话，点击submit</p>
+</li>
+<li><p>3，在Result部分下载结果，Result部分会显示结果说明，点击View Conversions，即能得到转换后的bed文件。</p>
+</li>
+</ul>
+<h2 id="Remap"><a href="#Remap" class="headerlink" title="Remap"></a>Remap</h2><p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-02-11-screencapture-NCBI-remap.png" alt="NCBI-remap"></p>
+<p>支持hgvs，bed，gvf，gff，gtf，Text ASN.1，Binary ASN.1，UCSC Region和VCF，如果数据量较少，可以考虑该方法。</p>
+<p>服务地址：<a target="_blank" rel="noopener" href="https://www.ncbi.nlm.nih.gov/genome/tools/remap">https://www.ncbi.nlm.nih.gov/genome/tools/remap</a></p>
+<ul>
+<li><ul>
+<li>1，在Assembly-Assembly中选择<pre>Source Organism *：Homo sapiens
+Source Assembly *:   GRCh37(hg19)
+Target Assembly *:    GRCh38(hg38)
+</pre>
+</li>
+</ul>
+</li>
+<li><p>2，在Data处，可以选择复制文件内容还是上传文件，还可以指定文件格式。</p>
+</li>
+<li><p>3，点击submit，页面会跳转到结果页面，Summary Data告诉你有多少条匹配，Mapping Report告诉你对应关系。这些都可以下载，NCBI remap的结果文件前几列是原来的内容，后几列是转换后的坐标。</p>
+</li>
+</ul>
+<h2 id="Ensembl-Assembly-Converter"><a href="#Ensembl-Assembly-Converter" class="headerlink" title="Ensembl Assembly Converter"></a>Ensembl Assembly Converter</h2><p><a target="_blank" rel="noopener" href="http://asia.ensembl.org/Homo_sapiens/Tools/AssemblyConverter?db=core">http://asia.ensembl.org/Homo_sapiens/Tools/AssemblyConverter?db=core</a></p>
+<h1 id="本地版"><a href="#本地版" class="headerlink" title="本地版"></a>本地版</h1><p>本地工具需要利用chain file，才能知道两个版本的坐标对应关系。chain文件可以从UCSC下载。我们需要的是hg19Thg38.over.chain.gz<br><a target="_blank" rel="noopener" href="http://hgdownload.soe.ucsc.edu/goldenPath/hg19/liftOver/hg19ToHg38.over.chain.gz">http://hgdownload.soe.ucsc.edu/goldenPath/hg19/liftOver/hg19ToHg38.over.chain.gz</a><br>chain文件后续会有介绍。</p>
+<h2 id="CrossMap"><a href="#CrossMap" class="headerlink" title="CrossMap"></a>CrossMap</h2><p>CrossMap支持SAM/BAM, Wiggle/BigWig, BED, GFF/GTF, VCF格式。支持的格式较多，用起来方便。</p>
+<p>软件网址：<a target="_blank" rel="noopener" href="http://crossmap.sourceforge.net/">http://crossmap.sourceforge.net/</a></p>
+<p>安装：pip install CrossMap</p>
+<p>当然也可以从源码编译安装，官网有说明（<a target="_blank" rel="noopener" href="http://crossmap.sourceforge.net/#install-crossmap-from-source-code%EF%BC%89%E3%80%82">http://crossmap.sourceforge.net/#install-crossmap-from-source-code）。</a></p>
+<pre>python CrossMap.py bed    hg19ToHg38.over.chain      APOA1.bed      APOA1.hg38.bed</pre>
+
+<h2 id="Liftover-1"><a href="#Liftover-1" class="headerlink" title="Liftover"></a>Liftover</h2><p>支持bed和gff格式</p>
+<pre>wget -c http://hgdownload.cse.ucsc.edu/admin/exe/linux.x86_64/liftOver
+chmod 755 liftOver
+# liftOver oldFile map.chain newFile unMapped
+liftOver   APOA1.bed    hg19ToHg38.over.chain    APOA1.hg38.bed   unMapped.txt
+</pre>
+
+<h2 id="Picard"><a href="#Picard" class="headerlink" title="Picard"></a>Picard</h2><p>地址： <a target="_blank" rel="noopener" href="http://broadinstitute.github.io/picard/">http://broadinstitute.github.io/picard/</a></p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/archives/834/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/829/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhongxu's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/archives/829/" class="post-title-link" itemprop="url">hg19、GRCH37、b37、hs37d5介绍和区别</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-02-09 15:37:02" itemprop="dateCreated datePublished" datetime="2018-02-09T15:37:02+08:00">2018-02-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>大家经常用UCSC的hg19和NCBI的GRCh37版本的，但还有其他的版本，比如b37，hg37d5，比如在分析NIST的genome in a bottle（GIAB）提供的bam数据时，就遇到了hg37d5的版本，在用GATK的时候会遇到b37版本。</p>
+<h1 id="GRCh37"><a href="#GRCh37" class="headerlink" title="GRCh37"></a>GRCh37</h1><p>Genome Reference Consortium(基因组参照序列联盟)，由英国Wellcome Trust Sanger研究中心（the Wellcome Trust Sanger Center）、华盛顿大学基因组中心（The Washington University Genome Center）、欧洲生物信息研究所（the European Bioinformatics Institute）和美国国家生物技术信息中心（NCBI）联合组成。</p>
+<p>GRCH37版本发布之后，也会有小的更新，比如GRCh37.p2，大的更新比如由GRCh37升级到GRCh38，填补gap，修改部分序列，其目的是提供一个完整的基因组序列assemble。GRCh38已经在2013年发布，多数基因组数据库正在兼容或者更新到该版本。</p>
+<p>该版本包含人类chr1到chr22，chrX，chrY，MT染色体以及</p>
+<ul>
+<li>“unlocalized sequences”：知道来自哪条染色体但不知道具体位置的序列</li>
+<li>“unplaced sequences”：知道来自人类基因组序列，但不知道与染色体的关系</li>
+<li>“alternate loci”：来自基因组特定区域，代表该区域序列的多样性<br>“1” to “22”, “X”, “Y” and “MT”命名比较规范，ENSEMBL， genome browser， the NCBI dbSNP (in VCF files), the Sanger COSMIC (in VCF files),都依照该规范。</li>
+</ul>
+<p>下载地址：<a href="ftp://ftp.ncbi.nih.gov/genomes/Homo_sapiens">ftp://ftp.ncbi.nih.gov/genomes/Homo_sapiens</a></p>
+<h1 id="GRCh37lite"><a href="#GRCh37lite" class="headerlink" title="GRCh37lite"></a>GRCh37lite</h1><p>只包含GRCh37版本中的chr1到chr22，chrX，chrY，MT染色体</p>
+<p>下载地址：<a href="ftp://ftp.ncbi.nih.gov/genbank/genomes/Eukaryotes/vertebrates_mammals/Homo_sapiens/GRCh37/special_requests/">ftp://ftp.ncbi.nih.gov/genbank/genomes/Eukaryotes/vertebrates_mammals/Homo_sapiens/GRCh37/special_requests/</a></p>
+<h1 id="hg19"><a href="#hg19" class="headerlink" title="hg19"></a>hg19</h1><p>UCSC提供，容易下载，因为UCSC方便下载各种坐标文件（bed，gtf等），该版本可以与这些坐标对应。与GRCh38对应的是hg38版本。</p>
+<p>该版本序列包括chr1到chr22，chrX，chrY序列与GRCh37完全一致（完全一致，完全一致），线粒体序列稍微不一样，以及<br>    <li>“chr<em><em>random sequences” 知道来自哪条染色体但不知道具体位置的序列</li><br>    <li>“chrUn</em></em> sequences” 知道来自人类基因组序列，但不知道与染色体的关系</li></p>
+<p>UCSC与GRCh不同的地方有：<br>    <li>在重复区域repeat region有小写来表示，这点和GRCh不同</li><br>    <li>此外染色体有chr前缀，而GRCh没有chr前缀。</li><br>    <li>线粒体序列版本不一样</li></p>
+<p>下载地址：<a href="ftp://hgdownload.cse.ucsc.edu/goldenPath/hg19/chromosomes">ftp://hgdownload.cse.ucsc.edu/goldenPath/hg19/chromosomes</a></p>
+<h1 id="b37"><a href="#b37" class="headerlink" title="b37"></a>b37</h1><p>来自1000 Genome第一阶段，被称为b37（GATK和IGV社区小组中经常使用），包含了GRCh37, the rCRS mitochondrial sequence（MT序列）<br>unlocalized sequences和unplaced sequences以他们的检索号命名，比如”GL000191.1”, “GL000194.1”, etc.<br>但是不（不不不）包含 alternate loci</p>
+<p>下载地址：<a href="ftp://ftp.broadinstitute.org/pub/seq/references">ftp://ftp.broadinstitute.org/pub/seq/references</a></p>
+<h1 id="hs37d5"><a href="#hs37d5" class="headerlink" title="hs37d5"></a>hs37d5</h1><p>可以理解成b37的升级版，在1000 Genome第二阶段使用。该版本包含了b37数据，以及<br>    <li>human herpesvirus 4 type 1 sequence 人类疱疹病毒序列(“NC_007605”).</li><br>    <li>“decoy” sequence诱饵序列（名为hs37d5） 来自HuRef、BAC或者质粒克隆和NA12878，可以提高序列比对的正确率。</li><br>    <li>此外在Y染色体上的性染色体同源区域PAR标为N碱基，这样对应的X染色体的区域当作二倍体</li></p>
+<p>这些更改有利于序列比对和突变检测，降低假阳性与b37兼容。</p>
+<p>PS：正如以前讲到的（文章《思考在比对时，关于是否将chr<em><em>random和chrUn</em></em>序列放在参考基因组中的思考》），序列比对不要只放chr1到chr22，chrX，chrY和MT（我见过国内知名测序公司有这么干的），其他序列和诱饵序列非常重要，可以提高比对的准确率，降低假阳性。</p>
+<p>详情见：<a href="ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/technical/reference/phase2_reference_assembly_sequence/hs37d5.slides.pdf">ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/technical/reference/phase2_reference_assembly_sequence/hs37d5.slides.pdf</a><br>下载地址：<a href="ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/technical/reference/phase2_reference_assembly_sequence">ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/technical/reference/phase2_reference_assembly_sequence</a></p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a target="_blank" rel="noopener" href="http://googlegenomics.readthedocs.io/en/latest/use_cases/discover_public_data/reference_genomes.html">http://googlegenomics.readthedocs.io/en/latest/use_cases/discover_public_data/reference_genomes.html</a><br><a target="_blank" rel="noopener" href="https://wiki.dnanexus.com/Scientific-Notes/human-genome">https://wiki.dnanexus.com/Scientific-Notes/human-genome</a></p>
+<p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>#####################################################################</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/815/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhongxu's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/archives/815/" class="post-title-link" itemprop="url">BCL文件与BCL2FAFSTQ程序简介</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-02-07 11:34:40" itemprop="dateCreated datePublished" datetime="2018-02-07T11:34:40+08:00">2018-02-07</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2016-04-0301.jpg"></p>
+<h1 id="BCL文件"><a href="#BCL文件" class="headerlink" title="BCL文件"></a>BCL文件</h1><p>测序产生的原始文件是BCL（binary base call）文件，测序仪在测序的时候，每个cycle都会测量编码不同颜色的通道强度，并确定最有可能的碱基类型。Real Time Analysis (RTA) 软件会将碱基类型和可信度（一个质量分数）。与FASTQ文件不同的是，BCL文件是实时产生，每个cycle的每个tile都会有一个对应文件，文件放在</p>
+<p><code>&lt;run directory&gt;/Data/Intensities/BaseCalls/L&lt;lane&gt;/C&lt;cycle&gt;.1</code></p>
+<p>文件的命名</p>
+<p> <code>s_&lt;lane&gt;_&lt;tile&gt;.bcl</code></p>
+<h1 id="bcl2fastq"><a href="#bcl2fastq" class="headerlink" title="bcl2fastq"></a>bcl2fastq</h1><p>该文件需要通过Illunima的软件或者第三方分析工具将BCL文件转成FASTQ文件。一般而言，数据下机之后，Illumina测序仪会自动将BCL转成FASTQ文件。有时候，根据实验需要，需要自己手工将BCL文件转成FASTQ文件，比如自己设计的index中含有简并碱基，或者需要调整一下转换的参数等。 Illumina提供bcl2fastq的程序包，共离线处理BCL文件，生成FASTQ文件。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">bcl2fastq  -i /paht/to/run/Data/Intensities/BaseCalls/ \</span><br><span class="line">       -o /output/dir --sample-sheet /paht/to/run/SampleSheet.csv \</span><br><span class="line">       -R /paht/to/run/</span><br></pre></td></tr></table></figure>
+
+<p>bcl2fastq文件有很多参数可调，比如在FASTQ中记录read的index(fastq文件中会记录配对的index具体序列，以及会生成额外对应的index文件)，可以添加–create-fastq-for-index-reads选项。 如果允许index有mismatch的话，可以通过–barcode-mismatches设置。 –fastq-compression-level可以设置生成的FASTQ.GZ文件的压缩比例 安装如下</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">unzip bcl2fastq2-v2.17.1.14.tar.zip</span><br><span class="line">tar -xvzf bcl2fastq2-v2.17.1.14.tar.gz</span><br><span class="line">./bcl2fastq/src/configure --prefix=/path/to/install/</span><br><span class="line">make</span><br><span class="line">make install</span><br></pre></td></tr></table></figure>
+
+<p>安装过程中，如果遇到一下问题，请更新gcc版本 问题1 cc1plus: error: unrecognized command line option “-std=c++11” 问题2 undefined reference to `boost::re_detail::perl_matcher collect2: error: ld returned 1 exit status 软件选项说明如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line">BCL to FASTQ file converter</span><br><span class="line">bcl2fastq v2.<span class="number">17.1</span>.<span class="number">14</span></span><br><span class="line">Copyright (c) <span class="number">2007</span>-<span class="number">2015</span> Illumina, Inc.</span><br><span class="line"></span><br><span class="line">Command-line options:</span><br><span class="line">  -h [ --help ]                                     produce help message and exit</span><br><span class="line">  -v [ --version ]                                print program version information</span><br><span class="line">  -l [ --min-log-level ] arg (=INFO)              minimum log level</span><br><span class="line">                                                          recognized values: NONE, FATAL, ERROR, WARNING, INFO, DEBUG, TRACE</span><br><span class="line">  -i [ --input-dir ] arg (=&lt;runfolder-dir&gt;/Data/Intensities/BaseCalls/)</span><br><span class="line">                                                          path to input directory</span><br><span class="line">  -R [ --runfolder-dir ] arg (=./)         path to runfolder directory</span><br><span class="line">  --intensities-<span class="function">dir <span class="title">arg</span> <span class="params">(=&lt;input-dir&gt;/../)</span>        path to intensities directory</span></span><br><span class="line"><span class="function">                                                          <span class="keyword">if</span> intensities directory is specified, also input directory must be specified</span></span><br><span class="line"><span class="function">  -o [ --output-dir ] <span class="title">arg</span> <span class="params">(=&lt;input-dir&gt;)</span>                path to demultiplexed output</span></span><br><span class="line"><span class="function">  --interop-dir <span class="title">arg</span> <span class="params">(=&lt;runfolder-dir&gt;/InterOp/)</span>   path to demultiplexing statistics directory</span></span><br><span class="line"><span class="function">  --stats-dir <span class="title">arg</span> <span class="params">(=&lt;output-dir&gt;/Stats/)</span>                path to human-readable demultiplexing statistics directory</span></span><br><span class="line"><span class="function">  --reports-dir <span class="title">arg</span> <span class="params">(=&lt;output-dir&gt;/Reports/)</span>       path to reporting directory</span></span><br><span class="line"><span class="function">  --sample-sheet <span class="title">arg</span> <span class="params">(=&lt;runfolder-dir&gt;/SampleSheet.csv)</span></span></span><br><span class="line"><span class="function">                                                                              path to the sample sheet</span></span><br><span class="line"><span class="function">  --aggregated-tiles <span class="title">arg</span> <span class="params">(=AUTO)</span>                  tiles aggregation flag determining structure of input files</span></span><br><span class="line"><span class="function">                                                   recognized values:</span></span><br><span class="line"><span class="function">                                                      AUTO Try to detect correct setting</span></span><br><span class="line"><span class="function">                                                      YES  Tiles are aggregated into single input file</span></span><br><span class="line"><span class="function">                                                      NO   There are separate input files <span class="keyword">for</span> individual tiles</span></span><br><span class="line"><span class="function">                                                  </span></span><br><span class="line"><span class="function">  -r [ --loading-threads ] <span class="title">arg</span> <span class="params">(=<span class="number">4</span>)</span>               number of threads used <span class="keyword">for</span> loading BCL data</span></span><br><span class="line"><span class="function">  -d [ --demultiplexing-threads ] arg          number of threads used <span class="keyword">for</span> demultiplexing</span></span><br><span class="line"><span class="function">  -p [ --processing-threads ] arg                 number of threads used <span class="keyword">for</span> processing demultiplexed data</span></span><br><span class="line"><span class="function">  -w [ --writing-threads ] <span class="title">arg</span> <span class="params">(=<span class="number">4</span>)</span>               number of threads used <span class="keyword">for</span> writing FASTQ data</span></span><br><span class="line"><span class="function">                                                                    <span class="keyword">this</span> must not be higher than number of samples</span></span><br><span class="line"><span class="function">  --tiles arg                                 Comma-separated list of regular expressions to select only a subset of the tiles </span></span><br><span class="line"><span class="function">                                                  available in the flow-cell. Multiple entries allowed, each applies to the corresponding base-calls.</span></span><br><span class="line"><span class="function">                                                  For example:</span></span><br><span class="line"><span class="function">                                                   * to select all the tiles ending with &#x27;5&#x27; in all lanes:</span></span><br><span class="line"><span class="function">                                                       --tiles [0-9][0-9][0-9]5</span></span><br><span class="line"><span class="function">                                                   * to select tile 2 in lane 1 and all the tiles in the other lanes:</span></span><br><span class="line"><span class="function">                                                       --tiles s_1_0002,s_[2-8]</span></span><br><span class="line"><span class="function">  --minimum-trimmed-read-length <span class="title">arg</span> <span class="params">(=<span class="number">35</span>)</span>         minimum read length after adapter trimming</span></span><br><span class="line"><span class="function">  --use-bases-mask arg                                             Specifies how to use each cycle.</span></span><br><span class="line"><span class="function">  --mask-<span class="keyword">short</span>-adapter-reads <span class="title">arg</span> <span class="params">(=<span class="number">22</span>)</span>            smallest number of remaining <span class="title">bases</span> <span class="params">(after masking bases below the minimum </span></span></span><br><span class="line"><span class="function"><span class="params">                                                                           trimmed read  length)</span> below which whole read is masked</span></span><br><span class="line"><span class="function">  --adapter-stringency <span class="title">arg</span> <span class="params">(=<span class="number">0.9</span>)</span>                  adapter stringency</span></span><br><span class="line"><span class="function">  --ignore-missing-bcls                                 assume &#x27;N&#x27;/&#x27;#&#x27; <span class="keyword">for</span> missing calls</span></span><br><span class="line"><span class="function">  --ignore-missing-filter                                assume &#x27;<span class="keyword">true</span>&#x27; <span class="keyword">for</span> missing filters</span></span><br><span class="line"><span class="function">  --ignore-missing-positions                         assume \[0,i\] <span class="keyword">for</span> missing positions, where i is incremented starting from 0</span></span><br><span class="line"><span class="function">  --ignore-missing-controls                           assume 0 <span class="keyword">for</span> missing controls</span></span><br><span class="line"><span class="function">  --write-fastq-reverse-complement              Generate FASTQs containing reverse complements of actual data</span></span><br><span class="line"><span class="function">  --with-failed-reads                                        include non-PF clusters</span></span><br><span class="line"><span class="function">  --create-fastq-<span class="keyword">for</span>-index-reads                     create FASTQ files also <span class="keyword">for</span> index reads</span></span><br><span class="line"><span class="function">  --find-adapters-with-sliding-window           find adapters with simple sliding window algorithm</span></span><br><span class="line"><span class="function">  --no-bgzf-compression                                Turn off BGZF compression <span class="keyword">for</span> FASTQ files</span></span><br><span class="line"><span class="function">  --fastq-compression-level <span class="title">arg</span> <span class="params">(=<span class="number">4</span>)</span>              Zlib compression <span class="title">level</span> <span class="params">(<span class="number">1</span><span class="number">-9</span>)</span> used <span class="keyword">for</span> FASTQ files</span></span><br><span class="line"><span class="function">  --barcode-mismatches <span class="title">arg</span> <span class="params">(=<span class="number">1</span>)</span>                   number of allowed mismatches per index</span></span><br><span class="line"><span class="function">                                                                        multiple entries, comma delimited entries, allowed</span>; each entry is applied to the </span><br><span class="line">                                                                        corresponding index;last entry applies to all remaining indices</span><br><span class="line">  --no-lane-splitting                             Do not split fastq files by lane.</span><br></pre></td></tr></table></figure>
+
+<p>软件地址 <a target="_blank" rel="noopener" href="http://support.illumina.com.cn/downloads/bcl2fastq-conversion-software-v217.html">http://support.illumina.com.cn/downloads/bcl2fastq-conversion-software-v217.html</a> </p>
+<p>文档手册 <a target="_blank" rel="noopener" href="http://support.illumina.com/content/dam/illumina-support/documents/documentation/software/_documentation/bcl2fastq/bcl2fastq/_letterbooklet_15038058brpmi.pdf">http://support.illumina.com/content/dam/illumina-support/documents/documentation/software\_documentation/bcl2fastq/bcl2fastq\_letterbooklet_15038058brpmi.pdf</a></p>
+<p>##################################################################### #版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>#####################################################################</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/810/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhongxu's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/archives/810/" class="post-title-link" itemprop="url">PLOT | 目标区域的测序覆盖度作图</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-02-01 15:56:04" itemprop="dateCreated datePublished" datetime="2018-02-01T15:56:04+08:00">2018-02-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>不论是目标区域测序还是外显子组测序还是全基因组测序之后，我们会关注目标区域在特定深度下的覆盖度。比如20X的比例，50X的比例。如果只计算特定深度的覆盖度，我们了解不到其他深度下的覆盖度情况。如果每个都列出来，又不直观，这个时候用图片来表示就非常直观了。</p>
+<h1 id="获取统计数据"><a href="#获取统计数据" class="headerlink" title="获取统计数据"></a>获取统计数据</h1><p>我们需要知道在每个深度下碱基的比例，这个时候强大的bedtools就出场了。</p>
+<pre>bedtools coverage -sorted -hist -g genome.file  -b  samp.bam -a target_regions.bed ' grep ^all > samp.hist.all.txt</pre>
+
+<p>-hist是为了获取目标区域的总结信息，以all开头，输出每个每个深度下碱基的比例，所以后续用grep ^all来过滤。</p>
+<p>-sorted可以节省内存，但需要通过-g跟genome file来指定染色体的顺序。</p>
+<p>genome file可以通过awk -v OFS=’\t’ {‘print $1,$2’} genome.fa.fai &gt; genome.file 得到。</p>
+<p>假设我们得到了smp1.hist.all.txt、smp2.hist.all.txt、smp3.hist.all.txt、smp4.hist.all.txt、smp5.hist.all.txt、smp6.hist.all.txt、smp7.hist.all.txt、</p>
+<h1 id="作图"><a href="#作图" class="headerlink" title="作图"></a>作图</h1><pre># Get a list of the bedtools output files you'd like to read in
+print(files  smp5
+print(labs <- paste("", gsub(".hist.all.txt", "", files, perl=TRUE), sep=""))
+
+# Create lists to hold coverage and cumulative coverage for each alignment,
+# and read the data into these lists.
+cov <- list()
+cov_cumul <- list()
+for (i in 1:length(files)) {
+    cov[[i]] <- read.table(files[i])
+    # The value should be 1 at 0X.
+    cov_cumul[[i]] <- 1-cumsum(c(0,cov[[i]][,5]))
+}
+
+library(RColorBrewer)
+cols <- brewer.pal(length(cov), "Dark2")
+
+# Save the graph to a file
+png("target-coverage-plots.png", h=1000, w=1000, pointsize=20)
+
+# Create plot area, but do not plot anything. Add gridlines and axis labels.
+plot(cov[[1]][2:401, 2], cov_cumul[[1]][1:400], type='n', xlab="Depth", ylab="Fraction of capture target bases \u2265 depth", ylim=c(0,1.0), main="Target Region Coverage")
+abline(v = 20, col = "gray60")
+abline(v = 50, col = "gray60")
+abline(v = 80, col = "gray60")
+abline(v = 100, col = "gray60")
+abline(h = 0.50, col = "gray60")
+abline(h = 0.90, col = "gray60")
+axis(1, at=c(20,50,80), labels=c(20,50,80))
+axis(2, at=c(0.90), labels=c(0.90))
+axis(2, at=c(0.50), labels=c(0.50))
+
+# Actually plot the data for each of the alignments (stored in the lists).
+for (i in 1:length(cov)) points(cov[[i]][2:401, 2], cov_cumul[[i]][1:400], type='l', lwd=3, col=cols[i])
+
+# Add a legend using the nice sample labeles rather than the full filenames.
+legend("topright", legend=labs, col=cols, lty=1, lwd=4)
+
+dev.off()</pre>
+
+<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-02-01-target-region-coverage.png"></p>
+<p>图片也可以用ggplot2来做。横坐标是DP，纵坐标是大于等于&gt;=该DP的碱基比例。该图还有一个好处，是可以多个样本同时放在一张图上，便于进行样本间比较。</p>
+<p>可以看出smp2的覆盖度最好，随着横左边的增加，下降最缓慢。smp1和smp3最不好，在20X以后，覆盖度显著下降。如果样本smp来自不同的测序实验，则smp2所用的方法是最有的。</p>
+<p>最后还是那句话，图片表达的信息量多而且直观。让我们用图片说话。</p>
+<p>主要CLONE参考：</p>
+<p><a target="_blank" rel="noopener" href="http://www.gettinggeneticsdone.com/2014/03/visualize-coverage-exome-targeted-ngs-bedtools.html">http://www.gettinggeneticsdone.com/2014/03/visualize-coverage-exome-targeted-ngs-bedtools.html</a></p>
+<p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>#####################################################################</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/805/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhongxu's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/archives/805/" class="post-title-link" itemprop="url">Illumina下机FASTQ文件命名规则</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-02-01 13:30:16" itemprop="dateCreated datePublished" datetime="2018-02-01T13:30:16+08:00">2018-02-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>FASTQ文件在Illumina下机数据文件夹<strong>Data\Intensities\BaseCalls\</strong>中，类似<strong>SampleName_S1_L001_R1_001.fastq.gz（比如NTC_S11_L001_R1_001.fastq.gz）</strong></p>
+<p>其中被下划线_分为了五个部分。</p>
+<ul>
+<li>第一部分：SampleName，样本名，与上机时在Sample Sheet中填写的一致</li>
+<li>第二部分：S1，S***，S后跟的数字与样本在Sample Sheet中的顺序一致，从1开始。不能分配到确定样本的read会归到S0（Undetermined_S0）</li>
+<li>第三部分：L00*，泳道lane的编号</li>
+<li>第四部分：R*，R1表示read1，R2表示read2。R1和R2为paired end reads。同一个样本的配对的FASTQ，只有这个地方不同</li>
+<li>第五部分：001，通常为001</li>
+<li>*Naming**<br>FASTQ files are named with the sample name and the sample number, which is a numeric assignment based on the order that the sample is listed in the sample sheet. </li>
+<li>*Example:**<br>Data\Intensities\BaseCalls\SampleName_S1_L001_R1_001.fastq.gz<br>• SampleName-The sample name provided in the sample sheet. If a sample name is not provided, the file name includes the sample ID, which is a required field in the sample sheet and must be unique.<br>• S1-The sample number based on the order that samples are listed in the sample sheet starting with 1. In this example, S1 indicates that this sample is the first sample listed in the sample sheet.</li>
+</ul>
+<p><strong>NOTE</strong><br>Reads that cannot be assigned to any sample are written to a FASTQ file for sample number 0, and excluded from downstream analysis.<br>• L001-The lane number.<br>• R1-The read. In this example, R1 means Read 1. For a paired-end run, there is at least one file with R2 in the file name for Read 2. When generated, index reads are I1 or I2.<br>• 001-The last segment is always 001.</p>
+<p><strong>参考：</strong></p>
+<p><a target="_blank" rel="noopener" href="https://support.illumina.com/help/BaseSpace_OLH_009008/Content/Source/Informatics/BS/NamingConvention_FASTQ-files-swBS.htm">https://support.illumina.com/help/BaseSpace_OLH_009008/Content/Source/Informatics/BS/NamingConvention_FASTQ-files-swBS.htm</a></p>
+<p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>#####################################################################</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/854/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhongxu's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/archives/854/" class="post-title-link" itemprop="url">2018-01-09 GATK 4.0 正式发布</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-01-20 20:46:55" itemprop="dateCreated datePublished" datetime="2018-01-20T20:46:55+08:00">2018-01-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><img src="https://theme.zdassets.com/theme_assets/2378360/df085f154321faac9159dda57f50103b87a4f743.png" alt="hhttps://theme.zdassets.com/theme_assets/2378360/df085f154321faac9159dda57f50103b87a4f743.png"> </p>
+<p>GATK4正式版已经发布，快去体验啦。GATK4在上一年提出开源，并放出beta版本，现在终于姗姗来迟。</p>
+<p>GATK4是业界第一次涵盖了胚细胞和体细胞基因型分析中的主要突变类型的基因组分析工具，且已经开源。新版本的GATK为了解决性能瓶颈近乎完全重构，提高了速度和扩展性有不失其过往的准确度。</p>
+<p>GATK4包含了备受大家喜爱的pipeline和新工具，汲取了机器学习和神经网络算法的优点。</p>
+<p>GATK早期版本关注检测胚细胞短突变（germline short variant），新版本将体细胞短突变（somatic short variant）检测工具Mutect2也整合在内，Mutect2整合广泛使用的算法Mutect和GATK卓越的胚细胞突变检测算法HaplotypeCaller。除了短突变检测外，GATK4增加了检测胚细胞和体细胞拷贝数变异的流程，增加了基于体细胞等位拷贝数（somatic allelic CNV (ACNV)）的肿瘤异质性评估。这些流程经过重构，无缝用于gene panel、外显子到全基因组的测序数据。</p>
+<p>GATK4同时包含了早期可以使用现在依然在开发的结构变异（structural variant）检测，胚细胞拷贝数变异CNV检测使用了机器学习的方法，基于卷积神经网络（Convolutional Neural Networks，CNN）的胚细胞短突变过滤方法。</p>
+<p>GATK4对性能、灵活性、速度、扩展性进行了广泛优化，并包含了可以在本地或者云设备上可以运行的点对点流程（Best practice）。</p>
+<p>该版本得益于Broad研究所大规模运行基因组分析流程的科学和业务专家，来自业界Intel, Google Cloud, Cloudera, Microsoft Genmics, IBM Research, Amazon Web Services and Alibaba Cloud的工程师，都为GATK4的的开发做出来贡献。</p>
+<p>2017成立的Intel-Broad基因组数据工程中心，Broad研究所的人员与Intel协同合作，对关键流程步骤做出了巨大优化。特别是Intel显著优化了基于GVCF的胚细胞joint-calling流程的扩展性，使得Broad团队可以在2个星期内完成15,000个全基因组样本的变异分析工作，而GATK3要处理3,000个全基因组样本需要至少6个星期。</p>
+<p><a target="_blank" rel="noopener" href="https://software.broadinstitute.org/gatk/gatk4">https://software.broadinstitute.org/gatk/gatk4</a> <a target="_blank" rel="noopener" href="https://github.com/broadinstitute/gatk">https://github.com/broadinstitute/gatk</a> <a target="_blank" rel="noopener" href="http://jandan.net/2017/05/31/gatk4-open.html">http://jandan.net/2017/05/31/gatk4-open.html</a> <a target="_blank" rel="noopener" href="http://www.eeboard.com/news/gatk4/">http://www.eeboard.com/news/gatk4/</a> <a target="_blank" rel="noopener" href="http://ju.outofmemory.cn/entry/324861">http://ju.outofmemory.cn/entry/324861</a> <a target="_blank" rel="noopener" href="https://gatkforums.broadinstitute.org/gatk/discussion/10502/gatk-4-0-will-be-released-jan-9-2018#latest">https://gatkforums.broadinstitute.org/gatk/discussion/10502/gatk-4-0-will-be-released-jan-9-2018#latest</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/798/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhongxu's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/archives/798/" class="post-title-link" itemprop="url">Picard---RuntimeIOException: java.io.IOException: No space left on device</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-01-10 20:13:11" itemprop="dateCreated datePublished" datetime="2018-01-10T20:13:11+08:00">2018-01-10</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>在用Picard跑sortSam或者markDuplicate的时候，报错</p>
+<p><strong>RuntimeIOException: java.io.IOException: No space left on device</strong></p>
+<p>提示硬盘空间不足，实际上节点的硬盘空间是够的。这是因为Picard在做这两个处理的时候，会生成临时文件，临时文件默认储存在系统的tmp文件夹。这个文件夹内的文件存储一些程序和软件的临时文件，在RHEL6中，系统自动清理/tmp文件夹的默认时限是30天。可以通过/etc/cron.daily/tmpwatch配置,在Ubuntu中，系统自动清理/tmp文件夹的时限默认每次启动。而全基因组和全外显子组的数据非常大，现在分给系统的空间都很小，导致tmp文件夹写满而报错。</p>
+<h2 id="处理方法："><a href="#处理方法：" class="headerlink" title="处理方法："></a><strong>处理方法：</strong></h2><p>在个人home文件夹下，新建一个tmp文件夹，每次运行picard的时候，指定IO临时文件夹为这个文件夹。</p>
+<pre>mkdir $HOME/tmp
+java -Xmx2g -Djava.io.tmpdir=$HOME/tmp -jar SortSam.jar SORT_ORDER=coordinate INPUT=input.bam OUTPUT=output.sort TMP_DIR=$HOME/tmp</pre>
+
+<p>不能使用<del>，picard会在工作目录下创建’</del>‘文件夹。</p>
+<p>参考：</p>
+<p><a target="_blank" rel="noopener" href="https://www.biostars.org/p/42613/">https://www.biostars.org/p/42613/</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/hnrainll/archive/2011/06/08/2074976.html">https://www.cnblogs.com/hnrainll/archive/2011/06/08/2074976.html</a></p>
+<p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>#####################################################################</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/793/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
       <meta itemprop="name" content="Jason">
-      <meta itemprop="description" content="Share news">
+      <meta itemprop="description" content="">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Another Jason's blog">
+      <meta itemprop="name" content="Zhongxu's blog">
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
@@ -269,11 +1140,11 @@ rm bedtools.in.sorted.bed</pre>
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
       <meta itemprop="name" content="Jason">
-      <meta itemprop="description" content="Share news">
+      <meta itemprop="description" content="">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Another Jason's blog">
+      <meta itemprop="name" content="Zhongxu's blog">
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
@@ -341,926 +1212,10 @@ rm bedtools.in.sorted.bed</pre>
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/788/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Jason">
-      <meta itemprop="description" content="Share news">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Another Jason's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/archives/788/" class="post-title-link" itemprop="url">Calculate phastCon Score for a gene ---- 计算基因的phastCon平均分，判断基因保守型</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2016-11-04 21:45:25" itemprop="dateCreated datePublished" datetime="2016-11-04T21:45:25+08:00">2016-11-04</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>Calculate phastCon Score for a gene —- 计算基因的phastCon平均分，判断基因保守型</p>
-<p>PhastCon socre is the score from 0 to 1 to show the conservation level.</p>
-<p>A score showing the posterior probability that phastCons’s phylogenetic hidden Markov model (HMM) is in its most conserved state at that base position.</p>
-<p>The phastCons scores represent probabilities of negative selection and range between 0 and 1. </p>
-<p>Short highly-conserved regions and long moderately conserved regions can both obtain high scores. </p>
-<p>也就是说如果某个位点或者一段序列的phastCon分值高的话，表示保守型较高。</p>
-<h1 id="1，下载phast-score的wigFix格式文件（以19号染色体为测试）"><a href="#1，下载phast-score的wigFix格式文件（以19号染色体为测试）" class="headerlink" title="1，下载phast score的wigFix格式文件（以19号染色体为测试）"></a>1，下载phast score的wigFix格式文件（以19号染色体为测试）</h1><pre>wget -c http://hgdownload.cse.ucsc.edu/goldenPath/hg19/phastCons46way/placentalMammals/chr19.phastCons46way.placental.wigFix.gz
-gunzip -k chr19.phastCons46way.placental.wigFix.gz
-
-head chr19.phastCons46way.placental.wigFix
-
-fixedStep chrom=chr19 start=60001 step=1
-0.412
-0.407
-0.394
-0.393
-0.381
-0.381
-0.369
-0.345
-0.291</pre>
-
-<p>wigFix格式是 fixed 的 Wiggle 格式，根据上面的前几行，应该能够看出该文件表示19号染色体，从60001位置开始，每一步step（base）的phastCon分值。</p>
-<h1 id="利用bedops，将wig转成bed文件"><a href="#利用bedops，将wig转成bed文件" class="headerlink" title="利用bedops，将wig转成bed文件"></a>利用bedops，将wig转成bed文件</h1><p>bedops的官网 <a target="_blank" rel="noopener" href="https://bedops.readthedocs.io/en/latest/">https://bedops.readthedocs.io/en/latest/</a> ， 转成bed文件便于利用bed工具进行处理。</p>
-<pre>wig2bed chr19.phastCons46way.placental.wigFix > chr19.phastCons46way.placental.bed</pre>
-
-<p>如果需要合并的话，运行下面的命令即可，这里以chr19染色体为例，就不合并了。<br>bedops –everything chr*.bed &gt; vertebrate.phastCons46.bed</p>
-<h1 id="将gtf文件分割成已基因为单位的gtf文件"><a href="#将gtf文件分割成已基因为单位的gtf文件" class="headerlink" title="将gtf文件分割成已基因为单位的gtf文件"></a>将gtf文件分割成已基因为单位的gtf文件</h1><p>gtf文件中只有chr19染色体的基因注释信息。</p>
-<pre>mkdir test
-awk -F 't' '{split($9,a,";"); split(a[1],a," "); gsub(""", "", a[2]); x="test/"a[2]".gtf"; print >> ("test/"a[2]".gtf"); close(x);}' Homo_sapiens.GRCh38.85.gtf && rm test/.gtf</pre>
-
-<h1 id="将gft文件转成bed文件"><a href="#将gft文件转成bed文件" class="headerlink" title="将gft文件转成bed文件"></a>将gft文件转成bed文件</h1><pre>rm test/*bed
-for fn in `ls test/*gtf`; do
-    gene=`echo $fn ' cut -d . -f 1`
-    gtf2bed $fn ' sort -k1,1 -k2,2n >> $gene.bed
-    rm $fn
-done</pre>
-
-<p>gtf2bed是<a target="_blank" rel="noopener" href="http://wp.zxzyl.com/?p=270">前面文章</a>中提到的，只要能将gtf转成bed就可。</p>
-<h1 id="利用bedtools工具计算每个序列的平均phastCon-score"><a href="#利用bedtools工具计算每个序列的平均phastCon-score" class="headerlink" title="利用bedtools工具计算每个序列的平均phastCon score"></a>利用bedtools工具计算每个序列的平均phastCon score</h1><pre># 最新版的bedtools有split选项
-for fn in `ls test/*.bed`;do
-bedtools map -split -sorted -a $fn -b chr19.phastCons46way.placental.bed -o mean ' awk -F 't' '{printf ("%st%4fn", $1,$NF)}'
-done</pre>
-
-<p>bedtools官网 <a target="_blank" rel="noopener" href="http://bedtools.readthedocs.io/">bedtools.readthedocs.io</a> ，mean表示计算平均分。结果如下，平均分越高越保守。</p>
-<pre>chr19   531711  542092  ENST00000215574 0.388707
-chr19   531768  536715  ENST00000586788 0.317417
-chr19   532031  542092  ENST00000586283 0.431241
-chr19   532099  541585  ENST00000607527 0.643244
-chr19   535836  542087  ENST00000606065 0.404337
-chr19   536952  542042  ENST00000606400 0.288264
-chr19   541216  541661  ENST00000593036 0.434159
-chr19   489175  505342  ENST00000587541 0.032945
-chr19   496453  505207  ENST00000613880 0.186624
-chr19   496453  505207  ENST00000617201 0.194969</pre>
-
-<h1 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h1><p><strong><a target="_blank" rel="noopener" href="https://www.biostars.org/p/150152/">https://www.biostars.org/p/150152/</a></strong></p>
-<p><strong><a target="_blank" rel="noopener" href="http://ccg.vital-it.ch/mga/mm9/phastcons/phastcons.html">http://ccg.vital-it.ch/mga/mm9/phastcons/phastcons.html</a></strong></p>
-<p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>########################################################################################################################################</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/787/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Jason">
-      <meta itemprop="description" content="Share news">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Another Jason's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/archives/787/" class="post-title-link" itemprop="url">思考---基因组中那些“看起来”很严重的突变往往不致病</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2016-10-19 22:19:28" itemprop="dateCreated datePublished" datetime="2016-10-19T22:19:28+08:00">2016-10-19</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>在全基因组数据或者外显子数据得到的突变通过注释之后，每个人或多多少都含有一定数目的”看起来”很严重的突变，比如剪切位点上突变，终止密码子突变，移码突变等等（正如《ExAC-外显子组聚合数据库：揭露那些”披着狼皮的羊”基因》标题中的描述———披着狼皮的羊）。</p>
-<p>但真实情况是，人并没有疾病表型，或者疾病只与其中的个别突变有关系，其他的突变都没有影响。这是我一直思考的问题，偶然机会，我向业内做遗传咨询的一个博士（感谢）提出这个问题，讨论之后认为主要有以下几点原因：</p>
-<p><strong>一，</strong>很多基因不是必须基因，即使全部删除也不影响机体的正常功能。</p>
-<p><strong>二，</strong>隐性基因即使有一份被破坏，不影响另外一份行使功能。</p>
-<p><strong>三，</strong>如果参考的是文献中的致病突变，有很多是假的。也就说参考文献有可能存在假的结果。</p>
-<p><strong>四，</strong>机体有很强的代偿能力，即使真的是有缺陷的基因，机体也有可能代偿其缺陷而不影响正常机体功能，比如有一些个体携带确定致病的基因突变，表型仍正常。</p>
-<p>欢迎您留言补充。</p>
-<p><strong>PS：</strong>虽然在以往的生物学研究中，我们发现了很多（经典案例的）携带有某个突变会导致疾病，但这种突变往往是罕见病的致病突变。也不绝对，可能有些人确实携带我们认为的致病突变，但由于机体的其他通路代偿功能，补偿了该突变造成的损害。因为机体是一个复杂的过程，复杂到现在我们都不清楚对生命的过程有多少了解。过往的经典研究案例越来越少，从复杂的整体层面来研究或许能够突破现在的瓶颈。</p>
-<p>DNA双螺旋的发现是由于 物理和化学中X光射线衍射的介入。细胞微观结构的发现是由于 物理和电子中的电子显微镜的介入。每一次生物学的飞跃都与其他学科的介入，带来新的研究方式有关。</p>
-<p>现在，正是这个时代，高通量测序技术和计算机技术的飞速发展，生物领域或许正在下一次飞跃的黎明。</p>
-<p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>####################################################################</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/786/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Jason">
-      <meta itemprop="description" content="Share news">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Another Jason's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/archives/786/" class="post-title-link" itemprop="url">[转载]蛋白质组学及蛋白质鉴定常用的网站和数据库</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2016-10-18 23:29:11" itemprop="dateCreated datePublished" datetime="2016-10-18T23:29:11+08:00">2016-10-18</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>PS：我不经常用蛋白质数据库，不过看到这个总结的挺详细的，就转过来了。</p>
-<h1 id="一、蛋白质数据库"><a href="#一、蛋白质数据库" class="headerlink" title="一、蛋白质数据库"></a>一、蛋白质数据库</h1><hr>
-<h2 id="1-UniProt-The-Universal-Protein-Resource"><a href="#1-UniProt-The-Universal-Protein-Resource" class="headerlink" title="1.UniProt (The Universal Protein Resource)"></a>1.UniProt (The Universal Protein Resource)</h2><p>  网址：<a target="_blank" rel="noopener" href="http://www.uniprot.org/">http://www.uniprot.org/</a><br>        <a target="_blank" rel="noopener" href="http://www.ebi.ac.uk/uniprot/">http://www.ebi.ac.uk/uniprot/</a><br>  简介：由EBI(欧洲生物信息研究所)、PIR(蛋白信息资源)和SIB(瑞士生物信息研究所)合作建立而成，提供详细的蛋白质序列、功能信息，如蛋白质功能描述、结构域结构、转录后修饰、修饰位点、变异度、二级结构、三级结构等，同时提供其他数据库，包括序列数据库、三维结构数据库、2-D凝聚电泳数据库、蛋白质家族数据库的相应链接。</p>
-<h2 id="2-PIR-Protein-Information-Resource"><a href="#2-PIR-Protein-Information-Resource" class="headerlink" title="2.PIR(Protein Information Resource)"></a>2.PIR(Protein Information Resource)</h2><p>  网址：<a target="_blank" rel="noopener" href="http://pir.georgetown.edu/">http://pir.georgetown.edu/</a><br>  简介：致力于提供及时的、高质量、最广泛的注释，其下的数据库有iProClass、PIRSF、PIR-PSD、PIR-NREF、UniPort，与90多个生物数据库(蛋白家族、蛋白质功能、蛋白质网络、蛋白质互作、基因组等数据库)存在着交叉应用。</p>
-<h2 id="3-BRENDA-enzyme-database"><a href="#3-BRENDA-enzyme-database" class="headerlink" title="3.BRENDA(enzyme database)"></a>3.BRENDA(enzyme database)</h2><p>  网址：<a target="_blank" rel="noopener" href="http://www.brenda-enzymes.org/">http://www.brenda-enzymes.org</a><br>  简介：酶数据库，提供酶的分类、命名法、生化反应、专一性、结构、细胞定位、提取方法、文献、应用与改造及相关疾病的数据。</p>
-<h2 id="4-CORUM-collection-of-experimentally-verified-mammalian-protein-complexes"><a href="#4-CORUM-collection-of-experimentally-verified-mammalian-protein-complexes" class="headerlink" title="4.CORUM(collection of experimentally verified mammalian protein complexes)"></a>4.CORUM(collection of experimentally verified mammalian protein complexes)</h2><p>  网址：<a target="_blank" rel="noopener" href="http://mips.gsf.de/genre/proj/corum/index.html">http://mips.gsf.de/genre/proj/corum/index.html</a><br>  简介：哺乳动物蛋白复合物数据库，提供的数据包括蛋白复合物名称、亚基、功能、相关文献等</p>
-<h2 id="5-CyBase-cyclic-protein-database"><a href="#5-CyBase-cyclic-protein-database" class="headerlink" title="5.CyBase(cyclic protein database)"></a>5.CyBase(cyclic protein database)</h2><p>  网址：<a target="_blank" rel="noopener" href="http://research1t.imb.uq.edu.au/cybase">http://research1t.imb.uq.edu.au/cybase</a><br>  简介：环状蛋白数据库，提供环状蛋白的序列、结构等数据，提供环化蛋白预测服务。</p>
-<h2 id="6-DB-PABP"><a href="#6-DB-PABP" class="headerlink" title="6.DB-PABP"></a>6.DB-PABP</h2><p>  网址：<a target="_blank" rel="noopener" href="http://pabp.bcf.ku.edu/DB_PABP/">http://pabp.bcf.ku.edu/DB_PABP/</a><br>  简介：聚阴离子结合蛋白数据库。聚阴离子结合蛋白与聚阴离子的互作在胞内定位、运输、蛋白质折叠等生命过程中起重要作用，此外许多与神经衰退疾病相关的蛋白质均为聚阴离子结合蛋白。该数据库提供已被鉴定的聚阴离子结合蛋白的数据，与NCBI蛋白数据库存在交叉应用。</p>
-<h2 id="7-IUPHAR-DB"><a href="#7-IUPHAR-DB" class="headerlink" title="7.IUPHAR-DB"></a>7.IUPHAR-DB</h2><p>  网址：<a target="_blank" rel="noopener" href="http://www.iuphar-db.org/">http://www.iuphar-db.org</a><br>  简介：G蛋白偶联受体、离子通道数据库。提供这些蛋白的基因、功能、结构、配体、表达图谱、信号转导机制、多样性等数据。</p>
-<h2 id="8-GLIDA"><a href="#8-GLIDA" class="headerlink" title="8.GLIDA"></a>8.GLIDA</h2><p>  网址：<a target="_blank" rel="noopener" href="http://pharminfo.pharm.kyoto-u.ac.jp/services/glida/">http://pharminfo.pharm.kyoto-u.ac.jp/services/glida/</a><br>　简介：G蛋白偶联受体-配体数据库，提供G蛋白偶联受体-配体互作数据、配体数据、G蛋白偶联受体数据、同源受体关系网、保守识别区，为新药发现提供了支持。</p>
-<h2 id="9-LOCATE"><a href="#9-LOCATE" class="headerlink" title="9.LOCATE"></a>9.LOCATE</h2><p>  网址：<a target="_blank" rel="noopener" href="http://locate.imb.uq.edu.au/">http://locate.imb.uq.edu.au/</a><br>  简介：哺乳动物蛋白质亚细胞定位数据库</p>
-<h2 id="10-InterPro"><a href="#10-InterPro" class="headerlink" title="10.InterPro"></a>10.InterPro</h2><p>  网址：<a target="_blank" rel="noopener" href="http://www.ebi.ac.uk/interpro/">http://www.ebi.ac.uk/interpro/</a><br>  简介：蛋白质综合数据库，从大量的数据库中整合而成的包括蛋白质结构域、蛋白质家族、功能位点等信息的数据库。</p>
-<h2 id="11-OKCAM"><a href="#11-OKCAM" class="headerlink" title="11.OKCAM"></a>11.OKCAM</h2><p>  网址：<a target="_blank" rel="noopener" href="http://okcam.cbi.pku.edu.cn/">http://okcam.cbi.pku.edu.cn</a><br>  简介：人体细胞粘附分子数据库。</p>
-<h1 id="二、蛋白质组数据库"><a href="#二、蛋白质组数据库" class="headerlink" title="二、蛋白质组数据库"></a>二、蛋白质组数据库</h1><hr>
-<h2 id="1-GELBANK"><a href="#1-GELBANK" class="headerlink" title="1.GELBANK"></a>1.GELBANK</h2>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/archives/786/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/785/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Jason">
-      <meta itemprop="description" content="Share news">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Another Jason's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/archives/785/" class="post-title-link" itemprop="url">Axel - Linux下多线程下载工具</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2016-09-29 12:02:13" itemprop="dateCreated datePublished" datetime="2016-09-29T12:02:13+08:00">2016-09-29</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>在linux环境下，用wget下载大文件，实在是件痛苦的事情，下载速度慢。这非常的不科学，于是找到了axel这个工具，可以实现在linux下多线程下载。并且可以实现断点续传。 Axel项目网站 <a target="_blank" rel="noopener" href="https://wilmer.gaa.st/main.php/axel.html">https://wilmer.gaa.st/main.php/axel.html</a></p>
-<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">wget -c https://wilmer.gaa.st/downloads/axel-1.0b.tar.gz</span><br><span class="line">tar zxvf axel-1.0b.tar.gz</span><br><span class="line"><span class="built_in">cd</span> axel-1.0b/</span><br><span class="line">./configure</span><br><span class="line">make</span><br><span class="line">make instal</span><br></pre></td></tr></table></figure>
-
-<h1 id="或者"><a href="#或者" class="headerlink" title="或者"></a>或者</h1><p>apt-get install axel 参数 -n 指定线程数 -o 指定另存为目录 -s 指定每秒的最大比特数 -q 静默模式</p>
-<h1 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h1><p>比如从UCSC上下载 938M 的参考基因组序列gz格式文件</p>
-<p>axel -n 8 <a target="_blank" rel="noopener" href="http://hgdownload.cse.ucsc.edu/goldenPath/hg38/bigZips/hg38.fa.gz">http://hgdownload.cse.ucsc.edu/goldenPath/hg38/bigZips/hg38.fa.gz</a></p>
-<p>Initializing download: <a target="_blank" rel="noopener" href="http://hgdownload.cse.ucsc.edu/goldenPath/hg38/bigZips/hg38.fa.gz">http://hgdownload.cse.ucsc.edu/goldenPath/hg38/bigZips/hg38.fa.gz</a><br>File size: 983659424 bytes<br>Opening output file hg38.fa.gz<br>Starting download</p>
-<p>[  0%]  ………. ………. ……….  [  41.3KB/s]<br>[  0%]  ………. ………. ……….  [ 179.5KB/s]<br>[  0%]  ………. ………. ……….  [ 423.4KB/s]<br>[  0%]  ………. ………. ……….  [ 583.9KB/s]<br>[  0%]  ………. ………. ……….  [ 772.0KB/s]<br>[  0%]  ………. ………. ……….  [ 801.8KB/s]<br>[  0%]  ………. ………. ……….  [ 802.1KB/s]<br>[  0%]  ………. ………. ……….  [ 813.1KB/s]<br>[  1%]  ………. ………. ……….  [ 843.5KB/s]<br>[ 99%]  ………. ………. ……….  [ 666.7KB/s]<br>[ 99%]  ………. ……<br>Connection 7 finished<br>        ,,,,,,,,,, ,,,,,,,,,, ,,,,,,….  [ 666.6KB/s]<br>[ 99%]  ………. ………. ……….  [ 666.7KB/s]<br>[ 99%]  ………. …….<br>Connection 2 finished<br>        ,,,,,,,,,, ,,,,,,,,,, ,,,,,,,…  [ 666.5KB/s]<br>[ 99%]  ………. ………. ……….  [ 663.1KB/s]<br>[ 99%]  ………. ………. ……….  [ 662.8KB/s]<br>[100%]  ….<br>Connection 0 finished</p>
-<p>Downloaded 938.1 megabytes in 24:09 seconds. (662.81 KB/s)</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/770/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Jason">
-      <meta itemprop="description" content="Share news">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Another Jason's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/archives/770/" class="post-title-link" itemprop="url">利用genome music分析癌症样本中显著突变的基因和相关通路</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2016-09-28 20:41:56" itemprop="dateCreated datePublished" datetime="2016-09-28T20:41:56+08:00">2016-09-28</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>MuSiC   the Mutational Significance In Cancer (MuSiC) suite of tools<br>官网地址 <a target="_blank" rel="noopener" href="http://gmt.genome.wustl.edu/packages/genome-music/index.html">http://gmt.genome.wustl.edu/packages/genome-music/index.html</a></p>
-<h1 id="功能其主要功能"><a href="#功能其主要功能" class="headerlink" title="功能其主要功能"></a>功能其主要功能</h1><ol>
-<li>Apply statistical methods to identify significantly mutated genes</li>
-<li>Highlight significantly altered pathways</li>
-<li>Investigate the proximity of amino acid mutations in the same gene</li>
-<li>Search for gene-based or site-based correlations to mutations and relationships between mutations themselves</li>
-<li>Correlate mutations to clinical features, using typical correlation measures, and generalized linear models</li>
-<li>Cross-reference findings with relevant databases such as Pfam, COSMIC, and OMIM</li>
-</ol>
-<h1 id="软件使用的分析思路"><a href="#软件使用的分析思路" class="headerlink" title="软件使用的分析思路"></a>软件使用的分析思路</h1><p>1，生成VCF文件<br>2，将VCF文件转换成maf（Mutation Annotation Format）文件<br>3，合并maf文件为一个文件<br>4，MuSiC bmr calc-covg 生成 <strong>covg</strong> 文件<br>5，MuSiC bmr calc-bmr 生成 <strong>gene_mrs</strong> 文件<br>6，MuSiC smg 生成 <strong>significantly mutated genes</strong><br>7，Music path-scan 生成 <strong>sm_pathways</strong></p>
-<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><pre>sudo apt-add-repository "deb http://apt.genome.wustl.edu/ubuntu lucid-genome main"
-wget https://apt.genome.wustl.edu/ubuntu/files/genome-institute.asc
-sudo apt-key add genome-institute.asc
-sudo apt-get update
-# fix dependency error Bit::Vector
-sudo cpan install Bit::Vector  
-sudo apt-get install genome-music</pre>
-
-<h1 id="1，生成VCF文件"><a href="#1，生成VCF文件" class="headerlink" title="1，生成VCF文件"></a>1，生成VCF文件</h1><p>可以用varscan2，GATK muTect2等</p>
-<h1 id="2，将VCF文件转换成maf"><a href="#2，将VCF文件转换成maf" class="headerlink" title="2，将VCF文件转换成maf"></a>2，将VCF文件转换成maf</h1><p>参见<a target="_blank" rel="noopener" href="http://wp.zxzyl.com/?p=273">前期文章提到的oncotator</a>，要注意通过设置 –annotate-manual=’Tumor_Sample_Barcode:Tumor_sample_name’ 设置癌症的样本名（对应第16列）</p>
-<h1 id="3，合并maf文件"><a href="#3，合并maf文件" class="headerlink" title="3，合并maf文件"></a>3，合并maf文件</h1><p># 人懒，这个文件中间有maf的标题栏，没有去掉 ( ° △ °’’’)︴<br><code>cat *.maf &#39; grep -v &quot;^#&quot; &gt; myMAF.tsv</code></p>
-<h1 id="4，MuSiC-bmr-calc-covg-生成-covg-文件"><a href="#4，MuSiC-bmr-calc-covg-生成-covg-文件" class="headerlink" title="4，MuSiC bmr calc-covg 生成 covg 文件"></a>4，MuSiC bmr calc-covg 生成 covg 文件</h1><p><strong>count covered bases per-gene for each given tumor-normal pair of BAMs.</strong>  </p>
-<p>–bam-list        一个专门记录样本的文件，需要配对的bam(需要先index)，共三列，sample_name（样本名） normal_bam（正常组织bam文件） tumor_bam（肿瘤组织bam文件），每个配对样本的sample_name名称要和第二部设置的名称一致。<br>格式如下</p>
-<p>aaa    /path/to/bam/aaa_normal.bam        /path/to/bam/aaa_tumor.bam<br>bbb    /path/to/bam/bbb_normal.bam        /path/to/bam/bbb_tumor.bam</p>
-<p>–roi-file        The regions of interest (ROIs) of each gene are typically regions targeted for sequencing or are merged exon loci (from multiple transcripts) of genes with 2-bp flanks (splice junctions).<br>roi（基于1 base），可以从  <a target="_blank" rel="noopener" href="https://github.com/ding-lab/calc-roi-covg/blob/master/data/ensembl_67_cds_ncrna_and_splice_sites_hg19">https://github.com/ding-lab/calc-roi-covg/blob/master/data/ensembl_67_cds_ncrna_and_splice_sites_hg19</a> 下载到，格式如下，要注意染色体要与maf对应，比如都有chr三个字符。如果maf中的染色体带chr，可以awk ‘{print “chr”$0}’ old.roi &gt; new.chr.roi 。roi文件中的基因名要和maf中对应。</p>
-<pre>chr1t11867t12229tDDX11L1
-chr1t12611t12723tDDX11L1
-chr1t29552t30041tMIR1302-11</pre>
-
-<p>如何生成自己需要的roi文件，过几天我可能会讲。</p>
-<p>运行命令</p>
-<pre>genome music bmr calc-covg 
-    --bam-list bam_list  
-    --output-dir output_dir/   
-    --reference-sequence ref.fa  
-    --roi-file new.chr.roi </pre>
-
-<p>文件夹结构</p>
-<pre>.
-├── gene_covgs
-│   ├── aaa.covg
-│   └── bbb.covg
-├── roi_covgs
-│   ├── aaa.covg
-│   └── bbb.covg
-└── total_covgs
-
-2 directories, 5 files</pre>
-
-<h1 id="5，MuSiC-bmr-calc-bmr-生成-gene-mrs-文件"><a href="#5，MuSiC-bmr-calc-bmr-生成-gene-mrs-文件" class="headerlink" title="5，MuSiC bmr calc-bmr 生成 gene_mrs 文件"></a>5，MuSiC bmr calc-bmr 生成 gene_mrs 文件</h1>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/archives/770/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/769/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Jason">
-      <meta itemprop="description" content="Share news">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Another Jason's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/archives/769/" class="post-title-link" itemprop="url">oncotator对VCF进行注释，并生成MAF格式文件</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2016-09-06 16:00:01" itemprop="dateCreated datePublished" datetime="2016-09-06T16:00:01+08:00">2016-09-06</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>MAF格式Mutation Annotation Format (MAF) ，是TCGA组织对突变进行注释的格式。一些和癌症分析相关的软件，经常要求MAF格式文件作为输入。而现在经过GATK或samtools检测出突变的格式一般为VCF格式，的注释软件，即使经过SNPEff和annovar注释（当然还有VEP），结果依然为VCF格式或者tab分割的文件等。</p>
-<p>MAF中每一列是一种注释信息，由于包含的注释信息太多（<a target="_blank" rel="noopener" href="https://wiki.nci.nih.gov/display/TCGA/Mutation+Annotation+Format+%28MAF%29+Specification;WIKISESSIONID=52395E56D6223DF1AB5840164882D34A">详见格式</a>），单纯的通过写脚本转换SNPEff或者annovar的注释文件，会变得非常麻烦而且考虑的问题可能不完全（有人实现过，通过Ensembl的VEP对VCF注释，然后转换，可以在github上搜索到）。</p>
-<p>这里介绍注释软件oncotator，可以注释VCF文件，并直接生成MAF格式，相当于将VCF格式转换成MAF格式。Broad institute开发的，用起来放心哈。</p>
-<h2 id="首先安装python-virtualenv"><a href="#首先安装python-virtualenv" class="headerlink" title="首先安装python virtualenv"></a>首先安装python virtualenv</h2><p>virtualenv可以创建一个虚拟的python环境，在虚拟环境中安装的包，不影响机器已经安装的python包。</p>
-<pre>curl -O https://pypi.python.org/packages/source/v/virtualenv/virtualenv-14.0.6.tar.gz
-tar -xvzf virtualenv-14.0.6.tar.gz 
-cd virtualenv-14.0.6/
-python setup.py install --prefix=~/pypackages/
-cd ..
-rm -rf virtualenv-14.0.6*</pre>
-
-<h2 id="安装oncotator依赖"><a href="#安装oncotator依赖" class="headerlink" title="安装oncotator依赖"></a>安装oncotator依赖</h2><pre>git clone  https://github.com/broadinstitute/oncotator.git
-cd oncotator
-mkdir env
-bash scripts/create_oncotator_venv.sh -e ./env</pre>
-
-<h2 id="安装oncotator"><a href="#安装oncotator" class="headerlink" title="安装oncotator"></a>安装oncotator</h2><pre>source ./env/bin/activate
-python setup.py install
-deactivate</pre>
-
-<h2 id="下载注释数据文件"><a href="#下载注释数据文件" class="headerlink" title="下载注释数据文件"></a>下载注释数据文件</h2><pre>wget -c http://www.broadinstitute.org/~lichtens/oncobeta/oncotator_v1_ds_Jan262015.tar.gz
-tar -xvzf  oncotator_v1_ds_Jan262015.tar.gz</pre>
-<p>注释内容如下，包括基因组注释，蛋白注释，癌症突变注释等，用的基因组是GENCODE的hg19版本。<br><strong>Genomic Annotations</strong></p>
-<p>Gene, transcript, and functional consequence annotations using GENCODE for hg19.<br>Reference sequence around a variant.<br>GC content around a variant.<br>Human DNA Repair Gene annotations from Wood et al.</p>
-<p><strong>Protein Annotations</strong></p>
-<p>Site-specific protein annotations from UniProt.<br>Functional impact predictions from dbNSFP.</p>
-<p><strong>Cancer Variant Annotations</strong></p>
-<p>Observed cancer mutation frequency annotations from COSMIC.<br>Cancer gene and mutation annotations from the Cancer GenCensus.<br>Overlapping mutations from the Cancer Cell Line Encyclopedia.<br>Cancer gene annotations from the Familial Cancer Database.<br>Cancer variant annotations from ClinVar.</p>
-<p><strong>Non-Cancer Variant Annotations</strong></p>
-<p>Common SNP annotations from dbSNP.<br>Variant annotations from 1000 Genomes.<br>Variant annotations from NHLBI GO Exome Sequencing Project (ESP).</p>
-<h1 id="运行oncotator"><a href="#运行oncotator" class="headerlink" title="运行oncotator"></a>运行oncotator</h1><pre>#进入虚拟环境env
-source ./env/bin/activate
-# WGS = whole genome sequencing, WXS = whole exome sequencing
-# 通过annotate-manual设置MAF注释，比如样本barcode，样本来源等，至于氨基酸突变等，会自动进行注释
-oncotator --input_format=VCF --db-dir=./oncotator_v1_ds_Jan262014 --output_format=TCGAMAF --tx-mode=EFFECT --collapse-number-annotations --annotate-default='Sequencer:Illumina HiSeq' --annotate-manual='Sequence_Source:WGS' --annotate-manual='Tumor_Sample_Barcode:Tumor'  --annotate-manual='Matched_Norm_Sample_Barcode:normal'  input.vcf output.maf hg19
-deactivate</pre>
-
-<h1 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h1><p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2016-09-06-oncotator-annotation-maf.png"></p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/archives/769/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/768/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Jason">
-      <meta itemprop="description" content="Share news">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Another Jason's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/archives/768/" class="post-title-link" itemprop="url">Convert gtf to bed12 format --- gtf2bed</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2016-08-30 21:29:32" itemprop="dateCreated datePublished" datetime="2016-08-30T21:29:32+08:00">2016-08-30</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>Some software requires bed12 format, not gtf/gff. So a convertion work should be done.</p>
-<h1 id="bedops-gtf2bed"><a href="#bedops-gtf2bed" class="headerlink" title="bedops gtf2bed"></a>bedops gtf2bed</h1><p>Easy way to get your result —- <a target="_blank" rel="noopener" href="http://bedops.readthedocs.io/">bedops</a></p>
-<pre>gtf2bed < Homo_sapiens.GRCh38.85.gtf ' head
-1       11868   14409   ENST00000456328 0       +       11868   14409   0       3       359,109,1189,   0,744,1352,
-1       12009   13670   ENST00000450305 0       +       12009   13670   0       6       48,49,85,78,154,218,    0,169,603,965,1211,1443,
-1       17368   17436   ENST00000619216 0       -       17368   17436   0       1       68,     0,
-1       14403   29570   ENST00000488147 0       -       14403   29570   0       11      98,34,152,159,198,136,137,147,99,154,37,        0,601,1392,2203,2454,2829,3202,3511,3864,10334,15130,
-1       29553   31097   ENST00000473358 0       +       29553   31097   0       3       486,104,122,    0,1010,1422,
-1       30266   31109   ENST00000469289 0       +       30266   31109   0       2       401,134,        0,709,
-1       30365   30503   ENST00000607096 0       +       30365   30503   0       1       138,    0,
-1       34553   36081   ENST00000417324 0       -       34553   36081   0       3       621,205,361,    0,723,1167,
-1       35244   36073   ENST00000461467 0       -       35244   36073   0       2       237,353,        0,476,
-1       52472   53312   ENST00000606857 0       +       52472   53312   0       1       840,    0,</pre>
-
-<p>Here we use UCSC’s package to convert gtf format file to bed12 format file.</p>
-<h1 id="Download-UCSC-package"><a href="#Download-UCSC-package" class="headerlink" title="Download UCSC package"></a>Download UCSC package</h1><pre>wget -c http://hgdownload.cse.ucsc.edu/admin/exe/linux.x86_64/gtfToGenePred
-wget -c http://hgdownload.cse.ucsc.edu/admin/exe/linux.x86_64/genePredToBed
-chmod 755 gtfToGenePred genePredToBed</pre>
-
-<h2 id="Convert-gtf-to-bed12"><a href="#Convert-gtf-to-bed12" class="headerlink" title="Convert gtf to bed12"></a>Convert gtf to bed12</h2><pre>time gtfToGenePred Homo_sapiens.GRCh38.85.gtf test.genePhred && genePredToBed test.genePhred result.bed && rm test.genePhred 
-
-real    0m14.959s
-user    0m14.387s
-sys     0m0.567s</pre>
-
-<pre>head reult.bed 
-1       11868   14409   ENST00000456328 0       +       14409   14409   0       3       359,109,1189,   0,744,1352,
-1       12009   13670   ENST00000450305 0       +       13670   13670   0       6       48,49,85,78,154,218,    0,169,603,965,1211,1443,
-1       14403   29570   ENST00000488147 0       -       29570   29570   0       11      98,34,152,159,198,136,137,147,99,154,37,       0,601,1392,2203,2454,2829,3202,3511,3864,10334,15130,
-1       17368   17436   ENST00000619216 0       -       17436   17436   0       1       68,     0,
-1       29553   31097   ENST00000473358 0       +       31097   31097   0       3       486,104,122,    0,1010,1422,
-1       30266   31109   ENST00000469289 0       +       31109   31109   0       2       401,134,        0,709,
-1       30365   30503   ENST00000607096 0       +       30503   30503   0       1       138,    0,
-1       34553   36081   ENST00000417324 0       -       36081   36081   0       3       621,205,361,    0,723,1167,
-1       35244   36073   ENST00000461467 0       -       36073   36073   0       2       237,353,        0,476,
-1       52472   53312   ENST00000606857 0       +       53312   53312   0       1       840,    0,</pre>
-
-<p>Cheers. </p>
-<h1 id="Another-tool"><a href="#Another-tool" class="headerlink" title="Another tool"></a>Another tool</h1><p>I also recommend a perl script – <a target="_blank" rel="noopener" href="https://github.com/ExpressionAnalysis/ea-utils/blob/master/clipper/gtf2bed">gtf2bed</a>. This script works fine to convert gtf to bed format. Thanks for ea-utils project.</p>
-<h1 id="Ref"><a href="#Ref" class="headerlink" title="Ref"></a>Ref</h1><p><a target="_blank" rel="noopener" href="https://groups.google.com/a/soe.ucsc.edu/forum/#!topic/genome/fTNuZOS-CYA">https://groups.google.com/a/soe.ucsc.edu/forum/#!topic/genome/fTNuZOS-CYA</a></p>
-<p><a target="_blank" rel="noopener" href="https://expressionanalysis.github.io/ea-utils/">https://expressionanalysis.github.io/ea-utils/</a></p>
-<p><a target="_blank" rel="noopener" href="http://bedops.readthedocs.io/">bedops.readthedocs.io</a></p>
-<p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>####################################################################</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/767/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Jason">
-      <meta itemprop="description" content="Share news">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Another Jason's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/archives/767/" class="post-title-link" itemprop="url">topGO包进行-GO富集分析-做有向无环图</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2016-08-16 16:23:15" itemprop="dateCreated datePublished" datetime="2016-08-16T16:23:15+08:00">2016-08-16</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>GOdata = new(“topGOdata”, ontology = “MF”, allGenes = geneList,annot = annFUN.gene2GO, gene2GO = geneID2GO)</p>
-<p>利用topGO进行分析，最重要的是构建topGO对象，构建topGO需要两个参数：</p>
-<p>1，topGO需要基因和GO号的对应关系</p>
-<p>2，基因列表，用来标记背景基因（所有基因）及差异基因</p>
-<h1 id="一，获取ensembl和GO号的对应关系-geneID2GO"><a href="#一，获取ensembl和GO号的对应关系-geneID2GO" class="headerlink" title="一，获取ensembl和GO号的对应关系: geneID2GO"></a>一，获取ensembl和GO号的对应关系: geneID2GO</h1><p>如果你有现成的gene id和go id的对应关系，文件格式为</p>
-<pre>gene_ID制表符GO_ID1, GO_ID2, GO_ID3, ...</pre>
-
-<p>每行，则可以利用readMappings读取该文件（topGO包里面的函数）。</p>
-<p>而我有一个cuffdiff的结果文件gene_exp.diff，用的是ensembl的注释GFF文件。首先需要获得ensembl和GO的对应关系，这里利用biomaRt包（前面的<a target="_blank" rel="noopener" href="http://wp.zxzyl.com/?p=182">文章</a>中有讲，这里不详细介绍）。</p>
-<pre>library(biomaRt)
-genes = useEnsembl(biomart="ensembl",dataset="hsapiens_gene_ensembl")
-# 得到go信息和gene
-gene2goInfo <- getBM(attributes=c('ensembl_gene_id','go_id','entrezgene','name_1006','go_linkage_type','namespace_1003'), mart = genes)
-# 过滤
-gene2goInfo=gene2goInfo[gene2goInfo$go_id != "", ]
-# 上述是一个gene对应一个go id，需要合并为一个gene对应多个go id，利用by函数（神器）
-geneID2GO = by(gene2goInfo$go_id, gene2goInfo$ensembl_gene_id, function(x) as.character(x))</pre>
-
-<p>geneID2GO是符合topGO要求的，gene2goInfo和geneID2GO的格式如下</p>
-<pre>> head(gene2goInfo)
-  ensembl_gene_id      go_id entrezgene                         name_1006
-3 ENSG00000281614 GO:0005886       3635                   plasma membrane
-4 ENSG00000281614 GO:0005829       3635                           cytosol
-5 ENSG00000281614 GO:0005515       3635                   protein binding
-6 ENSG00000281614 GO:0007165       3635               signal transduction
-7 ENSG00000281614 GO:0005856       3635                      cytoskeleton
-8 ENSG00000281614 GO:0050852       3635 T cell receptor signaling pathway
-  go_linkage_type     namespace_1003
-3             IEA cellular_component
-4             TAS cellular_component
-5             IPI molecular_function
-6             TAS biological_process
-7             IEA cellular_component
-8             TAS biological_process
-
-> head(geneID2GO)
-$ENSG00000000003
-[1] "GO:0004871" "GO:0005515" "GO:0005887" "GO:0070062" "GO:0007166"
-[6] "GO:0043123" "GO:0039532" "GO:1901223"
-
-$ENSG00000000005
-[1] "GO:0016021" "GO:0005737" "GO:0005515" "GO:0005635" "GO:0016525"
-[6] "GO:0001886" "GO:0001937" "GO:0071773" "GO:0035990"</pre>
-
-<h1 id="二，构建基因列表：geneList"><a href="#二，构建基因列表：geneList" class="headerlink" title="二，构建基因列表：geneList"></a>二，构建基因列表：geneList</h1><pre>diff=read.table("./gene_exp.diff",sep="t",header=TRUE)
-# 差异表达基因
-interesting_genes=factor(diff[diff$significant=="yes",]$gene_id)
-# 所有基因
-all_genes <- diff$gene_id
-# 构建基因列表
-geneList <- factor(as.integer (all_genes %in% interesting_genes))
-names(geneList)=all_genes</pre>
-
-<h1 id="三，构建topGO对象"><a href="#三，构建topGO对象" class="headerlink" title="三，构建topGO对象"></a>三，构建topGO对象</h1><pre>source("https://bioconductor.org/biocLite.R")
-chooseBioCmirror()
-biocLite("topGO")
-biocLite("org.Hs.eg.db")
-biocLite("GO.db")
-biocLite("Rgraphviz")
-library(topGO)
-
-GOdata <- new("topGOdata", ontology = "MF", allGenes = geneList,annot = annFUN.gene2GO, gene2GO = geneID2GO)</pre>
-
-<p>Building most specific GOs …..<br>( 3893 GO terms found. )</p>
-<p>Build GO DAG topology ……….<br>( 4356 GO terms and 5490 relations. )</p>
-<p>Annotating nodes ……………<br>( 16722 genes annotated to the GO terms. )</p>
-<h1 id="四，基因富集分析"><a href="#四，基因富集分析" class="headerlink" title="四，基因富集分析"></a>四，基因富集分析</h1><p>Fisher检验，通过2*2的列联表的进行计算。当然还有其他检验，比如KS，KS.elim。</p>
-<p>—————-非差异表达基因—差异表达基因<br>注释到A通路——– 20 ———– 50<br>没有注释到A通路—- 1870 ——— 80</p>
-<pre>resultFisher <- runTest(GOdata, algorithm = "classic", statistic = "fisher")
-allRes <- GenTable(GOdata,classicFisher = resultFisher, orderBy = "classicFisher", topNodes = 10)</pre>
-
-<p>根据orderBy的参数对象进行排序，得到结果如下</p>
-<p>GO.ID                                        Term Annotated Significant<br>1 GO:0032794           GTPase activating protein binding        14           2<br>2 GO:0015278            calcium-release channel activity        16           2<br>3 GO:0099604       ligand-gated calcium channel activity        16           2<br>4 GO:0005527                           macrolide binding        19           2<br>5 GO:0005528                               FK506 binding        19           2<br>6 GO:0001225 RNA polymerase II transcription coactiva…         1           1</p>
-<p>Expected classicFisher<br>1     0.05        0.0012<br>2     0.06        0.0016<br>3     0.06        0.0016<br>4     0.07        0.0023<br>5     0.07        0.0023<br>6     0.00        0.0038</p>
-<h1 id="五，生成有向无环图-directed-acycline-praph，DAG）"><a href="#五，生成有向无环图-directed-acycline-praph，DAG）" class="headerlink" title="五，生成有向无环图(directed acycline praph，DAG）"></a>五，生成有向无环图(directed acycline praph，DAG）</h1><pre>svg("go.dag.svg")
-showSigOfNodes(GOdata, score(resultFisher), firstSigNodes = 5, useInfo = 'all')
-dev.off()</pre>
-
-<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2016-08-16-go.dag.png">  </p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/archives/767/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/5/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/7/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/page/5/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><a class="extend next" rel="next" href="/page/7/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -1319,14 +1274,14 @@ dev.off()</pre>
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
   <p class="site-author-name" itemprop="name">Jason</p>
-  <div class="site-description" itemprop="description">Share news</div>
+  <div class="site-description" itemprop="description"></div>
 </div>
 <div class="site-state-wrap motion-element">
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">134</span>
+          <span class="site-state-item-count">142</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -1335,7 +1290,7 @@ dev.off()</pre>
         <span class="site-state-item-name">categories</span>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">141</span>
+        <span class="site-state-item-count">149</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>

@@ -20,12 +20,10 @@
     var CONFIG = {"hostname":"md.zxzyl.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="Share news">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Another Jason&#39;s blog">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Zhongxu&#39;s blog">
 <meta property="og:url" content="http://md.zxzyl.com/page/9/index.html">
-<meta property="og:site_name" content="Another Jason&#39;s blog">
-<meta property="og:description" content="Share news">
+<meta property="og:site_name" content="Zhongxu&#39;s blog">
 <meta property="og:locale" content="en_US">
 <meta property="article:author" content="Jason">
 <meta name="twitter:card" content="summary">
@@ -43,7 +41,7 @@
   };
 </script>
 
-  <title>Another Jason's blog</title>
+  <title>Zhongxu's blog</title>
   
 
 
@@ -94,7 +92,7 @@
 
     <a href="/" class="brand" rel="start">
       <span class="logo-line-before"><i></i></span>
-      <h1 class="site-title">Another Jason's blog</h1>
+      <h1 class="site-title">Zhongxu's blog</h1>
       <span class="logo-line-after"><i></i></span>
     </a>
   </div>
@@ -147,16 +145,818 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/752/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhongxu's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/archives/752/" class="post-title-link" itemprop="url">多线程gzip压缩神器---pigz</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-04-02 10:32:10" itemprop="dateCreated datePublished" datetime="2016-04-02T10:32:10+08:00">2016-04-02</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>Fastq文件为纯文本文件，占用的硬盘空间较大，所以一般都会将Fastq文件压缩成gz格式，很多软件也支持fastq的gz格式输入。我用过python读取gzip，非常方便。单纯的通过gzip的命令压缩fastq，效率非常非常慢，据说是没有利用整个机器的cpu。</p>
+<p>于是我就找到了pigz这款神器，可以在压缩数据时，发挥多核多处理器的优势，简而言之就是利用多线程进行gzip任务，比单纯的gzip压缩要快很多，有人测试快了5倍多（因为gzip压缩100G的文件时间是太长了，我也就没有测试）。</p>
+<h1 id="pigz"><a href="#pigz" class="headerlink" title="pigz"></a>pigz</h1><p>官网  <a target="_blank" rel="noopener" href="http://www.zlib.net/pigz/">http://www.zlib.net/pigz/</a>      </p>
+<p>pigz, which stands for parallel implementation of gzip, is a fully functional replacement for gzip that exploits multiple processors and multiple cores to the hilt when compressing data.</p>
+<h1 id="安装pigz"><a href="#安装pigz" class="headerlink" title="安装pigz"></a>安装pigz</h1><pre>wget http://zlib.net/pigz/pigz-2.3.3.tar.gz
+tar -xvzf pigz-2.3.3.tar.gz
+#如果提示不是gz格式，请尝试  tar -xvf pigz-2.3.3.tar.gz
+cd pigz-2.3.3.tar.gz
+make
+如果报错 pigz.c:(.text.startup+0xca): undefined reference to `deflateEnd' gcc
+请在第八行$(CC) $(LDFLAGS) -o pigz $^ -lpthread -lm 后面添加-lz选项，表示link libz</pre>
+
+<h1 id="运行pigz"><a href="#运行pigz" class="headerlink" title="运行pigz"></a>运行pigz</h1><p>pigz -h 可以看到它的command option。</p>
+<p>运行pigz和简单，和gzip的命令差不多，比如</p>
+<pre># -c 表示打印到标准输出std，如果没有-c选项，则会生成一个后缀为gz的压缩文件。
+pigz -c file > file.gz
+# -k 表示压缩后不删除源文件
+pigz -k file</pre>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/archives/752/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/751/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhongxu's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/archives/751/" class="post-title-link" itemprop="url">用Circos表示基因组上的突变密度</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-04-01 22:33:28" itemprop="dateCreated datePublished" datetime="2016-04-01T22:33:28+08:00">2016-04-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>不光是生信，感觉整个生物领域越来越靠图吃饭了。谁的图漂亮，谁的分析就好。好吧，我也承认，图多图漂亮了，确实显得高大上哈。在我眼中图的信息量比较大，能够给人直观的表示，为了说明图的意义，我没把持住，在本文多放了几张和circos图无关的图，见谅。本文有多图，都是本人自己画的，请勿盗图，如果你想知道怎么做或者由更好的表示办法，欢迎留言讨论。</p>
+<p>想当年，我为了表示SNP在染色体上的数目分布，用python画了24个图，每个染色体一张SNP的密度分布。那可是我第一次用matplot。</p>
+<p>先上我年yi轻qian时做的图，那个时候我都佩服自己能想出可以用图的形式来表示突变的密度，哈哈哈,因为这样就能很直观的看出哪些地方突变频率比较高，突变频率比较高的地方，可能是突变热点区域，在肿瘤研究中常常有意义。</p>
+<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2016-04-01-chr8.number-distribution-by-window.png"> </p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/archives/751/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/750/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhongxu's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/archives/750/" class="post-title-link" itemprop="url">利用ionice命令设置程序的IO调度与优先级</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-04-01 21:30:20" itemprop="dateCreated datePublished" datetime="2016-04-01T21:30:20+08:00">2016-04-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>我合并多个文件，用cat将流重定向到一个文件，或者把一个大文件rm掉腾出空间，要进行IO，但如果这个时候服务器有进程进行IO时，同个进程同时进行IO，效率就会很慢。有时候我想把别的进程IO缓一缓，先把合并或者rm的任务有限解决掉，再继续别的进程的IO。</p>
+<p>就google了下如何提高效率，查ionice这个命令。</p>
+<p>ionice - 获取或设置程序的IO调度与优先级，通过设置命令或进程的IO调度优先级，加快IO效率</p>
+<h2 id="命令格式"><a href="#命令格式" class="headerlink" title="命令格式"></a>命令格式</h2><p>跟命令时，设置命令的IO调度优先级，跟PID时，设置相应进程的IPD调度优先级。</p>
+<pre>ionice [[-c class] [-n classdata] [-t]] -p PID [PID]...
+ionice [-c class] [-n classdata] [-t] COMMAND [ARG]... </pre>
+
+<p>我也进行了测试，比如在有其进程进行IO工作时，我要在删除Fastq文件（R1文件20G，R2文件21G）时，用法详见下文。</p>
+<pre>time rm R1.fastq
+real    0m37.306s
+user    0m0.001s
+sys     0m0.300s
+
+time ionice -c 2 -n 0 rm R2.fastq
+real    0m2.579s
+user    0m0.002s
+sys     0m0.682s</pre>
+
+<p>可以看到当提高IO的优先级后，效率还是非常快的，当然这暂时牺牲了其他进程的IO。</p>
+<h2 id="ionice-h用法"><a href="#ionice-h用法" class="headerlink" title="ionice -h用法"></a>ionice -h用法</h2>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/archives/750/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/749/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhongxu's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/archives/749/" class="post-title-link" itemprop="url">NC编号与对应的染色体</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-03-30 21:13:19" itemprop="dateCreated datePublished" datetime="2016-03-30T21:13:19+08:00">2016-03-30</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <table>
+<thead>
+<tr>
+<th>NC编号</th>
+<th>染色体</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>NC_000001.10</td>
+<td>Chr1</td>
+</tr>
+<tr>
+<td>NC_000002.11</td>
+<td>Chr2</td>
+</tr>
+<tr>
+<td>NC_000003.11</td>
+<td>Chr3</td>
+</tr>
+<tr>
+<td>NC_000004.11</td>
+<td>Chr4</td>
+</tr>
+<tr>
+<td>NC_000005.9</td>
+<td>Chr5</td>
+</tr>
+<tr>
+<td>NC_000006.11</td>
+<td>Chr6</td>
+</tr>
+<tr>
+<td>NC_000007.13</td>
+<td>Chr7</td>
+</tr>
+<tr>
+<td>NC_000008.10</td>
+<td>Chr8</td>
+</tr>
+<tr>
+<td>NC_000009.11</td>
+<td>Chr9</td>
+</tr>
+<tr>
+<td>NC_000010.10</td>
+<td>Chr10</td>
+</tr>
+<tr>
+<td>NC_000011.9</td>
+<td>Chr11</td>
+</tr>
+<tr>
+<td>NC_000012.11</td>
+<td>Chr12</td>
+</tr>
+<tr>
+<td>NC_000013.10</td>
+<td>Chr13</td>
+</tr>
+<tr>
+<td>NC_000014.8</td>
+<td>Chr14</td>
+</tr>
+<tr>
+<td>NC_000015.9</td>
+<td>Chr15</td>
+</tr>
+<tr>
+<td>NC_000016.9</td>
+<td>Chr16</td>
+</tr>
+<tr>
+<td>NC_000017.10</td>
+<td>Chr17</td>
+</tr>
+<tr>
+<td>NC_000018.9</td>
+<td>Chr18</td>
+</tr>
+<tr>
+<td>NC_000019.9</td>
+<td>Chr19</td>
+</tr>
+<tr>
+<td>NC_000020.10</td>
+<td>Chr20</td>
+</tr>
+<tr>
+<td>NC_000021.8</td>
+<td>Chr21</td>
+</tr>
+<tr>
+<td>NC_000022.10</td>
+<td>Chr22</td>
+</tr>
+<tr>
+<td>NC_000023.10</td>
+<td>ChrX</td>
+</tr>
+<tr>
+<td>NC_000024.9</td>
+<td>ChrY</td>
+</tr>
+<tr>
+<td>NC_012920.1</td>
+<td>ChrM</td>
+</tr>
+</tbody></table>
+<p>PS：NC编号中的点后面代表版本，可能会更新。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/748/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhongxu's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/archives/748/" class="post-title-link" itemprop="url">wget命令小结</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-03-25 23:18:02" itemprop="dateCreated datePublished" datetime="2016-03-25T23:18:02+08:00">2016-03-25</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>下载文件夹<br>$ wget -c -r -nd -np -k -L -p -A c,h <a target="_blank" rel="noopener" href="http://www.xxx.org/pub/path/">www.xxx.org/pub/path/</a></p>
+<p>-c  断点续传<br>-r  递归下载，下载指定网页某一目录下（包括子目录）的所有文件<br>-nd 递归下载时不创建一层一层的目录，把所有的文件下载到当前目录<br>-np 递归下载时不搜索上层目录，如wget -c -r <a target="_blank" rel="noopener" href="http://www.xxx.org/pub/path/">www.xxx.org/pub/path/</a><br>    没有加参数-np，就会同时下载path的上一级目录pub下的其它文件<br>-k  将绝对链接转为相对链接，下载整个站点后脱机浏览网页，最好加上这个参数<br>-L  递归时不进入其它主机，如wget -c -r <a target="_blank" rel="noopener" href="http://www.xxx.org/">www.xxx.org/</a> 如果网站内有一个这样的链接：<br>    <a target="_blank" rel="noopener" href="http://www.yyy.org,不加参数-l,就会像大火烧山一样,会递归下载www.yyy.org网站/">www.yyy.org，不加参数-L，就会像大火烧山一样，会递归下载www.yyy.org网站</a><br>-p  下载网页所需的所有文件，如图片等<br>-A  指定要下载的文件样式列表，多个样式用逗号分隔</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/archives/748/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/747/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhongxu's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/archives/747/" class="post-title-link" itemprop="url">测序正负链和转录翻译正负链概念</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-03-20 20:38:26" itemprop="dateCreated datePublished" datetime="2016-03-20T20:38:26+08:00">2016-03-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="测序中的正负链"><a href="#测序中的正负链" class="headerlink" title="测序中的正负链"></a>测序中的正负链</h2><p>测序之前，要先将序列打断，进行建库。在建库的时候是不区分正负链的，所以在后续测序过程中产生序列也不包含正负链信息。 但是，测的read要往参考基因组上比对，以便知道read在基因组中的位置。参考基因组中每条染色体只有一条序列，这条序列表示的序列即为正链序列，常用‘+’表示，与正链互补的序列为负链，用‘-’表示。 </p>
+<p>对一条染色体而言，只有一条正链序列，互补的即为负链。 </p>
+<p>文献或者数据库中提到的基因所在strand，即为这里所提的正负链。</p>
+<h2 id="转录翻译中的正负链"><a href="#转录翻译中的正负链" class="headerlink" title="转录翻译中的正负链"></a>转录翻译中的正负链</h2><p>根据中心法则,DNA转录成mRNA,mRNA翻译成蛋白质。 其中mRNA只能从一条DNA链,根据碱基互补配对转录形成一条RNA链,这条链叫anti-sense strand无义链或者叫template strand模板链.因为它与mRNA序列互补。</p>
+<p>mRNA与另一条链序列相同,除了T被U取代，简单说，在转录中，正链就是与RNA序列相同的那一个dna单链；复制中，正链就是与新链序列相同的原单链，非模板链。对应的链就是负链了。 </p>
+<p>即互补的链为模板链，负链。相同序列的链为正链。 </p>
+<p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>####################################################################</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/746/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhongxu's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/archives/746/" class="post-title-link" itemprop="url">利用wordcloud R包绘制词云</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-03-18 21:43:39" itemprop="dateCreated datePublished" datetime="2016-03-18T21:43:39+08:00">2016-03-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>根据词的频率，以词云的形式展示，更加具有表现力。词在’词云’图中字号越大，重要性也就越高。主要涉及数据的挖掘，和数据的展示（可视化）。</p>
+<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2016-03-18-wordcloud_packages.png"></p>
+<p>下面的代码为利用wordcloud包绘制上面词云图</p>
+<pre>> install.packages("wordcloud")
+> library(wordcloud)
+> mydata mycolors  png("wordcloud_packages.png", width=400,height=400, units='in', res=900)
+> wordcloud(mydata$词汇,mydata$词频,random.order=FALSE,random.color=T,colors=mycolors,family="myFont3",min.freq=0)
+> dev.off()</pre>
+
+<p>测试文件下载：<a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/FileAttach/2016-03-18-wordcloud-test.txt">TXT</a></p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/archives/746/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/745/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhongxu's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/archives/745/" class="post-title-link" itemprop="url">microRNA数据库与预测、功能分析软件大全</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-03-16 21:51:13" itemprop="dateCreated datePublished" datetime="2016-03-16T21:51:13+08:00">2016-03-16</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>1.miRBase: <a target="_blank" rel="noopener" href="http://www.mirbase.org/">http://www.mirbase.org</a></p>
+<p>miRBase序列数据库是一个提供包括已发表的miRNA 序列数据、注释、预测基因靶标等信息的全方位数据库，是存储miRNA信息最主要的公共数据库之一。miRBase提供便捷的网上查询服务，允许用户使用关键词或序列在线搜索已知的miRNA和靶标信息。</p>
+<p>2.miRecords: <a target="_blank" rel="noopener" href="http://mirecords.biolead.org/">http://mirecords.biolead.org/</a></p>
+<p>动物 miRNA 的靶相互作用的数据库, 包括人工收集实验验证的, 预测的 miRNA的靶目标. 靶标预测工具DIANA-microT, MicroInspector, miRanda, MirTarget2, miTarget, NBmiRTar, PicTar, PITA, RNA22, RNAhybrid, and TargetScan/TargertScanS.</p>
+<p>3.PMRD: <a target="_blank" rel="noopener" href="http://bioinformatics.cau.edu.cn/PMRD/">http://bioinformatics.cau.edu.cn/PMRD/</a></p>
+<p>PMRD是一个关于植物MicroRNA 数据库，包括了microRNA序列和它们的靶基因、二级结构、表达谱、基因组搜索等等，并且该数据库尝试着整合大量的关于植物microRNA的数据。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/archives/745/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/743/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
       <meta itemprop="name" content="Jason">
-      <meta itemprop="description" content="Share news">
+      <meta itemprop="description" content="">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Another Jason's blog">
+      <meta itemprop="name" content="Zhongxu's blog">
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
@@ -237,11 +1037,11 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
       <meta itemprop="name" content="Jason">
-      <meta itemprop="description" content="Share news">
+      <meta itemprop="description" content="">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Another Jason's blog">
+      <meta itemprop="name" content="Zhongxu's blog">
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
@@ -314,739 +1114,10 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/742/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Jason">
-      <meta itemprop="description" content="Share news">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Another Jason's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/archives/742/" class="post-title-link" itemprop="url">亚效等位基因和超效等位基因</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2016-03-12 10:13:02" itemprop="dateCreated datePublished" datetime="2016-03-12T10:13:02+08:00">2016-03-12</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="Hypomorph"><a href="#Hypomorph" class="headerlink" title="Hypomorph"></a>Hypomorph</h2><p><strong>亚效等位基因，亚等位基因</strong></p>
-<p>亚效等位基因有基因功能，但功能比正常的要少。这种等位基因通常由于基因损害，更常见的是损害调控这个基因的功能区。通常有蛋白产物，但少于正常。</p>
-<p>也就是说该基因或者该基因的调控区域发生突变，但没有完全损害基因的功能，是基因产物的功能降低，或者基因的产物表达量降低，反应为基因的功能降低。</p>
-<h2 id="Hypermorph"><a href="#Hypermorph" class="headerlink" title="Hypermorph"></a>Hypermorph</h2><p><strong>超效等位基因，超等位基因</strong><br>超效等位基因的概念与亚效等位基因的概念相似，基因或者该基因的调控区域发生突变，导致基因产物的功能或者基因的产物表达量比正常要高，反映为基因的功能增强。</p>
-<p>Ref:  <a target="_blank" rel="noopener" href="http://www.conservapedia.com/Allele">http://www.conservapedia.com/Allele</a></p>
-<p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>#####################################################################</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/741/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Jason">
-      <meta itemprop="description" content="Share news">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Another Jason's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/archives/741/" class="post-title-link" itemprop="url">Sort VCF by Chr and Pos根据染色体位置对VCF进行排序</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2016-03-01 21:53:23" itemprop="dateCreated datePublished" datetime="2016-03-01T21:53:23+08:00">2016-03-01</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>对VCF文件中的突变按照染色体和位置进行排序，下面是本人的总结，其中利用bash命令的方法不依赖其他的工具或包。htslib<a target="_blank" rel="noopener" href="http://wp.zxzyl.com/?p=189" title="合并VCF文件 Merge VCF file">前文</a>中也提到过。</p>
-<h2 id="1-Use-bash"><a href="#1-Use-bash" class="headerlink" title="1, Use bash"></a>1, Use bash</h2><p><strong>bash raw.vcf</strong></p>
-<pre>chr_order="chrMnchr1nchr2nchr3nchr4nchr5nchr6nchr7nchr8nchr9nchr10nchr11nchr12nchr13nchr14nchr15nchr16nchr17nchr18nchr19nchr20nchr21nchr22nchrXnchrY"
-
-cat "$1" ' grep "^#" > .header.vcf
-cat "$1" ' grep -v "^#" ' sort -k1,1 -k2,2n > .pre.sorted.vcf
-echo -e $chr_order ' while read line
-do
-    cat .pre.sorted.vcf ' grep "^$line"$'t' >> .header.vcf
-done
-mv .header.vcf  sorted.vcf && rm .header.vcf .pre.sorted.vcf</pre>
-
-<h2 id="2，Use-awk-and-sed"><a href="#2，Use-awk-and-sed" class="headerlink" title="2，Use awk and sed"></a>2，Use awk and sed</h2><p>(awk ‘/^#/{print}!/^#/{exit}’ raw.vcf;sed ‘/^#/d’ raw.vcf’awk -F”\t” ‘($1<del>/^[0-9]+$/){sub(“^chr”,””,$0);print $0}’’sort -k1,1n -k2,2n’awk ‘{print “chr”$0}’ ;sed ‘/^#/d’ raw.vcf’ awk -F”\t” ‘($1!</del>/^[0-9]+$/){sub(“^chr”,””,$0);print $0}’’sort -k1,1d -k2,2n’awk ‘{print “chr”$0}’) &gt; sort.vcf</p>
-<h2 id="3-Use-Picard"><a href="#3-Use-Picard" class="headerlink" title="3, Use Picard"></a>3, Use Picard</h2><p>Sorts one or more VCF files. This tool sorts the records in VCF files according to the order of the contigs in the header/sequence dictionary and then by coordinate. It can accept an external sequence dictionary.</p>
-<pre>java -jar picard.jar SortVcf I=unsort.vcf O=sorted.vcf</pre>
-
-<h2 id="4，Use-vcf-sort-in-vcftools"><a href="#4，Use-vcf-sort-in-vcftools" class="headerlink" title="4，Use vcf-sort (in vcftools)"></a>4，Use vcf-sort (in vcftools)</h2><pre>cat file.vcf  '  vcf-sort > sorted.vcf</pre>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/archives/741/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/740/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Jason">
-      <meta itemprop="description" content="Share news">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Another Jason's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/archives/740/" class="post-title-link" itemprop="url">合并VCF文件 Merge VCF file</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2016-02-29 20:47:58" itemprop="dateCreated datePublished" datetime="2016-02-29T20:47:58+08:00">2016-02-29</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>VCF为variant call file格式，现为标准的SNV突变存储格式。通常情况下，一个VCF文件对应一个样本的突变。但VCF格式同样支持同时在一个文件中表示多个样本的突变，在每一行的最后几列，每一列代表一个样本在特定位点的突变情况，若样本在该位点没有突变，在代表样本的那一列在该位点的记录为.点号。<br>此外，在生成VCF的时候，可以生成包含多个样本突变的VCF。但是要在序列比对生成SAM文件时要加入SM tag用来指定哪些reads属于哪个样本。</p>
-<p>多个样本的突变情况用一个VCF文件存储的好处在于，对于发生突变的特定位点，可以迅速了解不同样本在该位点的突变情况。比如下列，最后三列表示三个样本在染色体chrT的525位点的突变情况，</p>
-<pre>
-#对应GT:PL:GQ:AD:DP。其中第一个样本在该位点没有发生突变，第二个样本的基因型为C/C，第三个样本的基因型为G/T。
-chrT    515    .    G    C,T    1230.23    PASS    AC=4;AF=1.00;AN=4;DP=76;FS=0.000;MLEAC=2;MLEAF=1.00;MQ0=0;MQ=60.24;QD=33.32;RPA=5,4;RU=CA;SF=1,2;SOR=0.793;STR;set=variant23    GT:PL:GQ:AD:DP    .    1/1:1570,120,0:99:0,40:46    0/2:965,69,0:69:0,23:30`</pre>
-
-<h2 id="一，vcftools"><a href="#一，vcftools" class="headerlink" title="一，vcftools"></a>一，vcftools</h2><p>VCFtools is a program package designed for working with VCF files, such as those generated by the 1000 Genomes Project. The aim of VCFtools is to provide easily accessible methods for working with complex genetic variation data in the form of VCF files.</p>
-<p>VCFtools的功能和SAMtools类似，用于处理VCF格式的文件，可用于合并VCF。</p>
-<p>VCFtools的输入文件格式为gz格式，需要用bgzip压缩，并用tabix生成index文件。<br>tabix和bgzip在samtools安装包的htslib-*文件夹中，需要单独安装。首先下载samtools（也可以专门下载htslib包，或者你已经有samtools，看是否有htslib文件夹），进入htslib文件夹中</p>
-<pre>wget https://github.com/samtools/htslib/releases/download/1.3/htslib-1.3.tar.bz2
-tar -jxvf htslib-1.3.tar.bz2
-cd htslib-1.3
-./configure 
-make
-make prefix=/path/to/install install</pre>
-
-<h3 id="download-vcftools，install-vcftools"><a href="#download-vcftools，install-vcftools" class="headerlink" title="download vcftools，install vcftools"></a>download vcftools，install vcftools</h3><pre>git clone https://github.com/vcftools/vcftools.git
-cd vcftools/ 
-./autogen.sh 
-./configure 
-make 
-make install</pre>
-
-<h3 id="compress-index-and-merge-VCF"><a href="#compress-index-and-merge-VCF" class="headerlink" title="compress, index and merge VCF"></a>compress, index and merge VCF</h3><pre>bgzip -c "x.vcf" > "x.vcf.gz"
-bgzip -c "y.vcf > "y.vcf.gz"
-bgzip -c "z.vcf" > "z.vcf.gz"
-tabix -f "x.vcf.gz"
-tabix -f "y.vcf.gz"
-tabix -f "z.vcf.gz"
-vcf_merge   x.vcf.gz   y.vcf.gz   z.vcf.gz  > merged.vcf</pre>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/archives/740/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/739/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Jason">
-      <meta itemprop="description" content="Share news">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Another Jason's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/archives/739/" class="post-title-link" itemprop="url">Get the reference allele based on genomic position</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2016-02-24 21:17:26" itemprop="dateCreated datePublished" datetime="2016-02-24T21:17:26+08:00">2016-02-24</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>This post will show how to get the reference base of chr1 from 49999 to 500001 (Version: hg19).<br>Please note: different tools has different coordinate (0 start or 1 start).</p>
-<h2 id="1-SAMtools"><a href="#1-SAMtools" class="headerlink" title="1, SAMtools"></a>1, SAMtools</h2><p>Index reference sequence in the FASTA format or extract subsequence from indexed reference sequence. If no region is specified, faidx will index the file and create .fai on the disk. If regions are specified, the subsequences will be retrieved and printed to stdout in the FASTA format.</p>
-<pre>$samtools faidx ucsc.hg19.fasta chr1:49999-50001
->chr1:49999-50001
-ATA</pre>
-
-<h2 id="2-twoBitToFa"><a href="#2-twoBitToFa" class="headerlink" title="2, twoBitToFa"></a>2, twoBitToFa</h2><pre>$wget http://hgdownload.soe.ucsc.edu/admin/exe/linux.x86_64/faToTwoBit
-$wget http://hgdownload.soe.ucsc.edu/admin/exe/linux.x86_64/twoBitToFa
-$chmod 755 twoBitToFa faToTwoBit 
-$faToTwoBit ucsc.hg19.fasta ucsc.hg19.2bit
-$twoBitToFa ucsc.hg19.2bit -seq=chr1 -start=49998 -end=50001 temp.out && cat temp.out && rm temp.out
->chr1:49998-50001
-ATA</pre>
-
-<h2 id="3-UCSC-DAS-server"><a href="#3-UCSC-DAS-server" class="headerlink" title="3, UCSC DAS server"></a>3, UCSC DAS server</h2><pre>$wget -qO- http://genome.ucsc.edu/cgi-bin/das/hg19/dna?segment=chr1:49999,50001 ' grep -v '<&#039;
-ata</pre>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/archives/739/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/738/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Jason">
-      <meta itemprop="description" content="Share news">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Another Jason's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/archives/738/" class="post-title-link" itemprop="url">利用biomaRt包下载HGMD公开版的突变位点</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2016-02-20 22:01:07" itemprop="dateCreated datePublished" datetime="2016-02-20T22:01:07+08:00">2016-02-20</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p><a target="_blank" rel="noopener" href="http://wp.zxzyl.com/?p=174" title="如何获取Ensembl gene id和NCBI的gene id及与HGNC的对应关系">前面</a>文章介绍了Ensembl的biomart，相信你对biomart应该有所了解了，在此再介绍一种方法，即通过R语言包biomaRt下载HGMD的数据。</p>
-<p>HGMD的最新数据是需要购买授权才行，公开版信息不仅滞后，而且不能下载，不能得到基因组位置，在biostart上看到有人说Ensembl整合了HGMD的公开版，心想能获得公开版的数据也不错，于是采用biomaRt包下载。</p>
-<p>各位不要高兴，最终的结果是，只得到了所有突变的基因组位置，未能下到具体的突变类型，以及与表型的关系。不过能下载基因组的位置，也算不错，结合对这些位置的注释，能获取不少信息。如果您对这些位置的利用有更多或者更好的想法，欢迎与我讨论。</p>
-<h2 id="1，安装biomaRt包"><a href="#1，安装biomaRt包" class="headerlink" title="1，安装biomaRt包"></a>1，安装biomaRt包</h2><pre>source("http://bioconductor.org/biocLite.R")
-chooseCRANmirror()
-chooseBioCmirror()
-biocLite("biomaRt")</pre>
-
-<h2 id="2，显示ensembl的biomart"><a href="#2，显示ensembl的biomart" class="headerlink" title="2，显示ensembl的biomart"></a>2，显示ensembl的biomart</h2><pre>library(biomaRt)
-listEnsembl()
-#如果要显示特定版本的，添加version参数
-#listEnsembl(version=78)</pre>
-
-<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2016-02-20-biomaRt-listensemblbiomart.png"> </p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/archives/738/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/737/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Jason">
-      <meta itemprop="description" content="Share news">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Another Jason's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/archives/737/" class="post-title-link" itemprop="url">安装BioMart Perl及利用BioMart Perl API下载数据</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2016-02-19 23:20:36" itemprop="dateCreated datePublished" datetime="2016-02-19T23:20:36+08:00">2016-02-19</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p><a target="_blank" rel="noopener" href="http://www.zxzyl.com/archives/736" title="如何获取Ensembl gene id和NCBI的gene id及与HGNC的对应关系">上篇</a>介绍了如何利用ensembl的biomart服务下载ensembl gene id与NCBI entrez gene id的对应关系时，最后一步是保存result。biomart也提供通过biomart-perl，在本地通过perl脚本下载，并通过标准输出到终端上。biomart提供生成好的perl脚本，只需在选择好相关attribute和filter之后，点击中间上方的perl即可。</p>
-<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2016-02-20-biomart-perl-api-generate-scrip-button.png" alt="biomart-perl-api"> </p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/archives/737/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/736/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Jason">
-      <meta itemprop="description" content="Share news">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Another Jason's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/archives/736/" class="post-title-link" itemprop="url">如何获取Ensembl gene id和NCBI的gene id及与HGNC的对应关系</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2016-02-17 23:12:13" itemprop="dateCreated datePublished" datetime="2016-02-17T23:12:13+08:00">2016-02-17</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>Ensembl和NCBI都是盛名的基因组研究机构，提供相关的基因组结构注释文件，比如gtf或者gff，但注释的id却不是统一的。比如基因ID，Ensembl有Ensembl gene id，NCBI有entrez gene id。不同的人用的基因注释文件来源不同，就需要进行转换。本文主要讲如何利用Ensembl的Biomart，下载对应关系。</p>
-<p><a target="_blank" rel="noopener" href="http://www.biomart.org/" title="http://www.biomart.org/">Biomart</a>整合了各种生物学注释数据，提供了易于操作的界面，在线提供批量下载，以加速科学研究。Ensembl已应用<a target="_blank" rel="noopener" href="http://asia.ensembl.org/index.html" title="http://asia.ensembl.org/index.html">biomart</a>提供相关服务。</p>
-<p>The BioMart project provides free software and data services to the international scientific community in order to foster scientific collaboration and facilitate the scientific discovery process. The project adheres to the open source philosophy that promotes collaboration and code reuse.</p>
-<p>Ensembl的biomart网址为<a target="_blank" rel="noopener" href="http://asia.ensembl.org/index.html" title="http://asia.ensembl.org/index.html">http://asia.ensembl.org/index.html</a></p>
-<h2 id="第一步，选择相应的数据库"><a href="#第一步，选择相应的数据库" class="headerlink" title="第一步，选择相应的数据库"></a>第一步，选择相应的数据库</h2><p>选择ensemble gene 83</p>
-<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2016-02-17-ensembl-id-to-ncbi-entrez-gene-id/2016-02-17-step1-select-database.png" alt="step1-select-database"> </p>
-<p>选择homo sapiens gene</p>
-<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2016-02-17-ensembl-id-to-ncbi-entrez-gene-id/2016-02-17-step1-select-database-homoSapiens.png" alt="step1-select-database"> </p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/archives/736/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/735/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Jason">
-      <meta itemprop="description" content="Share news">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Another Jason's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/archives/735/" class="post-title-link" itemprop="url">转录组分析新工具流程--HISAT2-stringtie-ballgown</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2016-02-16 22:47:23" itemprop="dateCreated datePublished" datetime="2016-02-16T22:47:23+08:00">2016-02-16</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="一，HISAT2（Hierarchical-Indexing-for-Spliced-Alignment-of-Transcripts2）"><a href="#一，HISAT2（Hierarchical-Indexing-for-Spliced-Alignment-of-Transcripts2）" class="headerlink" title="一，HISAT2（Hierarchical Indexing for Spliced Alignment of Transcripts2）"></a>一，HISAT2（Hierarchical Indexing for Spliced Alignment of Transcripts2）</h2><p>HISAT2是一个对比对RNA-seq reads的快速灵敏的spliced alignment工具，HISAT2支持DNA和RNA比对。针对reads覆盖多个外显子，HISAT其包含两种索引：1，global FM索引，代表整个基因组，2，许许多多的local FM索引，每个索引代表<del>56,000bp，</del>55,000个local索引覆盖整个基因组。HISAT基于Bowtie2来处理大多数FM索引。心的索引scheme叫做 Hierarchical Graph FM index (HGFM)。HISAT也支持indel和paire end模式，并且支持多线程和SRA Toolkit。HISAT2官网提到HISAT2是HISAT和TopHat2继承，建议大家从HISAT和TopHat2迁移到HISAT2上来。</p>
-<p>HISAT2的优势如图（图片来自HISAT2文章）</p>
-<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2016-02-16-rna-hisat/2016-02-03-reads-processed-per-second.png"> )</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/archives/735/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/8/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/">10</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/10/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/page/8/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/">10</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><a class="extend next" rel="next" href="/page/10/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -1105,14 +1176,14 @@ listEnsembl()
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
   <p class="site-author-name" itemprop="name">Jason</p>
-  <div class="site-description" itemprop="description">Share news</div>
+  <div class="site-description" itemprop="description"></div>
 </div>
 <div class="site-state-wrap motion-element">
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">134</span>
+          <span class="site-state-item-count">142</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -1121,7 +1192,7 @@ listEnsembl()
         <span class="site-state-item-name">categories</span>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">141</span>
+        <span class="site-state-item-count">149</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>

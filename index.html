@@ -20,12 +20,10 @@
     var CONFIG = {"hostname":"md.zxzyl.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="Share news">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Another Jason&#39;s blog">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Zhongxu&#39;s blog">
 <meta property="og:url" content="http://md.zxzyl.com/index.html">
-<meta property="og:site_name" content="Another Jason&#39;s blog">
-<meta property="og:description" content="Share news">
+<meta property="og:site_name" content="Zhongxu&#39;s blog">
 <meta property="og:locale" content="en_US">
 <meta property="article:author" content="Jason">
 <meta name="twitter:card" content="summary">
@@ -43,7 +41,7 @@
   };
 </script>
 
-  <title>Another Jason's blog</title>
+  <title>Zhongxu's blog</title>
   
 
 
@@ -94,7 +92,7 @@
 
     <a href="/" class="brand" rel="start">
       <span class="logo-line-before"><i></i></span>
-      <h1 class="site-title">Another Jason's blog</h1>
+      <h1 class="site-title">Zhongxu's blog</h1>
       <span class="logo-line-after"><i></i></span>
     </a>
   </div>
@@ -147,16 +145,822 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/1136/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhongxu's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/archives/1136/" class="post-title-link" itemprop="url">整合多组学数据的通路富集分析-ActivePathways</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-09-13 01:03:23" itemprop="dateCreated datePublished" datetime="2020-09-13T01:03:23+08:00">2020-09-13</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>我是在这篇文章（Integrative pathway enrichment analysis of multivariate omics data<br>）中遇到的合并多个p-value的操作。这篇文章是今年发表在NC上。所有的组学或者大规模的数据分析，都需要探索数据背后相关的生物学功能，所以通路富集分析非常普遍。通常的做法是基于单一组学、单一数据集的数据进行分析，随着生物学数据的爆发，大规模多组学数据变得普遍，这篇文章介绍了基于整合的多组学或多数据集的数据进行通路分析的工具ActivePathways。</p>
+<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2020-09-12-ActivePathways-1.png"></p>
+<h1 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h1><p>ActivePathways的方法，如下图：</p>
+<p>(a) 需要的输入文件 </p>
+<p>(1) 基于多组学数据集的基因P-value，传统的富集分析是单组学，只有一列，现在是多组学，对应多列P-value<br>(2) 基因集，这个和其他的通路富集分析一样，用来表示生物学过程和通路</p>
+<p>(b) </p>
+<p>(1) 用Brown method合并基因的P-values，并且排序，用一个宽松的阈值来过滤检阳性的基因。<br>(2) 对每个通路，用排序的基因（从第一个开始从少到多作为sub-list）进行超几何检验，并找到最优的sub-list长度。<br>(3) 基因单一组学的数据进行富集分析，找到支持每个通路的证据。</p>
+<p>(c) ActivePathways 提供整合之后的富集分析结果，相关的Brown P-value，支持通路的证据。还可以在Cytoscape中画Enrichmentmap的图，来分析更广泛的生物学主题。点为通路，边表示有共有基因。</p>
+<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2020-09-12-ActivePathways-2.png"></p>
+<h1 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h1><p>自然发到了NC这种水平的期刊上，出了豪华的团队外，ActivePathways一定有很厉害的功能才行。这篇文章提了好几个case study，我挑了一个，稍微讲一下，如下图。</p>
+<p>昨天分析了乳腺癌中与预后相关的通路和过程，其中整合了三种数据集，TC（Tumor cell mRNA），TAC（Tumor adjacent cell mRNA）和CNA（拷贝数变异），这里也挺有意思，把TAC也纳入到P-values的矩阵中，并不是三个组学。</p>
+<p>(a) Enrichment map，其中蓝色的表示仅由整合数据发现的通路，比如凋亡等，显示出其强大的功能。<br>(b) 乳腺癌Basel和HER2亚型中，与预后相关的免疫基因的Hazard Ratio（HR），显示出两种亚型间不同的免疫pattern。<br>(c) HER2亚型中，与预后相关的基因（凋亡过程负调控）在每个数据集上的P-value和整合后的Brown P-value。其中DUSP1在三个数据集中都非常显著，如果作者聚焦到了这个基因。<br>(d) 这个基因在肿瘤细胞mRNA，癌旁细胞mRNA和拷贝数变异三种数据集中，分成high和low两组，做生存分析，可以发现DUSP1低表达，预后显著好于高表达，以此证明ActivePathway的强大。</p>
+<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2020-09-12-ActivePathways-3.png"></p>
+<p>ActivePaths的下载地址：<a target="_blank" rel="noopener" href="https://github.com/reimandlab/ActivePathways">https://github.com/reimandlab/ActivePathways</a>。为一个R包，整理好P-values的数据框之后，一步命令即可分析，此外结果还可以在Cytoscape上用Enrichment map展示。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># scores是P-values的数据框,GMT是基因集</span><br><span class="line">ActivePathways(scores, fname_GMT) </span><br></pre></td></tr></table></figure>
+
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a target="_blank" rel="noopener" href="https://www.nature.com/articles/s41467-019-13983-9">https://www.nature.com/articles/s41467-019-13983-9</a></p>
+<p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>#####################################################################</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/1133/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhongxu's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/archives/1133/" class="post-title-link" itemprop="url">Combining dependent P-values合并多个检验的p-value</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-09-12 18:25:23" itemprop="dateCreated datePublished" datetime="2020-09-12T18:25:23+08:00">2020-09-12</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>今天在看文章的时候，发现原来p-value也可以合并。比如一个基因在不同组学数据的检验中对应了多个p-value，可以合并成一个。</p>
+<p>常用的是Fisher’s method,</p>
+<p>![](<a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2020-09-11-Fisher">https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2020-09-11-Fisher</a> method.svg)</p>
+<p>-2[ln(P1) + ln(P2) + … + ln(Pi)]符合X2分布（自由度为2k，k为p-value的个数）。</p>
+<p>还有Brown’s methods和 Kost’s methods，具体的介绍如下图。</p>
+<p>![](<a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2020-09-11-Combining">https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2020-09-11-Combining</a> dependent P-values.png)</p>
+<p>参考：</p>
+<p><a target="_blank" rel="noopener" href="https://academic.oup.com/bioinformatics/article/32/17/i430/2450768">https://academic.oup.com/bioinformatics/article/32/17/i430/2450768</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.nature.com/articles/s41467-019-13983-9">https://www.nature.com/articles/s41467-019-13983-9</a></p>
+<p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>#####################################################################</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/1129/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhongxu's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/archives/1129/" class="post-title-link" itemprop="url">甲基化芯片中的M值和B值</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-09-11 06:08:23" itemprop="dateCreated datePublished" datetime="2020-09-11T06:08:23+08:00">2020-09-11</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>M值和B值的计算公式</p>
+<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2020-09-10-M-B-value1.png"></p>
+<p><a target="_blank" rel="noopener" href="https://link.springer.com/article/10.1186/s41241-017-0041-9">https://link.springer.com/article/10.1186/s41241-017-0041-9</a></p>
+<h2 id="The-relationship-curve-between-M-value-and-Beta-value"><a href="#The-relationship-curve-between-M-value-and-Beta-value" class="headerlink" title="The relationship curve between M-value and Beta-value"></a>The relationship curve between M-value and Beta-value</h2><p>M值和B值的对应关系</p>
+<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2020-09-10-M-B-value2.jpg"></p>
+<h2 id="The-histograms-of-Beta-value-left-and-M-value-right-27578-interrogated-CpG-sites-in-total"><a href="#The-histograms-of-Beta-value-left-and-M-value-right-27578-interrogated-CpG-sites-in-total" class="headerlink" title="The histograms of Beta-value (left) and M-value (right) (27578 interrogated CpG sites in total)"></a>The histograms of Beta-value (left) and M-value (right) (27578 interrogated CpG sites in total)</h2><p>M值和B值的分布</p>
+<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2020-09-10-M-B-value3.jpg"></p>
+<p>minfi包有getM和getBeta来分别计算M-values和Beta-values，包的作者认为，</p>
+<ul>
+<li>M-values具有更好的统计特性，更适合用于进行下游的统计分析（差异分析等）</li>
+<li>Beta-values更加容易解释，更能说明生物学上的意义</li>
+<li>CHAMP包在load的时候，可以指定计算Beta-value还是M-value</li>
+</ul>
+<p>一般来说，具体的β值的意义是：</p>
+<ul>
+<li>任何等于或大于0.6的β值都被认为是完全甲基化的</li>
+<li>任何等于或小于0.2的β值被认为是完全未甲基化的</li>
+<li>β值在0.2和0.6之间被认为是部分甲基化的。</li>
+</ul>
+<p>参考：</p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/108364645">https://zhuanlan.zhihu.com/p/108364645</a></p>
+<p><a target="_blank" rel="noopener" href="https://link.springer.com/article/10.1186/s41241-017-0041-9">https://link.springer.com/article/10.1186/s41241-017-0041-9</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/1127/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhongxu's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/archives/1127/" class="post-title-link" itemprop="url">Failed to mount 大容量的RAID组</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-08-31 01:22:23" itemprop="dateCreated datePublished" datetime="2020-08-31T01:22:23+08:00">2020-08-31</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>我们的存储服务器有两组RAID，容量均大于150T，我在mount的时候，提示我</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">NTFS signature is missing.</span><br><span class="line">Failed to mount &#39;&#x2F;dev&#x2F;sdc&#39;: Invalid argument</span><br><span class="line">The device &#39;&#x2F;dev&#x2F;sdc&#39; doesn&#39;t seem to have a valid NTFS.</span><br><span class="line">Maybe the wrong device is used? Or the whole disk instead of a</span><br><span class="line">partition (e.g. &#x2F;dev&#x2F;sda, not &#x2F;dev&#x2F;sda1)? Or the other way around?</span><br></pre></td></tr></table></figure>
+
+<p>是因为没有分区导致的，分区之后就可以了。分区的命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"># 使用parted命令进行分区,等同parted; select &#x2F;dev&#x2F;sdc</span><br><span class="line">parted &#x2F;dev&#x2F;sdc </span><br><span class="line"></span><br><span class="line"># 创建分区表</span><br><span class="line">mklabel gpt </span><br><span class="line"></span><br><span class="line"># 使用print命令查看当前分区情况</span><br><span class="line">print </span><br><span class="line"></span><br><span class="line"># 留1M的空余空间，目的是为了让数据块整齐，提高磁盘的运行效率, -1表示分区的结尾  意思是划分整个硬盘空间为主分区</span><br><span class="line">mkpart primary 1 -1 </span><br><span class="line"></span><br><span class="line">p  # print的简写</span><br><span class="line"></span><br><span class="line"># 使用q命令退出, </span><br><span class="line">quit </span><br><span class="line"></span><br><span class="line"># 退出之后会提示</span><br><span class="line">会提示Information: You may need to update &#x2F;etc&#x2F;fstab.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 格式化分区，为分区写入文件系统,格式为ext4</span><br><span class="line">mkfs –t ext4 &#x2F;dev&#x2F;sdc1 # 格式化分区</span><br><span class="line"></span><br><span class="line"># 使用blkid命令，找到 UUID，然后编辑 &#x2F;etc&#x2F;fstab，实现自动挂载</span><br><span class="line">vim &#x2F;etc&#x2F;fstab</span><br><span class="line"></span><br><span class="line">UUID&#x3D;******	directory	ext4	defaults	0	0</span><br></pre></td></tr></table></figure>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考:"></a>参考:</h1><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/kreo/p/9462641.html">https://www.cnblogs.com/kreo/p/9462641.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/saszhuqing/p/9964262.html">https://www.cnblogs.com/saszhuqing/p/9964262.html</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/1125/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhongxu's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/archives/1125/" class="post-title-link" itemprop="url">确定物理网口对应的名称以及配置静态IP</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-08-26 05:02:23" itemprop="dateCreated datePublished" datetime="2020-08-26T05:02:23+08:00">2020-08-26</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="确定物理网口对应的名称"><a href="#确定物理网口对应的名称" class="headerlink" title="确定物理网口对应的名称"></a>确定物理网口对应的名称</h1><p>在一台ubuntu的机器上，有四个物理网口，我想知道每个网口对应的MAC地址。使用ip a可以看到网口的MAC地址和名称，比如列出了ens1f0, ens1f1, ens4f0, ens4f1。<br>原来的网卡interface都是eth开头，后来改成了enp, ens等。</p>
+<p>Names incorporating Firmware/BIOS provided index numbers for on-board devices (example: eno1)<br>Names incorporating Firmware/BIOS provided PCI Express hotplug slot index numbers (example: ens1)<br>Names incorporating physical/geographical location of the connector of the hardware (example: enp2s0)<br>Names incorporating the interfaces’s MAC address (example: enx78e7d1ea46da)<br>Classic, unpredictable kernel-native ethX naming (example: eth0)</p>
+<p>那么如何确定机器上的ens1f0对应的哪个物理网口呢，可以用ethtool来实现，ethtool是用于查询及设置网卡参数的命令。用ethtool -p enos1f1，看哪个网口在闪灯，就能确定这个物理网口对应的名称。记得不要插网线。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ethtool -p|--identify DEVNAME   Show visible port identification (e.g. blinking)</span><br></pre></td></tr></table></figure>
+
+<p>如果没有一个网口亮灯，很可能是因为网口不支持，则可以尝试ethtool -t enosf1f1，大概在4秒之后，网口的灯会亮，这个时候就可以确定enos1f1对应的具体的物理网口了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ethtool -t|--test DEVNAME       Execute adapter self test</span><br></pre></td></tr></table></figure>
+
+<p>很简单的一个命令，知道了就很简单，不知道就很难想到。</p>
+<h1 id="配置静态IP"><a href="#配置静态IP" class="headerlink" title="配置静态IP"></a>配置静态IP</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;etc&#x2F;netplan&#x2F;00-installer-config.yaml</span><br><span class="line"></span><br><span class="line">network:</span><br><span class="line">  ethernets:</span><br><span class="line">    enp0s3:  # 网卡名</span><br><span class="line">      addresses: [192.168.1.3&#x2F;24] # ip地址和子网掩码，24对应255.255.255.0</span><br><span class="line">      gateway4: 192.168.1.1 # 网关</span><br><span class="line">      nameservers:</span><br><span class="line">        addresses: [4.2.2.2, 8.8.8.8] # DNS</span><br><span class="line">  version: 2</span><br></pre></td></tr></table></figure>
+
+<p>配置好了之后，生效</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo netplan apply</span><br></pre></td></tr></table></figure>
+
+<p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>#####################################################################</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/1117/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhongxu's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/archives/1117/" class="post-title-link" itemprop="url">cosine similarity</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-06-17 05:27:23" itemprop="dateCreated datePublished" datetime="2020-06-17T05:27:23+08:00">2020-06-17</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>在SNV分析中，我们在算signature和样本mutation spectrum之间的相似性时，会用到cosine similarity。cosine similarity (distance)的公式，其实就是两个向量的夹角的cosine值，计算公式如下</p>
+<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2020-06-16-cosine-similarity.svg"></p>
+<p>它与欧式距离的差别如下图，cosθ就是similarity，而d则是欧氏距离Euclidean distance。</p>
+<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2020-06-16-eucos.png"></p>
+<p>有些时候，距离也算作一种相似性，因为距离越远，说明两个样本越不相似。Euclidean distance和cosine similarity要根据情况来选择，最重要的是，是否要考虑weight or magnitude，参考下图。</p>
+<p>在文本挖掘分析的时候，计算两个文本的相似性，我们可以统计每个词出现的次数，然后计算相似性（距离），因为文章有短有长，如果考虑单词出现的次数，那么字数多的文章一定与字数少的文章不一样（欧氏距离），所以如果我们不考虑这个量（magnitude）的时候，用cosine计算更加合适，结果也与欧氏距离不一样。</p>
+<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2020-06-16-the_three_documents.webp"></p>
+<p>参考：</p>
+<p><a target="_blank" rel="noopener" href="https://cmry.github.io/notes/euclidean-v-cosine#:~:text=While%20cosine%20looks%20at%20the,to%20actually%20measure%20the%20distance.">https://cmry.github.io/notes/euclidean-v-cosine#:~:text=While%20cosine%20looks%20at%20the,to%20actually%20measure%20the%20distance.</a> </p>
+<p><a target="_blank" rel="noopener" href="https://www.machinelearningplus.com/nlp/cosine-similarity/">https://www.machinelearningplus.com/nlp/cosine-similarity/</a></p>
+<p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>#####################################################################</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/1113/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhongxu's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/archives/1113/" class="post-title-link" itemprop="url">基于DNA或RNA的NGS数据进行HLA分型</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-06-14 23:09:11" itemprop="dateCreated datePublished" datetime="2020-06-14T23:09:11+08:00">2020-06-14</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>写这个原因呢，最近又要对样本的HLA分子进行分型，然后看到某公司的微信公众号讲的HLA的分型软件，全文讲了那么多，要么巨难用，要么下载不到，反正不如我自己正在用的这两个。另外一方面，没必要太纠结非常高的精度，除非你用得到。4-digital resolution，我觉得已经够了。</p>
+<h1 id="HLA分子"><a href="#HLA分子" class="headerlink" title="HLA分子"></a>HLA分子</h1><p>先回顾下百度百科对HLA的介绍（<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/HLA/9504270?fr=aladdin%EF%BC%89%EF%BC%9A">https://baike.baidu.com/item/HLA/9504270?fr=aladdin）：</a></p>
+<p>HLA(human leukocyte antigen ，人类白细胞抗原)是人类的主要组织相容性复合体（MHC）的表达产物，该系统是所知人体最复杂的多态系统。</p>
+<p>HLA是具有高度多态性的同种异体抗原，其化学本质为一类糖蛋白，由一条α重链（被糖基化的）和一条β轻链非共价结合而成。其肽链的氨基端向外（约占整个分子的3/4），羧基端穿入细胞质，中间疏水部分在胞膜中。HLA按其分布和功能分为Ⅰ类抗原和Ⅱ类抗原。</p>
+<p>HLA-I类分子：内源性抗原的递呈分子，  HLA-Ⅱ类分子：外源性抗原的递呈分子</p>
+<h1 id="我想介绍的是seq2hla和optitype这两个软件"><a href="#我想介绍的是seq2hla和optitype这两个软件" class="headerlink" title="我想介绍的是seq2hla和optitype这两个软件"></a>我想介绍的是seq2hla和optitype这两个软件</h1><p>软件的大致原理，都是和HLA数据库中的数据进行比对，然后分型。我拿过7个样本的RNA数据用这两个软件进行比较，如下表，虽然个别分型不一致（后两个resolution不一致），但大部分结果还是相当一致的。</p>
+<table>
+<thead>
+<tr>
+<th>SAMPLE</th>
+<th></th>
+<th>A1</th>
+<th>A2</th>
+<th>B1</th>
+<th>B2</th>
+<th>C1</th>
+<th>C2</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>seq2HLA</td>
+<td>A*02:01</td>
+<td>A*24:18</td>
+<td>B*35:102</td>
+<td>B*35:102</td>
+<td>C*16:02</td>
+<td>C*04:01</td>
+</tr>
+<tr>
+<td></td>
+<td>OptiType</td>
+<td>A*02:01</td>
+<td>A*24:02</td>
+<td>B*35:14</td>
+<td>B*35:14</td>
+<td>C*16:02</td>
+<td>C*04:01</td>
+</tr>
+<tr>
+<td>2</td>
+<td>seq2HLA</td>
+<td>A*29:01</td>
+<td>A*02:07</td>
+<td>B*46:01</td>
+<td>B*15:01</td>
+<td>C*04:01</td>
+<td>C*01:02</td>
+</tr>
+<tr>
+<td></td>
+<td>OptiType</td>
+<td>A*29:01</td>
+<td>A*02:07</td>
+<td>B*46:01</td>
+<td>B*15:01</td>
+<td>C*04:01</td>
+<td>C*01:02</td>
+</tr>
+<tr>
+<td>3</td>
+<td>seq2HLA</td>
+<td>A*02:07</td>
+<td>A*11:01</td>
+<td>B*52:01</td>
+<td>B*15:01</td>
+<td>C*12:02</td>
+<td>C*03:03</td>
+</tr>
+<tr>
+<td></td>
+<td>OptiType</td>
+<td>A*02:07</td>
+<td>A*11:01</td>
+<td>B*52:01</td>
+<td>B*15:01</td>
+<td>C*12:02</td>
+<td>C*03:03</td>
+</tr>
+<tr>
+<td>4</td>
+<td>seq2HLA</td>
+<td>A*02:07</td>
+<td>A*11:01</td>
+<td>B*46:01</td>
+<td>B*40:01</td>
+<td>C*01:02</td>
+<td>C*07:02</td>
+</tr>
+<tr>
+<td></td>
+<td>OptiType</td>
+<td>A*02:07</td>
+<td>A*11:01</td>
+<td>B*46:01</td>
+<td>B*40:01</td>
+<td>C*01:02</td>
+<td>C*07:02</td>
+</tr>
+<tr>
+<td>5</td>
+<td>seq2HLA</td>
+<td>A*33:03</td>
+<td>A*11:01</td>
+<td>B*58:01</td>
+<td>B*15:02</td>
+<td>C*03:02</td>
+<td>C*08:01</td>
+</tr>
+<tr>
+<td></td>
+<td>OptiType</td>
+<td>A*33:03</td>
+<td>A*11:01</td>
+<td>B*58:01</td>
+<td>B*15:02</td>
+<td>C*03:02</td>
+<td>C*08:01</td>
+</tr>
+<tr>
+<td>6</td>
+<td>seq2HLA</td>
+<td>A*02:07</td>
+<td>A*29:01</td>
+<td>B*46:01</td>
+<td>B*07:02</td>
+<td>C*01:02</td>
+<td>C*15:05</td>
+</tr>
+<tr>
+<td></td>
+<td>OptiType</td>
+<td>A*02:07</td>
+<td>A*29:01</td>
+<td>B*46:01</td>
+<td>B*07:05</td>
+<td>C*01:02</td>
+<td>C*15:05</td>
+</tr>
+<tr>
+<td>7</td>
+<td>seq2HLA</td>
+<td>A*02:03</td>
+<td>A*11:01</td>
+<td>B*56:01</td>
+<td>B*56:01</td>
+<td>C*01:02</td>
+<td>C*01:02</td>
+</tr>
+<tr>
+<td></td>
+<td>OptiType</td>
+<td>A*02:03</td>
+<td>A*11:01</td>
+<td>B*56:01</td>
+<td>B*56:01</td>
+<td>C*04:01</td>
+<td>C*01:02</td>
+</tr>
+</tbody></table>
+<h1 id="seq2hla"><a href="#seq2hla" class="headerlink" title="seq2hla"></a>seq2hla</h1><p>首先介绍的是seq2hla，这个其实一个命令就可以进行HLA的分型（很实用吧），但只基于RNA Seq的数据，我见有人用WES的数据来做，但不确定靠不靠谱。</p>
+<p>官网： <a target="_blank" rel="noopener" href="https://bitbucket.org/sebastian_boegel/seq2hla/wiki/Home">https://bitbucket.org/sebastian_boegel/seq2hla/wiki/Home</a></p>
+<h2 id="利用conda安装"><a href="#利用conda安装" class="headerlink" title="利用conda安装"></a>利用conda安装</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">conda create -n seq2hla</span><br><span class="line">conda install -n seq2hla -c bioconda seq2hla</span><br></pre></td></tr></table></figure>
+
+<h2 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">seq2HLA -1  readfile1  -2  readfile2  -r  runname  [-p int] [-3 int]</span><br><span class="line"># 提供R1和R2，现在已经支持gzip格式，-p是线程，-3是trim read末端的碱基数（因为read末端的碱基质量不高）</span><br></pre></td></tr></table></figure>
+
+<h2 id="seq2hla的结果"><a href="#seq2hla的结果" class="headerlink" title="seq2hla的结果"></a>seq2hla的结果</h2><p>下面的结果基于RNA-seq的数据得到的，在介绍optitype的时候，我用的是WES-seq的数据，可以看到虽然软件和数据类型不同，但两个软件的结果是一致的，综合前面表格中两种软件基于同一样本RNA-seq的结果，和两种软件基于同一样本不同数据类型的结果来看，都能说明两个软件都比较靠谱。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#Locus  Allele 1        Confidence      Allele 2        Confidence</span><br><span class="line">A       A*24:02 0.001426754     A*11:01 0.003463472</span><br><span class="line">B       B*38:02&#39;        0.0002728549    B*46:01 0.0002107604</span><br><span class="line">C       C*01:02 0.01282529      C*07:02 0.01516768</span><br><span class="line">#Locus  Allele 1        Confidence      Allele 2        Confidence</span><br><span class="line">DQA     no      NA      no      NA</span><br><span class="line">DQB     DQB1*05:02      NA      DQB1*05:02      NA</span><br><span class="line">DRB     DRB1*11:52      0.297521        DRB1*04:05&#39;     0.42202</span><br></pre></td></tr></table></figure>
+
+<h1 id="optitype"><a href="#optitype" class="headerlink" title="optitype"></a>optitype</h1><p>另外一个软件是optitype，这个软件呢，稍微多了几步，但绝对在让人接受的范围内，而且这个软件支持DNA数据和RNA数据。</p>
+<p>官网：<a target="_blank" rel="noopener" href="https://github.com/FRED-2/OptiType">https://github.com/FRED-2/OptiType</a></p>
+<h2 id="利用conda安装-1"><a href="#利用conda安装-1" class="headerlink" title="利用conda安装"></a>利用conda安装</h2><p>这个时候真的要安利下conad，有了conda之后，各种软件包的安装和管理，变得非常轻松。拿optitype来说，我第一次安装的时候，自己下载，编译，修改部分文件，还要自己安装razers，而有了conda之后，只需一个命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">conda create -n optitype</span><br><span class="line">conda install -n optitype -c bioconda optitype</span><br></pre></td></tr></table></figure>
+
+<p>optitype需要先利用razers3先过滤一下reads，把和HLA相关的序列提出来，然后在运行optitype进行分型，从而加快分析速度。</p>
+<h2 id="第一步，Razers3"><a href="#第一步，Razers3" class="headerlink" title="第一步，Razers3"></a>第一步，Razers3</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">razers3 -i 95 -m 1 -dr 0 --thread-count 10 -o fished_1.bam &#x2F;path&#x2F;to&#x2F;hla_reference_dna.fasta sample_1.fastq</span><br></pre></td></tr></table></figure>
+
+<p>我是用conda装的，但在conda的env目录下没找到hla的fasta文件，不过不用着急，官网上有，可以从 <a target="_blank" rel="noopener" href="https://github.com/FRED-2/OptiType/tree/master/data">https://github.com/FRED-2/OptiType/tree/master/data</a> 下载对应的HLA的DNA或RNA的数据。</p>
+<p>如果是paired的read，则需要分别跑一次，得到fished_1.bam和fished_2.bam文件。</p>
+<p>另外官网提示Razers3会把所有的fastq读到内容，所以计算服务器的内存最好大点。</p>
+<h2 id="第二步，将bam文件转成fastq"><a href="#第二步，将bam文件转成fastq" class="headerlink" title="第二步，将bam文件转成fastq"></a>第二步，将bam文件转成fastq</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">samtools bam2fq fished_1.bam &gt; fished_1.fastq</span><br><span class="line">samtools bam2fq fished_2.bam &gt; fished_2.fastq</span><br></pre></td></tr></table></figure>
+
+<h2 id="第三步，运行optitype"><a href="#第三步，运行optitype" class="headerlink" title="第三步，运行optitype"></a>第三步，运行optitype</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">OptiTypePipeline.py -i fished_1.fastq fished_2.fastq --dna -v -o &#x2F;path&#x2F;to&#x2F;outdir -p sample.optitype.dna</span><br></pre></td></tr></table></figure>
+
+<p>–dna需要和前面Razers3用的HLA的序列类型一致，如果前面用的RNA的数据，这里也是–rna，当然用RNA还是DNA取决于测序数据。</p>
+<p>optitype的结果<br>这个结果和seq2hla基于RNA-seq的数据得到的HLA亚型是一致的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">        A1      A2      B1      B2      C1      C2      Reads   Objective</span><br><span class="line">0       A*11:01 A*24:02 B*38:02 B*46:01 C*01:02 C*07:02 200.0   191.00000000000003</span><br></pre></td></tr></table></figure>
+
+<p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>#####################################################################</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/1112/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhongxu's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/archives/1112/" class="post-title-link" itemprop="url">Agilent全外芯片的目标区域下载</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-06-12 08:27:23" itemprop="dateCreated datePublished" datetime="2020-06-12T08:27:23+08:00">2020-06-12</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>安捷伦的全外芯片捕获的目标区域的bed文件是可以下载的，下载网址</p>
+<p><a target="_blank" rel="noopener" href="https://earray.chem.agilent.com/suredesign">https://earray.chem.agilent.com/suredesign</a></p>
+<p>这个网站我没保存过，毕竟用的频率不高，但每次想用的时候还要搜一下这个网站（Σ( ° △ °|||)︴）</p>
+<p>注册登录之后，找到Find Design -&gt; SureSelect DNA -&gt; Agilent Catalog Designs，进一步筛选之后，可以下载对应的文件。</p>
+<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2020-06-12-download-agilent-bed.png"></p>
+<p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>#####################################################################</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/1107/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
       <meta itemprop="name" content="Jason">
-      <meta itemprop="description" content="Share news">
+      <meta itemprop="description" content="">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Another Jason's blog">
+      <meta itemprop="name" content="Zhongxu's blog">
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
@@ -305,11 +1109,11 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
       <meta itemprop="name" content="Jason">
-      <meta itemprop="description" content="Share news">
+      <meta itemprop="description" content="">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Another Jason's blog">
+      <meta itemprop="name" content="Zhongxu's blog">
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
@@ -509,686 +1313,10 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/1102/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Jason">
-      <meta itemprop="description" content="Share news">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Another Jason's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/archives/1102/" class="post-title-link" itemprop="url">安装黑苹果</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-05-29 16:55:23" itemprop="dateCreated datePublished" datetime="2020-05-29T16:55:23+08:00">2020-05-29</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>最近电脑老是蓝屏，很是恼人，怀疑是win10系统的原因，重装了好几次还是蓝屏，于是决定装个黑苹果，用macOS系统（装好黑苹果MacOS 10.15 Catalina之后，发现可能是硬盘的问题导致蓝屏的，pity）。总结一下过程，看教程的时候很麻烦，实操一遍之后，回顾一下，其实还是蛮简单的，大致过程和装windows一样，就是多了添加clover引导，方便黑苹果从硬盘引导而不是U盘。下面是总结了一下过程，不是详细，方便以后再装</p>
-<h1 id="1，设置好分区"><a href="#1，设置好分区" class="headerlink" title="1，设置好分区"></a>1，设置好分区</h1><p>此电脑-管理-磁盘管理</p>
-<p>（1）确保格式为GPT格式（GUID）</p>
-<p>（2）确保有EFI分区</p>
-<p>（3）压缩卷，给空出来的卷新建卷，不要选择格式化这个卷（安装黑苹果的过程中会进行）</p>
-<p>（4）这个新建的卷就是安装黑苹果的分区</p>
-<h1 id="2，制作-MacOS-安装盘"><a href="#2，制作-MacOS-安装盘" class="headerlink" title="2，制作 MacOS 安装盘"></a>2，制作 MacOS 安装盘</h1><h2 id="（1）下载镜像"><a href="#（1）下载镜像" class="headerlink" title="（1）下载镜像"></a>（1）下载镜像</h2><p>强烈推荐 “黑果小兵“ 的网站： <a target="_blank" rel="noopener" href="https://blog.daliansky.net/">https://blog.daliansky.net/</a></p>
-<p>上面可以找OS的镜像，含有Clover引导</p>
-<h2 id="（2）制作安装U盘"><a href="#（2）制作安装U盘" class="headerlink" title="（2）制作安装U盘"></a>（2）制作安装U盘</h2><p>下载Transmac: <a target="_blank" rel="noopener" href="https://transmac.en.softonic.com/">https://transmac.en.softonic.com/</a></p>
-<p>有15天的试用期</p>
-<p>选择 format with disk image，选择下载的OS文件，等待完成</p>
-<h1 id="3，安装Mac-OS"><a href="#3，安装Mac-OS" class="headerlink" title="3，安装Mac OS"></a>3，安装Mac OS</h1><h2 id="（1）设置BIOS"><a href="#（1）设置BIOS" class="headerlink" title="（1）设置BIOS"></a>（1）设置BIOS</h2><p>不同的电脑的BIOS稍微不同，我看多数涉及下面这两个，其他的还需要自己搜下</p>
-<p>比如SATA Operation 勾选 AHCI</p>
-<p>Secure Boot Enable 勾选 Disable</p>
-<h2 id="（2）设置BIOS为UEFI-U盘启动"><a href="#（2）设置BIOS为UEFI-U盘启动" class="headerlink" title="（2）设置BIOS为UEFI U盘启动"></a>（2）设置BIOS为UEFI U盘启动</h2><p>通过U盘进入Clover引导之后，选择安装Install macOS ，中间会重启一次，重启之后，选择Install macOS Mojave from “你设置的盘”</p>
-<p>等待系统安装好</p>
-<h1 id="4，设置Clover引导"><a href="#4，设置Clover引导" class="headerlink" title="4，设置Clover引导"></a>4，设置Clover引导</h1><h2 id="（1）复制Clover文件夹"><a href="#（1）复制Clover文件夹" class="headerlink" title="（1）复制Clover文件夹"></a>（1）复制Clover文件夹</h2><p>下载Mac版本的Clover configurator <a target="_blank" rel="noopener" href="http://www.pc6.com/mac/294926.html">http://www.pc6.com/mac/294926.html</a>，不拔安装U盘的情况下，在挂载分区的选项中把系统的ESP和U盘的ESP分区挂载上。</p>
-<p>复制U盘ESP分区中的clover文件到到系统的ESP分区EFI文件夹下（和mircosoft同级）</p>
-<h2 id="（2）利用bootice添加Clover引导"><a href="#（2）利用bootice添加Clover引导" class="headerlink" title="（2）利用bootice添加Clover引导"></a>（2）利用bootice添加Clover引导</h2><p>在原来的windows系统下，或者通过Win PE，利用Disk Genius普通版即可，<a target="_blank" rel="noopener" href="https://www.diskgenius.cn/">https://www.diskgenius.cn/</a> ，把系统的ESP分配一个盘符</p>
-<p>下载安装bootice之后，<a target="_blank" rel="noopener" href="https://bootice.en.softonic.com/">https://bootice.en.softonic.com/</a></p>
-<p>Bootice-UEFI0修改启动序列-添加，在路径上，选择ESP下EFI/CLOVER/CLOVERX64.efi，名称可以自己设置成Clover Boot Manager（开机的时候就是显示这个）</p>
-<h1 id="5，大功告成"><a href="#5，大功告成" class="headerlink" title="5，大功告成"></a>5，大功告成</h1><p>开机的时候选择不同的引导进入不同的系统，这样也实现了单硬盘双系统。</p>
-<p>参考：</p>
-<p><a target="_blank" rel="noopener" href="https://hackintosh.kirainmoe.com/an-zhuang-zhong/efi-ti-huan-jiao-cheng">https://hackintosh.kirainmoe.com/an-zhuang-zhong/efi-ti-huan-jiao-cheng</a></p>
-<p><a target="_blank" rel="noopener" href="https://blog.daliansky.net/macOS-Catalina-10.15.5-19F96-Release-version-with-Clover-5118-original-image-Double-EFI-Version-UEFI-and-MBR.html">https://blog.daliansky.net/macOS-Catalina-10.15.5-19F96-Release-version-with-Clover-5118-original-image-Double-EFI-Version-UEFI-and-MBR.html</a></p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_28735663/article/details/99695786">https://blog.csdn.net/qq_28735663/article/details/99695786</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/1099/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Jason">
-      <meta itemprop="description" content="Share news">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Another Jason's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/archives/1099/" class="post-title-link" itemprop="url">Hello World</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-05-24 23:00:58" itemprop="dateCreated datePublished" datetime="2020-05-24T23:00:58+08:00">2020-05-24</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>In May 24, 2020, I decide to re-build this site.</p>
-<p>Update with Next theme.</p>
-<p>Just write and think.</p>
-<p>我把wordpress的图片都转放在了github上。最近还创建了一个R包的repo，希望能把自己常用的R函数都封装好，便于调用。</p>
-<p>建站的时候遇到Your site is having problems building: The value ‘{}’ was passed to a date-related filter that expects valid dates in /_layouts/default.html or one of its layouts.</p>
-<p>解决办法：非jekyll生成的站点，添加.nojekyll空文件在repository的根目录下</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/1098/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Jason">
-      <meta itemprop="description" content="Share news">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Another Jason's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/archives/1098/" class="post-title-link" itemprop="url">Google Docs + PaperPile = 提高生产力</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-05-16 11:14:16" itemprop="dateCreated datePublished" datetime="2020-05-16T11:14:16+08:00">2020-05-16</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="Google-Docs的优点："><a href="#Google-Docs的优点：" class="headerlink" title="Google Docs的优点："></a>Google Docs的优点：</h1><p>1，便于协作，多个人可以同时（注意是同时）编辑一个文件，当然有道云笔记，腾讯文档、office 365也可以。<br>2，可以追踪修订，版本控制<br>3，虽然office的功能很强大，但平常用的功能，Google Docs都有<br>4，不用考虑文件同步的问题，有网就有文件，直接编辑即可，实在不行，拿个PAD连个键盘都行<br>5，可以用插件，比如PaperPile</p>
-<h1 id="PaperPile："><a href="#PaperPile：" class="headerlink" title="PaperPile："></a>PaperPile：</h1><p>我是来到HK之后才接触PaperPile的，和Google Docs配合，插入文件，简直太爽了。我也用百度搜了下看是否有人介绍 PaperPile，很少有介绍的。</p>
-<p>可能的原因是大陆用Google Docs不方便，进而不经常用PaperPile。PaperPile有个编辑公司提到 “科研写作在云端:协同写作工具”。这个形容真的是太贴切了，有了PaperPile，感觉文献管理无敌了。</p>
-<p>1，插入文献：随便提供文献的网址、题目等，插入即可，简单的不要不要的</p>
-<p>2，文献管理：有PaperPile的Chrome插件，随时搜集你喜欢的文献，如果能下载到PDF，PaperPile一并帮你下载好，当然这个需要占用你的Google Drive的空间。你可以设置文件夹，管理不同的文献</p>
-<p>3，文献阅读：有时候文献阅读，需要高亮、备注什么的，要用到PDF阅读器，还要考虑电脑间的文件的同步问题，PaperPile最近开发了自己的PDF阅读器，在PaperPile中设置成它自己的阅读器打开文献即可。这样的好处是，只要有网和浏览器，你就可以随时的阅读和标记。这比Endnote什么的方便多了。</p>
-<p>不截图了，就是想推荐这个组合，祝大家科研愉快。</p>
-<p>PS：还可以加个Grammarly，检查下英文语法什么的，总之用工具提高自己的生产力呗。</p>
-<p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>#####################################################################</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/1092/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Jason">
-      <meta itemprop="description" content="Share news">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Another Jason's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/archives/1092/" class="post-title-link" itemprop="url">Matlab error when running GISTIC</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-03-27 13:50:36" itemprop="dateCreated datePublished" datetime="2020-03-27T13:50:36+08:00">2020-03-27</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>If you instal MCR (MATLAB Compiler Runtime) provided by GISTIC package, may have the following error. This error could disrupt GISTIC.<br><strong>libGL error: failed to load driver: swrast</strong></p>
-<p>If this situation occurs, rename the file found at <strong>“ _$MATLAB_ROOT_/sys/os/glnxa64/libstdc++.so.6” to “libstdc++.so.6.old”</strong>, This forces MATLAB to use the OS library.</p>
-<p>Works for me.</p>
-<p>Ref:<br><a target="_blank" rel="noopener" href="https://ww2.mathworks.cn/matlabcentral/answers/296999-libgl-error-unable-to-load-driver-in-ubuntu-16-04-while-running-matlab-r2013b">https://ww2.mathworks.cn/matlabcentral/answers/296999-libgl-error-unable-to-load-driver-in-ubuntu-16-04-while-running-matlab-r2013b</a></p>
-<p><a target="_blank" rel="noopener" href="http://portals.broadinstitute.org/cgi-bin/cancer/publications/pub_paper.cgi?mode=view&paper_id=216&p=t">GISTIC2.0 facilitates sensitive and confident localization of the targets of focal somatic copy-number alteration in human cancers</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/1091/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Jason">
-      <meta itemprop="description" content="Share news">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Another Jason's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/archives/1091/" class="post-title-link" itemprop="url">Prepare a data frame for sample CNV data</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-03-26 13:08:00" itemprop="dateCreated datePublished" datetime="2020-03-26T13:08:00+08:00">2020-03-26</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>If we want to cluster samples based on CNV data, a dataframe is needed. However, CNV segments in each sample are not the same. Maybe overlap or distinct. I think CNTools package migh solve this challenge. An example is shown as below. The result is a <strong>reduced segment</strong> data frame.</p>
-<pre>BiocManager::install("CNTools")
-data("sampleData")
-seg <- CNSeg(sampleData)
-rdseg <- getRS(seg, by = "region", imput = FALSE, XY = FALSE, what = "mean") 
-View(rdseg@rs)</pre>
-
-<p>Input dataframe has six columns (“ID”,”chrom”,”loc.start”,”loc.end”,”num.mark”,”seg.mean”) including 277 samples and 54825 segments.</p>
-<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2020-03-26-CNTools-Input.png"></p>
-<p>The result can be got from rdseg@rs, like this</p>
-<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2020-03-26-CNTools-Output.png"> Cheers Also, we can use CNRegions from iClusterPlus package. CNregions(sampleData) </p>
-<p>Ref:<br><a target="_blank" rel="noopener" href="https://www.rdocumentation.org/packages/CNTools">https://www.rdocumentation.org/packages/CNTools</a> <a target="_blank" rel="noopener" href="https://rdrr.io/bioc/iClusterPlus/man/CNregions.html">https://rdrr.io/bioc/iClusterPlus/man/CNregions.html</a><br>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责<br>#Author: Jason<br>#################################################################</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/1089/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Jason">
-      <meta itemprop="description" content="Share news">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Another Jason's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/archives/1089/" class="post-title-link" itemprop="url">对Autoencoder(自编码器)的理解</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-03-22 14:18:10" itemprop="dateCreated datePublished" datetime="2020-03-22T14:18:10+08:00">2020-03-22</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>通常数据的维度太大，可视化很难，也不利用模型的学习。有时候拿到数据做个PCA或者tSNE，就是把维度缩小到2维（当然也可以3维），便于看数据之间的关系。在机器学习中，Autoencoder也是一种降维的方式， Autoencoder输入层的神经元的数目和输出层的神经元的数目必须，而且要保证输出的结果尽最大可能和输入的结果一致。</p>
-<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2020-03-30-Autoencoder.png"></p>
-<p>图片来自网络</p>
-<p>如上图所示，维度由大到小是decode过程，输出的结果可以从中间层经过encode得到，那么中间层保留了输入层的信息（因为输出层的结果从中间层得到），那么中间层的数据结果，就是降维后的结果，<strong>可以拿来做其他事情</strong>。 网络的复杂程度根据样本数设计。 无监督的聚类，便可以从中间层开始；数据的学习也可以从中间层开始。当输入层是多组学数据时，中间层便是融合后的结果。</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/1087/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Jason">
-      <meta itemprop="description" content="Share news">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Another Jason's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/archives/1087/" class="post-title-link" itemprop="url">FPKM转TPM</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-02-29 00:59:21" itemprop="dateCreated datePublished" datetime="2020-02-29T00:59:21+08:00">2020-02-29</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>R code</p>
-<pre>fpkm2tpm = function(fpkm){
-  exp(log(fpkm) - log(sum(fpkm)) + log(1e6))
-}
-tpm = apply(expMatrix, 2, fpkm2tpm)
-
-</pre>
-
-<p>If the expression matrix has NA value</p>
-<pre>fpkm2tpm <- function(fpkm){
-  tpm <- exp(log(fpkm) - log(sum(fpkm,na.rm=T)) + log(1e6))
-  tpm[which(is.na(tpm))] <- 0
-  return(tpm)
-}
-</pre>
-
-<p>TPMi=( FPKMi / sum(FPKMj ) * 10^6</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/1077/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Jason">
-      <meta itemprop="description" content="Share news">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Another Jason's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/archives/1077/" class="post-title-link" itemprop="url">可变多聚腺苷酸化Alternative Polyadenylation (APA) 检测</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-02-03 00:30:11" itemprop="dateCreated datePublished" datetime="2020-02-03T00:30:11+08:00">2020-02-03</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>可变多聚腺苷酸化Alternative Polyadenylation (APA)，如下图所示（图片来自参考），在不同的APA信号位点切割，然后添加polyA。这种调控机制属于转录后调控，可能会影响蛋白的序列（发生在编码区），也可能影响蛋白的稳定性（比如非编码区内的miRNA的调控区域）。其实也是可变剪接的一种情况。</p>
-<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2020-02-02-Alternative-polyadenylation.png"></p>
-<p>常用的软件是Dapars，这个软件现在也有了升级的版本Dapars2。参考： <a target="_blank" rel="noopener" href="https://github.com/ZhengXia/dapars">https://github.com/ZhengXia/dapars</a> <a target="_blank" rel="noopener" href="https://github.com/3UTR/DaPars2">https://github.com/3UTR/DaPars2</a> 分析流程很相似，Dapars2多了 normalize library sizes 。</p>
-<h3 id="第一步：生成Wiggle文件"><a href="#第一步：生成Wiggle文件" class="headerlink" title="第一步：生成Wiggle文件"></a>第一步：生成Wiggle文件</h3><p>这一步其实是统计每个点或者区域的覆盖度，便于后续计算，用bedtools统计STAR比对后的结果即可。</p>
-<p>genomeCoverageBed -bg -ibam Aligned.sortedByCoord.out.bam -split &gt;  Aligned.sortedByCoord.out.wig</p>
-<h3 id="第二步-Generate-region-annotation-DaPars-Extract-Anno-py"><a href="#第二步-Generate-region-annotation-DaPars-Extract-Anno-py" class="headerlink" title="第二步: Generate region annotation: DaPars_Extract_Anno.py"></a>第二步: <a target="_blank" rel="noopener" href="https://hpc.oit.uci.edu/~leil22/DaPars2_Documentation/DaPars2.html#step-1-generate-region-annotation-dapars2-extract-anno-py">Generate region annotation: DaPars_Extract_Anno.py</a></h3><p>这一步需要从bed12格式的文件中，提取远端ployA的位点，进而便于推测近端polyA的位点。 1）作者推荐从UCSC上下载，<a target="_blank" rel="noopener" href="http://genome.ucsc.edu/cgi-bin/hgTables?command=start">http://genome.ucsc.edu/cgi-bin/hgTables?command=start</a>，选择bed格式之后，选这whole gene即可。 2）如果你有特定的gtf文件，可以将gtf文件转成bed12格式，先将gtf转成genPred格式，然后再转成bed12格式。<a target="_blank" rel="noopener" href="http://hgdownload.cse.ucsc.edu/admin/exe/linux.x86_64/%E4%B8%8A%E6%9C%89%E7%8E%B0%E6%88%90%E7%9A%84%E5%B7%A5%E5%85%B7">http://hgdownload.cse.ucsc.edu/admin/exe/linux.x86_64/上有现成的工具</a></p>
-<h3 id="第三步（Dapars2）-Generate-mapped-reads-files-for-all-Samples"><a href="#第三步（Dapars2）-Generate-mapped-reads-files-for-all-Samples" class="headerlink" title="第三步（Dapars2）: Generate mapped reads files for all Samples"></a>第三步（Dapars2）: Generate mapped reads files for all Samples</h3><p>这一步是为了 normalize library sizes ，统计每个样本比对上的reads数据，格式如下，与下一步的顺序一致。Dapars2才有这一步。</p>
-<p><img src="https://hpc.oit.uci.edu/~leil22/DaPars2_Documentation/images/Sequencing_depth_file.jpg"></p>
-<h3 id="第四步-Run-DaPars"><a href="#第四步-Run-DaPars" class="headerlink" title="第四步: Run DaPars"></a>第四步: Run DaPars</h3><p>配置文件，运行即可。结果中会告诉ΔDPUI也就是远端APA位点的利用率的差值及显著性，根据这些挑选候选。然后回到IGV上进行查看，如下基因方向从右到左，可以看出来前六个和后三个样本在最后一个外显子上的覆盖度截然不同，不同的地方可能就是发生了APA事件，然后添加polyA。</p>
-<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2020-02-03-APA-example.png"></p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>Weil T T. Post-transcriptional regulation of early embryogenesis[J]. F1000prime reports, 2015, 7. <a target="_blank" rel="noopener" href="https://hpc.oit.uci.edu/~leil22/DaPars2_Documentation/DaPars2.html">https://hpc.oit.uci.edu/~leil22/DaPars2_Documentation/DaPars2.html</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/21b697cec428">https://www.jianshu.com/p/21b697cec428</a> </p>
-<p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>#####################################################################</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -1247,14 +1375,14 @@ tpm = apply(expMatrix, 2, fpkm2tpm)
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
   <p class="site-author-name" itemprop="name">Jason</p>
-  <div class="site-description" itemprop="description">Share news</div>
+  <div class="site-description" itemprop="description"></div>
 </div>
 <div class="site-state-wrap motion-element">
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">134</span>
+          <span class="site-state-item-count">142</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -1263,7 +1391,7 @@ tpm = apply(expMatrix, 2, fpkm2tpm)
         <span class="site-state-item-name">categories</span>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">141</span>
+        <span class="site-state-item-count">149</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>

@@ -20,12 +20,10 @@
     var CONFIG = {"hostname":"md.zxzyl.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="Share news">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Another Jason&#39;s blog">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Zhongxu&#39;s blog">
 <meta property="og:url" content="http://md.zxzyl.com/page/3/index.html">
-<meta property="og:site_name" content="Another Jason&#39;s blog">
-<meta property="og:description" content="Share news">
+<meta property="og:site_name" content="Zhongxu&#39;s blog">
 <meta property="og:locale" content="en_US">
 <meta property="article:author" content="Jason">
 <meta name="twitter:card" content="summary">
@@ -43,7 +41,7 @@
   };
 </script>
 
-  <title>Another Jason's blog</title>
+  <title>Zhongxu's blog</title>
   
 
 
@@ -94,7 +92,7 @@
 
     <a href="/" class="brand" rel="start">
       <span class="logo-line-before"><i></i></span>
-      <h1 class="site-title">Another Jason's blog</h1>
+      <h1 class="site-title">Zhongxu's blog</h1>
       <span class="logo-line-after"><i></i></span>
     </a>
   </div>
@@ -147,16 +145,782 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/1063/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhongxu's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/archives/1063/" class="post-title-link" itemprop="url">TCGABiolinks下载TCGA数据做生存分析</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-06-10 10:30:37" itemprop="dateCreated datePublished" datetime="2019-06-10T10:30:37+08:00">2019-06-10</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2019-06-09-TCGABiolinks-Rplot.png"></p>
+<p>以前的工作是全基因组或全外分析，不涉及癌症和生存分析，但现在的工作主要围绕癌症方面，生存分析一定少不了。实验室小伙伴推荐用TCGAbiolinks下载TCGA的数据，于是研究了如何用TCGABiolinks下载TCGA的数据，以下载RNA的count数据为例，并做生存分析。</p>
+<pre># 安装相关的包
+if (!requireNamespace("BiocManager", quietly=TRUE))   
+  install.packages("BiocManager")
+BiocManager::install("TCGAbiolinks")
+BiocManager::install("SummarizedExperiment")
+install.packages('survival')
+install.packages('survminer')
+library(SummarizedExperiment)
+library(TCGAbiolinks)
+library(survival)
+library(survminer)
+
+# 项目的概括信息，project的名称可以从 https://portal.gdc.cancer.gov/ 上面选择对应的器官，进入之后左侧列表中就会显示。我们以下载TCGA-LIHC项目的数据为例。
+TCGAbiolinks:::getProjectSummary("TCGA-LIHC") 
+# 获取该项目样本的临床信息
+clinical <- GDCquery_clinic(project = "TCGA-LIHC", type = "clinical")
+
+# 下载TCGA-LIHC项目的rna-seq的counts数据,构建GDCquery，具体的数据类型的写法可以参考 https://portal.gdc.cancer.gov/repository 左侧列表
+# 比如data type有Raw Simple Somatic Mutation, Annotated Somatic Mutation, Aligned Reads, Gene Expression Quantification, Slide Image这几种，不过不同的项目，有可能有不同的数据类型。
+query <- GDCquery(project = "TCGA-LIHC", 
+            experimental.strategy = "RNA-Seq",
+                    data.category = "Transcriptome Profiling", 
+                    data.type = "Gene Expression Quantification",
+            workflow.type = "HTSeq - Counts")
+# 下载数据
+GDCdownload(query)
+# 导入数据
+LIHCRnaseq <- GDCprepare(query)
+# 得到样本的基因counts矩阵，每行为一个基因，每列为一个样本
+count_matrix <- assay(LIHCRnaseq)
+
+# TCGA样本的编号以'-'分割，前三列是患者编号，第四列是类型，一般11表示正常样本，01表示肿瘤样本，见https://gdc.cancer.gov/resources-tcga-users/tcga-code-tables/sample-type-codes
+samplesNT <- TCGAquery_SampleTypes(barcode = colnames(count_matrix),typesample = c("NT"))
+# selection of tumor samples "TP"
+samplesTP <- TCGAquery_SampleTypes(barcode = colnames(count_matrix),typesample = c("TP"))
+
+# 根据ensembl id选择特定基因在癌症样本中的表达
+gexp <- count_matrix[c("ENSG00000198431"),samplesTP]
+
+# 这样选出的样本都是肿瘤样本，但样本名称是TCGA-CC-A7IL-01A-11R-A33R-07，与clinical信息不对应，需要将名字简化成TCGA-CC-A7IL
+names(gexp) <-  sapply(strsplit(names(gexp),'-'),function(x) paste0(x[1:3],collapse="-"))
+
+# 将表达数据和clinical数据合并，并且挑出来用于做生存分析的数据
+clinical$"ENSG00000198431" <- gexp[clinical$submitter_id]
+df<-subset(clinical,select =c(submitter_id,vital_status,days_to_death,ENSG00000198431))
+
+#去掉NA
+df <- df[!is.na(df$ENSG00000198431),]
+
+#取基因的平均值，大于平均值的为H，小于为L
+df$exp <- ''
+df[df$ENSG00000198431 >= mean(df$ENSG00000198431),]$exp <- "H"
+df[df$ENSG00000198431 <  mean(df$ENSG00000198431),]$exp <- "L"
+
+# 将status表示患者结局，1表示删失，2表示死亡
+df[df$vital_status=='Dead',]$vital_status <- 2
+df[df$vital_status=='Alive',]$vital_status <- 1
+df$vital_status <- as.numeric(df$vital_status)
+
+# 建模
+fit <- survfit(Surv(days_to_death, vital_status)~exp, data=df) # 根据表达建模
+# 显示P value
+surv_pvalue(fit)$pval.txt 
+# 画图
+ggsurvplot(fit,pval=TRUE)</pre>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/archives/1063/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/1061/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhongxu's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/archives/1061/" class="post-title-link" itemprop="url">误删hyper-v的avhdx文件</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-05-19 14:34:05" itemprop="dateCreated datePublished" datetime="2019-05-19T14:34:05+08:00">2019-05-19</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>因为对hyper-v不是很熟悉，点了一下检查点，生成了一个avhdx文件，这个文件其实后续hyper-v会将其合并到vhdx的虚拟磁盘中。而我当时手贱手工的删除了avhdx文件，导致hyper-v找不到这个文件，vhdx也挂起等待合并，虚拟机迟迟不能启动。</p>
+<p>有一种解决办法是文件恢复，但我用了几个文件都没有恢复成。实验室师兄（超级牛）新建了一个虚拟机挂载已有的vhdx文件，尝试用vhdx文件启动，显示不能启动，但在新的虚拟机下没有提示要合并，提示老系统的vhdx还有戏。</p>
+<p>于是又新建了一个虚拟机实例，创建虚拟机实例之后，尝试将以前的vhdx文件挂载到新的虚拟机上，重启发现竟然以老的系统启动了。感谢能够启动，避免实验室的数据丢失。</p>
+<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2019-05-19-hyper-v.png"> </p>
+<p>根据结果反推，第一个shimx64.efi和Ubuntu.vhdx都是以前的系统，第二个shimx64.efi新的虚拟机的，硬盘驱动器已经换成了老系统的。</p>
+<p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>#####################################################################</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/1060/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhongxu's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/archives/1060/" class="post-title-link" itemprop="url">Fusion Gene Annotation</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-05-15 09:45:45" itemprop="dateCreated datePublished" datetime="2019-05-15T09:45:45+08:00">2019-05-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>STAR-FUSION和FusonAnnotator都属于Trinity Trinity Cancer Transcriptome Analysis Toolkit Fusion-finding modules。<br>CTAT_HumanFusionLib现阶段整合了各种资源帮助分析癌症生物学相关的fusion，同样也鉴别可能在正常样本只能出现的fusion。下载地址：<a target="_blank" rel="noopener" href="https://data.broadinstitute.org/Trinity/CTAT_RESOURCE_LIB/">https://data.broadinstitute.org/Trinity/CTAT_RESOURCE_LIB/</a></p>
+<p>FusionAnnotator –genome_lib_dir GRCh37_gencode_v19_CTAT_lib_July192017/ctat_genome_lib_build_dir/ <br>                   –annotate fusions.list.txt<br>fusions.list.txt为star-fusion的结果中的第一列，两个参与融合的基因中间用–连在一起，就可以用FusionAnnotator进行注释，相关的标签会注释到融合基因上。</p>
+<p>会有三类标签，每类下面又有很多具体的来源标签：<br>Fusions relevant to cancer biology<br>Individual genes of cancer relevance, which may show up in fusions<br>Red Herrings: Fusion pairs that may not be relevant to cancer, and potential false positives.</p>
+<p>通过注释，就可以了解到分析结果中的融合基因是否在其他数据库中出现过，或者可能是和癌症无关的突变。</p>
+<p>参考：<a target="_blank" rel="noopener" href="https://github.com/FusionAnnotator/CTAT_HumanFusionLib/wiki">https://github.com/FusionAnnotator/CTAT_HumanFusionLib/wiki</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/1057/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhongxu's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/archives/1057/" class="post-title-link" itemprop="url">NIS+NFS+SGE</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-05-02 20:48:43" itemprop="dateCreated datePublished" datetime="2019-05-02T20:48:43+08:00">2019-05-02</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>需求，把多台服务器组成一个cluster(<strong>SGE</strong>)，把一台电脑（比如存储）的home文件件共享给其他服务器(<strong>NFS</strong>)，共用一个home文件夹，并进行用户的统一管理(<strong>NIS</strong>)。</p>
+<p>操作系统为操作系统：CentOS，用virtual box虚拟出来的系统做测试。<br>server端：10.0.2.5<br>client或compute端：在同样网段</p>
+<p>![](<a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020">https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020</a><br>/2019-05-02-NSF-SGE-NIS.png)</p>
+<h1 id="1，NFS共享存储"><a href="#1，NFS共享存储" class="headerlink" title="1，NFS共享存储"></a>1，NFS共享存储</h1><p>通过nfs，实现每台服务器都有同样的路径和文件，便于后续集群管理。这里共享两个路径，一个是server端的/home路径，实现每个服务器都有同样的家目录，一个是/opt/gridengine用于安装SGE。</p>
+<h2 id="1-1-Server端："><a href="#1-1-Server端：" class="headerlink" title="1.1 Server端："></a>1.1 Server端：</h2><p>安装相关软件，NFS的端口是不固定的（因此如果客户端连不上的时候，往往需要iptables -F清理一下），客户端要准确的获得NFS服务器所使用的端口，就需要RPC服务。RPC最主要的功能就是记录每个NFS功能所对应的端口号，并且在NFS客户端请求时将该端口和功能对应的信息传递给请求数据的NFS客户端，让客户端可以链接到正确的端口上去，从而实现数据传输。</p>
+<pre>yum install nfs-utils rpcbind</pre>
+
+<h3 id="开机启动rpcbind"><a href="#开机启动rpcbind" class="headerlink" title="开机启动rpcbind"></a>开机启动rpcbind</h3><pre>systemctl enable rpcbind.service</pre>
+
+<h3 id="开启rpcbind"><a href="#开启rpcbind" class="headerlink" title="开启rpcbind"></a>开启rpcbind</h3><pre>systemctl start rpcbind.service</pre>
+
+<h3 id="设置要共享的目录"><a href="#设置要共享的目录" class="headerlink" title="设置要共享的目录"></a>设置要共享的目录</h3><pre>mkdir /opt/gridengine
+vi /etc/exports
+/home 10.0.2.0/255.255.255.0(rw,sync)
+/opt/gridengine 10.0.2.0/255.255.255.0(rw,sync)</pre>
+
+<h3 id="nfs开机启动和开启服务"><a href="#nfs开机启动和开启服务" class="headerlink" title="nfs开机启动和开启服务"></a>nfs开机启动和开启服务</h3><pre>systemctl enable nfs
+systemctl start nfs</pre>
+
+<h3 id="生效export"><a href="#生效export" class="headerlink" title="生效export"></a>生效export</h3><pre>exportfs -r -v</pre>
+
+<h2 id="1-2-客户端："><a href="#1-2-客户端：" class="headerlink" title="1.2 客户端："></a>1.2 客户端：</h2><pre>yum install nfs-utils rpcbind
+systemctl enable  rpcbind.service
+systemctl restart rpcbind.service
+systemctl enable nfs
+systemctl start  nfs</pre>
+
+<h3 id="设置自动挂载，用tab分割，不是空格"><a href="#设置自动挂载，用tab分割，不是空格" class="headerlink" title="设置自动挂载，用tab分割，不是空格"></a>设置自动挂载，用tab分割，不是空格</h3><pre>mkdir /opt/gridengine
+vi /etc/fstab
+10.0.2.5:/home    /home    nfs    defaults    0    0
+10.0.2.5:/opt/gridengine    /opt/gridengine    nfs    defaults    0    0</pre>
+
+<h3 id="挂载"><a href="#挂载" class="headerlink" title="挂载"></a>挂载</h3><pre>mount -a</pre>
+
+<p>这样的话，客户端服务器的home目录都是server端的home家目录。</p>
+<h1 id="2，NIS-Network-Information-Service"><a href="#2，NIS-Network-Information-Service" class="headerlink" title="2，NIS(Network Information Service)"></a>2，NIS(Network Information Service)</h1><p>通过NIS实现帐号的统一权限管理和认证，避免在多台服务器上重复开设帐号</p>
+<h2 id="2-1-Server端："><a href="#2-1-Server端：" class="headerlink" title="2.1 Server端："></a>2.1 Server端：</h2>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/archives/1057/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/1054/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhongxu's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/archives/1054/" class="post-title-link" itemprop="url">T细胞，B细胞，抗原，CD4和CD8</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-04-21 17:50:08" itemprop="dateCreated datePublished" datetime="2019-04-21T17:50:08+08:00">2019-04-21</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="T细胞工作原理"><a href="#T细胞工作原理" class="headerlink" title="T细胞工作原理"></a>T细胞工作原理</h1><p>T细胞在胸腺中发育后，它们可以在血液或淋巴系统中游走或迁移到体内的不同器官。只要特定的入侵者刺激它们，辅助性T细胞就会产生化学物质。有些化学物质触发B细胞发育成浆细胞，而另一些化学物质则刺激杀伤性T细胞靶向并杀死可能被侵入者感染或癌变的细胞。 调节性T细胞有助于控制免疫反应，防止其失控。自然杀伤T细胞也产生化学物质，以帮助调节免疫反应，防止入侵者和肿瘤。在免疫反应结束后，记忆T细胞在体内停留很长一段时间。这样，如果同样的入侵者再次出现，它们就能迅速做出反应，并繁殖产生大量的T细胞来消灭它。</p>
+<h1 id="B细胞工作原理"><a href="#B细胞工作原理" class="headerlink" title="B细胞工作原理"></a>B细胞工作原理</h1><p>与T细胞不同，B细胞不能直接攻击受感染的细胞。相反，B细胞主要产生一种叫做抗体的蛋白质，当入侵者在血液中移动时，抗体就可以劫持入侵者。当它们遇到入侵者时，B细胞受到刺激而产生浆细胞和记忆B细胞。 每个浆细胞被专门用来制造一种特殊的抗体——专门用来攻击特定入侵者的蛋白质。抗体的作用是在受感染的细胞上作为标志，这样T细胞就能识别要破坏的细胞。 当入侵者被抗体包裹时，它们更容易成为免疫系统中其他蛋白质的靶标，也更容易成为吞噬细胞这一专门细胞的攻击目标，吞噬细胞负责吞噬外来物质和受感染的细胞。当浆细胞在免疫反应结束后消失时，记忆B细胞就会长期存在。如果同样的入侵者再次出现，抗体已经可以帮助抵抗它。 1、参与方式不同 T细胞参与细胞免疫，B细胞参与体液免疫； 2、形成的位置不同 T细胞形成于胸腺，B细胞形成于骨髓； 3、功能不同 T细胞主要功能是吞噬外来侵袭物，B细胞主要功能是产生各类抗体； 4、数量、形态不同 T细胞数量比B细胞少；B细胞形态比T细胞形态大。 浆细胞又叫做效应B细胞。效应B细胞的产生：当B淋巴细胞受到抗原刺激或受淋巴因子刺激而活化后,将大量增殖并分化为效应B细胞和记忆B细胞.记忆B细胞受刺激后,可直接大量增殖、分化出效应B细胞 效应B细胞的作用：效应B细胞（浆细胞）由B淋巴细胞或记忆B细胞产生,其能分泌抗体执行免疫供能 自然杀伤细胞NK细胞：非特异性攻击</p>
+<h1 id="MHC1和MHC2"><a href="#MHC1和MHC2" class="headerlink" title="MHC1和MHC2"></a>MHC1和MHC2</h1><p>MHC1类：将抗原肽递呈给细胞毒性T细胞 MHC2类：专职性抗原递呈给辅助性T细胞（Th） MHC1在机体大多数细胞中都有表达，主要是自身受病毒或胞内寄生菌感染以后将病原肽递呈出来让CTL细胞（细胞毒性T细胞，cytotoxic T cell，TC或CTL，也称杀手细胞）识别然后破坏受感染细胞。而表达MHCII的主要是专职的抗原递呈细胞，包括DC，巨噬和B细胞，将病原主动摄取后递呈给Th细胞，从而辅助后期B细胞或者巨噬细胞</p>
+<h1 id="抗原"><a href="#抗原" class="headerlink" title="抗原"></a>抗原</h1><p>外源性抗原—&gt;MHC II—&gt;CD4+ 外源性抗原经吞噬或吞饮作用，被APC摄入胞内形成吞噬体，后者与溶酶体融合形成吞噬溶酶体。抗原在吞噬溶酶体内酸性环境中被蛋白水解酶降解为小分子多肽，其中具有免疫原性的称为抗原肽。内质网中合成的MHC-Ⅱ类分子进入高尔基体后，由分泌小泡携带，通过与吞噬溶酶体融合，使抗原肽与小泡内MHC-Ⅱ类分子结合形成抗原肽-MHCⅡ类分子复合物。该复合物表达于APC表面，可被相应CD4+T细胞识别结合。 内源性抗原–&gt;MHC I–&gt;CD8+ 内源性抗原是指细胞自身合成的抗原，如肿瘤抗原和病毒蛋白抗原等。内源性抗原在细胞内生成后，可被存在于胞质中的蛋白酶体，即小分子聚合多肽体（LMP）降解成小分子多肽；小分子多肽与热休克蛋白70/90在胞质内结合后，经抗原肽转运体（TAP）转运到内质网中，通过加工修饰成为具有免疫原性的抗原肽；抗原肽与内质网中合成的MHCⅠ类分子结合，形成抗原肽-MHCⅠ类分子结合形成抗原肽-MHCⅠ类分子复合物；后者转入高尔基体再通过分泌小泡将其运送到APC表面，供相应CD8+T细胞识别结合。</p>
+<h1 id="CD4和CD8"><a href="#CD4和CD8" class="headerlink" title="CD4和CD8"></a>CD4和CD8</h1><p>CD4+细胞，有称辅助性T细胞，在细胞包面表达CD4+分子，在免疫过程中协助白细胞，包括B细胞成熟和记忆b细胞，活化细胞毒性T细胞和巨噬细胞，辅助性T细胞被MHC II上的抗原激活，迅速分化和分泌调节免疫活性的细胞因子小蛋白。活化的细胞可分为 TH1, TH2, TH3, TH17, TH9, or TFH,亚型，取决于抗原呈递细胞APC的信号。 CD8+细胞，细胞毒性T细胞（TC cells, CTLs, T-killer cells, killer T cells)，细胞表面表达CD8糖蛋白，摧毁病毒感染细胞和肿瘤细胞，这些细胞通过与MHC I分子（所有细胞都表达）上的抗原结合识别攻击对象。 通过IL-10，腺苷和其他调节T细胞分泌的分子调节，CD8+细胞可以进入无活性状态，以免发生自身免疫病。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/1051/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhongxu's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/archives/1051/" class="post-title-link" itemprop="url">肿瘤细胞免疫逃逸的几种方式</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-04-11 19:08:25" itemprop="dateCreated datePublished" datetime="2019-04-11T19:08:25+08:00">2019-04-11</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>肿瘤中的新抗原neoantigen引起的T细胞介导的免疫监视会影响肿瘤的进化，新抗原的缺失或者抗原呈递功能受损都会导致肿瘤的免疫逃逸。可能有以下几点：</p>
+<p>1，DNA水平：通过拷贝数丢失，导致neoantigen也发生丢失</p>
+<p>2，RNA水平：抑制包含neoantigen的转录本表达</p>
+<p>3，表观水平：沉默编码neoantigen的片断</p>
+<p>4，翻译后水平：蛋白质降解，呈递功能缺失等</p>
+<p>5，免疫系统的选择性纯化：清除包含neoantigen的肿瘤亚克隆。</p>
+<p>参考：Neoantigen-directed immune escape in lung cancer evolution</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/1047/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhongxu's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/archives/1047/" class="post-title-link" itemprop="url">想用smrt analysis-2.3的过来看看</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-03-29 18:39:05" itemprop="dateCreated datePublished" datetime="2019-03-29T18:39:05+08:00">2019-03-29</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>最近找smrt analysis 2.3的程序，真是太辛苦了。我不想用SMRT的图形界面，pacbio又把github上的相关项目obsolete了，tofu项目也没了，pbtranscript装起来各种错误，实在要放弃了，还好看到有人做了2.3的docker镜像。用最近的SMRT6.0中的isoseq3的同学可以忽略本文，isoseq3请移步<a target="_blank" rel="noopener" href="https://github.com/PacificBiosciences/IsoSeq3/blob/master/README_v3.1.md">https://github.com/PacificBiosciences/IsoSeq3/blob/master/README_v3.1.md</a>。</p>
+<pre>docker pull bowhan/smrtanalysis-2.3.0.140936
+docker run -it -v /home/bowhan/myData:/data bowhan/smrtanalysis-2.3.0.140936 bash
+# -v 挂载目录
+
+#进入smrtshell，有smrtanalysis的环境
+/opt/smrtanalysis/current/smrtcmds/bin/smrtshell
+# 以iso-seq数据处理为例
+# 1. CCS 根据fofn中的h5文件，生成CCS
+ConsensusTools.sh CircularConsensus  \
+    --minFullPasses 0  --minPredictedAccuracy 75 \
+    --parameters /opt/smrtanalysis/install/smrtanalysis_2.3.0.140936/analysis/etc/algorithm_parameters/2014-09/ \
+    --numThreads 8 --fofn input.fofn \
+    -o /data/output
+
+# 2. classify
+pbtranscript.py classify \
+    --cpus 8 --min_seq_len 300 \
+    --flnc ${prefix}.isoseq_flnc.fasta \
+    --nfl ${prefix}.isoseq_nfl.fasta \
+    -d ${prefix}.out \
+    ${prefix}.ccs.fa \
+    ${prefix}.isoseq_draft.fasta 
+
+# 3. cluster
+pbtranscript.py cluster \
+    isoseq_flnc.fasta final.consensus.fa \
+    --nfl_fa isoseq_nfl.fasta -d clusterOut \
+    --ccs_fofn reads_of_insert.fofn --bas_fofn input.fofn \
+    --cDNA_size under1k --quiver --blasr_nproc 8 \
+    --quiver_nproc 8 </pre>
+
+<p>本文转自<a target="_blank" rel="noopener" href="https://hub.docker.com/r/bowhan/smrtanalysis-2.3.0.140936/">https://hub.docker.com/r/bowhan/smrtanalysis-2.3.0.140936/</a><br>其他参考：<a target="_blank" rel="noopener" href="https://github.com/ben-lerch/IsoSeq-3.0">https://github.com/ben-lerch/IsoSeq-3.0</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/1046/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhongxu's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/archives/1046/" class="post-title-link" itemprop="url">一步到位下载hg19基因组文件</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-03-25 18:35:20" itemprop="dateCreated datePublished" datetime="2019-03-25T18:35:20+08:00">2019-03-25</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>hg19对应GRCh37，UCSC提供hg19的参考基因组下载。UCSC的下载地址在<a href="ftp://hgdownload.cse.ucsc.edu/goldenPath/hg19/chromosomes/">ftp://hgdownload.cse.ucsc.edu/goldenPath/hg19/chromosomes/</a></p>
+<p>需要经过下载每个染色体，然后解压合并成一个整个的基因组文件<br><a href="ftp://hgdownload.cse.ucsc.edu/goldenPath/hg19/chromosomes/">ftp://hgdownload.cse.ucsc.edu/goldenPath/hg19/chromosomes/</a></p>
+<p>其实这样有点浪费时间，还要考虑合并的时候染色体的顺序是否按照1，2，3而不是1，10，11排下来的。目前我知道的最简单的办法的，从GATK bundle中下载。比如hg19整个基因组的文件。下面是一步到位的命令，包括了fasta，fai，dict文件。</p>
+<pre>wget -c ftp://gsapubftp-anonymous@ftp.broadinstitute.org/bundle/hg19/ucsc.hg19*</pre>
+
+<p>GATK bundle还提供一下其他文件，可以看看( <a href="ftp://ftp.broadinstitute.org/bundle">ftp://ftp.broadinstitute.org/bundle</a> )，比如dict文件，hg38文件等。当然构建参考基因组不一定非要合并染色体，个人习惯。</p>
+<p>补充：UCSC也提供一个genome.fa的下载，<a href="ftp://hgdownload.cse.ucsc.edu/goldenPath/hg19/bigZips/chromFa.tar.gz">ftp://hgdownload.cse.ucsc.edu/goldenPath/hg19/bigZips/chromFa.tar.gz</a></p>
+<p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>#####################################################################</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/1044/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
       <meta itemprop="name" content="Jason">
-      <meta itemprop="description" content="Share news">
+      <meta itemprop="description" content="">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Another Jason's blog">
+      <meta itemprop="name" content="Zhongxu's blog">
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
@@ -231,11 +995,11 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
       <meta itemprop="name" content="Jason">
-      <meta itemprop="description" content="Share news">
+      <meta itemprop="description" content="">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Another Jason's blog">
+      <meta itemprop="name" content="Zhongxu's blog">
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
@@ -369,841 +1133,10 @@ R[28405]        113     chr21   14070620        255     100M    =       14070536
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/1042/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Jason">
-      <meta itemprop="description" content="Share news">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Another Jason's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/archives/1042/" class="post-title-link" itemprop="url">Pacbio三代测序Primary Analysis Data文件夹</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2019-03-20 18:08:34" itemprop="dateCreated datePublished" datetime="2019-03-20T18:08:34+08:00">2019-03-20</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>三代测序很多年了，刚工作的时候在超算中心做过三代的拼接，没好好研究过之后就再也没接触过，现在要做三代的项目，从头学习，Primary Analysis Data为初步数据分析文件夹，类似下面的文件夹结构</p>
-<pre>/path/to/secondary/storage/2420294/0011
-├── Analysis_Results
-│   ├── m140415_143853_42175_c100635972550000001823121909121417_s1_p0.1.bax.h5
-│   ├── m140415_143853_42175_c100635972550000001823121909121417_s1_p0.1.log
-│   ├── m140415_143853_42175_c100635972550000001823121909121417_s1_p0.1.subreads.fasta
-│   ├── m140415_143853_42175_c100635972550000001823121909121417_s1_p0.1.subreads.fastq
-│   ├── m140415_143853_42175_c100635972550000001823121909121417_s1_p0.2.bax.h5
-│   ├── m140415_143853_42175_c100635972550000001823121909121417_s1_p0.2.log
-│   ├── m140415_143853_42175_c100635972550000001823121909121417_s1_p0.2.subreads.fasta
-│   ├── m140415_143853_42175_c100635972550000001823121909121417_s1_p0.2.subreads.fastq
-│   ├── m140415_143853_42175_c100635972550000001823121909121417_s1_p0.3.bax.h5
-│   ├── m140415_143853_42175_c100635972550000001823121909121417_s1_p0.3.log
-│   ├── m140415_143853_42175_c100635972550000001823121909121417_s1_p0.3.subreads.fasta
-│   ├── m140415_143853_42175_c100635972550000001823121909121417_s1_p0.3.subreads.fastq
-│   ├── m140415_143853_42175_c100635972550000001823121909121417_s1_p0.bas.h5
-│   ├── m140415_143853_42175_c100635972550000001823121909121417_s1_p0.sts.csv
-│   └── m140415_143853_42175_c100635972550000001823121909121417_s1_p0.sts.xml
-├── m140415_143853_42175_c100635972550000001823121909121417_s1_p0.1.xfer.xml
-├── m140415_143853_42175_c100635972550000001823121909121417_s1_p0.2.xfer.xml
-├── m140415_143853_42175_c100635972550000001823121909121417_s1_p0.3.xfer.xml
-├── m140415_143853_42175_c100635972550000001823121909121417_s1_p0.mcd.h5
-└── m140415_143853_42175_c100635972550000001823121909121417_s1_p0.metadata.xml</pre>
-
-<p><strong>主要文件有</strong></p>
-<h1 id="bas-h5文件和bax-h5文件"><a href="#bas-h5文件和bax-h5文件" class="headerlink" title="bas.h5文件和bax.h5文件"></a>bas.h5文件和bax.h5文件</h1><p>bas.h5和相关的bax.h5文件是PacBio@RS II初级分析（primary analysis）的主要输出文件，这些文件由设备产生到本地存储位置，作为后续SMRT分析软件进行alignment、consensus和variant分析的输入文件。<br>PacBio@RS II之前，单个bas.h5文件包含了所有测序数据，随着PacBio@RS II升级，通量和read长度都在增加，现在包含一个bas.h5和3个bax.h5文件（1-3.bax.h5）。bax.h5文件包含测序的base call的信息，bas.h5是三个bax.h5的重要指针。<br>用h5dupm -n [movie name].bas.h5命令看一下文件</p>
-<pre>FILE_CONTENTS {
- group      /
- group      /MultiPart
- dataset    /MultiPart/HoleLookup
- dataset    /MultiPart/Parts
- }</pre>
-
-<p>可以看到有一个MultiPart的group组，下面有两个数据集，一个是HoleLookup，一个是Parts。<br>/MultiPart/Parts提供相关对应的的三个bax.h5的文件名<br>/MultiPart/HoleLookup对应ZMW零模波导孔编号</p>
-<p>单个的bax.h5文件结构和原来一致 ，有两个组，分别是PulseData和ScanData。ScanData<br>包含了用于测试的仪器信息，一般不会用到。PulseData下面重点看/PulseData/BaseCalls组<br>用命令h5dump -d /PulseData/BaseCalls/Basecall [movie name].bax.h5 ‘ head -10 查看数据集basecall如下序列</p>
-<pre>DATASET "/PulseData/BaseCalls/Basecall" {
-   DATATYPE  H5T_STD_U8LE
-   DATASPACE  SIMPLE { ( 305612594 ) / ( H5S_UNLIMITED ) }
-   DATA {
-   (0): 84, 84, 67, 84, 84, 67, 84, 84, 84, 84, 67, 71, 84, 71, 71, 84, 84,
-   (17): 84, 84, 71, 84, 67, 84, 84, 84, 67, 84, 71, 84, 84, 84, 67, 84, 84,
-   (34): 84, 67, 84, 84, 71, 84, 84, 67, 84, 71, 67, 71, 71, 84, 84, 84, 84,
-   (51): 84, 84, 84, 84, 84, 84, 84, 84, 84, 84, 84, 84, 84, 84, 84, 84, 84,
-   (68): 84, 84, 84, 84, 71, 84, 84, 71, 84, 84, 84, 84, 84, 84, 84, 84, 84,</pre>
-
-<p>其中A=&gt; 65, C=&gt; 67, G=&gt;71, T=&gt;84，与ASCII编码一致。</p>
-<p>用h5dump -d /PulseData/BaseCalls/QualityValue bax.h5 ‘ head -10 查看数据集qualityvalue如下</p>
-<pre>DATASET "/PulseData/BaseCalls/QualityValue" {
-   DATATYPE  H5T_STD_U8LE
-   DATASPACE  SIMPLE { ( 305612594 ) / ( H5S_UNLIMITED ) }
-   DATA {
-   (0): 10, 11, 21, 12, 11, 9, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 14, 0, 0, 0, 10, 0, 1,
-   (23): 0, 0, 15, 1, 1, 1, 0, 1, 1, 1, 1, 0, 2, 10, 0, 0, 0, 0, 0, 0, 14, 20, 1,
-   (46): 1, 30, 1, 0, 0, 1, 22, 0, 19, 0, 1, 0, 0, 21, 1, 1, 1, 0, 0, 17, 0, 0, 1,
-   (69): 1, 1, 30, 2, 1, 0, 2, 1, 0, 10, 0, 1, 1, 0, 1, 1, 13, 0, 0, 0, 1, 0, 0,
-   (92): 1, 0, 5, 1, 0, 0, 1, 0, 2, 1, 0, 0, 21, 0, 1, 0, 0, 20, 0, 0, 0, 16, 1,</pre>
-
-<p>表示测错的概率，用的是phred socre，和Illumina类似。当然，我看的这个文件可以看出测序质量并不是很好。</p>
-<p>具体的组和数据集的说明，可以参考：</p>
-<p><a target="_blank" rel="noopener" href="https://s3.amazonaws.com/files.pacb.com/software/instrument/2.0.0/bas.h5+Reference+Guide.pdf">https://s3.amazonaws.com/files.pacb.com/software/instrument/2.0.0/bas.h5+Reference+Guide.pdf</a></p>
-<h1 id="metadata-xml"><a href="#metadata-xml" class="headerlink" title="metadata.xml"></a>metadata.xml</h1><p>包含测序仪ID，样本名，测序酶，试剂等元数据。<br>参考文件：<a target="_blank" rel="noopener" href="https://s3.amazonaws.com/files.pacb.com/software/instrument/2.0.0/Metadata+Output+Guide.pdf">https://s3.amazonaws.com/files.pacb.com/software/instrument/2.0.0/Metadata+Output+Guide.pdf</a></p>
-<h1 id="sts-xml"><a href="#sts-xml" class="headerlink" title="sts.xml"></a>sts.xml</h1><p>包含了单个movie的概括统计<br>参考文件：<a target="_blank" rel="noopener" href="https://s3.amazonaws.com/files.pacb.com/software/instrument/1.3.1/Statistics+Output+Guide.pdf">https://s3.amazonaws.com/files.pacb.com/software/instrument/1.3.1/Statistics+Output+Guide.pdf</a></p>
-<h1 id="用h5dump查看pacbio数据"><a href="#用h5dump查看pacbio数据" class="headerlink" title="用h5dump查看pacbio数据"></a>用h5dump查看pacbio数据</h1><p>查看h5格式的文件可以用hdf5下的h5dump工具查看,安装如下</p>
-<pre>wget -c https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.10/hdf5-1.10.5/src/hdf5-1.10.5.tar.gz
-tar -xzvf hdf5-1.10.5.tar.gz
-cd hdf5-1.10.5  
-./configure &&make && make install</pre>
-
-<h1 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h1><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/xudongliang/p/6908953.html">https://www.cnblogs.com/xudongliang/p/6908953.html</a><br><a target="_blank" rel="noopener" href="https://smrt-analysis.readthedocs.io/en/latest/Data-files-you-received-from-your-service-provider/">https://smrt-analysis.readthedocs.io/en/latest/Data-files-you-received-from-your-service-provider/</a></p>
-<p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>#####################################################################</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/1032/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Jason">
-      <meta itemprop="description" content="Share news">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Another Jason's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/archives/1032/" class="post-title-link" itemprop="url">EBI提供HLA序列BLAST</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2018-09-14 15:08:57" itemprop="dateCreated datePublished" datetime="2018-09-14T15:08:57+08:00">2018-09-14</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>基于我们有的HLA序列，可以和HLA序列的数据库比较，看与哪个HLA allele最相似。</p>
-<p>HLA （human leukocyte antigen，人类白细胞抗原）是人类主要组织相容性复合体（major histocompatibility complex，MHC）的表达产物，根据HLA抗原结构、功能及组织分布的不同，分为I类，II类，III类分子，其中I类分子包括HLA-A，-B，-C系列抗原，广泛分布于各组织有核系统表面。</p>
-<p>BLAST表示局部比对搜索工具，用来将新的序列与已有的数据库中的序列进行比较，可以发现区域的相似性，进而为功能和进化研究提供线索。<br>EBI（欧洲生物信息学中心）提供基于IPD-IMGT/HLA（IMGT国际免疫遗传学数据库）数据库的BLAST库。BLAST工具会搜索数据库中的HLA allele的核苷酸、蛋白质及相关对的序列。</p>
-<p>HLA BLAST在线服务的链接如下：<br><a target="_blank" rel="noopener" href="https://www.ebi.ac.uk/Tools/services/web_ncbiblast/toolform.ebi?tool=ncbiblast&context=nucleotide&database=imgthla">https://www.ebi.ac.uk/Tools/services/web_ncbiblast/toolform.ebi?tool=ncbiblast&amp;context=nucleotide&amp;database=imgthla</a></p>
-<h2 id="1）选择数据库"><a href="#1）选择数据库" class="headerlink" title="1）选择数据库"></a>1）选择数据库</h2><p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-09-14-EBI-EMBL-HLA-BLAST1.png"> </p>
-<p>选择IMGT下的IMGT/HLA (genomic)数据据，表示与HLA的基因组序列进行比对，如果需要和编码区序列进行比对，可以选择IMGT/HLA (cds)。</p>
-<h2 id="2）输入待比对的序列"><a href="#2）输入待比对的序列" class="headerlink" title="2）输入待比对的序列"></a>2）输入待比对的序列</h2><p>BLAST支持简并碱基的比对，比如用R表示G或A (puRine)，用A表示M表示A或C。</p>
-<h2 id="3）设置参数"><a href="#3）设置参数" class="headerlink" title="3）设置参数"></a>3）设置参数</h2><p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-09-14-EBI-EMBL-HLA-BLAST3.png"></p>
-<p>选择blastn表示进行核苷酸序列比对，task可以用megablast也可以用blastn，其他参数可以选择默认。</p>
-<h2 id="4）提交任务"><a href="#4）提交任务" class="headerlink" title="4）提交任务"></a>4）提交任务</h2><p>点击submit提交任务。</p>
-<h2 id="5）等待结果"><a href="#5）等待结果" class="headerlink" title="5）等待结果"></a>5）等待结果</h2><p>一般情况下，会在10秒左右进入比对结果页面。结果页面包含相似性和显著性结果。</p>
-<h2 id="测试序列"><a href="#测试序列" class="headerlink" title="测试序列"></a>测试序列</h2><pre>CGAACTTGGCGGGTCTCAGCCCTCCTSGCCCCAGGCTCCCACTCCATGAGGTATTTCTACACCGCCATGTCCCGGCCCGG
-CCGCGGGGAGCCCCGCTTCATCRCMGTGGGCTACGTGGACGACACSCAGTTCGTGMGGTTCGACAGCGACGCCRCGAGTC
-CGAGRRKGGMGCCSCGGGCGCCRTGGRTRGAGCAGGAGGGGCCGGAGTATTGGGACCGGAASACACAGATCTMCAAGGCC
-MASGCACAGACTGACCGAGAGAACCTGCGSAACCTGCTCGGCTACTACAACCAGAGCGAGGCCGGTGAGTGACCCCGGCC
-CGGGGCGCAGGTCACGACTCCCCATCCCCCACGKACGGCCCGGGTCGCCCCGAGTCTCCGGGTCCGAGATCCGCCTCCCT
-GAGGCCGCGGGACCCGCCCAGACCCTCGACCGGCGAGAGCCCCAGGCGCGTTTACCCGGTTTCATTTTCAGTTGAGGCCA
-AAATCCCCGCGGGTTGGTCGGGGCGGGGCGGGGCTCGGGGGACGGGGCTGACCGCGGGGCCGGGGCCAGGGTCTCACACT
-TGGCAGACGATGTATGGCTGCGACCTGGGGCCGGACGGGCGCCTCCTCCGCGGGCATAACCAGTTAGCTACGACGGCAGG</pre>
-
-<p>该序列的测试结果，与本地blast的结果一致。</p>
-<h2 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h2><p><a target="_blank" rel="noopener" href="https://www.ebi.ac.uk/ipd/imgt/hla/blast.html">https://www.ebi.ac.uk/ipd/imgt/hla/blast.html</a></p>
-<p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>#####################################################################</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/1030/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Jason">
-      <meta itemprop="description" content="Share news">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Another Jason's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/archives/1030/" class="post-title-link" itemprop="url">将VCF文件中的突变拆分成SNP和INDEL</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2018-09-10 11:14:45" itemprop="dateCreated datePublished" datetime="2018-09-10T11:14:45+08:00">2018-09-10</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="VCFTOOLS"><a href="#VCFTOOLS" class="headerlink" title="VCFTOOLS"></a>VCFTOOLS</h1><p>得到SNP</p>
-<pre>vcftools --vcf X.vcf --remove-indels --out X.snps --recode --recode-INFO-all</pre>
-
-<p>得到INDEL</p>
-<pre>vcftools --vcf X.vcf --keep-only-indels --out X.indel --recode --recode-INFO-all</pre>
-
-<h1 id="GATK"><a href="#GATK" class="headerlink" title="GATK"></a>GATK</h1><p>得到SNP</p>
-<pre>java -jar GenomeAnalysisTK.jar \
-    -T SelectVariants \
-    -R reference.fasta \
-    -V X.vcf   \
-    -selectType SNP \
-    -o X.snps.vcf</pre>
-
-<p>得到INDEL</p>
-<pre>java -jar GenomeAnalysisTK.jar \
-    -T SelectVariants \
-    -R reference.fasta \
-    -V X.vcf  \
-    -selectType INDEL \
-    -o X.indel.vcf</pre>
-
-<p>本着有轮子不造轮子的原则，可以用VCFTOOLS和GATK来实现，当然如果想自己拆分的话，可以根据VCF中是否有SNP和INDEL的tag标签，或者根据ALT和REF中的碱基长度是否一致来实现拆分。</p>
-<p>参考：</p>
-<p><a target="_blank" rel="noopener" href="https://www.biostars.org/p/48204/">https://www.biostars.org/p/48204/</a><br><a target="_blank" rel="noopener" href="https://software.broadinstitute.org/gatk/documentation/tooldocs/3.8-0/org_broadinstitute_gatk_tools_walkers_variantutils_SelectVariants.php">https://software.broadinstitute.org/gatk/documentation/tooldocs/3.8-0/org_broadinstitute_gatk_tools_walkers_variantutils_SelectVariants.php</a></p>
-<p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>#####################################################################</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/1026/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Jason">
-      <meta itemprop="description" content="Share news">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Another Jason's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/archives/1026/" class="post-title-link" itemprop="url">分析带UMI标签的测序数据</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2018-07-31 12:50:00" itemprop="dateCreated datePublished" datetime="2018-07-31T12:50:00+08:00">2018-07-31</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>分析带UMI标签的测序数据</p>
-<p>检测癌组织的低频突变，为了提高检测低频突变的灵敏度，往往进行高深度的测序。但样本之间存在交叉污染，测序有存在一定概率的错误，这些因素会导致高深度测序过程中将假阳性的信号放到，得到假阳性的结果。解决交叉污染的方法，有公司比如IDT采用唯一配对的样本index，只有配对的index中的reads才属于特定样本。解决测序错误的方法，研究人员在建库的时候，先对分子加上UMI碱基，unique molecular identifier -&gt; UMI，然后根据来源于同一个分子的测序数据进行测序错误修正，得到正确的分子序列。两种方法结合可以减少交叉污染提高准确性（<a target="_blank" rel="noopener" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5759201/%EF%BC%89%E3%80%82">https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5759201/）。</a></p>
-<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-07-30-UMI-analysis.png"></p>
-<p>如图中所示，左侧一个分子被测了5次，其中第二次有一个测序错误，但该错误并没有在每个测序数据中出现，所以在后续合成一个分子的时候，测序错误被修正，只保留了真正的突变。（<a target="_blank" rel="noopener" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5852328/%EF%BC%89">https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5852328/）</a></p>
-<p>常规的肿瘤配对测序分析，或者遗传性突变位点的分析，并不需要UMI信息，所以包含UMI的数据分析是需要不一样的分析流程来得到准确的分析结果，其中包括提取UMI分子标签，合并来自同一个分子的测序reads，低频突变检测而非胚系突变检测等。</p>
-<p>大致流程为：</p>
-<pre>-----prepare analysis ready BAM file------
-'         FASTQ
-'            ↓
-'          uBAM
-'            ↓  Extract UMI
-'          uBAM
-'             ↓  Align uBAM and merge 
-'           BAM
------call consensus------
-'             ↓  Group Reads By Umi
-'           BAM
-'             ↓  Group Reads By Umi
-'           BAM
-'             ↓  Call Molecular Consensus Reads
-'           uBAM
-'             ↓  Align uBAM and merge
-'           BAM
-'             ↓  Filter Consensus Reads
-'           BAM
-'             ↓  Clip
-'           BAM
------Vardict------
-'             ↓  Call
-'            VCF</pre>
-
-<h1 id="一，得到包含UMI分子标签信息的BAM文件"><a href="#一，得到包含UMI分子标签信息的BAM文件" class="headerlink" title="一，得到包含UMI分子标签信息的BAM文件"></a>一，得到包含UMI分子标签信息的BAM文件</h1><p>UMI信息，应该从fastq中的配对的reads中提取，但fastq不能存储更多的信息，所以需要先将fastq转成uBAM文件，提取uBAM文件中的UMI分子标签信息，将该信息通过RX标签写入uBAM文件中，通过uBAM和BAM文件合并，把RX信息合并到比对到的BAM文件中进行下一步分析。</p>
-<h2 id="1）生成uBAM"><a href="#1）生成uBAM" class="headerlink" title="1）生成uBAM"></a>1）生成uBAM</h2><pre>java -Xmx8G -jar picard.jar FastqToSam \
-    FASTQ=$fq1    \
-    FASTQ2=$fq2   \
-    OUTPUT=test.uBAM \
-    READ_GROUP_NAME=test \
-    SAMPLE_NAME=test \
-    LIBRARY_NAME=test \
-    PLATFORM_UNIT=HiseqX10  PLATFORM=illumina \
-    RUN_DATE=`date --iso-8601=seconds`</pre>
-
-<h2 id="2）提取UMI信息"><a href="#2）提取UMI信息" class="headerlink" title="2）提取UMI信息"></a>2）提取UMI信息</h2><pre>java -jar fgbio.jar ExtractUmisFromBAM \
-    --input=test.uBAM  \
-    --output=test.umi.uBAM \
-    --read-structure=2M148T 2M148T \
-    --single-tag=RX \
-    --molecular-index-tags=ZA ZB</pre>
-
-<p>此时，uBAM文件中RX标签记录着UMI的信息，2M148T表示前两个碱基是UMI分子标签，148个template 测序序列，配对read在uBAM文件中有如下信息</p>
-<pre>R1----ZA:Z:TC ZB:Z:TA RG:Z:test       RX:Z:TC-TA
-R2----ZA:Z:TC ZB:Z:TA RG:Z:test       RX:Z:TC-TA</pre>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/archives/1026/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/1016/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Jason">
-      <meta itemprop="description" content="Share news">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Another Jason's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/archives/1016/" class="post-title-link" itemprop="url">什么是ubam文件，为什么ubam文件比fastq文件好</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2018-07-12 15:00:46" itemprop="dateCreated datePublished" datetime="2018-07-12T15:00:46+08:00">2018-07-12</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>ubam是Unmapped BAM Format，是BAM文件的一个变种，里面的read是未经map的。大部分测序供应FASTQ文件，这是最常见的测序分析的起始文件。FASTQ文件的优势是，压缩比比bam文件好，解压速度快。</p>
-<p>但与ubam文件相比，FASTQ并不是最理想的：</p>
-<h1 id="1）单个文件更容易分析"><a href="#1）单个文件更容易分析" class="headerlink" title="1）单个文件更容易分析"></a>1）单个文件更容易分析</h1><p>在双端测序中，有些软件希望配对的reads放在一个文件中，有些希望配对的文件，有些软件直接根据read在文件中的位置判断read是否配对，当然现在FASTQ通过在文件中加入/1和/2来表明配对的read解决这一问题。在生信分析的时候，一个FASTQ文件往往和另一个FASTQ文件关联配对，比如R1和R2，往往会花费更多时间来验证read是否配对。但如果通过bam文件的话，会更简单。只需要在FLAG这个地方加入对应的值，比如77和141，就能指定。单个文件更加简单，能储存更多metadata的信息。</p>
-<h1 id="2）BAM文件可以储存更多信息"><a href="#2）BAM文件可以储存更多信息" class="headerlink" title="2）BAM文件可以储存更多信息"></a>2）BAM文件可以储存更多信息</h1><p>实际上，正是这个原因，我才开始用ubam文件的。<br>因为FASTQ文件格式的问题，很多其他信息不能存在FASTQ文件中，而BAM/SAM文件可以储存很多信息，只需加tag或者header就行。如果你想放，可以放用了什么软件，平台，样本标签等。</p>
-<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-07-12-advantage-ubam-1.jpg"></p>
-<p>上图是不利用ubam文件的流程，下图是利用ubam文件的流程。</p>
-<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-07-12-advantage-ubam-2.png"> </p>
-<p>这个我体会很深，比如我在分析带分子标签UMI的数据时，需要在bam文件中添加read的UMI标签序列，具有相同的UMI标签的序列说明来自同一个分子。如果我将带UMI标签的reads直接比对基因组，UMI标签序列会影响比对质量，而且后续对bam文件的处理提取UMI时，需要考虑CIGAR标签，这个时候就头大了。实际上，我是先将fastq转成ubam文件（picard的FastqToSam工具），然后提取ubam文件中的UMI，生成新的ubam，将ubam转成fastq文件（reads都放在一个文件fastq文件中，bwa能识别其中的配对reads），与参考基因组进行比对。这个时候问题就来了，比对之后生成的bam文件，不包含我提取的UMI标签序列信息，因为这个信息在ubam文件中。不要着急，picard的另外一个工具MergeBamAlignment，可以将ubam文件和bam文件合并，这样ubam文件中的tag信息，比如UMI标签信息，就会补充到新的bam文件中。这样生成的bam文件供下一步数据分析。</p>
-<h1 id="3）BAM能实现随机读写"><a href="#3）BAM能实现随机读写" class="headerlink" title="3）BAM能实现随机读写"></a>3）BAM能实现随机读写</h1><p>BAM文件采用的是BGZF压缩，可以通过随机读写快速读取文件特定位置的数据。对于未比对的reads（unaligned reads），这个功能不是很吸引人，因为后续序列比对都是顺序比对的，不可能跳着比对。</p>
-<p>参考：<br><a target="_blank" rel="noopener" href="https://blastedbio.blogspot.com/2011/10/fastq-must-die-long-live-sambam.html">https://blastedbio.blogspot.com/2011/10/fastq-must-die-long-live-sambam.html</a></p>
-<p><a target="_blank" rel="noopener" href="https://gatkforums.broadinstitute.org/gatk/discussion/5990/what-is-ubam-and-why-is-it-better-than-fastq-for-storing-unmapped-sequence-data">https://gatkforums.broadinstitute.org/gatk/discussion/5990/what-is-ubam-and-why-is-it-better-than-fastq-for-storing-unmapped-sequence-data</a></p>
-<p><a target="_blank" rel="noopener" href="https://gatkforums.broadinstitute.org/gatk/discussion/11694/why-is-converting-from-fastq-to-ubam-nesessary-before-preprocessing">https://gatkforums.broadinstitute.org/gatk/discussion/11694/why-is-converting-from-fastq-to-ubam-nesessary-before-preprocessing</a></p>
-<p><a target="_blank" rel="noopener" href="https://gatkforums.broadinstitute.org/gatk/discussion/6484/how-to-generate-an-unmapped-bam-from-fastq-or-aligned-bam">https://gatkforums.broadinstitute.org/gatk/discussion/6484/how-to-generate-an-unmapped-bam-from-fastq-or-aligned-bam</a></p>
-<p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>#####################################################################</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/1011/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Jason">
-      <meta itemprop="description" content="Share news">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Another Jason's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/archives/1011/" class="post-title-link" itemprop="url">fastq压缩之后的gzip文件大小与样本数据量</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2018-06-20 14:10:10" itemprop="dateCreated datePublished" datetime="2018-06-20T14:10:10+08:00">2018-06-20</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>在测序的时候，我们先拿到的是样本fastq压缩后的gzip文件，这个时候可能最关心的是数据量够不够，那么fastq.gz文件大小和测序数据量有什么关系呢。</p>
-<p>我用Miseq测序数据（gz文件200M左右），Hiseq panel（gz文件50M左右）和WES测序数据（gz文件4G左右）进行了简单的分析。有意思的地方是，虽然R1和R2的数据量是一样的，解压出来的文件大小是一样的，但R2的gzip文件总比R1大。不管是Miseq还是Hiseq的panel测序，压缩后的R2均大于R1文件，且文件越小，差异越大。</p>
-<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-06-20-different-ratio-R1R2.png"></p>
-<p>因为R1和R2数据量相同的原因，我只看R1的真实文件和gz文件大小与数据量之间的关系。<br>数据量=FASTQ文件行数/4*151/1000/1000  单位为M<br>真实文件大小估计=FASTQ文件行数/4*357/1024/1024 单位为M，预测值，差别不大，因为FASTQ文件中每四行357个字符（和平台和设置有关系），每个字符1byte。<br>GZ文件大小通过ll -h查看</p>
-<p>因为FASTQ文件是规范的，每四行字符基本一致，所以FASTQ真实文件大小和数据量成正比。比如我前面提到的每四行有357个字符，其中序列只占151个字符，也就是说FASTQ文件大小大概是测序量的357/151≈2.3倍多。但因为FASTQ文件为文本文件，占用空间较大，所以一般将FASTQ文件压缩成gzip格式文件。</p>
-<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-06-20-compression-ratio.png"> </p>
-<p>用gzip文件大小除以估计的真实文件大小，得到压缩比，发现压缩比和测序平台有关系，Miseq的压缩比在0.35左右，Hiseq平台中的panel测序在0.24左右，WES在0.2左右。可以发现WES的数据的压缩效率最高，猜测不同平台在压缩过程中设置的压缩比例不同。Hiseq测序平台的gzip文件压缩性能大于Miseq平台。</p>
-<p> <img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-06-20-gzip-file-size-correlation.png"></p>
-<p>以Miseq的gzip文件大小和数据量作图，可以很直观的发现gzip文件大小和数据量之间的线性关系。如图，斜率是1.245，截距可以忽略不计，因为纵坐标很大。也就是说R1文件的数据量约等于gzip文件的1.245倍。</p>
-<p><strong>从另外一个角度计算</strong>，R1文件的数据量=gzip文件大小/压缩效率/2.3，则因为Miseq的压缩效率在0.35，Hiseq在0.23左右，所以Miseq R1文件的数据量大概是gzip文件的1.242倍（1/0.35/2.3），和上图拟合的结果很相近，Hiseq约在1.89(1/0.23/2.3)倍。真实的数据量其实是R1文件数据量的2倍（R2文件中的数据量和R1文件相同）。</p>
-<p><strong>结论：</strong>不同平台和不同测序方法之间的fastq文件压缩比例并不一致，但同一种方法和平台内的压缩比例是相近的，因而可以根据gzip文件的大小推测出测序的数据量。</p>
-<p>我手头的数据中，Miseq的测序量约是R1 gzip文件大小的2.49倍，Hiseq的测序量约是R1 gzip文件大小的3.78倍。不同平台和方法之间，这个值是不固定的，可以根据手头的数据计算一下这个比例，就能迅速的估算出样本的数据量。</p>
-<p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>#####################################################################</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/1008/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Jason">
-      <meta itemprop="description" content="Share news">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Another Jason's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/archives/1008/" class="post-title-link" itemprop="url">突变注释后的过滤-variant filter</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2018-06-08 14:49:53" itemprop="dateCreated datePublished" datetime="2018-06-08T14:49:53+08:00">2018-06-08</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>一个全基因组或者全外显子组会产生几万、几十万乃至百万数量的突变。而目标突变往往只有几个或者几十个。我们需要大海捞针似得把我们想要分析的突变找到。突变过滤就是尽可能的将无关突变过滤掉，尽可能的保留目标突变，找出最可能致病的突变。关联性分析则不需要，因为关联性分析根据的是突变在对照和研究人群中的分布。</p>
-<p>突变的过滤需要根据分析需要，比如需要寻找一个完全没有研究过的突变，则需要根据dbSNP来过滤等。如果需要寻找新生突变，要同时用到父母双方的突变数据。</p>
-<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-06-08-filter-var.png"></p>
-<p>常用的过滤条件可以分为一下几类：<br>1）根据突变频率进行过滤：每个位点的基因型在人群中频率是不一样的，一般来说，在人群中频率高的基因型往往没有致病性，而是背景突变，只是人群中的多态性。通常用到的频率数据库有gnomAD，ESP，ExAC，1000 Genome等，这些项目检测或搜集了从上千到成万的样本数据，并把数据开放给学术界和产业界。一般过滤的阈值有0.05，0.01，0.001等。<br>2）根据突变位置进行过滤：不同的分析目的，关注的突变并不一样。有人关于调控区域的突变，有人关注编码区的突变，有人关注剪切位点突变等。根据分析目的不同，需要将非关注的区域内的突变过滤掉。如果关注编码区突变，则需要将基因间、内含子、非编码区的突变过滤掉。<br>3）根据突变类型进行过滤：编码区的突变，有同义突变、错义突变、终止密码子突变等。同义突变虽然可能会导致疾病的发生，导致调控紊乱，但一般分析会将同意突变过滤掉（和分析目的有关，如果想要研究同义突变，则不能过滤）。往往移码突变和终止密码子突变是需要关注的。<br>4）根据突变危害预测进行过滤：现在有很多算法在预测位点导致的氨基酸变化的危害性，通常这些算法会分析致病的突变所处的区域、氨基酸变化类型等特征，比如PolyPhen、SIFT等，进而预测出检测出的突变危害性。有些算法会分析序列的保守型，预测突变所处区域是否保守，比如PhastCon，保守区域的突变较非保守区域的突变危害性大。此外，还可以根据氨基酸类型的带电性变化进行过滤，或者根据BLOSUM等打分矩阵分值进行过滤。不同的算法预测的危害性不一定一致。一般统计多个算法预测中，预测危害性较大的比例。<br>5）根据先验知识库进行过滤：注释软件可以注释关联性分析的信息，也可以注释Clinvar相关数据，这些信息在后续的突变位点解读和分析中有很重要的作用。这些信息可以告诉分析人员位点和哪些疾病有关，或者在Clinvar中的致病性评级。可以根据显著性、是否为良性突变、疾病信息等内容对突变 进行过滤。<br>6）根据数据库标识进行过滤：注释软件会注释突变在dbSNP、COSMIC等数据库中的编号。如果研究的疾病非常非常罕见，以往没有研究过，可以尝试寻找非dbSNP数据库中的突变。如果研究和癌症相关的突变，可以寻找COSMIC数据库中出现的突变。<br>7）根据遗传方式进行过滤：如果疾病呈现家族性分布，可以根据系谱图推断出的遗传类型进行过滤。比如如果是隐形突变，则只考虑病人中的纯合突变。如果有线索指示突变为新生突变，则需要根据父母双方的突变数据，将后代中同样位点的突变过滤掉。<br>8）根据其他条件进行过滤：突变过滤还可以有其他的方式，最终还是要根据分析目的进行选择。比如有四个散发样本的突变数据，同样的表型，往往寻找四个样本在相同基因内是否都发生突变，或者是否有相同的高危害突变（比如移码突变）。</p>
-<p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>#####################################################################</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/1001/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Jason">
-      <meta itemprop="description" content="Share news">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Another Jason's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/archives/1001/" class="post-title-link" itemprop="url">小试shell中的神器zsh</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2018-05-28 22:20:37" itemprop="dateCreated datePublished" datetime="2018-05-28T22:20:37+08:00">2018-05-28</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>很早就知道神器zsh的存在，一直没有用，今天手痒装了一下，哈哈，用起来还不错。</p>
-<p>zsh是bash的增强版，可以兼容bash，可谓是shell中的战斗机，非常方便的命令提示、补全、忽略大小写等功能，一个字爽，可参见</p>
-<p><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/21418449">https://www.zhihu.com/question/21418449</a></p>
-<p>不过通常zsh配置起来比较复杂麻烦，于是诞生了oh-my-zsh，专门为简化zsh的配置而开发，<a target="_blank" rel="noopener" href="http://ohmyz.sh,极大的简化了zsh的配置,还是一个字,爽./">http://ohmyz.sh，极大的简化了zsh的配置，还是一个字，爽。</a></p>
-<h1 id="安装zsh"><a href="#安装zsh" class="headerlink" title="安装zsh"></a>安装zsh</h1><p>首先查看系统是否安装了zsh，发现系统没有安装zsh<br>cat /etc/shells 或者chsh -l</p>
-<pre>/bin/sh
-/bin/bash
-/sbin/nologin
-/bin/tcsh
-/bin/csh
-/bin/dash
-/bin/ksh</pre>
-<p>如果没有zsh，直接安装oh my zsh会报错Zsh is not installed! Please install zsh first!，所以第一步应该是先安装zsh<br>如果你有sudo权限或者root权限，可以执行</p>
-<pre> apt-get install zsh</pre>
-<p>如果没有的话（如果有的话，忽略这一步），比如只能安装在自己的HOME目录下，可以通过下载源码自己编译的方式，实现安装zsh</p>
-<pre>wget -c https://jaist.dl.sourceforge.net/project/zsh/zsh/5.5.1/zsh-5.5.1.tar.gz
-tar -xvzf zsh-5.5.1.tar.gz
-cd zsh-5.5.1
-./configure --prefix=/PATH
-make
-make install
-
-在.bashrc文件中设置启动
-exec /share/apps/zsh/bin/zsh -l
-此时还要确保zsh在环境变量中，如果没有，请设置。
-</pre>
-
-<h1 id="安装oh-my-zsh"><a href="#安装oh-my-zsh" class="headerlink" title="安装oh my zsh"></a>安装oh my zsh</h1><pre>sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"</pre>
-
-<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-05-28-install-oh-my-zsh.png"> </p>
-<p>既然用了zsh，我也尝试了一下新的虚拟终端MobaXterm。<br><a target="_blank" rel="noopener" href="https://mobaxterm.mobatek.net/">https://mobaxterm.mobatek.net</a></p>
-<p>安利的文章可以看这个，<a target="_blank" rel="noopener" href="https://www.isharebest.com/mobaxterm.htm">https://www.isharebest.com/mobaxterm.htm</a></p>
-<p>这个虚拟终端的功能非常丰富，但用起来有时候莫名其妙的卡。或许zsh和Xshell更搭。</p>
-<p>尝试了下命令提示的功能，如图，还是很方便的，后续以后会经常用zsh了。</p>
-<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-05-28-autopromote.png"> </p>
-<p>oh my zsh的主题列表<a target="_blank" rel="noopener" href="https://github.com/robbyrussell/oh-my-zsh/wiki/themes">https://github.com/robbyrussell/oh-my-zsh/wiki/themes</a></p>
-<p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>#####################################################################</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -1262,14 +1195,14 @@ exec /share/apps/zsh/bin/zsh -l
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
   <p class="site-author-name" itemprop="name">Jason</p>
-  <div class="site-description" itemprop="description">Share news</div>
+  <div class="site-description" itemprop="description"></div>
 </div>
 <div class="site-state-wrap motion-element">
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">134</span>
+          <span class="site-state-item-count">142</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -1278,7 +1211,7 @@ exec /share/apps/zsh/bin/zsh -l
         <span class="site-state-item-name">categories</span>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">141</span>
+        <span class="site-state-item-count">149</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>
