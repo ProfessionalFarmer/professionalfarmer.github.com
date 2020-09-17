@@ -1,4 +1,4 @@
-# Hexo Configuration
+﻿# Hexo Configuration
 ## Docs: https://hexo.io/docs/configuration.html
 ## Source: https://github.com/hexojs/hexo/
  
@@ -107,3 +107,11 @@ deploy:
   type: ''
 #
 show_ad_post: true
+
+
+# Zhongxu
+archive_generator:
+  per_page: 0  
+  yearly: true
+
+
