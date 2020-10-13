@@ -18,6 +18,8 @@ date: 2020-06-06 23:17:23
 
 2020-06-20 走完了一段和剩余的二段的一部分。
 
+2020-09-20 走了五段，并从中登狮子山顶Lion Rock Head。
+
 一段和部分二段图片
 =========
 
@@ -49,6 +51,14 @@ date: 2020-06-06 23:17:23
 ![](https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2020-06-05-macLehose-trail4.jpg)
 
 ![](https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2020-06-05-macLehose-trail1.jpg)
+
+五段和狮子山
+=========
+![](https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2020-09-20-stage 5-1.jpg)
+
+![](https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2020-09-20-stage 5-2.jpg)
+
+![](https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2020-09-20-stage 5-3.jpg)
 
 
 | 麦理浩径路段               | 长度      | 需时     | 景观 |
