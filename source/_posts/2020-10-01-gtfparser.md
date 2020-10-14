@@ -204,7 +204,7 @@ class gtfParser:
 
 Code available in GitHub: 
 
-[](https://github.com/ProfessionalFarmer/lake/blob/master/gtfParser.py)
+[https://github.com/ProfessionalFarmer/lake/blob/master/gtfParser.py](https://github.com/ProfessionalFarmer/lake/blob/master/gtfParser.py)
 
 
 
