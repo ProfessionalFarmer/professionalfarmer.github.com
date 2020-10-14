@@ -157,6 +157,219 @@ var _hmt = _hmt || [];
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/1104/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhongxu's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/archives/1104/" class="post-title-link" itemprop="url">分类模型的性能评估</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-06-04 16:17:23" itemprop="dateCreated datePublished" datetime="2020-06-04T16:17:23+08:00">2020-06-04</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>最常用的就是灵敏度和特异性，不过还有其他的，比如阴性预测值(negative predictive value, NPV)。</p>
+<p><a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2020-06-04-ROC.gif"><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2020-06-04-ROC.gif"></a></p>
+<p>通常，先画一个ROC曲线，计算曲线下面积。ROC上的每个点是特定阈值下，分类的sensitivity和specificity，没多点连起来组成ROC，曲线下面积就是AUC。面积越大越好，如果AUC是1，说明模型能够完全区分要预测的类别。</p>
+<p>如果不是1，就要考虑阈值取哪里比较好，这里就涉及到Youden index。Youden index 其实就是为了找到使得sensitivity和specificity之和最大max(sensitivities+specificities)的阈值。</p>
+<p>另外就是考虑其他指标来评估分类模型的性能：specificity, sensitivity, accuracy, npv, ppv, precision, recall, tpr, fpr, tnr, fnr, fdr。这些指标可谓琳琅满目，不过这之间有重复的，如下，都是基于tn（真阴）, tp（真阳）, fn（假阴）, fp（假阳）的个数进行计算。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th align="center"></th>
+<th align="center">预测</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td></td>
+<td align="center"></td>
+<td align="center">P</td>
+<td>N</td>
+</tr>
+<tr>
+<td>实际</td>
+<td align="center">P</td>
+<td align="center">TP</td>
+<td>FN</td>
+</tr>
+<tr>
+<td></td>
+<td align="center">N</td>
+<td align="center">FP</td>
+<td>TN</td>
+</tr>
+</tbody></table>
+<p>因为经常用到，就罗列了一下。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>具体描述</th>
+<th>公式</th>
+<th>别名</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>tn</td>
+<td>True negative count真阴数</td>
+<td>–</td>
+<td>–</td>
+</tr>
+<tr>
+<td>tp</td>
+<td>True positive count真阳数</td>
+<td>–</td>
+<td>–</td>
+</tr>
+<tr>
+<td>fn</td>
+<td>False negative count假阴数</td>
+<td>–</td>
+<td>–</td>
+</tr>
+<tr>
+<td>fp</td>
+<td>False positive count假阳数</td>
+<td>–</td>
+<td>–</td>
+</tr>
+<tr>
+<td>specificity</td>
+<td>Specificity特异度</td>
+<td>tn / (tn + fp)</td>
+<td>tnr</td>
+</tr>
+<tr>
+<td>sensitivity</td>
+<td>Sensitivity灵敏度</td>
+<td>tp / (tp + fn)</td>
+<td>recall, tpr</td>
+</tr>
+<tr>
+<td>accuracy</td>
+<td>Accuracy正确率</td>
+<td>(tp + tn) / N</td>
+<td>–</td>
+</tr>
+<tr>
+<td>npv</td>
+<td>Negative Predictive Value阴性预测值</td>
+<td>tn / (tn + fn)</td>
+<td>–</td>
+</tr>
+<tr>
+<td>ppv</td>
+<td>Positive Predictive Value阳性预测值</td>
+<td>tp / (tp + fp)</td>
+<td>precision</td>
+</tr>
+<tr>
+<td>precision</td>
+<td>Precision精准率</td>
+<td>tp / (tp + fp)</td>
+<td>ppv</td>
+</tr>
+<tr>
+<td>recall</td>
+<td>Recall正确率</td>
+<td>tp / (tp + fn)</td>
+<td>sensitivity, tpr</td>
+</tr>
+<tr>
+<td>tpr</td>
+<td>True Positive Rate真阳性率</td>
+<td>tp / (tp + fn)</td>
+<td>sensitivity, recall</td>
+</tr>
+<tr>
+<td>fpr</td>
+<td>False Positive Rate假阳性率</td>
+<td>fp / (tn + fp)</td>
+<td>1-specificity</td>
+</tr>
+<tr>
+<td>tnr</td>
+<td>True Negative Rate真阴性率</td>
+<td>tn / (tn + fp)</td>
+<td>specificity</td>
+</tr>
+<tr>
+<td>fnr</td>
+<td>False Negative Rate假阴性率</td>
+<td>fn / (tp + fn)</td>
+<td>1-sensitivity</td>
+</tr>
+<tr>
+<td>fdr</td>
+<td>False Discovery Rate伪发现率</td>
+<td>fp / (tp + fp)</td>
+<td>1-ppv</td>
+</tr>
+</tbody></table>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/1102/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -932,106 +1145,6 @@ END{
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/1065/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Jason">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Zhongxu's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/archives/1065/" class="post-title-link" itemprop="url">RefSeq的gtf文件</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2019-12-05 04:31:49" itemprop="dateCreated datePublished" datetime="2019-12-05T04:31:49+08:00">2019-12-05</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>注释有很多版本，比如ensembl，gencode, ucsc known gene, NCBI的RefSeqGene。最近就需要NM id的注释，但NCBI提供的是gff3格式的，而且很乱。用UCSC table browser下载的gtf版本的RefSeq，没有转录本和基因之间的关系，也没有基因symbol。</p>
-<p>比如Ensembl，其实Ensembl的gtf挺好用的，不过这次我因为需要NM编号的注释（笨方法是将ensembl id转成NCBI的refSeq的ID，但这不是最优的方法，ID mapping有可能对不上，不如直接用NM的注释）。</p>
-<pre>chr1    ensembl_havana  gene    11869   14412   .       +       .       gene_id "ENSG00000223972"; gene_version "4"; gene_name "DDX11L1"; gene_source "ensembl_havana"; gene_biotype "pseudogene";
-chr1    havana  transcript      11869   14409   .       +       .       gene_id "ENSG00000223972"; gene_version "4"; transcript_id "ENST00000456328"; transcript_version "2"; gene_name "DDX11L1"; gene_source "ensembl_havana"; gene_biotype "pseudogene"; transcript_name "DDX11L1-002"; transcript_source "havana"; transcript_biotype "processed_transcript"; havana_transcript "OTTHUMT00000362751"; havana_transcript_version "1"; tag "basic";
-chr1    havana  exon    11869   12227   .       +       .       gene_id "ENSG00000223972"; gene_version "4"; transcript_id "ENST00000456328"; transcript_version "2"; exon_number "1"; gene_name "DDX11L1"; gene_source "ensembl_havana"; gene_biotype "pseudogene"; transcript_name "DDX11L1-002"; transcript_source "havana"; transcript_biotype "processed_transcript"; havana_transcript "OTTHUMT00000362751"; havana_transcript_version "1"; exon_id "ENSE00002234944"; exon_version "1"; tag "basic";</pre>
-
-<p>UCSC table browser下载的refGene的gtf，这个文件不对的地方是gene id和transcript id是一个，而我需要gene和transcript的关系</p>
-<pre>chr1    hg19_refGene    exon    66999276        66999355        0.000000        +       .       gene_id "NM_001308203"; transcript_id "NM_001308203";
-chr1    hg19_refGene    start_codon     67000042        67000044        0.000000        +       .       gene_id "NM_001308203"; transcript_id "NM_001308203";
-chr1    hg19_refGene    CDS     67000042        67000051        0.000000        +       0       gene_id "NM_001308203"; transcript_id "NM_001308203";
-chr1    hg19_refGene    exon    66999929        67000051        0.000000        +       .       gene_id "NM_001308203"; transcript_id "NM_001308203";
-chr1    hg19_refGene    CDS     67091530        67091593        0.000000        +       2       gene_id "NM_001308203"; transcript_id "NM_001308203";
-chr1    hg19_refGene    exon    67091530        67091593        0.000000        +       .       gene_id "NM_001308203"; transcript_id "NM_001308203";</pre>
-
-
-<p>中间找了很多，终于找到一个方法，<a target="_blank" rel="noopener" href="https://bioinformatics.stackexchange.com/questions/2548/hg38-gtf-file-with-refseq-annotations">https://bioinformatics.stackexchange.com/questions/2548/hg38-gtf-file-with-refseq-annotations</a></p>
-<pre>mysql --user=genome --host=genome-mysql.cse.ucsc.edu -A -N -e "select * from refGene" hg19 ' cut -f2- ' genePredToGtf -source=hg19.refGene.ucsc file stdin stdout > refSeq.hg19.gtf</pre>
-
-<p>genePredToGtf可以从UCSC下载，需要注意的直接下载refFlat的文件（不通过mysql），用genePhredToGtf生成的文件和UCSC table browser下载的gtf文件是一样的，通过mysql下载用genephreadToGtf是我想要的。</p>
-<p>比如这样，这才是我想要的</p>
-<pre>chrX    hg19.refGene.ucsc       exon    70683674        70685855        .       +       .       gene_id "TAF1"; transcript_id "NM_138923"; exon_number "38"; exon_id "NM_138923.38"; gene_name "TAF1";
-chrX    hg19.refGene.ucsc       CDS     70683674        70683893        .       +       1       gene_id "TAF1"; transcript_id "NM_138923"; exon_number "38"; exon_id "NM_138923.38"; gene_name "TAF1";
-chrX    hg19.refGene.ucsc       start_codon     70586225        70586227        .       +       0       gene_id "TAF1"; transcript_id "NM_138923"; exon_number "1"; exon_id "NM_138923.1"; gene_name "TAF1";
-chrX    hg19.refGene.ucsc       stop_codon      70683894        70683896        .       +       0       gene_id "TAF1"; transcript_id "NM_138923"; exon_number "38"; exon_id "NM_138923.38"; gene_name "TAF1";</pre>
-
-<p>Ref: <a target="_blank" rel="noopener" href="https://bioinformatics.stackexchange.com/questions/2548/hg38-gtf-file-with-refseq-annotations">https://bioinformatics.stackexchange.com/questions/2548/hg38-gtf-file-with-refseq-annotations</a></p>
-<p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>#####################################################################</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1101,7 +1214,7 @@ chrX    hg19.refGene.ucsc       stop_codon      70683894        70683896        
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">142</span>
+          <span class="site-state-item-count">143</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -1110,7 +1223,7 @@ chrX    hg19.refGene.ucsc       stop_codon      70683894        70683896        
         <span class="site-state-item-name">categories</span>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">149</span>
+        <span class="site-state-item-count">150</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>

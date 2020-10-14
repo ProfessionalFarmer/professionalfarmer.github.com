@@ -157,6 +157,88 @@ var _hmt = _hmt || [];
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/993/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhongxu's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/archives/993/" class="post-title-link" itemprop="url">VCF文件中的原始突变过滤--filter raw variants in vcf</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-05-21 17:23:43" itemprop="dateCreated datePublished" datetime="2018-05-21T17:23:43+08:00">2018-05-21</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Hard-filter突变的传统过滤方式"><a href="#Hard-filter突变的传统过滤方式" class="headerlink" title="Hard filter突变的传统过滤方式"></a>Hard filter突变的传统过滤方式</h1><p>此时VCF文件中的突变，与刚开始下机得到的FASTQ文件类似，称为raw data。此时的突变集合中，有很多假阳性突变，这些突变需要在突变分析之前过滤掉。<br>传统的过滤方式，直接根据每个突变的注释信息，进行过滤。最直接和最常见的是根据DP标签过滤，即根据该突变位点的测序深度进行过滤。通常，深度越低，支持该突变的reads数目越少，该突变越不可信。还可以根据前面提到的QUAL质量分值进行过滤，分值越低越不可信。Forward reads和Reverse reads的比例。通过，设定一定的阈值，看这些注释信息是高于还是低于该阈值。</p>
+<p>这种直接根据突变信息进行过滤的方式，GATK成为hard filter。GATK常用的hard filter参数还有DP &lt; 10，QD &lt; 2.0，FS &gt; 60.0，MQ &lt; 10.0，MQRankSum &lt; -12.5，ReadPosRankSum &lt; -8.0等方式。这些阈值通过GATK的VariantFiltration工具进行过滤，突变满足其中一条，就会被过滤。<br>这种过滤方式直接根据特定阈值就将突变过滤掉，考虑的维度较少，真实突变可能因为某一注释没有到达阈值而被错误的过滤掉。如果为了保留这些真实的突变，而放松阈值，又可能同样将假阳性突变保留。</p>
+<p>Hard filter常用于panel测序，panel测序得到的突变位点较少，不足以通过机器学习的方式进行过滤。</p>
+<h1 id="VQSR突变质量分值再校准"><a href="#VQSR突变质量分值再校准" class="headerlink" title="VQSR突变质量分值再校准"></a>VQSR突变质量分值再校准</h1><p>虽然这步叫做Varaint Quality Score Recalibrate，但该步并没有再校准突变质量分值，而是重新生成了一个叫做VQSLOD (for variant quality score log-odds)的分值，且认为该分值是被充分校准的。</p>
+<p>VQSR不同于传统的hard filter。VQSR整合突变的多种维度的信息，如下图，通过机器学习的方式，得到好的突变good variant和坏的突变bad variant的特征范式，对突变进行过滤，从而挑选出聚簇在一起的好的突变。需要注意的是，VQSR只利用INFO的注释信息，而没有利用样本特异性的SAMPLE信息。</p>
+<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-05-21-VQSR-varaint-filter.png"> </p>
+<p>通常用于训练的数据集，是通过分析得到的raw variant data数据集与hapmap、omni、1000Genome等（hapma和omni中的突变通常被认为是高质量的、验证过的，1000 Genome中的突变可信度次之）进行比较，得到raw variant data数据集中高可信的突变集合，集合中的突变注释信息将被用于机器学习训练模型。同理，低质量假阳性突变的数据也同样。通过机器学习，会对训练数据集高可信的突变的分布进行建模和聚类。同时，也对所有突变进行建模，计算VQSLOD值。通常离聚类形成的簇核心近的突变，VQSLOD值越高，越可信。</p>
+<p>在最终过滤突变的时候，GATK VQSR并没有一个直接的阈值进行过滤，而是通过引入sensitivity灵敏度的概念。比如过滤的阈值是99%，则意味着训练数据集中有99%的突变也位于hapmap中，此时的VQSLOD值就是用于突变过滤的阈值。VQSLOD值高于该阈值的突变会被标为PASS，低于的则被过滤，并在FILTER列标记。<br>因为SNP和INDEL的特征不同，VQSR通常将SNP和INDEL分开进行过滤。</p>
+<p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>#####################################################################</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/988/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -931,100 +1013,6 @@ sudo make install</pre>
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/848/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Jason">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Zhongxu's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/archives/848/" class="post-title-link" itemprop="url">思考：是否升级参考基因组版本</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2018-02-27 14:27:45" itemprop="dateCreated datePublished" datetime="2018-02-27T14:27:45+08:00">2018-02-27</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>Should I switch to a newer reference？</p>
-<p>GRCh38 consists of several components: chromosomal assembly, unlocalized contigs (chromosome known but location unknown), unplaced contigs (chromosome unknown) and ALT contigs (long clustered variations). The combination of the first three components is called the primary assembly. It is recommended to use the complete primary assembly for all analyses. </p>
-<p><strong>参考基因组包括chromosomal assembly, unlocalized contigs (chromosome known but location unknown), unplaced contigs (chromosome unknown)和ALT contigs (long clustered variations)，前三个是primary assembly,alt contigs代表的是部分区域单体型的多样性，这些区域过于复杂不能用一条序列表示。</strong></p>
-<p>In addition to adding many alternate contigs, GRCh38 corrects thousands of SNPs and indels in the GRCh37 assembly that are absent in the population and are likely sequencing artifacts. It also includes synthetic centromeric sequence and updates non-nuclear genomic sequence.</p>
-<p><strong>除了添加了很多alternative contigs，GRCh38更正了数以千计的GRCh37版本中的SNPs和indels，这些SNPs和indels在人群中没有出现过、可能因为测序错误导致。GRCh38版本也包含了人工的着丝粒序列和更新了非核基因组序列。</strong></p>
-<p>The ability to recognize alternate haplotypes for loci is a drastic improvement that GRCh38 makes possible. Going forward, expanding genomics data will help identify variants for alternate haplotypes, improve existing and add additional alternate haplotypes and give us a better accounting of alternate haplotypes within populations. We are already seeing improvements and additions in the patch releases to reference genomes, e.g. the seven minor releases of GRCh38 available at the time of this writing.<br><strong>GRCh38大幅提高了识别alternate haplotype的能力，进一步提高了识别alternate haplotype的突变的能力。</strong></p>
-<p>BWA的作者Li Heng推荐GRCh37 primary assembly+ALT+decoy组成的参考基因组hs38DH，可以通过bwa下载，见<a target="_blank" rel="noopener" href="https://github.com/lh3/bwa/blob/master/README-alt.md">https://github.com/lh3/bwa/blob/master/README-alt.md</a> ：</p>
-<pre>bwa.kit/run-gen-ref hs38DH</pre>
-
-<p>作者的用NA12878做测试的比对结果如下，</p>
-<pre>Assembly    hs37    hs38    hs38DH
-FP    255706    168068    142516
-TP    2142260    2163113    2150844</pre>
-
-<p><strong>PS：</strong></p>
-<p>从改进来看，这些改进都将提高比对和突变检测的质量，<br>从结果看，38版本提高了TP的灵敏度，并降低了FP，<br>从趋势来看，37升级成38是大趋势，so请及时升级。</p>
-<p><strong>参考</strong></p>
-<p><a target="_blank" rel="noopener" href="https://software.broadinstitute.org/gatk/documentation/article.php?id=7857">https://software.broadinstitute.org/gatk/documentation/article.php?id=7857</a></p>
-<p><a target="_blank" rel="noopener" href="https://gatkforums.broadinstitute.org/gatk/discussion/8180/9-takeaways-to-help-you-get-started-with-grch38">https://gatkforums.broadinstitute.org/gatk/discussion/8180/9-takeaways-to-help-you-get-started-with-grch38</a><a target="_blank" rel="noopener" href="https://software.broadinstitute.org/gatk/documentation/article.php?id=8017">https://software.broadinstitute.org/gatk/documentation/article.php?id=8017</a></p>
-<p><a target="_blank" rel="noopener" href="https://github.com/lh3/bwa/blob/master/README-alt.md">https://github.com/lh3/bwa/blob/master/README-alt.md</a></p>
-<p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>#####################################################################</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1094,7 +1082,7 @@ TP    2142260    2163113    2150844</pre>
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">142</span>
+          <span class="site-state-item-count">143</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -1103,7 +1091,7 @@ TP    2142260    2163113    2150844</pre>
         <span class="site-state-item-name">categories</span>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">149</span>
+        <span class="site-state-item-count">150</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>

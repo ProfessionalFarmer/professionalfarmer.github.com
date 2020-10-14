@@ -157,6 +157,91 @@ var _hmt = _hmt || [];
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/1171/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhongxu's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/archives/1171/" class="post-title-link" itemprop="url">整合多组学数据的通路富集分析-ActivePathways</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-10-01 01:03:23" itemprop="dateCreated datePublished" datetime="2020-10-01T01:03:23+08:00">2020-10-01</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>I always used gtf file and retrieve gene information. There isn’t a highly flexible tool to solve my demand. I modified the code from “<a target="_blank" rel="noopener" href="https://github.com/Jverma/GFF-Parser%E2%80%9D">https://github.com/Jverma/GFF-Parser”</a>, thanks Jverma. This tool will be easier to use.</p>
+<h1 id="Usage"><a href="#Usage" class="headerlink" title="Usage"></a>Usage</h1><p>Basically, there are three parameters.</p>
+<p>id: either transcript id or gene id.</p>
+<p>attType: attribute defined in gtf file. E.g. feature (column 3), gene_name, exon_number, transcript_id in column 9</p>
+<p>attValue: the attribute value you want to search for.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">import</span> sys</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">from</span> gtfParser <span class="keyword">import</span> gtfParser</span><br><span class="line"></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>gtf = gtfParser(<span class="string">&quot;example.gtf&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="comment"># Get all exons in CDK7</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>gtf.getRecordsByID(<span class="string">&quot;CDK7&quot;</span>, <span class="string">&quot;feature&quot;</span>, <span class="string">&quot;exon&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="comment"># Get all features of transcript_id defined as &quot;NM_001324069&quot; in gene &quot;CDK7&quot;</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>gtf.getRecordsByID(<span class="string">&quot;CDK7&quot;</span>, <span class="string">&quot;transcript_id&quot;</span>, <span class="string">&quot;NM_001324069&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="comment"># Get start codon where feature was defined as &quot;start_codon&quot; in transcript &quot;NM_001324069&quot;</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>gtf.getRecordsByID(<span class="string">&quot;NM_001324069&quot;</span>, <span class="string">&quot;feature&quot;</span>, <span class="string">&quot;start_codon&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="comment"># Get a exon where its id is &quot;NM_001324078.1&quot; in &quot;NM_001324078&quot; transcript</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>gtf.getRecordsByID(<span class="string">&quot;NM_001324078&quot;</span>, <span class="string">&quot;exon_id&quot;</span>, <span class="string">&quot;NM_001324078.1&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="Example-gtf"><a href="#Example-gtf" class="headerlink" title="Example gtf"></a>Example gtf</h1><p>Here is an simple example of gtf file. You can use to test. A subset from refSeq.hg38.gtf.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">chr5	hg38.refGene.ucsc	transcript	69234886	69277430	.	+	.	gene_id &quot;CDK7&quot;; transcript_id &quot;NM_001324069&quot;;  gene_name &quot;CDK7&quot;;</span><br><span class="line">chr5	hg38.refGene.ucsc	exon	69234886	69235041	.	+	.	gene_id &quot;CDK7&quot;; transcript_id &quot;NM_001324069&quot;; exon_number &quot;1&quot;; exon_id &quot;NM_001324069.1&quot;; gene_name &quot;CDK7&quot;;</span><br><span class="line">chr5	hg38.refGene.ucsc	exon	69235394	69235453	.	+	.	gene_id &quot;CDK7&quot;; transcript_id &quot;NM_001324069&quot;; exon_number &quot;2&quot;; exon_id &quot;NM_001324069.2&quot;; gene_name &quot;CDK7&quot;;</span><br><span class="line">chr5	hg38.refGene.ucsc	exon	69250745	69250831	.	+	.	gene_id &quot;CDK7&quot;; transcript_id &quot;NM_001324069&quot;; exon_number &quot;3&quot;; exon_id &quot;NM_001324069.3&quot;; gene_name &quot;CDK7&quot;;</span><br><span class="line">chr5	hg38.refGene.ucsc	CDS	69250829	69250831	.	+	0	gene_id &quot;CDK7&quot;; transcript_id &quot;NM_001324069&quot;; exon_number &quot;3&quot;; exon_id &quot;NM_001324069.3&quot;; gene_name &quot;CDK7&quot;;</span><br><span class="line">chr5	hg38.refGene.ucsc	exon	69252418	69252451	.	+	.	gene_id &quot;CDK7&quot;; transcript_id &quot;NM_001324069&quot;; exon_number &quot;4&quot;; exon_id &quot;NM_001324069.4&quot;; gene_name &quot;CDK7&quot;;</span><br><span class="line">chr5	hg38.refGene.ucsc	CDS	69252418	69252451	.	+	0	gene_id &quot;CDK7&quot;; transcript_id &quot;NM_001324069&quot;; exon_number &quot;4&quot;; exon_id &quot;NM_001324069.4&quot;; gene_name &quot;CDK7&quot;;</span><br><span class="line">chr5	hg38.refGene.ucsc	exon	69254602	69254669	.	+	.	gene_id &quot;CDK7&quot;; transcript_id &quot;NM_001324069&quot;; exon_number &quot;5&quot;; exon_id &quot;NM_001324069.5&quot;; gene_name &quot;CDK7&quot;;</span><br><span class="line">chr5	hg38.refGene.ucsc	CDS	69254602	69254669	.	+	2	gene_id &quot;CDK7&quot;; transcript_id &quot;NM_001324069&quot;; exon_number &quot;5&quot;; exon_id &quot;NM_001324069.5&quot;; gene_name &quot;CDK7&quot;;</span><br><span class="line">chr5	hg38.refGene.ucsc	exon	69255460	69255528	.	+	.	gene_id &quot;CDK7&quot;; transcript_id &quot;NM_001324069&quot;; exon_number &quot;6&quot;; exon_id &quot;NM_001324069.6&quot;; gene_name &quot;CDK7&quot;;</span><br><span class="line">chr5	hg38.refGene.ucsc	CDS	69255460	69255528	.	+	0	gene_id &quot;CDK7&quot;; transcript_id &quot;NM_001324069&quot;; exon_number &quot;6&quot;; exon_id &quot;NM_001324069.6&quot;; gene_name &quot;CDK7&quot;;</span><br><span class="line">chr5	hg38.refGene.ucsc	exon	69258043	69258153	.	+	.	gene_id &quot;CDK7&quot;; transcript_id &quot;NM_001324069&quot;; exon_number &quot;7&quot;; exon_id &quot;NM_001324069.7&quot;; gene_name &quot;CDK7&quot;;</span><br><span class="line">chr5	hg38.refGene.ucsc	CDS	69258043	69258153	.	+	0	gene_id &quot;CDK7&quot;; transcript_id &quot;NM_001324069&quot;; exon_number &quot;7&quot;; exon_id &quot;NM_001324069.7&quot;; gene_name &quot;CDK7&quot;;</span><br><span class="line">chr5	hg38.refGene.ucsc	exon	69259818	69259936	.	+	.	gene_id &quot;CDK7&quot;; transcript_id &quot;NM_001324069&quot;; exon_number &quot;8&quot;; exon_id &quot;NM_001324069.8&quot;; gene_name &quot;CDK7&quot;;</span><br><span class="line">chr5	hg38.refGene.ucsc	CDS	69259818	69259936	.	+	0	gene_id &quot;CDK7&quot;; transcript_id &quot;NM_001324069&quot;; exon_number &quot;8&quot;; exon_id &quot;NM_001324069.8&quot;; gene_name &quot;CDK7&quot;;</span><br><span class="line">chr5	hg38.refGene.ucsc	exon	69262205	69262304	.	+	.	gene_id &quot;CDK7&quot;; transcript_id &quot;NM_001324069&quot;; exon_number &quot;9&quot;; exon_id &quot;NM_001324069.9&quot;; gene_name &quot;CDK7&quot;;</span><br><span class="line">chr5	hg38.refGene.ucsc	CDS	69262205	69262304	.	+	1	gene_id &quot;CDK7&quot;; transcript_id &quot;NM_001324069&quot;; exon_number &quot;9&quot;; exon_id &quot;NM_001324069.9&quot;; gene_name &quot;CDK7&quot;;</span><br><span class="line">chr5	hg38.refGene.ucsc	exon	69269207	69269293	.	+	.	gene_id &quot;CDK7&quot;; transcript_id &quot;NM_001324069&quot;; exon_number &quot;10&quot;; exon_id &quot;NM_001324069.10&quot;; gene_name &quot;CDK7&quot;;</span><br><span class="line">chr5	hg38.refGene.ucsc	CDS	69269207	69269293	.	+	0	gene_id &quot;CDK7&quot;; transcript_id &quot;NM_001324069&quot;; exon_number &quot;10&quot;; exon_id &quot;NM_001324069.10&quot;; gene_name &quot;CDK7&quot;;</span><br><span class="line">chr5	hg38.refGene.ucsc	exon	69272892	69273041	.	+	.	gene_id &quot;CDK7&quot;; transcript_id &quot;NM_001324069&quot;; exon_number &quot;11&quot;; exon_id &quot;NM_001324069.11&quot;; gene_name &quot;CDK7&quot;;</span><br><span class="line">chr5	hg38.refGene.ucsc	CDS	69272892	69273041	.	+	0	gene_id &quot;CDK7&quot;; transcript_id &quot;NM_001324069&quot;; exon_number &quot;11&quot;; exon_id &quot;NM_001324069.11&quot;; gene_name &quot;CDK7&quot;;</span><br><span class="line">chr5	hg38.refGene.ucsc	exon	69276543	69276690	.	+	.	gene_id &quot;CDK7&quot;; transcript_id &quot;NM_001324069&quot;; exon_number &quot;12&quot;; exon_id &quot;NM_001324069.12&quot;; gene_name &quot;CDK7&quot;;</span><br><span class="line">chr5	hg38.refGene.ucsc	CDS	69276543	69276690	.	+	0	gene_id &quot;CDK7&quot;; transcript_id &quot;NM_001324069&quot;; exon_number &quot;12&quot;; exon_id &quot;NM_001324069.12&quot;; gene_name &quot;CDK7&quot;;</span><br><span class="line">chr5	hg38.refGene.ucsc	exon	69277107	69277430	.	+	.	gene_id &quot;CDK7&quot;; transcript_id &quot;NM_001324069&quot;; exon_number &quot;13&quot;; exon_id &quot;NM_001324069.13&quot;; gene_name &quot;CDK7&quot;;</span><br><span class="line">chr5	hg38.refGene.ucsc	CDS	69277107	69277132	.	+	2	gene_id &quot;CDK7&quot;; transcript_id &quot;NM_001324069&quot;; exon_number &quot;13&quot;; exon_id &quot;NM_001324069.13&quot;; gene_name &quot;CDK7&quot;;</span><br><span class="line">chr5	hg38.refGene.ucsc	start_codon	69250829	69250831	.	+	0	gene_id &quot;CDK7&quot;; transcript_id &quot;NM_001324069&quot;; exon_number &quot;3&quot;; exon_id &quot;NM_001324069.3&quot;; gene_name &quot;CDK7&quot;;</span><br><span class="line">chr5	hg38.refGene.ucsc	stop_codon	69277133	69277135	.	+	0	gene_id &quot;CDK7&quot;; transcript_id &quot;NM_001324069&quot;; exon_number &quot;13&quot;; exon_id &quot;NM_001324069.13&quot;; gene_name &quot;CDK7&quot;;</span><br><span class="line">chr5	hg38.refGene.ucsc	transcript	69234886	69277430	.	+	.	gene_id &quot;CDK7&quot;; transcript_id &quot;NM_001324078&quot;;  gene_name &quot;CDK7&quot;;</span><br><span class="line">chr5	hg38.refGene.ucsc	exon	69234886	69235041	.	+	.	gene_id &quot;CDK7&quot;; transcript_id &quot;NM_001324078&quot;; exon_number &quot;1&quot;; exon_id &quot;NM_001324078.1&quot;; gene_name &quot;CDK7&quot;;</span><br><span class="line">chr5	hg38.refGene.ucsc	exon	69235394	69235453	.	+	.	gene_id &quot;CDK7&quot;; transcript_id &quot;NM_001324078&quot;; exon_number &quot;2&quot;; exon_id &quot;NM_001324078.2&quot;; gene_name &quot;CDK7&quot;;</span><br><span class="line">chr5	hg38.refGene.ucsc	exon	69254602	69254667	.	+	.	gene_id &quot;CDK7&quot;; transcript_id &quot;NM_001324078&quot;; exon_number &quot;3&quot;; exon_id &quot;NM_001324078.3&quot;; gene_name &quot;CDK7&quot;;</span><br><span class="line">chr5	hg38.refGene.ucsc	exon	69255460	69255528	.	+	.	gene_id &quot;CDK7&quot;; transcript_id &quot;NM_001324078&quot;; exon_number &quot;4&quot;; exon_id &quot;NM_001324078.4&quot;; gene_name &quot;CDK7&quot;;</span><br><span class="line">chr5	hg38.refGene.ucsc	CDS	69255511	69255528	.	+	0	gene_id &quot;CDK7&quot;; transcript_id &quot;NM_001324078&quot;; exon_number &quot;4&quot;; exon_id &quot;NM_001324078.4&quot;; gene_name &quot;CDK7&quot;;</span><br><span class="line">chr5	hg38.refGene.ucsc	exon	69258043	69258153	.	+	.	gene_id &quot;CDK7&quot;; transcript_id &quot;NM_001324078&quot;; exon_number &quot;5&quot;; exon_id &quot;NM_001324078.5&quot;; gene_name &quot;CDK7&quot;;</span><br><span class="line">chr5	hg38.refGene.ucsc	CDS	69258043	69258153	.	+	0	gene_id &quot;CDK7&quot;; transcript_id &quot;NM_001324078&quot;; exon_number &quot;5&quot;; exon_id &quot;NM_001324078.5&quot;; gene_name &quot;CDK7&quot;;</span><br><span class="line">chr5	hg38.refGene.ucsc	exon	69259818	69259936	.	+	.	gene_id &quot;CDK7&quot;; transcript_id &quot;NM_001324078&quot;; exon_number &quot;6&quot;; exon_id &quot;NM_001324078.6&quot;; gene_name &quot;CDK7&quot;;</span><br><span class="line">chr5	hg38.refGene.ucsc	CDS	69259818	69259936	.	+	0	gene_id &quot;CDK7&quot;; transcript_id &quot;NM_001324078&quot;; exon_number &quot;6&quot;; exon_id &quot;NM_001324078.6&quot;; gene_name &quot;CDK7&quot;;</span><br><span class="line">chr5	hg38.refGene.ucsc	exon	69262205	69262304	.	+	.	gene_id &quot;CDK7&quot;; transcript_id &quot;NM_001324078&quot;; exon_number &quot;7&quot;; exon_id &quot;NM_001324078.7&quot;; gene_name &quot;CDK7&quot;;</span><br><span class="line">chr5	hg38.refGene.ucsc	CDS	69262205	69262304	.	+	1	gene_id &quot;CDK7&quot;; transcript_id &quot;NM_001324078&quot;; exon_number &quot;7&quot;; exon_id &quot;NM_001324078.7&quot;; gene_name &quot;CDK7&quot;;</span><br><span class="line">chr5	hg38.refGene.ucsc	exon	69269207	69269293	.	+	.	gene_id &quot;CDK7&quot;; transcript_id &quot;NM_001324078&quot;; exon_number &quot;8&quot;; exon_id &quot;NM_001324078.8&quot;; gene_name &quot;CDK7&quot;;</span><br><span class="line">chr5	hg38.refGene.ucsc	CDS	69269207	69269293	.	+	0	gene_id &quot;CDK7&quot;; transcript_id &quot;NM_001324078&quot;; exon_number &quot;8&quot;; exon_id &quot;NM_001324078.8&quot;; gene_name &quot;CDK7&quot;;</span><br><span class="line">chr5	hg38.refGene.ucsc	exon	69272892	69273041	.	+	.	gene_id &quot;CDK7&quot;; transcript_id &quot;NM_001324078&quot;; exon_number &quot;9&quot;; exon_id &quot;NM_001324078.9&quot;; gene_name &quot;CDK7&quot;;</span><br><span class="line">chr5	hg38.refGene.ucsc	CDS	69272892	69273041	.	+	0	gene_id &quot;CDK7&quot;; transcript_id &quot;NM_001324078&quot;; exon_number &quot;9&quot;; exon_id &quot;NM_001324078.9&quot;; gene_name &quot;CDK7&quot;;</span><br><span class="line">chr5	hg38.refGene.ucsc	exon	69276543	69276690	.	+	.	gene_id &quot;CDK7&quot;; transcript_id &quot;NM_001324078&quot;; exon_number &quot;10&quot;; exon_id &quot;NM_001324078.10&quot;; gene_name &quot;CDK7&quot;;</span><br><span class="line">chr5	hg38.refGene.ucsc	CDS	69276543	69276690	.	+	0	gene_id &quot;CDK7&quot;; transcript_id &quot;NM_001324078&quot;; exon_number &quot;10&quot;; exon_id &quot;NM_001324078.10&quot;; gene_name &quot;CDK7&quot;;</span><br><span class="line">chr5	hg38.refGene.ucsc	exon	69277107	69277430	.	+	.	gene_id &quot;CDK7&quot;; transcript_id &quot;NM_001324078&quot;; exon_number &quot;11&quot;; exon_id &quot;NM_001324078.11&quot;; gene_name &quot;CDK7&quot;;</span><br><span class="line">chr5	hg38.refGene.ucsc	CDS	69277107	69277132	.	+	2	gene_id &quot;CDK7&quot;; transcript_id &quot;NM_001324078&quot;; exon_number &quot;11&quot;; exon_id &quot;NM_001324078.11&quot;; gene_name &quot;CDK7&quot;;</span><br><span class="line">chr5	hg38.refGene.ucsc	start_codon	69255511	69255513	.	+	0	gene_id &quot;CDK7&quot;; transcript_id &quot;NM_001324078&quot;; exon_number &quot;4&quot;; exon_id &quot;NM_001324078.4&quot;; gene_name &quot;CDK7&quot;;</span><br><span class="line">chr5	hg38.refGene.ucsc	stop_codon	69277133	69277135	.	+	0	gene_id &quot;CDK7&quot;; transcript_id &quot;NM_001324078&quot;; exon_number &quot;11&quot;; exon_id &quot;NM_001324078.11&quot;; gene_name &quot;CDK7&quot;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="My-code"><a href="#My-code" class="headerlink" title="My code"></a>My code</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="comment">#############################################################</span></span><br><span class="line"><span class="comment">###     Inspired by https://github.com/Jverma/GFF-Parser  ###</span></span><br><span class="line"><span class="comment">#############################################################</span></span><br><span class="line"></span><br><span class="line"><span class="comment">####################################################################</span></span><br><span class="line"><span class="comment"># &gt;&gt;&gt; from gtfParser import gtfParser</span></span><br><span class="line"><span class="comment"># &gt;&gt;&gt; gtf = gtfParser(input_file)</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># &gt;&gt;&gt; gtf.getRecordsByID(&quot;TTN&quot;, &quot;feature&quot;, &quot;exon&quot;)</span></span><br><span class="line"><span class="comment"># &gt;&gt;&gt; gtf.getRecordsByID(&quot;TTN&quot;, &quot;transcript_id&quot;, &quot;NM_001367552&quot;)</span></span><br><span class="line"><span class="comment"># &gt;&gt;&gt; gtf.getRecordsByID(&quot;NM_013416&quot;, &quot;feature&quot;, &quot;start_codon&quot;)</span></span><br><span class="line"><span class="comment"># &gt;&gt;&gt; gtf.getRecordsByID(&quot;NR_024540&quot;, &quot;exon_id&quot;, &quot;NR_024540.5&quot;)</span></span><br><span class="line"><span class="comment">####################################################################</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">gtfParser</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, input_file</span>):</span></span><br><span class="line">        <span class="keyword">import</span> sys</span><br><span class="line">        self.data = &#123;&#125;</span><br><span class="line">        self.dict = &#123;&#125;</span><br><span class="line">        self.gene_attributes_dict = &#123;&#125; <span class="comment"># ZZX</span></span><br><span class="line">        self.transcriptID_geneID_dict = &#123;&#125; <span class="comment"># ZZX</span></span><br><span class="line"></span><br><span class="line">        sys.stderr.write(<span class="string">&quot;#####################\nParsing reference gtf file: &quot;</span> +</span><br><span class="line">                         input_file +</span><br><span class="line">                         <span class="string">&#x27;\n#####################\n&#x27;</span>)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> line <span class="keyword">in</span> open(input_file):</span><br><span class="line">            <span class="keyword">if</span> line.startswith(<span class="string">&quot;#&quot;</span>): <span class="keyword">continue</span></span><br><span class="line">            record = line.strip().split(<span class="string">&quot;\t&quot;</span>)</span><br><span class="line">            sequence_name = record[<span class="number">0</span>]</span><br><span class="line">            source = record[<span class="number">1</span>]</span><br><span class="line">            feature = record[<span class="number">2</span>]</span><br><span class="line">            start = int(record[<span class="number">3</span>])</span><br><span class="line">            end = int(record[<span class="number">4</span>])</span><br><span class="line">            <span class="keyword">if</span> (record[<span class="number">5</span>] != <span class="string">&#x27;.&#x27;</span>):</span><br><span class="line">                score = record[<span class="number">5</span>]</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                score = <span class="literal">None</span></span><br><span class="line">            strand = record[<span class="number">6</span>]</span><br><span class="line">            <span class="keyword">if</span> (record[<span class="number">7</span>] != <span class="string">&#x27;.&#x27;</span>):</span><br><span class="line">                frame = record[<span class="number">7</span>]</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                frame = <span class="literal">None</span></span><br><span class="line">            attributes = record[<span class="number">8</span>].split(<span class="string">&#x27;;&#x27;</span>) <span class="comment"># please note the separator between each attribute</span></span><br><span class="line">            attributes = [x.strip() <span class="keyword">for</span> x <span class="keyword">in</span> attributes[<span class="number">0</span>:<span class="number">-1</span>]] <span class="comment"># ZZX</span></span><br><span class="line">            attributes = &#123;x.split(<span class="string">&#x27; &#x27;</span>)[<span class="number">0</span>]: x.split(<span class="string">&#x27; &#x27;</span>)[<span class="number">1</span>].strip(<span class="string">&quot;\&quot;&quot;</span>) <span class="keyword">for</span> x <span class="keyword">in</span> attributes <span class="keyword">if</span> <span class="string">&quot; &quot;</span> <span class="keyword">in</span> x&#125; <span class="comment"># ZZX</span></span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">not</span> (sequence_name <span class="keyword">in</span> self.data): self.data[sequence_name] = []</span><br><span class="line">            alpha = &#123;<span class="string">&#x27;source&#x27;</span>: source, <span class="string">&#x27;feature&#x27;</span>: feature, <span class="string">&#x27;start&#x27;</span>: start, <span class="string">&#x27;end&#x27;</span>: end, <span class="string">&#x27;score&#x27;</span>: score, <span class="string">&#x27;strand&#x27;</span>: strand,</span><br><span class="line">                     <span class="string">&#x27;frame&#x27;</span>: frame&#125;</span><br><span class="line">            <span class="comment"># python 3 .items(), python 2 .iteritems() ZZX</span></span><br><span class="line">            <span class="keyword">for</span> k, v <span class="keyword">in</span> attributes.items(): alpha[k] = v</span><br><span class="line">            self.data[sequence_name].append(alpha)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># ZZX</span></span><br><span class="line">        <span class="keyword">for</span> k, v <span class="keyword">in</span> self.data.items():</span><br><span class="line">            <span class="keyword">for</span> alpha <span class="keyword">in</span> v:</span><br><span class="line">                gene_id = alpha[<span class="string">&quot;gene_id&quot;</span>]</span><br><span class="line">                transcript_id = alpha[<span class="string">&quot;transcript_id&quot;</span>]</span><br><span class="line"></span><br><span class="line">                self.transcriptID_geneID_dict[transcript_id] = gene_id</span><br><span class="line">                <span class="keyword">if</span> gene_id <span class="keyword">in</span> self.gene_attributes_dict.keys():</span><br><span class="line">                    self.gene_attributes_dict[gene_id].append(alpha)</span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    self.gene_attributes_dict[gene_id] = list()</span><br><span class="line">                    self.gene_attributes_dict[gene_id].append(alpha)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">getRecordsByID</span>(<span class="params">self, id, attType, attValue</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        Gets all the features for a given gene</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">        :param id: Identifier of the gene (specified by gene_id) or mRNA (specified by transcript_id)</span></span><br><span class="line"><span class="string">        :param attType: Any attribute list in gtf file.</span></span><br><span class="line"><span class="string">        :param attValue:</span></span><br><span class="line"><span class="string">        :return: A list of features related to ID where restricted by attType and attValue.</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">        att_list = []</span><br><span class="line">        <span class="keyword">if</span> id <span class="keyword">in</span> self.gene_attributes_dict.keys():</span><br><span class="line">            <span class="keyword">for</span> x <span class="keyword">in</span> self.gene_attributes_dict[id]:</span><br><span class="line">                <span class="keyword">if</span> ( attType <span class="keyword">in</span> x.keys() <span class="keyword">and</span>  x[attType] == attValue ):</span><br><span class="line">                    att_info = x</span><br><span class="line">                    att_list.append(att_info)</span><br><span class="line">        <span class="keyword">elif</span> id <span class="keyword">in</span> self.transcriptID_geneID_dict.keys():</span><br><span class="line">            <span class="keyword">for</span> x <span class="keyword">in</span> self.gene_attributes_dict[self.transcriptID_geneID_dict[id]]:</span><br><span class="line">                <span class="keyword">if</span> ( attType <span class="keyword">in</span> x.keys() <span class="keyword">and</span>  x[attType] == attValue <span class="keyword">and</span> x[<span class="string">&quot;transcript_id&quot;</span>] == id):</span><br><span class="line">                    att_info = x</span><br><span class="line">                    att_list.append(att_info)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            sys.stderr.write(<span class="string">&quot;Could not find ID &quot;</span>+id+<span class="string">&#x27;\n&#x27;</span>)</span><br><span class="line">            sys.exit(<span class="number">1</span>)</span><br><span class="line">        <span class="keyword">return</span> att_list</span><br></pre></td></tr></table></figure>
+
+
+
+<p>Code available in GitHub: </p>
+<p><a target="_blank" rel="noopener" href="https://github.com/ProfessionalFarmer/lake/blob/master/gtfParser.py"></a></p>
+<p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>#####################################################################</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/1136/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1014,6 +1099,7 @@ var _hmt = _hmt || [];
 <p>麦理浩径一共十段，长达100公里，前几段风景比较优美，我只走过二段的一半，我想把十段都走完，先把flag立下（3年实现）。</p>
 <p>2019-06-23 走了二段的一部分，景色真的非常好，山径、海岸、溪流、沙滩。又乘坐快艇去了西贡，享受海鲜大餐。</p>
 <p>2020-06-20 走完了一段和剩余的二段的一部分。</p>
+<p>2020-09-20 走了五段，并从中登狮子山顶Lion Rock Head。</p>
 <h1 id="一段和部分二段图片"><a href="#一段和部分二段图片" class="headerlink" title="一段和部分二段图片"></a>一段和部分二段图片</h1><p>起点</p>
 <p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2020-06-22-stage1-MacLehose1.jpg"></p>
 <p>万宜水库</p>
@@ -1027,6 +1113,9 @@ var _hmt = _hmt || [];
 <p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2020-06-05-macLehose-trail2.jpg"></p>
 <p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2020-06-05-macLehose-trail4.jpg"></p>
 <p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2020-06-05-macLehose-trail1.jpg"></p>
+<h1 id="五段和狮子山"><a href="#五段和狮子山" class="headerlink" title="五段和狮子山"></a>五段和狮子山</h1><p>![](<a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2020-09-20-stage">https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2020-09-20-stage</a> 5-1.jpg)</p>
+<p>![](<a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2020-09-20-stage">https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2020-09-20-stage</a> 5-2.jpg)</p>
+<p>![](<a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2020-09-20-stage">https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2020-09-20-stage</a> 5-3.jpg)</p>
 <table>
 <thead>
 <tr>
@@ -1095,219 +1184,6 @@ var _hmt = _hmt || [];
 <td>15.5 公里</td>
 <td>5 小时</td>
 <td>2</td>
-</tr>
-</tbody></table>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/1104/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Jason">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Zhongxu's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/archives/1104/" class="post-title-link" itemprop="url">分类模型的性能评估</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-06-04 16:17:23" itemprop="dateCreated datePublished" datetime="2020-06-04T16:17:23+08:00">2020-06-04</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>最常用的就是灵敏度和特异性，不过还有其他的，比如阴性预测值(negative predictive value, NPV)。</p>
-<p><a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2020-06-04-ROC.gif"><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2020-06-04-ROC.gif"></a></p>
-<p>通常，先画一个ROC曲线，计算曲线下面积。ROC上的每个点是特定阈值下，分类的sensitivity和specificity，没多点连起来组成ROC，曲线下面积就是AUC。面积越大越好，如果AUC是1，说明模型能够完全区分要预测的类别。</p>
-<p>如果不是1，就要考虑阈值取哪里比较好，这里就涉及到Youden index。Youden index 其实就是为了找到使得sensitivity和specificity之和最大max(sensitivities+specificities)的阈值。</p>
-<p>另外就是考虑其他指标来评估分类模型的性能：specificity, sensitivity, accuracy, npv, ppv, precision, recall, tpr, fpr, tnr, fnr, fdr。这些指标可谓琳琅满目，不过这之间有重复的，如下，都是基于tn（真阴）, tp（真阳）, fn（假阴）, fp（假阳）的个数进行计算。</p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th align="center"></th>
-<th align="center">预测</th>
-<th></th>
-</tr>
-</thead>
-<tbody><tr>
-<td></td>
-<td align="center"></td>
-<td align="center">P</td>
-<td>N</td>
-</tr>
-<tr>
-<td>实际</td>
-<td align="center">P</td>
-<td align="center">TP</td>
-<td>FN</td>
-</tr>
-<tr>
-<td></td>
-<td align="center">N</td>
-<td align="center">FP</td>
-<td>TN</td>
-</tr>
-</tbody></table>
-<p>因为经常用到，就罗列了一下。</p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th>具体描述</th>
-<th>公式</th>
-<th>别名</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>tn</td>
-<td>True negative count真阴数</td>
-<td>–</td>
-<td>–</td>
-</tr>
-<tr>
-<td>tp</td>
-<td>True positive count真阳数</td>
-<td>–</td>
-<td>–</td>
-</tr>
-<tr>
-<td>fn</td>
-<td>False negative count假阴数</td>
-<td>–</td>
-<td>–</td>
-</tr>
-<tr>
-<td>fp</td>
-<td>False positive count假阳数</td>
-<td>–</td>
-<td>–</td>
-</tr>
-<tr>
-<td>specificity</td>
-<td>Specificity特异度</td>
-<td>tn / (tn + fp)</td>
-<td>tnr</td>
-</tr>
-<tr>
-<td>sensitivity</td>
-<td>Sensitivity灵敏度</td>
-<td>tp / (tp + fn)</td>
-<td>recall, tpr</td>
-</tr>
-<tr>
-<td>accuracy</td>
-<td>Accuracy正确率</td>
-<td>(tp + tn) / N</td>
-<td>–</td>
-</tr>
-<tr>
-<td>npv</td>
-<td>Negative Predictive Value阴性预测值</td>
-<td>tn / (tn + fn)</td>
-<td>–</td>
-</tr>
-<tr>
-<td>ppv</td>
-<td>Positive Predictive Value阳性预测值</td>
-<td>tp / (tp + fp)</td>
-<td>precision</td>
-</tr>
-<tr>
-<td>precision</td>
-<td>Precision精准率</td>
-<td>tp / (tp + fp)</td>
-<td>ppv</td>
-</tr>
-<tr>
-<td>recall</td>
-<td>Recall正确率</td>
-<td>tp / (tp + fn)</td>
-<td>sensitivity, tpr</td>
-</tr>
-<tr>
-<td>tpr</td>
-<td>True Positive Rate真阳性率</td>
-<td>tp / (tp + fn)</td>
-<td>sensitivity, recall</td>
-</tr>
-<tr>
-<td>fpr</td>
-<td>False Positive Rate假阳性率</td>
-<td>fp / (tn + fp)</td>
-<td>1-specificity</td>
-</tr>
-<tr>
-<td>tnr</td>
-<td>True Negative Rate真阴性率</td>
-<td>tn / (tn + fp)</td>
-<td>specificity</td>
-</tr>
-<tr>
-<td>fnr</td>
-<td>False Negative Rate假阴性率</td>
-<td>fn / (tp + fn)</td>
-<td>1-sensitivity</td>
-</tr>
-<tr>
-<td>fdr</td>
-<td>False Discovery Rate伪发现率</td>
-<td>fp / (tp + fp)</td>
-<td>1-ppv</td>
 </tr>
 </tbody></table>
 
@@ -1394,7 +1270,7 @@ var _hmt = _hmt || [];
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">142</span>
+          <span class="site-state-item-count">143</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -1403,7 +1279,7 @@ var _hmt = _hmt || [];
         <span class="site-state-item-name">categories</span>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">149</span>
+        <span class="site-state-item-count">150</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>
