@@ -157,6 +157,167 @@ var _hmt = _hmt || [];
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/696/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhongxu's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/archives/696/" class="post-title-link" itemprop="url">Getting LibSVM to work with Weka on Mac（reprint）</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2013-06-21 07:47:08" itemprop="dateCreated datePublished" datetime="2013-06-21T07:47:08+08:00">2013-06-21</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>Somehow, the only way to use LibSVM with Weka is by using the bash command-line.<br>I have tried the second method successfully. As for you , etheir is good.</p>
+<p>Step 1: Get Weka.Assume the bleeding edge version 3.7.0. Unzip and put in /Applications folder.</p>
+<p>Step 2: Get LibSVM.<br>a. Iowa State site (<a target="_blank" rel="noopener" href="http://www.cs.iastate.edu/~yasser/wlsvm/wlsvm.zip" title="http://www.cs.iastate.edu/~yasser/wlsvm/wlsvm.zip"></a>):<br>If you use Safari to download, it will be unzipped in the Downloads directory. The files you need are <del>/Downloads/WLSVM/lib/wlsvm.jar and /Downloads/WLSVM/lib/libsvm.jar<br>b. Taiwan site([](<a target="_blank" rel="noopener" href="http://www.csie.ntu.edu.tw/">http://www.csie.ntu.edu.tw/</a></del>cjlin/libsvm/libsvm-2.89.zip “<a target="_blank" rel="noopener" href="http://www.csie.ntu.edu.tw/~cjlin/libsvm/libsvm-2.89.zip&quot;">http://www.csie.ntu.edu.tw/~cjlin/libsvm/libsvm-2.89.zip&quot;</a>)):<br>Using Safari to download, the file you need is ~/Downloads/libsvm-2.89/java/libsvm.jar</p>
+<p>Step 3: Open Terminal and copy to Weka.app. Assume you have privileges to write into Weka.app.<br>a. Iowa State version:<br>$ cp ~/Downloads/WLSVM/lib/*.jar /Applications/Weka/weka-3-7-0.app/Contents/Resources/Java<br>b. Taiwan version:<br>$ cp ~/Downloads/libsvm-2.89/java/libsvm.jar /Applications/Weka/weka-3-7-0.app/Contents/Resources/Java</p>
+<p>Step 4: Set CLASSPATH<br>$ export CLASSPATH=$CLASSPATH:/Applications/Weka/weka-3-7-0.app/Contents/Resources/Java/<br>Step 5:Run Weka from Terminal!<br>$ java -classpath $CLASSPATH:weka.jar:libsvm.jar weka.gui.GUIChooser &amp;</p>
+<p>Another method below:<br>1.copy the libsvm.jar and wvsvm.jar into the app folder like told in the blog</p>
+<p>2.edit weka.appinfo.plist file in textedit</p>
+<p>After ClassPath<br>and the array start tag you’ll see<br>$JAVAROOT/weka.jar within string tags<br>copy that whole line and make two copies directly below it<br>edit the new copies to say<br>$JAVAROOT/libsvm.jar in one<br>and<br>$JAVAROOT/wlsvm.jar in the other</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/705/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhongxu's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/archives/705/" class="post-title-link" itemprop="url">How to extract paired-end reads from SRA files（reprint）</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2013-06-20 21:29:02" itemprop="dateCreated datePublished" datetime="2013-06-20T21:29:02+08:00">2013-06-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>SRA(NCBI) stores all the sequencing run as single “sra” or “lite.sra” file. You may want separate files if you want to use the data from paired-end sequencing. When I run SRA toolkit’s “fastq-dump” utility on paired-end sequencing SRA files, sometimes I get only one files where all the mate-pairs are stored in one file rather than two or three files. The solution for the problem is to always run fastq-dump with “-split-3” option. If the experiment is single-end sequencing, only one fastq file will be generated. If it is paired-end sequencing, there may be two or three fastq files. Two files (with suffix “1” and “2”) are matched mate-pair read file where as the third one (without any suffix) contains all the reads that do not have any mate-paires (or SRA couldn’t resolve mate-paires for them).</p>
+<p>Hope my experiences with NCBI SRA data handling help the readership.</p>
+<p>source：<a target="_blank" rel="noopener" href="http://vinaykmittal.blogspot.com/2012/02/how-to-extract-paired-end-reads-from.html" title="http://vinaykmittal.blogspot.com/2012/02/how-to-extract-paired-end-reads-from.html"></a></p>
+<p>SRA toolkit document：<a target="_blank" rel="noopener" href="http://www.ncbi.nlm.nih.gov/Traces/sra/sra.cgi?view=toolkit_doc&f=fastq-dump" title="http://www.ncbi.nlm.nih.gov/Traces/sra/sra.cgi?view=toolkit_doc&amp;f=fastq-dump"></a></p>
+<p>An example command:</p>
+<p><code>./fastq-dump.2 -split-3 ~/Desktop/ERR068552.sra -O ~/Desktop/temp.fastaq/</code></p>
+<p>PS: 如果测序使用的是ligation，结果为2 base encoding的color-space reads，可以加入-B选项使得fastq中的序列为base space reads</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/695/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -492,16 +653,16 @@ for(Iterator iterator=treeMap.keySet().iterator();iterator.hasNext();) {
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">143</span>
+          <span class="site-state-item-count">145</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
-        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-count">2</span>
         <span class="site-state-item-name">categories</span>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">150</span>
+        <span class="site-state-item-count">151</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>
@@ -528,7 +689,7 @@ for(Iterator iterator=treeMap.keySet().iterator();iterator.hasNext();) {
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2020</span>
+  <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

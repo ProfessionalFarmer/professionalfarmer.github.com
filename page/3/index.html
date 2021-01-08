@@ -157,6 +157,195 @@ var _hmt = _hmt || [];
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/1077/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhongxu's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/archives/1077/" class="post-title-link" itemprop="url">可变多聚腺苷酸化Alternative Polyadenylation (APA) 检测</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-02-03 00:30:11" itemprop="dateCreated datePublished" datetime="2020-02-03T00:30:11+08:00">2020-02-03</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>可变多聚腺苷酸化Alternative Polyadenylation (APA)，如下图所示（图片来自参考），在不同的APA信号位点切割，然后添加polyA。这种调控机制属于转录后调控，可能会影响蛋白的序列（发生在编码区），也可能影响蛋白的稳定性（比如非编码区内的miRNA的调控区域）。其实也是可变剪接的一种情况。</p>
+<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2020-02-02-Alternative-polyadenylation.png"></p>
+<p>常用的软件是Dapars，这个软件现在也有了升级的版本Dapars2。参考： <a target="_blank" rel="noopener" href="https://github.com/ZhengXia/dapars">https://github.com/ZhengXia/dapars</a> <a target="_blank" rel="noopener" href="https://github.com/3UTR/DaPars2">https://github.com/3UTR/DaPars2</a> 分析流程很相似，Dapars2多了 normalize library sizes 。</p>
+<h3 id="第一步：生成Wiggle文件"><a href="#第一步：生成Wiggle文件" class="headerlink" title="第一步：生成Wiggle文件"></a>第一步：生成Wiggle文件</h3><p>这一步其实是统计每个点或者区域的覆盖度，便于后续计算，用bedtools统计STAR比对后的结果即可。</p>
+<p>genomeCoverageBed -bg -ibam Aligned.sortedByCoord.out.bam -split &gt;  Aligned.sortedByCoord.out.wig</p>
+<h3 id="第二步-Generate-region-annotation-DaPars-Extract-Anno-py"><a href="#第二步-Generate-region-annotation-DaPars-Extract-Anno-py" class="headerlink" title="第二步: Generate region annotation: DaPars_Extract_Anno.py"></a>第二步: <a target="_blank" rel="noopener" href="https://hpc.oit.uci.edu/~leil22/DaPars2_Documentation/DaPars2.html#step-1-generate-region-annotation-dapars2-extract-anno-py">Generate region annotation: DaPars_Extract_Anno.py</a></h3><p>这一步需要从bed12格式的文件中，提取远端ployA的位点，进而便于推测近端polyA的位点。 1）作者推荐从UCSC上下载，<a target="_blank" rel="noopener" href="http://genome.ucsc.edu/cgi-bin/hgTables?command=start">http://genome.ucsc.edu/cgi-bin/hgTables?command=start</a>，选择bed格式之后，选这whole gene即可。 2）如果你有特定的gtf文件，可以将gtf文件转成bed12格式，先将gtf转成genPred格式，然后再转成bed12格式。<a target="_blank" rel="noopener" href="http://hgdownload.cse.ucsc.edu/admin/exe/linux.x86_64/%E4%B8%8A%E6%9C%89%E7%8E%B0%E6%88%90%E7%9A%84%E5%B7%A5%E5%85%B7">http://hgdownload.cse.ucsc.edu/admin/exe/linux.x86_64/上有现成的工具</a></p>
+<h3 id="第三步（Dapars2）-Generate-mapped-reads-files-for-all-Samples"><a href="#第三步（Dapars2）-Generate-mapped-reads-files-for-all-Samples" class="headerlink" title="第三步（Dapars2）: Generate mapped reads files for all Samples"></a>第三步（Dapars2）: Generate mapped reads files for all Samples</h3><p>这一步是为了 normalize library sizes ，统计每个样本比对上的reads数据，格式如下，与下一步的顺序一致。Dapars2才有这一步。</p>
+<p><img src="https://hpc.oit.uci.edu/~leil22/DaPars2_Documentation/images/Sequencing_depth_file.jpg"></p>
+<h3 id="第四步-Run-DaPars"><a href="#第四步-Run-DaPars" class="headerlink" title="第四步: Run DaPars"></a>第四步: Run DaPars</h3><p>配置文件，运行即可。结果中会告诉ΔDPUI也就是远端APA位点的利用率的差值及显著性，根据这些挑选候选。然后回到IGV上进行查看，如下基因方向从右到左，可以看出来前六个和后三个样本在最后一个外显子上的覆盖度截然不同，不同的地方可能就是发生了APA事件，然后添加polyA。</p>
+<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2020-02-03-APA-example.png"></p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>Weil T T. Post-transcriptional regulation of early embryogenesis[J]. F1000prime reports, 2015, 7. <a target="_blank" rel="noopener" href="https://hpc.oit.uci.edu/~leil22/DaPars2_Documentation/DaPars2.html">https://hpc.oit.uci.edu/~leil22/DaPars2_Documentation/DaPars2.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/21b697cec428">https://www.jianshu.com/p/21b697cec428</a> </p>
+<p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>#####################################################################</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/1067/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhongxu's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/archives/1067/" class="post-title-link" itemprop="url">统计GTF文件中转录本的长度 Calculate transcript length from gtf file</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-12-09 05:37:46" itemprop="dateCreated datePublished" datetime="2019-12-09T05:37:46+08:00">2019-12-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>gtf 文件INPUT</p>
+<pre>chr1    PacBio  exon    763020  763155  .       +       .       gene_id "XLOC_000001"; transcript_id "TCONS_00000001"; exon_number "1"; gene_name "LINC01128"; oId "PB.5.1"; nearest_ref "NR_047519"; class_code "j"; tss_id "TSS1";
+chr1    PacBio  exon    764383  764484  .       +       .       gene_id "XLOC_000001"; transcript_id "TCONS_00000001"; exon_number "2"; gene_name "LINC01128"; oId "PB.5.1"; nearest_ref "NR_047519"; class_code "j"; tss_id "TSS1";
+chr1    PacBio  exon    776580  776753  .       +       .       gene_id "XLOC_000001"; transcript_id "TCONS_00000001"; exon_number "3"; gene_name "LINC01128"; oId "PB.5.1"; nearest_ref "NR_047519"; class_code "j"; tss_id "TSS1";</pre>
+
+<p>Code</p>
+<pre>awk -F"\t" '
+{
+if ($3=="exon")
+    {
+        split($9, a, " ");
+        ID=a[4]; 
+        L[ID]+=$5-$4+1
+    } 
+}
+END{
+    for(i in L)
+        {print i"\t"L[i]}
+    }
+' gtf-file >output
+</pre>
+
+<p>You can change array index and feature type to choose what you want to count. For example, if you want to calculate gene length, change exon to gene (make sure your gtf file has this feature).</p>
+<p>输出OUTPUT</p>
+<pre>"TCONS_00052437";       5950
+"TCONS_00049398";       988
+"TCONS_00031225";       6005
+"TCONS_00026369";       825</pre>
+
+<p>参考：<a target="_blank" rel="noopener" href="https://gist.github.com/sp00nman/10372555">https://gist.github.com/sp00nman/10372555</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/1065/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -938,166 +1127,6 @@ pbtranscript.py cluster \
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/1046/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Jason">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Zhongxu's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/archives/1046/" class="post-title-link" itemprop="url">一步到位下载hg19基因组文件</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2019-03-25 18:35:20" itemprop="dateCreated datePublished" datetime="2019-03-25T18:35:20+08:00">2019-03-25</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>hg19对应GRCh37，UCSC提供hg19的参考基因组下载。UCSC的下载地址在<a href="ftp://hgdownload.cse.ucsc.edu/goldenPath/hg19/chromosomes/">ftp://hgdownload.cse.ucsc.edu/goldenPath/hg19/chromosomes/</a></p>
-<p>需要经过下载每个染色体，然后解压合并成一个整个的基因组文件<br><a href="ftp://hgdownload.cse.ucsc.edu/goldenPath/hg19/chromosomes/">ftp://hgdownload.cse.ucsc.edu/goldenPath/hg19/chromosomes/</a></p>
-<p>其实这样有点浪费时间，还要考虑合并的时候染色体的顺序是否按照1，2，3而不是1，10，11排下来的。目前我知道的最简单的办法的，从GATK bundle中下载。比如hg19整个基因组的文件。下面是一步到位的命令，包括了fasta，fai，dict文件。</p>
-<pre>wget -c ftp://gsapubftp-anonymous@ftp.broadinstitute.org/bundle/hg19/ucsc.hg19*</pre>
-
-<p>GATK bundle还提供一下其他文件，可以看看( <a href="ftp://ftp.broadinstitute.org/bundle">ftp://ftp.broadinstitute.org/bundle</a> )，比如dict文件，hg38文件等。当然构建参考基因组不一定非要合并染色体，个人习惯。</p>
-<p>补充：UCSC也提供一个genome.fa的下载，<a href="ftp://hgdownload.cse.ucsc.edu/goldenPath/hg19/bigZips/chromFa.tar.gz">ftp://hgdownload.cse.ucsc.edu/goldenPath/hg19/bigZips/chromFa.tar.gz</a></p>
-<p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>#####################################################################</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/1044/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Jason">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Zhongxu's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/archives/1044/" class="post-title-link" itemprop="url">Generate Accurate Consensus Sequences from a Single SMRTbell</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2019-03-22 18:23:09" itemprop="dateCreated datePublished" datetime="2019-03-22T18:23:09+08:00">2019-03-22</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2019-03-22-PACBIO-ZMW-read.png" alt="Circular-Consensus-Sequence"></p>
-<h1 id="bax2bam"><a href="#bax2bam" class="headerlink" title="bax2bam"></a>bax2bam</h1><p>bax2bam -o mynewbam mydata.1.bax.h5 mydata.2.bax.h5 mydata.3.bax.h5</p>
-<h1 id="circus-consensus-sequence"><a href="#circus-consensus-sequence" class="headerlink" title="circus consensus sequence"></a>circus consensus sequence</h1><p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2019-03-22-PB-PACBIO-Circular-Consensus-Sequence.png" alt="Circular-Consensus-Sequence"></p>
-<p>ccs –minLength=100 myData.subreads.bam myResult.bam</p>
-<p>进行CCS由pacbio测序系统决定的，插入序列测多遍之后，可以用来校正随机错误。</p>
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a target="_blank" rel="noopener" href="https://github.com/PacificBiosciences/unanimity/blob/develop/doc/PBCCS.md">https://github.com/PacificBiosciences/unanimity/blob/develop/doc/PBCCS.md</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1167,16 +1196,16 @@ pbtranscript.py cluster \
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">143</span>
+          <span class="site-state-item-count">145</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
-        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-count">2</span>
         <span class="site-state-item-name">categories</span>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">150</span>
+        <span class="site-state-item-count">151</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>
@@ -1203,7 +1232,7 @@ pbtranscript.py cluster \
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2020</span>
+  <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

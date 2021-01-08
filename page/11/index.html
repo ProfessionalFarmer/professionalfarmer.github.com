@@ -157,6 +157,240 @@ var _hmt = _hmt || [];
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/735/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhongxu's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/archives/735/" class="post-title-link" itemprop="url">转录组分析新工具流程--HISAT2-stringtie-ballgown</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-02-16 22:47:23" itemprop="dateCreated datePublished" datetime="2016-02-16T22:47:23+08:00">2016-02-16</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="一，HISAT2（Hierarchical-Indexing-for-Spliced-Alignment-of-Transcripts2）"><a href="#一，HISAT2（Hierarchical-Indexing-for-Spliced-Alignment-of-Transcripts2）" class="headerlink" title="一，HISAT2（Hierarchical Indexing for Spliced Alignment of Transcripts2）"></a>一，HISAT2（Hierarchical Indexing for Spliced Alignment of Transcripts2）</h2><p>HISAT2是一个对比对RNA-seq reads的快速灵敏的spliced alignment工具，HISAT2支持DNA和RNA比对。针对reads覆盖多个外显子，HISAT其包含两种索引：1，global FM索引，代表整个基因组，2，许许多多的local FM索引，每个索引代表<del>56,000bp，</del>55,000个local索引覆盖整个基因组。HISAT基于Bowtie2来处理大多数FM索引。心的索引scheme叫做 Hierarchical Graph FM index (HGFM)。HISAT也支持indel和paire end模式，并且支持多线程和SRA Toolkit。HISAT2官网提到HISAT2是HISAT和TopHat2继承，建议大家从HISAT和TopHat2迁移到HISAT2上来。</p>
+<p>HISAT2的优势如图（图片来自HISAT2文章）</p>
+<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2016-02-16-rna-hisat/2016-02-03-reads-processed-per-second.png"> )</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/archives/735/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/734/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhongxu's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/archives/734/" class="post-title-link" itemprop="url">Illumina测序平台介绍</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-01-31 01:52:40" itemprop="dateCreated datePublished" datetime="2016-01-31T01:52:40+08:00">2016-01-31</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>A short introdution of Illunima sequencing machine, especially for Hiseq.</p>
+<p>Illumina测序平台</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>HiSeq 2000</th>
+<th>HiSeq 2500</th>
+<th>HiSeq 3000</th>
+<th>HiSeq 4000</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Output</td>
+<td>500-600 GB</td>
+<td>900-1000 GB</td>
+<td>630-750 GB</td>
+<td>1300-1500 GB</td>
+</tr>
+<tr>
+<td>Reads passing Filter</td>
+<td>1.7-2 billion</td>
+<td>3-3.3 billion</td>
+<td>2.1-2.5 billion</td>
+<td>4.3-5 billion</td>
+</tr>
+<tr>
+<td>Read Length</td>
+<td>2 x 100bp</td>
+<td>2 x 125bp</td>
+<td>2 x 150bp</td>
+<td>2 x 150bp</td>
+</tr>
+<tr>
+<td>Quality Scores（Q30）</td>
+<td>&gt;85%</td>
+<td>&gt;80%</td>
+<td>&gt;75%</td>
+<td>&gt;75%</td>
+</tr>
+<tr>
+<td>Run Time</td>
+<td>11 days</td>
+<td>6 days</td>
+<td>3.5 days</td>
+<td>3.5 days</td>
+</tr>
+<tr>
+<td>Human Genomes per Run</td>
+<td>Up to 5</td>
+<td>Up to 8</td>
+<td>Up to 6</td>
+<td>Up to 12</td>
+</tr>
+<tr>
+<td>Exomes per Run</td>
+<td>Up to 72</td>
+<td>Up to 120</td>
+<td>Up to 90</td>
+<td>Up to 180</td>
+</tr>
+<tr>
+<td>Transcriptomes per Run</td>
+<td>Up to 40</td>
+<td>Up to 67</td>
+<td>Up to 50</td>
+<td>Up to 100</td>
+</tr>
+</tbody></table>
+<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2016-01-31-hiseq-x-ten.jpg" alt="hiseq-x-ten Illumina测序平台"></p>
+<h2 id="Hiseq-2500"><a href="#Hiseq-2500" class="headerlink" title="Hiseq 2500"></a>Hiseq 2500</h2><p>Hiseq 2500是Hiseq 2000的升级版。其主要的改进点是：Hiseq 2500可以在快速、高通量两种模式之间切换。高通量模式就是原来的Hiseq2000的每张Flowcell有8个Lane的模式。
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/archives/734/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/733/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -833,169 +1067,6 @@ Reference: ACGGTTGCGTTAA…..TCCGCCACG</pre>
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/725/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Jason">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Zhongxu's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/archives/725/" class="post-title-link" itemprop="url">Linkage versus association--连锁与关联的区别---reprinted</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2016-01-11 22:15:00" itemprop="dateCreated datePublished" datetime="2016-01-11T22:15:00+08:00">2016-01-11</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>很多人在做关联分析，很多人在做连锁分析，其原理都是从遗传上找与表型相关marker。但两者是有区别的，特意转载下图，看到这幅图，你一定会对连锁和关联的区别有清楚的认识。</p>
-<p>![](<a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2016-01-10-Linkage">https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2016-01-10-Linkage</a> versus association.jpeg) </p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/archives/725/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/724/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Jason">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Zhongxu's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/archives/724/" class="post-title-link" itemprop="url">人基因组每条染色体的GC含量GC content of human chromosomes</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2016-01-10 22:04:53" itemprop="dateCreated datePublished" datetime="2016-01-10T22:04:53+08:00">2016-01-10</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>The GC content is the molar ratio of guanine+cytosine bases in DNA. The human genome is a mosaic of GC-rich and GC-poor regions, of around 300kb in length, called isochores. GC content is an important factor in many experiments and bioinformatic analysis. This is especially true for next-generation sequencing where the DNA being sequenced has gone through multiple rounds of PCR amplification.<br><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2016-01-10-chr_gc_content.png"> </p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/archives/724/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1065,16 +1136,16 @@ Reference: ACGGTTGCGTTAA…..TCCGCCACG</pre>
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">143</span>
+          <span class="site-state-item-count">145</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
-        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-count">2</span>
         <span class="site-state-item-name">categories</span>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">150</span>
+        <span class="site-state-item-count">151</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>
@@ -1101,7 +1172,7 @@ Reference: ACGGTTGCGTTAA…..TCCGCCACG</pre>
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2020</span>
+  <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

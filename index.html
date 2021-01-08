@@ -157,6 +157,518 @@ var _hmt = _hmt || [];
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/1195/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhongxu's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/archives/1195/" class="post-title-link" itemprop="url">Map NM ID to Gene Symbol</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2021-01-08 16:39:23" itemprop="dateCreated datePublished" datetime="2021-01-08T16:39:23+08:00">2021-01-08</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>新年快乐，21年的第一篇文章。</p>
+<p>以前写过映射ENSEMBL ID 和 NCBI ID， <a target="_blank" rel="noopener" href="http://www.zxzyl.com/archives/736">http://www.zxzyl.com/archives/736</a>。</p>
+<p>日常分析中，我们也会经常遇到其他的ID mapping的工作，这种工作不是基因ID转基因ID，而是转录本的ID转基因ID。</p>
+<p>如果用的是refGene的注释，最简单了，直接用下面的命令即可</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql --user&#x3D;genome -N --host&#x3D;genome-mysql.cse.ucsc.edu -A -D hg38 -e &quot;select name,name2 from refGene&quot;</span><br></pre></td></tr></table></figure>
+
+<p>不过我也经常通过解析gtf文件获得，因为gtf有转本的ID，也有基因的symbol或者ID，只要有gtf文件就可以提取。本着不造轮子的精神，我利用的是现成的R包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">library(plyranges)</span><br><span class="line">gr &lt;- read_gff(&quot;&#x2F;path&#x2F;to&#x2F;gtf&#x2F;or&#x2F;gff&quot;) %&gt;% select(transcript_id, gene_id, gene_name)</span><br><span class="line">gr &lt;- unique(data.frame(gr))</span><br></pre></td></tr></table></figure>
+
+
+<p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>#####################################################################</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/1186/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhongxu's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/archives/1186/" class="post-title-link" itemprop="url">Fixation index (FST)</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-11-01 21:03:23" itemprop="dateCreated datePublished" datetime="2020-11-01T21:03:23+08:00">2020-11-01</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%BD%AC%E8%BD%BD/" itemprop="url" rel="index"><span itemprop="name">转载</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Fixation-index-FST"><a href="#Fixation-index-FST" class="headerlink" title="Fixation index (FST)"></a>Fixation index (FST)</h1><p>整理来源 <a target="_blank" rel="noopener" href="http://www.uwyo.edu/dbmcd/popecol/maylects/fst.html%EF%BC%8C%E6%8A%8A%E8%BF%99%E4%B8%AA%E8%AF%BE%E7%A8%8B%E7%9A%84%E6%AD%A5%E9%AA%A4%E7%94%A8%E8%A1%A8%E6%A0%BC%E6%9D%A5%E8%A1%A8%E7%A4%BA">http://www.uwyo.edu/dbmcd/popecol/maylects/fst.html，把这个课程的步骤用表格来表示</a></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th>Subpopulation 1</th>
+<th>Subpopulation 2</th>
+<th>Subpopulation 3</th>
+<th>Total</th>
+</tr>
+</thead>
+<tbody><tr>
+<td></td>
+<td>Genotype</td>
+<td>AA</td>
+<td>125</td>
+<td>50</td>
+<td>100</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>Aa</td>
+<td>250</td>
+<td>30</td>
+<td>500</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>aa</td>
+<td>125</td>
+<td>20</td>
+<td>400</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>Number of individual</td>
+<td></td>
+<td>500</td>
+<td>100</td>
+<td>1000</td>
+<td>1600</td>
+</tr>
+<tr>
+<td></td>
+<td>Number of alleles</td>
+<td></td>
+<td>1000</td>
+<td>200</td>
+<td>2000</td>
+<td>3200</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Step 1.</td>
+<td></td>
+<td></td>
+<td>Calculate the gene   (allele) frequencies</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>Observed allele frequency</td>
+<td>A (p)</td>
+<td>(125*2+250)/1000=0.5</td>
+<td>(50*2+30)/200=0.65</td>
+<td>(2*100+500)/2000=0.35</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>a (q)</td>
+<td>0.5</td>
+<td>0.35</td>
+<td>0.65</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Step 2.</td>
+<td></td>
+<td></td>
+<td>Calculate the expected   genotypic counts under Hardy-Weinberg Equilibrium, and then calculate the   excess or deficiency of homozygotes in each subpopulation.      Summary of homozygote deficiency or excess relative to HWE:          Pop. 1.  Observed = Expected: perfect fit          Pop. 2.  Excess of 15.5 homozygotes: some inbreeding          Pop. 3.  Deficiency of 45 homozygotes: outbred or   experiencing a Wahlund effect (isolate breaking).</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>Expected allele frequency</td>
+<td>AA</td>
+<td>500*0.5^2 = 125 (= observed)</td>
+<td>100*0.65^2 = 42.25 (observed has excess of 7.75)</td>
+<td>1,000*0.35^2 = 122.5   (observed has deficiency of 22.5)</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>Aa</td>
+<td>500<em>2</em>0.5*0.5 = 250  (=   observed)</td>
+<td>100<em>2</em>0.65*0.35 = 45.5 (observed has deficit of 15.5)</td>
+<td>1,000<em>2</em>0.65*0.35 = 455   (observed has excess of 45)</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>aa</td>
+<td>500*0.5^2 = 125 (= observed)</td>
+<td>100*0.35^2 = 12.25 (observed has excess of 7.75)</td>
+<td>1,000*0.35^2 = 422.5   (observed has deficiency of 22.5)</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Step 3.</td>
+<td></td>
+<td></td>
+<td>Calculate the local   observed heterozygosities of each subpopulation (we will call them Hobs s,   where the s subscript refers to the sth of n populations – 3 in this   example).</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>Local observed   heterozygosities</td>
+<td></td>
+<td>250/500 = 0.5 (Hobs 1)</td>
+<td>30/100 = 0.3 (Hobs 2)</td>
+<td>500/1000 = 0.5(Hobs 3)</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Step 4.</td>
+<td></td>
+<td></td>
+<td>Calculate the local   expected heterozygosity, or gene diversity, of each subpopulation       Hexp = 2pq</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>Local expected   heterozygosity</td>
+<td></td>
+<td>2<em>0.5</em>0.5=0.5 (Hexp 1)</td>
+<td>2<em>0.65</em>3.5=0.455 (Hexp 2)</td>
+<td>2<em>0.35</em>0.65=0.455 (Hexp 2)</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Step 5.</td>
+<td></td>
+<td></td>
+<td>Calculate the local   inbreeding coefficient of each subpopulation      F = (Hexps -Hobs)/Hexp      [positive F means fewer heterozygotes than expected indicates   inbreeding]       [negative F means more heterozygotes   than expected means excess outbreeding]</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td>F1=(0.5—0.5)/0.5=0</td>
+<td>F2=(0.455—0.3)/0.455=0.341</td>
+<td>F3=(0.455—0.5)/0.455=-0.099</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Step 6. and 7.</td>
+<td></td>
+<td></td>
+<td>Calculate p-bar   (p-bar, the frequency of allele A) over the total population.      Calculate q-bar (q-bar, the frequency of allele a) over the total   population.      Check: p-bar + q-bar =  1.0</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>the frequency of allele over the total population</td>
+<td>p-bar</td>
+<td>(0.5<em>1000+0.65</em>200+0.35*2000)/3200=0.4156</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>q-bar</td>
+<td>(0.5<em>1000+0.35</em>200+0.65*2000)/3200=0.5844</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Step 8.</td>
+<td></td>
+<td></td>
+<td>Calculate the global   heterozygosity indices (over Individuals, Subpopulations and Total   population)      HI based on observed heterozygosities in individuals in subpopulations         HS based on expected heterozygosities in subpopulations      HT based on expected heterozygosities for overall total population</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>HI (observed)</td>
+<td>(0.5<em>500+0.3</em>100+0.5*1000)/1600=0.4875</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>HS (expected)</td>
+<td>(0.5<em>500+0.455</em>100+0.455*1000)/1600=0.4691</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>HT (in overall total population)</td>
+<td>2*p-bar *q-bar     = 2 * 0.4156 * 0.5844  = 0.4858</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Step 9.</td>
+<td></td>
+<td></td>
+<td>Calculate the global   F-statistics      Compare and contrast the global FISbelow with the “local inbreeding   coefficient” Fs of Step 5.      Here we are using a weighted average of the individual heterozygosities   over all the subpopulations.      Both FIS and  Fs are, however, based   on the observed heterozygosities,              whereas FST and FIT are based   on expected heterozygosities.</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>FIS</td>
+<td>(Hs-Hi)/Hs=(0.4691-0.4875)/0.4691=-0.0393</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>FST</td>
+<td>(Ht-Hs)/Ht=(0.4858-0.4691)/0.4858=-0.0344</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>FIT</td>
+<td>(Ht-Hi)/Ht=(0.4858-0.4875)/0.4858=-0.0036</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Step 10</td>
+<td></td>
+<td>conclusions</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<p>Finally, draw some   conclusions about the genetic structure of the population and its   subpopulations.      1)  One of the possible HWE   conclusions we could make:      Pop. 1 is consistent with HWE (results of Step </p>
+<ol start="2">
+<li>Two of the possible “local   inbreeding” conclusions we could make from Step 5:      </li>
+</ol>
+<p>Pop. 2 is inbred (results of Step 5), and    </p>
+<p> Pop. 3 may have disassortative mating or be experiencing a Wahlund effect   (more heterozygotes than expected).      </p>
+<ol start="3">
+<li>Conclusion concerning overall   degree of genetic differentiation (FST)      </li>
+</ol>
+<p>Subdivision of populations, possibly due to genetic drift, accounts for approx. 3.4% of the total genetic variation (result of Eqn FST.8 FST   calculation in Step 9),      </p>
+<ol start="4">
+<li>No excess or deficiency of   heterozygotes over the total population (FIT    is nearly zero).</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/1171/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -204,7 +716,7 @@ var _hmt = _hmt || [];
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>I always used gtf file and retrieve gene information. There isn’t a highly flexible tool to solve my demand. I modified the code from “<a target="_blank" rel="noopener" href="https://github.com/Jverma/GFF-Parser%E2%80%9D">https://github.com/Jverma/GFF-Parser”</a>, thanks Jverma. This tool will be easier to use.</p>
+          <p>I always use gtf file and retrieve gene information. There isn’t a highly flexible tool to solve my demand. I modified the code from “<a target="_blank" rel="noopener" href="https://github.com/Jverma/GFF-Parser%E2%80%9D">https://github.com/Jverma/GFF-Parser”</a>, thanks Jverma. This tool will be easier to use.</p>
 <h1 id="Usage"><a href="#Usage" class="headerlink" title="Usage"></a>Usage</h1><p>Basically, there are three parameters.</p>
 <p>id: either transcript id or gene id.</p>
 <p>attType: attribute defined in gtf file. E.g. feature (column 3), gene_name, exon_number, transcript_id in column 9</p>
@@ -966,235 +1478,6 @@ var _hmt = _hmt || [];
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/1112/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Jason">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Zhongxu's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/archives/1112/" class="post-title-link" itemprop="url">Agilent全外芯片的目标区域下载</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-06-12 08:27:23" itemprop="dateCreated datePublished" datetime="2020-06-12T08:27:23+08:00">2020-06-12</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>安捷伦的全外芯片捕获的目标区域的bed文件是可以下载的，下载网址</p>
-<p><a target="_blank" rel="noopener" href="https://earray.chem.agilent.com/suredesign">https://earray.chem.agilent.com/suredesign</a></p>
-<p>这个网站我没保存过，毕竟用的频率不高，但每次想用的时候还要搜一下这个网站（Σ( ° △ °|||)︴）</p>
-<p>注册登录之后，找到Find Design -&gt; SureSelect DNA -&gt; Agilent Catalog Designs，进一步筛选之后，可以下载对应的文件。</p>
-<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2020-06-12-download-agilent-bed.png"></p>
-<p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>#####################################################################</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/1107/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Jason">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Zhongxu's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/archives/1107/" class="post-title-link" itemprop="url">立个走完麦理浩径的flag</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-06-06 23:17:23" itemprop="dateCreated datePublished" datetime="2020-06-06T23:17:23+08:00">2020-06-06</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2020-06-05-macLehose-trail5-thumbnail.jpg"></p>
-<p>麦理浩径一共十段，长达100公里，前几段风景比较优美，我只走过二段的一半，我想把十段都走完，先把flag立下（3年实现）。</p>
-<p>2019-06-23 走了二段的一部分，景色真的非常好，山径、海岸、溪流、沙滩。又乘坐快艇去了西贡，享受海鲜大餐。</p>
-<p>2020-06-20 走完了一段和剩余的二段的一部分。</p>
-<p>2020-09-20 走了五段，并从中登狮子山顶Lion Rock Head。</p>
-<h1 id="一段和部分二段图片"><a href="#一段和部分二段图片" class="headerlink" title="一段和部分二段图片"></a>一段和部分二段图片</h1><p>起点</p>
-<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2020-06-22-stage1-MacLehose1.jpg"></p>
-<p>万宜水库</p>
-<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2020-06-22-stage1-MacLehose2.jpg"></p>
-<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2020-06-22-stage1-MacLehose3.jpg"></p>
-<p>部分二段</p>
-<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2020-06-22-stage1-MacLehose4.jpg"></p>
-<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2020-06-22-stage1-MacLehose5.jpg"></p>
-<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2020-06-22-stage1-MacLehose6.jpg"></p>
-<h1 id="二段图片"><a href="#二段图片" class="headerlink" title="二段图片"></a>二段图片</h1><p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2020-06-05-macLehose-trail3.jpg"></p>
-<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2020-06-05-macLehose-trail2.jpg"></p>
-<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2020-06-05-macLehose-trail4.jpg"></p>
-<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2020-06-05-macLehose-trail1.jpg"></p>
-<h1 id="五段和狮子山"><a href="#五段和狮子山" class="headerlink" title="五段和狮子山"></a>五段和狮子山</h1><p>![](<a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2020-09-20-stage">https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2020-09-20-stage</a> 5-1.jpg)</p>
-<p>![](<a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2020-09-20-stage">https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2020-09-20-stage</a> 5-2.jpg)</p>
-<p>![](<a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2020-09-20-stage">https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2020-09-20-stage</a> 5-3.jpg)</p>
-<table>
-<thead>
-<tr>
-<th>麦理浩径路段</th>
-<th>长度</th>
-<th>需时</th>
-<th>景观</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>第一段，北潭涌- 浪茄</td>
-<td>10 公里</td>
-<td>3.5 小时</td>
-<td>3.5</td>
-</tr>
-<tr>
-<td>第二段，浪茄- 北潭凹</td>
-<td>14 公里</td>
-<td>4.5 小时</td>
-<td>4</td>
-</tr>
-<tr>
-<td>第三段，北潭凹- 水浪窝</td>
-<td>9 公里</td>
-<td>3.5 小时</td>
-<td>4</td>
-</tr>
-<tr>
-<td>第四段，水浪窝- 大老山</td>
-<td>12.5 公里</td>
-<td>5 小时</td>
-<td>4</td>
-</tr>
-<tr>
-<td>第五段，大老山- 大埔公路</td>
-<td>11 公里</td>
-<td>3.5 小时</td>
-<td>2.5</td>
-</tr>
-<tr>
-<td>第六段，大埔公路- 城门水塘</td>
-<td>4 公里</td>
-<td>1.5 小时</td>
-<td>2.5</td>
-</tr>
-<tr>
-<td>第七段，城门水塘- 铅矿坳</td>
-<td>7 公里</td>
-<td>3.5 小时</td>
-<td>3.5</td>
-</tr>
-<tr>
-<td>第八段，铅矿坳- 荃锦公路</td>
-<td>9.5 公里</td>
-<td>3.5 小时</td>
-<td>3.5</td>
-</tr>
-<tr>
-<td>第九段，荃锦公路- 田夫仔</td>
-<td>6 公里</td>
-<td>1.5 小时</td>
-<td>1</td>
-</tr>
-<tr>
-<td>第十段，田夫仔- 屯门</td>
-<td>15.5 公里</td>
-<td>5 小时</td>
-<td>2</td>
-</tr>
-</tbody></table>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1264,16 +1547,16 @@ var _hmt = _hmt || [];
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">143</span>
+          <span class="site-state-item-count">145</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
-        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-count">2</span>
         <span class="site-state-item-name">categories</span>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">150</span>
+        <span class="site-state-item-count">151</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>
@@ -1300,7 +1583,7 @@ var _hmt = _hmt || [];
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2020</span>
+  <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

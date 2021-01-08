@@ -157,6 +157,166 @@ var _hmt = _hmt || [];
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/1046/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhongxu's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/archives/1046/" class="post-title-link" itemprop="url">一步到位下载hg19基因组文件</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-03-25 18:35:20" itemprop="dateCreated datePublished" datetime="2019-03-25T18:35:20+08:00">2019-03-25</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>hg19对应GRCh37，UCSC提供hg19的参考基因组下载。UCSC的下载地址在<a href="ftp://hgdownload.cse.ucsc.edu/goldenPath/hg19/chromosomes/">ftp://hgdownload.cse.ucsc.edu/goldenPath/hg19/chromosomes/</a></p>
+<p>需要经过下载每个染色体，然后解压合并成一个整个的基因组文件<br><a href="ftp://hgdownload.cse.ucsc.edu/goldenPath/hg19/chromosomes/">ftp://hgdownload.cse.ucsc.edu/goldenPath/hg19/chromosomes/</a></p>
+<p>其实这样有点浪费时间，还要考虑合并的时候染色体的顺序是否按照1，2，3而不是1，10，11排下来的。目前我知道的最简单的办法的，从GATK bundle中下载。比如hg19整个基因组的文件。下面是一步到位的命令，包括了fasta，fai，dict文件。</p>
+<pre>wget -c ftp://gsapubftp-anonymous@ftp.broadinstitute.org/bundle/hg19/ucsc.hg19*</pre>
+
+<p>GATK bundle还提供一下其他文件，可以看看( <a href="ftp://ftp.broadinstitute.org/bundle">ftp://ftp.broadinstitute.org/bundle</a> )，比如dict文件，hg38文件等。当然构建参考基因组不一定非要合并染色体，个人习惯。</p>
+<p>补充：UCSC也提供一个genome.fa的下载，<a href="ftp://hgdownload.cse.ucsc.edu/goldenPath/hg19/bigZips/chromFa.tar.gz">ftp://hgdownload.cse.ucsc.edu/goldenPath/hg19/bigZips/chromFa.tar.gz</a></p>
+<p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>#####################################################################</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/1044/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhongxu's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/archives/1044/" class="post-title-link" itemprop="url">Generate Accurate Consensus Sequences from a Single SMRTbell</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-03-22 18:23:09" itemprop="dateCreated datePublished" datetime="2019-03-22T18:23:09+08:00">2019-03-22</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2019-03-22-PACBIO-ZMW-read.png" alt="Circular-Consensus-Sequence"></p>
+<h1 id="bax2bam"><a href="#bax2bam" class="headerlink" title="bax2bam"></a>bax2bam</h1><p>bax2bam -o mynewbam mydata.1.bax.h5 mydata.2.bax.h5 mydata.3.bax.h5</p>
+<h1 id="circus-consensus-sequence"><a href="#circus-consensus-sequence" class="headerlink" title="circus consensus sequence"></a>circus consensus sequence</h1><p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2019-03-22-PB-PACBIO-Circular-Consensus-Sequence.png" alt="Circular-Consensus-Sequence"></p>
+<p>ccs –minLength=100 myData.subreads.bam myResult.bam</p>
+<p>进行CCS由pacbio测序系统决定的，插入序列测多遍之后，可以用来校正随机错误。</p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a target="_blank" rel="noopener" href="https://github.com/PacificBiosciences/unanimity/blob/develop/doc/PBCCS.md">https://github.com/PacificBiosciences/unanimity/blob/develop/doc/PBCCS.md</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/1043/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1021,286 +1181,6 @@ R2----ZA:Z:TC ZB:Z:TA RG:Z:test       RX:Z:TC-TA</pre>
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/1001/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Jason">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Zhongxu's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/archives/1001/" class="post-title-link" itemprop="url">小试shell中的神器zsh</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2018-05-28 22:20:37" itemprop="dateCreated datePublished" datetime="2018-05-28T22:20:37+08:00">2018-05-28</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>很早就知道神器zsh的存在，一直没有用，今天手痒装了一下，哈哈，用起来还不错。</p>
-<p>zsh是bash的增强版，可以兼容bash，可谓是shell中的战斗机，非常方便的命令提示、补全、忽略大小写等功能，一个字爽，可参见</p>
-<p><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/21418449">https://www.zhihu.com/question/21418449</a></p>
-<p>不过通常zsh配置起来比较复杂麻烦，于是诞生了oh-my-zsh，专门为简化zsh的配置而开发，<a target="_blank" rel="noopener" href="http://ohmyz.sh,极大的简化了zsh的配置,还是一个字,爽./">http://ohmyz.sh，极大的简化了zsh的配置，还是一个字，爽。</a></p>
-<h1 id="安装zsh"><a href="#安装zsh" class="headerlink" title="安装zsh"></a>安装zsh</h1><p>首先查看系统是否安装了zsh，发现系统没有安装zsh<br>cat /etc/shells 或者chsh -l</p>
-<pre>/bin/sh
-/bin/bash
-/sbin/nologin
-/bin/tcsh
-/bin/csh
-/bin/dash
-/bin/ksh</pre>
-<p>如果没有zsh，直接安装oh my zsh会报错Zsh is not installed! Please install zsh first!，所以第一步应该是先安装zsh<br>如果你有sudo权限或者root权限，可以执行</p>
-<pre> apt-get install zsh</pre>
-<p>如果没有的话（如果有的话，忽略这一步），比如只能安装在自己的HOME目录下，可以通过下载源码自己编译的方式，实现安装zsh</p>
-<pre>wget -c https://jaist.dl.sourceforge.net/project/zsh/zsh/5.5.1/zsh-5.5.1.tar.gz
-tar -xvzf zsh-5.5.1.tar.gz
-cd zsh-5.5.1
-./configure --prefix=/PATH
-make
-make install
-
-在.bashrc文件中设置启动
-exec /share/apps/zsh/bin/zsh -l
-此时还要确保zsh在环境变量中，如果没有，请设置。
-</pre>
-
-<h1 id="安装oh-my-zsh"><a href="#安装oh-my-zsh" class="headerlink" title="安装oh my zsh"></a>安装oh my zsh</h1><pre>sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"</pre>
-
-<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-05-28-install-oh-my-zsh.png"> </p>
-<p>既然用了zsh，我也尝试了一下新的虚拟终端MobaXterm。<br><a target="_blank" rel="noopener" href="https://mobaxterm.mobatek.net/">https://mobaxterm.mobatek.net</a></p>
-<p>安利的文章可以看这个，<a target="_blank" rel="noopener" href="https://www.isharebest.com/mobaxterm.htm">https://www.isharebest.com/mobaxterm.htm</a></p>
-<p>这个虚拟终端的功能非常丰富，但用起来有时候莫名其妙的卡。或许zsh和Xshell更搭。</p>
-<p>尝试了下命令提示的功能，如图，还是很方便的，后续以后会经常用zsh了。</p>
-<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-05-28-autopromote.png"> </p>
-<p>oh my zsh的主题列表<a target="_blank" rel="noopener" href="https://github.com/robbyrussell/oh-my-zsh/wiki/themes">https://github.com/robbyrussell/oh-my-zsh/wiki/themes</a></p>
-<p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>#####################################################################</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/996/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Jason">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Zhongxu's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/archives/996/" class="post-title-link" itemprop="url">BCFTOOLS支持的表达式</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2018-05-24 15:20:52" itemprop="dateCreated datePublished" datetime="2018-05-24T15:20:52+08:00">2018-05-24</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>翻译<a target="_blank" rel="noopener" href="https://samtools.github.io/bcftools/bcftools-man.html#expressions">https://samtools.github.io/bcftools/bcftools-man.html#expressions</a></p>
-<h1 id="有效的表达式可能包含"><a href="#有效的表达式可能包含" class="headerlink" title="有效的表达式可能包含"></a>有效的表达式可能包含</h1><ul>
-<li><p>数字常量，字符常量，文件名</p>
-<p>1, 1.0, 1e-4<br>“String”<br>@file_name</p>
-</li>
-<li><p>算数运算符：</p>
-<p>+,*,-,/</p>
-</li>
-<li><p>比较运算符：</p>
-<p>== (同=), &gt;, &gt;=, &lt;=, &lt;, !=</p>
-</li>
-<li><p>正则运算符”<del>“及其非值”!</del>“。大小写敏感，加”/i”这大小写不敏感：</p>
-<p>INFO/HAYSTACK ~ “needle”<br>INFO/HAYSTACK ~ “NEEDless/i”</p>
-</li>
-<li><p>括号：</p>
-<p>(, )</p>
-</li>
-<li><p>逻辑运算符：</p>
-<p>&amp;&amp; (同&amp;), ||,  |</p>
-</li>
-<li><p>VCF/BCF中的INFO tags, FORMAT tags, column names：</p>
-<p>INFO tags: INFO/DP or DP<br>FORMAT tags: FORMAT/DV, FMT/DV, or DV<br>column names:  FILTER, QUAL, ID, POS, REF, ALT[0]</p>
-</li>
-<li><p>1 (或0) 检测flag的存在 (或不存在) ：</p>
-<p>FlagA=1 &amp;&amp; FlagB=0</p>
-</li>
-<li><p>“.” 检测缺失值：</p>
-<p>DP=”.”, DP!=”.”, ALT=”.”</p>
-</li>
-<li><p>不论分型phase或者倍体ploid(“.|.”, “./.”, “.”) ，缺失的基因型genotype可以通过以下表达式匹配：</p>
-<p>GT<del>“\.”, GT!</del>“\.”</p>
-</li>
-<li><p>包括分型phase或者倍体ploid(“.|.”, “./.”, “.”) ，可以通过以下表达式匹配：</p>
-<p>GT=”.|.”, GT=”./.”, GT=”.”</p>
-</li>
-<li><p>样本基因型genotype：参考</p>
-<p>参考基因型（单倍体或二倍体）:  GT=”ref”<br>突变基因型 （纯合或杂合，单倍体或二倍体）： GT=”alt”<br>缺失基因型：GT=”mis”<br>纯合：GT=”hom”<br>杂合：GT=”het”<br>单倍体： GT=”hap”<br>纯合参考：GT=”RR”<br>纯合突变： GT=”AA”<br>ref-alt杂合： GT=”RA” or GT=”AR”<br>alt-alt杂合：GT=”Aa” or GT=”aA”<br>haploid ref： GT=”R”<br>haploid alt：GT=”A”<br>大小写不敏感</p>
-</li>
-<li><p>在REF和ALT列中的突变类型：（indel，snp，mnp，ref，bnd（断点breakend？），other），”\~” 表示至少一个等位基因是这种类型，”=” 要求所有等位基因是这个类型：</p>
-<p>TYPE=”snp”<br>TYPE<del>“snp”<br>TYPE!=”snp”<br>TYPE!</del>“snp”</p>
-</li>
-<li><p>数组下标（0开始）， “*” 任意元素， “-“ 表示范围。在检索FORMAT向量时，冒号”:” 可以用来选择样本和元素，如下：</p>
-<p>INFO/AF[0] &gt; 0.3             ..   第一个AF值大于0.3<br>FORMAT/AD[0:0] &gt; 30          ..   第一个样本的第一个AD值大于30<br>FORMAT/AD[0:1]               ..   第一个样本的第二个AD值<br>FORMAT/AD[1:0]               ..   第二个样本的第一个AD值<br>DP4[*] == 0                  ..   任意DP4的值<br>FORMAT/DP[0]   &gt; 30         ..   第一个样本的DP值大于30<br>FORMAT/DP[1-3] &gt; 10         ..  第二到四的样本<br>FORMAT/DP[1-]  &lt; 7          ..    除了第一个样本的其他所有样本<br>FORMAT/DP[0,2-4] &gt; 20       ..   第一，三到五个样本<br>FORMAT/AD[0:1]              ..   第一个样本的第二个AD field<br>FORMAT/AD[0:<em>], AD[0:] or AD[0] ..  第一个样本得到所有AD field<br>FORMAT/AD[</em>:1] or AD[:1]        ..   所有样本的AD field<br>(DP4[0]+DP4[1])/(DP4[2]+DP4[3]) &gt; 0.3<br>CSQ[*] ~ “missense_variant.*deleterious”</p>
-</li>
-<li><p>基于FORMAT tags和INFO tags的函数：</p>
-<p>MAX, MIN, AVG, SUM, STRLEN, ABS, COUNT</p>
-</li>
-<li><p>变量可以快速计算得到：</p>
-<p>alternate allele的数目：N_ALT<br>样本数目：N_SAMPLES<br>alternate allele的的计数：AC<br>次等位基因计数，与AC相似，但统计的是小于0.5的等位基因）：MAC,<br>alternate等位基因的频率（AF=AC/AN）：AF<br>次等位基因频率（MAF=MAC/AN）： MAF<br>在called genotypes中等位基因的数目： AN<br>有missing genotype的样本数目：N_MISSING<br>有missing genotype的样本比例：F_MISSING</p>
-</li>
-<li><p>配置perl过滤。注意这个命令默认是没有编译的，在安装的时候可以查看INSTALL文件的Optional Compilation with Perl部分，misc/demo-flt.pl 是一个示例，这个示例中定义了一个名为severity的perl子程序，并被以下命令行调用：</p>
-<p>perl:path/to/script.pl; perl.severity(INFO/CSQ) &gt; 3</p>
-</li>
-</ul>
-<h1 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h1><p>字符和正则表达式都是不区分大小写的，除了tag名外，变量和函数名也是不区分大小写的。例如”qual” 等同 “QUAL”，”strlen()”等同”STRLEN()” ，但是”dp” 不等同 “DP”。 当检索多个值时，所有的元素都会被测试，通过或逻辑（OR）得到结果。比如检索”TAG=1,2,3,4”时：</p>
-<pre><code>-i &#39;TAG\[*\]=1&#39;   .. true, 真，该条记录会被打印
--i &#39;TAG\[*\]!=1&#39;  .. true
--e &#39;TAG\[*\]=1&#39;   .. false,否，该条打印会被丢弃
--e &#39;TAG\[*\]!=1&#39;  .. false
--i &#39;TAG\[0\]=1&#39;   .. true
--i &#39;TAG\[0\]!=1&#39;  .. false
--e &#39;TAG\[0\]=1&#39;   .. false
--e &#39;TAG\[0\]!=1&#39;  .. true</code></pre>
-<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><pre><code>MIN(DV)&gt;5
-MIN(DV/DP)&gt;0.3
-MIN(DP)&gt;10 &amp; MIN(DV)&gt;3
-FMT/DP&gt;10  &amp; FMT/GQ&gt;10 ..   同一个样本需满足两个条件 
-FMT/DP&gt;10 &amp;&amp; FMT/GQ&gt;10 ..  允许不同样本间可以满足这两个条件
-QUAL&gt;10 |  FMT/GQ&gt;10   ..   对QUAL&gt;10 的位点或者 FMT/GQ&gt;10的样本为真，但只选择FMT/GQ&gt;10的样本
-QUAL&gt;10 || FMT/GQ&gt;10   .. 对QUAL&gt;10 的位点或者 FMT/GQ&gt;10的样本为真，选择该位点的所有样本
-TYPE=&quot;snp&quot; &amp;&amp; QUAL&gt;=10 &amp;&amp; (DP4\[2\]+DP4\[3\] &gt; 2)
-COUNT(GT=&quot;hom&quot;)=0
-MIN(DP)&gt;35 &amp;&amp; AVG(GQ)&gt;50
-ID=@file       ..   选择出现在文件file中的ID
-ID!=@~/file    ..   忽略出现在文件file中的ID
-MAF\[0\]&lt;0.05    ..   以5%为阈值，选择rare variant
-POS&gt;=100   ..   限制检索范围，比如20:100-200内的突变</code></pre>
-<h1 id="Shell-扩展"><a href="#Shell-扩展" class="headerlink" title="Shell 扩展"></a>Shell 扩展</h1><p>表达式需要用单引号引起来，因为一些字符可能在shell中有特殊含义。比如</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bcftools view -i <span class="string">&#x27;%ID!=&quot;.&quot; &amp; MAF\[0\]&lt;0.01&#x27;</span> </span><br></pre></td></tr></table></figure>
-
-<h1 id="用bcftools进行突变筛选的示例"><a href="#用bcftools进行突变筛选的示例" class="headerlink" title="用bcftools进行突变筛选的示例"></a>用bcftools进行突变筛选的示例</h1><p><strong>摘自公众号生信开发者</strong> </p>
-<p>#选出位于bed文件中的所有区域的突变位点</p>
-<p><code>bcftools view -R target.bed sample.filter.vcf.bgz </code></p>
-<p>#选出INFO中SAO=1的所有位点</p>
-<p><code>bcftools view -i &#39;SAO=1&#39; sample.filter..b37.vcf </code></p>
-<p>#选出INFO中AC&gt;2的所有位点</p>
-<p><code>bcftools view -i &quot;AC&gt;=2&quot; ExAC.r1.sites.vep.vcf.gz </code></p>
-<p>#选出遗传方式是AR或XR的位点（需INFO字段中已有INHERITANCE注释）</p>
-<p><code>bcftools view -i &#39;INHERITANCE\[*\] = &quot;AR&quot; || INHERITANCE\[*\] = &quot;XR&quot;&#39; sample.filter.annovar.hg19_multianno.Fun.ar.vcf </code></p>
-<p>#选出位于区域X:31136335-33358725的所有位点</p>
-<p><code>bcftools view sample.filter.vcf.bgz X:31136335-33358725</code></p>
-<p>#选出除了INFO字段CLINSIG匹配”Benign”以外的所有</p>
-<p><code>bcftools view -e &#39;CLINSIG~&quot;Benign&quot;&#39; sample.filter.hg19_multianno.Fun.vcf </code></p>
-<p>#选出最小的depth&gt;500而且，肿瘤样品的VAF&gt;0.05的所有位点</p>
-<p><code>bcftools view -i &quot; MIN(FMT/DP)&gt;500 &amp;&amp; FORMAT/AD\[1:1\]/FORMAT/DP\[1\]&gt;0.05 &quot; annovar.exdbsnp.exCOSMIC.exTSG.cds.vcf | sed &#39;/^#/d&#39; </code></p>
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p>表达式手册翻译自<a target="_blank" rel="noopener" href="https://samtools.github.io/bcftools/bcftools-man.html#expressions">https://samtools.github.io/bcftools/bcftools-man.html#expressions</a> </p>
-<p>bcftools突变筛选摘自<strong>公众号生信开发者</strong></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1370,16 +1250,16 @@ POS&gt;=100   ..   限制检索范围，比如20:100-200内的突变</code></pre
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">143</span>
+          <span class="site-state-item-count">145</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
-        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-count">2</span>
         <span class="site-state-item-name">categories</span>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">150</span>
+        <span class="site-state-item-count">151</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>
@@ -1406,7 +1286,7 @@ POS&gt;=100   ..   限制检索范围，比如20:100-200内的突变</code></pre
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2020</span>
+  <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
