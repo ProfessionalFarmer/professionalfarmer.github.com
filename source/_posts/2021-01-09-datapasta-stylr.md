@@ -16,9 +16,9 @@ date: 2021-01-09 16:48:23
 
 还在手工的把excel的数据写成导到R里吗。不管横着还是竖着复制数据，datapasta可以自动、快速的把复制数据转成tibbles, data.frames, 或者 vectors格式。
 
-更详细的参考![https://cran.r-project.org/web/packages/datapasta/vignettes/how-to-datapasta.html](https://cran.r-project.org/web/packages/datapasta/vignettes/how-to-datapasta.html)
+更详细的参考[https://cran.r-project.org/web/packages/datapasta/vignettes/how-to-datapasta.html](https://cran.r-project.org/web/packages/datapasta/vignettes/how-to-datapasta.html)
 
-![https://raw.githubusercontent.com/lorenzwalthert/some_raw_data/master/styler_0.1.gif()]https://raw.githubusercontent.com/milesmcbain/datapasta/master/inst/media/tribble_paste.gif)
+![https://raw.githubusercontent.com/lorenzwalthert/some_raw_data/master/styler_0.1.gif](https://raw.githubusercontent.com/lorenzwalthert/some_raw_data/master/styler_0.1.gif)
 
 # styler
 
@@ -41,3 +41,23 @@ The goal of styler is to provide non-invasive pretty-printing of R source code w
 [https://github.com/daattali/addinslist](https://github.com/daattali/addinslist)
 
 [https://www.zhihu.com/question/398418315](https://www.zhihu.com/question/398418315)
+
+
+
+# 最后推荐两个可以将ggplot导出成ppt的R包
+
+1，export的graph2ppt函数
+
+https://github.com/tomwenseleers/export
+
+export虽然从CRAN下架了，但依然可以通过github的库来安装，devtools::install_github("tomwenseleers/export")
+
+2，eoffice的topptx函数
+
+https://github.com/guokai8/eoffice
+
+3, officer
+
+https://github.com/davidgohel/officer
+
+用法可以参考：https://www.brodrigues.co/blog/2018-10-05-ggplot2_purrr_officer/
