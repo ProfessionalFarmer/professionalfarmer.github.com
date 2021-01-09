@@ -157,6 +157,89 @@ var _hmt = _hmt || [];
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/854/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhongxu's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/archives/854/" class="post-title-link" itemprop="url">2018-01-09 GATK 4.0 正式发布</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-01-20 20:46:55" itemprop="dateCreated datePublished" datetime="2018-01-20T20:46:55+08:00">2018-01-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><img src="https://theme.zdassets.com/theme_assets/2378360/df085f154321faac9159dda57f50103b87a4f743.png" alt="hhttps://theme.zdassets.com/theme_assets/2378360/df085f154321faac9159dda57f50103b87a4f743.png"> </p>
+<p>GATK4正式版已经发布，快去体验啦。GATK4在上一年提出开源，并放出beta版本，现在终于姗姗来迟。</p>
+<p>GATK4是业界第一次涵盖了胚细胞和体细胞基因型分析中的主要突变类型的基因组分析工具，且已经开源。新版本的GATK为了解决性能瓶颈近乎完全重构，提高了速度和扩展性有不失其过往的准确度。</p>
+<p>GATK4包含了备受大家喜爱的pipeline和新工具，汲取了机器学习和神经网络算法的优点。</p>
+<p>GATK早期版本关注检测胚细胞短突变（germline short variant），新版本将体细胞短突变（somatic short variant）检测工具Mutect2也整合在内，Mutect2整合广泛使用的算法Mutect和GATK卓越的胚细胞突变检测算法HaplotypeCaller。除了短突变检测外，GATK4增加了检测胚细胞和体细胞拷贝数变异的流程，增加了基于体细胞等位拷贝数（somatic allelic CNV (ACNV)）的肿瘤异质性评估。这些流程经过重构，无缝用于gene panel、外显子到全基因组的测序数据。</p>
+<p>GATK4同时包含了早期可以使用现在依然在开发的结构变异（structural variant）检测，胚细胞拷贝数变异CNV检测使用了机器学习的方法，基于卷积神经网络（Convolutional Neural Networks，CNN）的胚细胞短突变过滤方法。</p>
+<p>GATK4对性能、灵活性、速度、扩展性进行了广泛优化，并包含了可以在本地或者云设备上可以运行的点对点流程（Best practice）。</p>
+<p>该版本得益于Broad研究所大规模运行基因组分析流程的科学和业务专家，来自业界Intel, Google Cloud, Cloudera, Microsoft Genmics, IBM Research, Amazon Web Services and Alibaba Cloud的工程师，都为GATK4的的开发做出来贡献。</p>
+<p>2017成立的Intel-Broad基因组数据工程中心，Broad研究所的人员与Intel协同合作，对关键流程步骤做出了巨大优化。特别是Intel显著优化了基于GVCF的胚细胞joint-calling流程的扩展性，使得Broad团队可以在2个星期内完成15,000个全基因组样本的变异分析工作，而GATK3要处理3,000个全基因组样本需要至少6个星期。</p>
+<p><a target="_blank" rel="noopener" href="https://software.broadinstitute.org/gatk/gatk4">https://software.broadinstitute.org/gatk/gatk4</a> <a target="_blank" rel="noopener" href="https://github.com/broadinstitute/gatk">https://github.com/broadinstitute/gatk</a> <a target="_blank" rel="noopener" href="http://jandan.net/2017/05/31/gatk4-open.html">http://jandan.net/2017/05/31/gatk4-open.html</a> <a target="_blank" rel="noopener" href="http://www.eeboard.com/news/gatk4/">http://www.eeboard.com/news/gatk4/</a> <a target="_blank" rel="noopener" href="http://ju.outofmemory.cn/entry/324861">http://ju.outofmemory.cn/entry/324861</a> <a target="_blank" rel="noopener" href="https://gatkforums.broadinstitute.org/gatk/discussion/10502/gatk-4-0-will-be-released-jan-9-2018#latest">https://gatkforums.broadinstitute.org/gatk/discussion/10502/gatk-4-0-will-be-released-jan-9-2018#latest</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/798/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1077,122 +1160,6 @@ deactivate</pre>
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/768/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Jason">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Zhongxu's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/archives/768/" class="post-title-link" itemprop="url">Convert gtf to bed12 format --- gtf2bed</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2016-08-30 21:29:32" itemprop="dateCreated datePublished" datetime="2016-08-30T21:29:32+08:00">2016-08-30</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>Some software requires bed12 format, not gtf/gff. So a convertion work should be done.</p>
-<h1 id="bedops-gtf2bed"><a href="#bedops-gtf2bed" class="headerlink" title="bedops gtf2bed"></a>bedops gtf2bed</h1><p>Easy way to get your result —- <a target="_blank" rel="noopener" href="http://bedops.readthedocs.io/">bedops</a></p>
-<pre>gtf2bed < Homo_sapiens.GRCh38.85.gtf ' head
-1       11868   14409   ENST00000456328 0       +       11868   14409   0       3       359,109,1189,   0,744,1352,
-1       12009   13670   ENST00000450305 0       +       12009   13670   0       6       48,49,85,78,154,218,    0,169,603,965,1211,1443,
-1       17368   17436   ENST00000619216 0       -       17368   17436   0       1       68,     0,
-1       14403   29570   ENST00000488147 0       -       14403   29570   0       11      98,34,152,159,198,136,137,147,99,154,37,        0,601,1392,2203,2454,2829,3202,3511,3864,10334,15130,
-1       29553   31097   ENST00000473358 0       +       29553   31097   0       3       486,104,122,    0,1010,1422,
-1       30266   31109   ENST00000469289 0       +       30266   31109   0       2       401,134,        0,709,
-1       30365   30503   ENST00000607096 0       +       30365   30503   0       1       138,    0,
-1       34553   36081   ENST00000417324 0       -       34553   36081   0       3       621,205,361,    0,723,1167,
-1       35244   36073   ENST00000461467 0       -       35244   36073   0       2       237,353,        0,476,
-1       52472   53312   ENST00000606857 0       +       52472   53312   0       1       840,    0,</pre>
-
-<p>Here we use UCSC’s package to convert gtf format file to bed12 format file.</p>
-<h1 id="Download-UCSC-package"><a href="#Download-UCSC-package" class="headerlink" title="Download UCSC package"></a>Download UCSC package</h1><pre>wget -c http://hgdownload.cse.ucsc.edu/admin/exe/linux.x86_64/gtfToGenePred
-wget -c http://hgdownload.cse.ucsc.edu/admin/exe/linux.x86_64/genePredToBed
-chmod 755 gtfToGenePred genePredToBed</pre>
-
-<h2 id="Convert-gtf-to-bed12"><a href="#Convert-gtf-to-bed12" class="headerlink" title="Convert gtf to bed12"></a>Convert gtf to bed12</h2><pre>time gtfToGenePred Homo_sapiens.GRCh38.85.gtf test.genePhred && genePredToBed test.genePhred result.bed && rm test.genePhred 
-
-real    0m14.959s
-user    0m14.387s
-sys     0m0.567s</pre>
-
-<pre>head reult.bed 
-1       11868   14409   ENST00000456328 0       +       14409   14409   0       3       359,109,1189,   0,744,1352,
-1       12009   13670   ENST00000450305 0       +       13670   13670   0       6       48,49,85,78,154,218,    0,169,603,965,1211,1443,
-1       14403   29570   ENST00000488147 0       -       29570   29570   0       11      98,34,152,159,198,136,137,147,99,154,37,       0,601,1392,2203,2454,2829,3202,3511,3864,10334,15130,
-1       17368   17436   ENST00000619216 0       -       17436   17436   0       1       68,     0,
-1       29553   31097   ENST00000473358 0       +       31097   31097   0       3       486,104,122,    0,1010,1422,
-1       30266   31109   ENST00000469289 0       +       31109   31109   0       2       401,134,        0,709,
-1       30365   30503   ENST00000607096 0       +       30503   30503   0       1       138,    0,
-1       34553   36081   ENST00000417324 0       -       36081   36081   0       3       621,205,361,    0,723,1167,
-1       35244   36073   ENST00000461467 0       -       36073   36073   0       2       237,353,        0,476,
-1       52472   53312   ENST00000606857 0       +       53312   53312   0       1       840,    0,</pre>
-
-<p>Cheers. </p>
-<h1 id="Another-tool"><a href="#Another-tool" class="headerlink" title="Another tool"></a>Another tool</h1><p>I also recommend a perl script – <a target="_blank" rel="noopener" href="https://github.com/ExpressionAnalysis/ea-utils/blob/master/clipper/gtf2bed">gtf2bed</a>. This script works fine to convert gtf to bed format. Thanks for ea-utils project.</p>
-<h1 id="Ref"><a href="#Ref" class="headerlink" title="Ref"></a>Ref</h1><p><a target="_blank" rel="noopener" href="https://groups.google.com/a/soe.ucsc.edu/forum/#!topic/genome/fTNuZOS-CYA">https://groups.google.com/a/soe.ucsc.edu/forum/#!topic/genome/fTNuZOS-CYA</a></p>
-<p><a target="_blank" rel="noopener" href="https://expressionanalysis.github.io/ea-utils/">https://expressionanalysis.github.io/ea-utils/</a></p>
-<p><a target="_blank" rel="noopener" href="http://bedops.readthedocs.io/">bedops.readthedocs.io</a></p>
-<p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>####################################################################</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1262,7 +1229,7 @@ sys     0m0.567s</pre>
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">145</span>
+          <span class="site-state-item-count">146</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -1271,7 +1238,7 @@ sys     0m0.567s</pre>
         <span class="site-state-item-name">categories</span>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">151</span>
+        <span class="site-state-item-count">152</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>
