@@ -1,18 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-  <script>
-var _hmt = _hmt || [];
-(function() {
-  var hm = document.createElement("script");
-  hm.src = "https://hm.baidu.com/hm.js?a3b5d3f466edb3e3f15e8238d8f04be8";
-  var s = document.getElementsByTagName("script")[0]; 
-  s.parentNode.insertBefore(hm, s);
-})();
-</script>
-
-
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
@@ -157,6 +145,154 @@ var _hmt = _hmt || [];
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/1091/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhongxu's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/archives/1091/" class="post-title-link" itemprop="url">Prepare a data frame for sample CNV data</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-03-26 13:08:00" itemprop="dateCreated datePublished" datetime="2020-03-26T13:08:00+08:00">2020-03-26</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>If we want to cluster samples based on CNV data, a dataframe is needed. However, CNV segments in each sample are not the same. Maybe overlap or distinct. I think CNTools package migh solve this challenge. An example is shown as below. The result is a <strong>reduced segment</strong> data frame.</p>
+<pre>BiocManager::install("CNTools")
+data("sampleData")
+seg <- CNSeg(sampleData)
+rdseg <- getRS(seg, by = "region", imput = FALSE, XY = FALSE, what = "mean") 
+View(rdseg@rs)</pre>
+
+<p>Input dataframe has six columns (“ID”,”chrom”,”loc.start”,”loc.end”,”num.mark”,”seg.mean”) including 277 samples and 54825 segments.</p>
+<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2020-03-26-CNTools-Input.png"></p>
+<p>The result can be got from rdseg@rs, like this</p>
+<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2020-03-26-CNTools-Output.png"> Cheers Also, we can use CNRegions from iClusterPlus package. CNregions(sampleData) </p>
+<p>Ref:<br><a target="_blank" rel="noopener" href="https://www.rdocumentation.org/packages/CNTools">https://www.rdocumentation.org/packages/CNTools</a> <a target="_blank" rel="noopener" href="https://rdrr.io/bioc/iClusterPlus/man/CNregions.html">https://rdrr.io/bioc/iClusterPlus/man/CNregions.html</a><br>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责<br>#Author: Jason<br>#################################################################</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/1089/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhongxu's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/archives/1089/" class="post-title-link" itemprop="url">对Autoencoder(自编码器)的理解</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-03-22 14:18:10" itemprop="dateCreated datePublished" datetime="2020-03-22T14:18:10+08:00">2020-03-22</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>通常数据的维度太大，可视化很难，也不利用模型的学习。有时候拿到数据做个PCA或者tSNE，就是把维度缩小到2维（当然也可以3维），便于看数据之间的关系。在机器学习中，Autoencoder也是一种降维的方式， Autoencoder输入层的神经元的数目和输出层的神经元的数目必须，而且要保证输出的结果尽最大可能和输入的结果一致。</p>
+<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2020-03-30-Autoencoder.png"></p>
+<p>图片来自网络</p>
+<p>如上图所示，维度由大到小是decode过程，输出的结果可以从中间层经过encode得到，那么中间层保留了输入层的信息（因为输出层的结果从中间层得到），那么中间层的数据结果，就是降维后的结果，<strong>可以拿来做其他事情</strong>。 网络的复杂程度根据样本数设计。 无监督的聚类，便可以从中间层开始；数据的学习也可以从中间层开始。当输入层是多组学数据时，中间层便是融合后的结果。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/1087/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -183,13 +319,6 @@ var _hmt = _hmt || [];
 
               <time title="Created: 2020-02-29 00:59:21" itemprop="dateCreated datePublished" datetime="2020-02-29T00:59:21+08:00">2020-02-29</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -273,13 +402,6 @@ tpm = apply(expMatrix, 2, fpkm2tpm)
 
               <time title="Created: 2020-02-03 00:30:11" itemprop="dateCreated datePublished" datetime="2020-02-03T00:30:11+08:00">2020-02-03</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -359,13 +481,6 @@ tpm = apply(expMatrix, 2, fpkm2tpm)
 
               <time title="Created: 2019-12-09 05:37:46" itemprop="dateCreated datePublished" datetime="2019-12-09T05:37:46+08:00">2019-12-09</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -462,13 +577,6 @@ END{
 
               <time title="Created: 2019-12-05 04:31:49" itemprop="dateCreated datePublished" datetime="2019-12-05T04:31:49+08:00">2019-12-05</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -562,13 +670,6 @@ chrX    hg19.refGene.ucsc       stop_codon      70683894        70683896        
 
               <time title="Created: 2019-06-10 10:30:37" itemprop="dateCreated datePublished" datetime="2019-06-10T10:30:37+08:00">2019-06-10</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -709,13 +810,6 @@ ggsurvplot(fit,pval=TRUE)</pre>
 
               <time title="Created: 2019-05-19 14:34:05" itemprop="dateCreated datePublished" datetime="2019-05-19T14:34:05+08:00">2019-05-19</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -788,13 +882,6 @@ ggsurvplot(fit,pval=TRUE)</pre>
 
               <time title="Created: 2019-05-15 09:45:45" itemprop="dateCreated datePublished" datetime="2019-05-15T09:45:45+08:00">2019-05-15</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -866,13 +953,6 @@ ggsurvplot(fit,pval=TRUE)</pre>
 
               <time title="Created: 2019-05-02 20:48:43" itemprop="dateCreated datePublished" datetime="2019-05-02T20:48:43+08:00">2019-05-02</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -939,164 +1019,6 @@ vi /etc/fstab
             </div>
           <!--/noindex-->
         
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/1054/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Jason">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Zhongxu's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/archives/1054/" class="post-title-link" itemprop="url">T细胞，B细胞，抗原，CD4和CD8</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2019-04-21 17:50:08" itemprop="dateCreated datePublished" datetime="2019-04-21T17:50:08+08:00">2019-04-21</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="T细胞工作原理"><a href="#T细胞工作原理" class="headerlink" title="T细胞工作原理"></a>T细胞工作原理</h1><p>T细胞在胸腺中发育后，它们可以在血液或淋巴系统中游走或迁移到体内的不同器官。只要特定的入侵者刺激它们，辅助性T细胞就会产生化学物质。有些化学物质触发B细胞发育成浆细胞，而另一些化学物质则刺激杀伤性T细胞靶向并杀死可能被侵入者感染或癌变的细胞。 调节性T细胞有助于控制免疫反应，防止其失控。自然杀伤T细胞也产生化学物质，以帮助调节免疫反应，防止入侵者和肿瘤。在免疫反应结束后，记忆T细胞在体内停留很长一段时间。这样，如果同样的入侵者再次出现，它们就能迅速做出反应，并繁殖产生大量的T细胞来消灭它。</p>
-<h1 id="B细胞工作原理"><a href="#B细胞工作原理" class="headerlink" title="B细胞工作原理"></a>B细胞工作原理</h1><p>与T细胞不同，B细胞不能直接攻击受感染的细胞。相反，B细胞主要产生一种叫做抗体的蛋白质，当入侵者在血液中移动时，抗体就可以劫持入侵者。当它们遇到入侵者时，B细胞受到刺激而产生浆细胞和记忆B细胞。 每个浆细胞被专门用来制造一种特殊的抗体——专门用来攻击特定入侵者的蛋白质。抗体的作用是在受感染的细胞上作为标志，这样T细胞就能识别要破坏的细胞。 当入侵者被抗体包裹时，它们更容易成为免疫系统中其他蛋白质的靶标，也更容易成为吞噬细胞这一专门细胞的攻击目标，吞噬细胞负责吞噬外来物质和受感染的细胞。当浆细胞在免疫反应结束后消失时，记忆B细胞就会长期存在。如果同样的入侵者再次出现，抗体已经可以帮助抵抗它。 1、参与方式不同 T细胞参与细胞免疫，B细胞参与体液免疫； 2、形成的位置不同 T细胞形成于胸腺，B细胞形成于骨髓； 3、功能不同 T细胞主要功能是吞噬外来侵袭物，B细胞主要功能是产生各类抗体； 4、数量、形态不同 T细胞数量比B细胞少；B细胞形态比T细胞形态大。 浆细胞又叫做效应B细胞。效应B细胞的产生：当B淋巴细胞受到抗原刺激或受淋巴因子刺激而活化后,将大量增殖并分化为效应B细胞和记忆B细胞.记忆B细胞受刺激后,可直接大量增殖、分化出效应B细胞 效应B细胞的作用：效应B细胞（浆细胞）由B淋巴细胞或记忆B细胞产生,其能分泌抗体执行免疫供能 自然杀伤细胞NK细胞：非特异性攻击</p>
-<h1 id="MHC1和MHC2"><a href="#MHC1和MHC2" class="headerlink" title="MHC1和MHC2"></a>MHC1和MHC2</h1><p>MHC1类：将抗原肽递呈给细胞毒性T细胞 MHC2类：专职性抗原递呈给辅助性T细胞（Th） MHC1在机体大多数细胞中都有表达，主要是自身受病毒或胞内寄生菌感染以后将病原肽递呈出来让CTL细胞（细胞毒性T细胞，cytotoxic T cell，TC或CTL，也称杀手细胞）识别然后破坏受感染细胞。而表达MHCII的主要是专职的抗原递呈细胞，包括DC，巨噬和B细胞，将病原主动摄取后递呈给Th细胞，从而辅助后期B细胞或者巨噬细胞</p>
-<h1 id="抗原"><a href="#抗原" class="headerlink" title="抗原"></a>抗原</h1><p>外源性抗原—&gt;MHC II—&gt;CD4+ 外源性抗原经吞噬或吞饮作用，被APC摄入胞内形成吞噬体，后者与溶酶体融合形成吞噬溶酶体。抗原在吞噬溶酶体内酸性环境中被蛋白水解酶降解为小分子多肽，其中具有免疫原性的称为抗原肽。内质网中合成的MHC-Ⅱ类分子进入高尔基体后，由分泌小泡携带，通过与吞噬溶酶体融合，使抗原肽与小泡内MHC-Ⅱ类分子结合形成抗原肽-MHCⅡ类分子复合物。该复合物表达于APC表面，可被相应CD4+T细胞识别结合。 内源性抗原–&gt;MHC I–&gt;CD8+ 内源性抗原是指细胞自身合成的抗原，如肿瘤抗原和病毒蛋白抗原等。内源性抗原在细胞内生成后，可被存在于胞质中的蛋白酶体，即小分子聚合多肽体（LMP）降解成小分子多肽；小分子多肽与热休克蛋白70/90在胞质内结合后，经抗原肽转运体（TAP）转运到内质网中，通过加工修饰成为具有免疫原性的抗原肽；抗原肽与内质网中合成的MHCⅠ类分子结合，形成抗原肽-MHCⅠ类分子结合形成抗原肽-MHCⅠ类分子复合物；后者转入高尔基体再通过分泌小泡将其运送到APC表面，供相应CD8+T细胞识别结合。</p>
-<h1 id="CD4和CD8"><a href="#CD4和CD8" class="headerlink" title="CD4和CD8"></a>CD4和CD8</h1><p>CD4+细胞，有称辅助性T细胞，在细胞包面表达CD4+分子，在免疫过程中协助白细胞，包括B细胞成熟和记忆b细胞，活化细胞毒性T细胞和巨噬细胞，辅助性T细胞被MHC II上的抗原激活，迅速分化和分泌调节免疫活性的细胞因子小蛋白。活化的细胞可分为 TH1, TH2, TH3, TH17, TH9, or TFH,亚型，取决于抗原呈递细胞APC的信号。 CD8+细胞，细胞毒性T细胞（TC cells, CTLs, T-killer cells, killer T cells)，细胞表面表达CD8糖蛋白，摧毁病毒感染细胞和肿瘤细胞，这些细胞通过与MHC I分子（所有细胞都表达）上的抗原结合识别攻击对象。 通过IL-10，腺苷和其他调节T细胞分泌的分子调节，CD8+细胞可以进入无活性状态，以免发生自身免疫病。</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/1051/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Jason">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Zhongxu's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/archives/1051/" class="post-title-link" itemprop="url">肿瘤细胞免疫逃逸的几种方式</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2019-04-11 19:08:25" itemprop="dateCreated datePublished" datetime="2019-04-11T19:08:25+08:00">2019-04-11</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>肿瘤中的新抗原neoantigen引起的T细胞介导的免疫监视会影响肿瘤的进化，新抗原的缺失或者抗原呈递功能受损都会导致肿瘤的免疫逃逸。可能有以下几点：</p>
-<p>1，DNA水平：通过拷贝数丢失，导致neoantigen也发生丢失</p>
-<p>2，RNA水平：抑制包含neoantigen的转录本表达</p>
-<p>3，表观水平：沉默编码neoantigen的片断</p>
-<p>4，翻译后水平：蛋白质降解，呈递功能缺失等</p>
-<p>5，免疫系统的选择性纯化：清除包含neoantigen的肿瘤亚克隆。</p>
-<p>参考：Neoantigen-directed immune escape in lung cancer evolution</p>
-
       
     </div>
 
@@ -1180,7 +1102,7 @@ vi /etc/fstab
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">146</span>
+          <span class="site-state-item-count">148</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -1189,7 +1111,7 @@ vi /etc/fstab
         <span class="site-state-item-name">categories</span>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">152</span>
+        <span class="site-state-item-count">154</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>

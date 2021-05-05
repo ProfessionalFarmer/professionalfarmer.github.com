@@ -1,18 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-  <script>
-var _hmt = _hmt || [];
-(function() {
-  var hm = document.createElement("script");
-  hm.src = "https://hm.baidu.com/hm.js?a3b5d3f466edb3e3f15e8238d8f04be8";
-  var s = document.getElementsByTagName("script")[0]; 
-  s.parentNode.insertBefore(hm, s);
-})();
-</script>
-
-
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
@@ -153,6 +141,164 @@ var _hmt = _hmt || [];
 
           <div class="content index posts-expand">
             
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/1125/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhongxu's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/archives/1125/" class="post-title-link" itemprop="url">确定物理网口对应的名称以及配置静态IP</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-08-26 05:02:23" itemprop="dateCreated datePublished" datetime="2020-08-26T05:02:23+08:00">2020-08-26</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="确定物理网口对应的名称"><a href="#确定物理网口对应的名称" class="headerlink" title="确定物理网口对应的名称"></a>确定物理网口对应的名称</h1><p>在一台ubuntu的机器上，有四个物理网口，我想知道每个网口对应的MAC地址。使用ip a可以看到网口的MAC地址和名称，比如列出了ens1f0, ens1f1, ens4f0, ens4f1。<br>原来的网卡interface都是eth开头，后来改成了enp, ens等。</p>
+<p>Names incorporating Firmware/BIOS provided index numbers for on-board devices (example: eno1)<br>Names incorporating Firmware/BIOS provided PCI Express hotplug slot index numbers (example: ens1)<br>Names incorporating physical/geographical location of the connector of the hardware (example: enp2s0)<br>Names incorporating the interfaces’s MAC address (example: enx78e7d1ea46da)<br>Classic, unpredictable kernel-native ethX naming (example: eth0)</p>
+<p>那么如何确定机器上的ens1f0对应的哪个物理网口呢，可以用ethtool来实现，ethtool是用于查询及设置网卡参数的命令。用ethtool -p enos1f1，看哪个网口在闪灯，就能确定这个物理网口对应的名称。记得不要插网线。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ethtool -p|--identify DEVNAME   Show visible port identification (e.g. blinking)</span><br></pre></td></tr></table></figure>
+
+<p>如果没有一个网口亮灯，很可能是因为网口不支持，则可以尝试ethtool -t enosf1f1，大概在4秒之后，网口的灯会亮，这个时候就可以确定enos1f1对应的具体的物理网口了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ethtool -t|--test DEVNAME       Execute adapter self test</span><br></pre></td></tr></table></figure>
+
+<p>很简单的一个命令，知道了就很简单，不知道就很难想到。</p>
+<h1 id="配置静态IP"><a href="#配置静态IP" class="headerlink" title="配置静态IP"></a>配置静态IP</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;etc&#x2F;netplan&#x2F;00-installer-config.yaml</span><br><span class="line"></span><br><span class="line">network:</span><br><span class="line">  ethernets:</span><br><span class="line">    enp0s3:  # 网卡名</span><br><span class="line">      addresses: [192.168.1.3&#x2F;24] # ip地址和子网掩码，24对应255.255.255.0</span><br><span class="line">      gateway4: 192.168.1.1 # 网关</span><br><span class="line">      nameservers:</span><br><span class="line">        addresses: [4.2.2.2, 8.8.8.8] # DNS</span><br><span class="line">  version: 2</span><br></pre></td></tr></table></figure>
+
+<p>配置好了之后，生效</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo netplan apply</span><br></pre></td></tr></table></figure>
+
+<p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>#####################################################################</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/1117/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhongxu's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/archives/1117/" class="post-title-link" itemprop="url">cosine similarity</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-06-17 05:27:23" itemprop="dateCreated datePublished" datetime="2020-06-17T05:27:23+08:00">2020-06-17</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>在SNV分析中，我们在算signature和样本mutation spectrum之间的相似性时，会用到cosine similarity。cosine similarity (distance)的公式，其实就是两个向量的夹角的cosine值，计算公式如下</p>
+<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2020-06-16-cosine-similarity.svg"></p>
+<p>它与欧式距离的差别如下图，cosθ就是similarity，而d则是欧氏距离Euclidean distance。</p>
+<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2020-06-16-eucos.png"></p>
+<p>有些时候，距离也算作一种相似性，因为距离越远，说明两个样本越不相似。Euclidean distance和cosine similarity要根据情况来选择，最重要的是，是否要考虑weight or magnitude，参考下图。</p>
+<p>在文本挖掘分析的时候，计算两个文本的相似性，我们可以统计每个词出现的次数，然后计算相似性（距离），因为文章有短有长，如果考虑单词出现的次数，那么字数多的文章一定与字数少的文章不一样（欧氏距离），所以如果我们不考虑这个量（magnitude）的时候，用cosine计算更加合适，结果也与欧氏距离不一样。</p>
+<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2020-06-16-the_three_documents.webp"></p>
+<p>参考：</p>
+<p><a target="_blank" rel="noopener" href="https://cmry.github.io/notes/euclidean-v-cosine#:~:text=While%20cosine%20looks%20at%20the,to%20actually%20measure%20the%20distance.">https://cmry.github.io/notes/euclidean-v-cosine#:~:text=While%20cosine%20looks%20at%20the,to%20actually%20measure%20the%20distance.</a> </p>
+<p><a target="_blank" rel="noopener" href="https://www.machinelearningplus.com/nlp/cosine-similarity/">https://www.machinelearningplus.com/nlp/cosine-similarity/</a></p>
+<p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>#####################################################################</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
       
   
   
@@ -669,13 +815,6 @@ var _hmt = _hmt || [];
 
               <time title="Created: 2020-06-04 16:17:23" itemprop="dateCreated datePublished" datetime="2020-06-04T16:17:23+08:00">2020-06-04</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -882,13 +1021,6 @@ var _hmt = _hmt || [];
 
               <time title="Created: 2020-05-29 16:55:23" itemprop="dateCreated datePublished" datetime="2020-05-29T16:55:23+08:00">2020-05-29</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -981,13 +1113,6 @@ var _hmt = _hmt || [];
 
               <time title="Created: 2020-05-24 23:00:58" itemprop="dateCreated datePublished" datetime="2020-05-24T23:00:58+08:00">2020-05-24</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -1060,13 +1185,6 @@ var _hmt = _hmt || [];
 
               <time title="Created: 2020-05-16 11:14:16" itemprop="dateCreated datePublished" datetime="2020-05-16T11:14:16+08:00">2020-05-16</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -1142,13 +1260,6 @@ var _hmt = _hmt || [];
 
               <time title="Created: 2020-03-27 13:50:36" itemprop="dateCreated datePublished" datetime="2020-03-27T13:50:36+08:00">2020-03-27</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -1175,168 +1286,6 @@ var _hmt = _hmt || [];
 <p>Works for me.</p>
 <p>Ref:<br><a target="_blank" rel="noopener" href="https://ww2.mathworks.cn/matlabcentral/answers/296999-libgl-error-unable-to-load-driver-in-ubuntu-16-04-while-running-matlab-r2013b">https://ww2.mathworks.cn/matlabcentral/answers/296999-libgl-error-unable-to-load-driver-in-ubuntu-16-04-while-running-matlab-r2013b</a></p>
 <p><a target="_blank" rel="noopener" href="http://portals.broadinstitute.org/cgi-bin/cancer/publications/pub_paper.cgi?mode=view&paper_id=216&p=t">GISTIC2.0 facilitates sensitive and confident localization of the targets of focal somatic copy-number alteration in human cancers</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/1091/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Jason">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Zhongxu's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/archives/1091/" class="post-title-link" itemprop="url">Prepare a data frame for sample CNV data</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-03-26 13:08:00" itemprop="dateCreated datePublished" datetime="2020-03-26T13:08:00+08:00">2020-03-26</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>If we want to cluster samples based on CNV data, a dataframe is needed. However, CNV segments in each sample are not the same. Maybe overlap or distinct. I think CNTools package migh solve this challenge. An example is shown as below. The result is a <strong>reduced segment</strong> data frame.</p>
-<pre>BiocManager::install("CNTools")
-data("sampleData")
-seg <- CNSeg(sampleData)
-rdseg <- getRS(seg, by = "region", imput = FALSE, XY = FALSE, what = "mean") 
-View(rdseg@rs)</pre>
-
-<p>Input dataframe has six columns (“ID”,”chrom”,”loc.start”,”loc.end”,”num.mark”,”seg.mean”) including 277 samples and 54825 segments.</p>
-<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2020-03-26-CNTools-Input.png"></p>
-<p>The result can be got from rdseg@rs, like this</p>
-<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2020-03-26-CNTools-Output.png"> Cheers Also, we can use CNRegions from iClusterPlus package. CNregions(sampleData) </p>
-<p>Ref:<br><a target="_blank" rel="noopener" href="https://www.rdocumentation.org/packages/CNTools">https://www.rdocumentation.org/packages/CNTools</a> <a target="_blank" rel="noopener" href="https://rdrr.io/bioc/iClusterPlus/man/CNregions.html">https://rdrr.io/bioc/iClusterPlus/man/CNregions.html</a><br>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责<br>#Author: Jason<br>#################################################################</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/1089/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Jason">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Zhongxu's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/archives/1089/" class="post-title-link" itemprop="url">对Autoencoder(自编码器)的理解</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-03-22 14:18:10" itemprop="dateCreated datePublished" datetime="2020-03-22T14:18:10+08:00">2020-03-22</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>通常数据的维度太大，可视化很难，也不利用模型的学习。有时候拿到数据做个PCA或者tSNE，就是把维度缩小到2维（当然也可以3维），便于看数据之间的关系。在机器学习中，Autoencoder也是一种降维的方式， Autoencoder输入层的神经元的数目和输出层的神经元的数目必须，而且要保证输出的结果尽最大可能和输入的结果一致。</p>
-<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2020-03-30-Autoencoder.png"></p>
-<p>图片来自网络</p>
-<p>如上图所示，维度由大到小是decode过程，输出的结果可以从中间层经过encode得到，那么中间层保留了输入层的信息（因为输出层的结果从中间层得到），那么中间层的数据结果，就是降维后的结果，<strong>可以拿来做其他事情</strong>。 网络的复杂程度根据样本数设计。 无监督的聚类，便可以从中间层开始；数据的学习也可以从中间层开始。当输入层是多组学数据时，中间层便是融合后的结果。</p>
 
       
     </div>
@@ -1421,7 +1370,7 @@ View(rdseg@rs)</pre>
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">146</span>
+          <span class="site-state-item-count">148</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -1430,7 +1379,7 @@ View(rdseg@rs)</pre>
         <span class="site-state-item-name">categories</span>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">152</span>
+        <span class="site-state-item-count">154</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>

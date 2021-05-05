@@ -1,18 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-  <script>
-var _hmt = _hmt || [];
-(function() {
-  var hm = document.createElement("script");
-  hm.src = "https://hm.baidu.com/hm.js?a3b5d3f466edb3e3f15e8238d8f04be8";
-  var s = document.getElementsByTagName("script")[0]; 
-  s.parentNode.insertBefore(hm, s);
-})();
-</script>
-
-
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
@@ -157,6 +145,240 @@ var _hmt = _hmt || [];
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/770/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhongxu's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/archives/770/" class="post-title-link" itemprop="url">利用genome music分析癌症样本中显著突变的基因和相关通路</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-09-28 20:41:56" itemprop="dateCreated datePublished" datetime="2016-09-28T20:41:56+08:00">2016-09-28</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>MuSiC   the Mutational Significance In Cancer (MuSiC) suite of tools<br>官网地址 <a target="_blank" rel="noopener" href="http://gmt.genome.wustl.edu/packages/genome-music/index.html">http://gmt.genome.wustl.edu/packages/genome-music/index.html</a></p>
+<h1 id="功能其主要功能"><a href="#功能其主要功能" class="headerlink" title="功能其主要功能"></a>功能其主要功能</h1><ol>
+<li>Apply statistical methods to identify significantly mutated genes</li>
+<li>Highlight significantly altered pathways</li>
+<li>Investigate the proximity of amino acid mutations in the same gene</li>
+<li>Search for gene-based or site-based correlations to mutations and relationships between mutations themselves</li>
+<li>Correlate mutations to clinical features, using typical correlation measures, and generalized linear models</li>
+<li>Cross-reference findings with relevant databases such as Pfam, COSMIC, and OMIM</li>
+</ol>
+<h1 id="软件使用的分析思路"><a href="#软件使用的分析思路" class="headerlink" title="软件使用的分析思路"></a>软件使用的分析思路</h1><p>1，生成VCF文件<br>2，将VCF文件转换成maf（Mutation Annotation Format）文件<br>3，合并maf文件为一个文件<br>4，MuSiC bmr calc-covg 生成 <strong>covg</strong> 文件<br>5，MuSiC bmr calc-bmr 生成 <strong>gene_mrs</strong> 文件<br>6，MuSiC smg 生成 <strong>significantly mutated genes</strong><br>7，Music path-scan 生成 <strong>sm_pathways</strong></p>
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><pre>sudo apt-add-repository "deb http://apt.genome.wustl.edu/ubuntu lucid-genome main"
+wget https://apt.genome.wustl.edu/ubuntu/files/genome-institute.asc
+sudo apt-key add genome-institute.asc
+sudo apt-get update
+# fix dependency error Bit::Vector
+sudo cpan install Bit::Vector  
+sudo apt-get install genome-music</pre>
+
+<h1 id="1，生成VCF文件"><a href="#1，生成VCF文件" class="headerlink" title="1，生成VCF文件"></a>1，生成VCF文件</h1><p>可以用varscan2，GATK muTect2等</p>
+<h1 id="2，将VCF文件转换成maf"><a href="#2，将VCF文件转换成maf" class="headerlink" title="2，将VCF文件转换成maf"></a>2，将VCF文件转换成maf</h1><p>参见<a target="_blank" rel="noopener" href="http://wp.zxzyl.com/?p=273">前期文章提到的oncotator</a>，要注意通过设置 –annotate-manual=’Tumor_Sample_Barcode:Tumor_sample_name’ 设置癌症的样本名（对应第16列）</p>
+<h1 id="3，合并maf文件"><a href="#3，合并maf文件" class="headerlink" title="3，合并maf文件"></a>3，合并maf文件</h1><p># 人懒，这个文件中间有maf的标题栏，没有去掉 ( ° △ °’’’)︴<br><code>cat *.maf &#39; grep -v &quot;^#&quot; &gt; myMAF.tsv</code></p>
+<h1 id="4，MuSiC-bmr-calc-covg-生成-covg-文件"><a href="#4，MuSiC-bmr-calc-covg-生成-covg-文件" class="headerlink" title="4，MuSiC bmr calc-covg 生成 covg 文件"></a>4，MuSiC bmr calc-covg 生成 covg 文件</h1><p><strong>count covered bases per-gene for each given tumor-normal pair of BAMs.</strong>  </p>
+<p>–bam-list        一个专门记录样本的文件，需要配对的bam(需要先index)，共三列，sample_name（样本名） normal_bam（正常组织bam文件） tumor_bam（肿瘤组织bam文件），每个配对样本的sample_name名称要和第二部设置的名称一致。<br>格式如下</p>
+<p>aaa    /path/to/bam/aaa_normal.bam        /path/to/bam/aaa_tumor.bam<br>bbb    /path/to/bam/bbb_normal.bam        /path/to/bam/bbb_tumor.bam</p>
+<p>–roi-file        The regions of interest (ROIs) of each gene are typically regions targeted for sequencing or are merged exon loci (from multiple transcripts) of genes with 2-bp flanks (splice junctions).<br>roi（基于1 base），可以从  <a target="_blank" rel="noopener" href="https://github.com/ding-lab/calc-roi-covg/blob/master/data/ensembl_67_cds_ncrna_and_splice_sites_hg19">https://github.com/ding-lab/calc-roi-covg/blob/master/data/ensembl_67_cds_ncrna_and_splice_sites_hg19</a> 下载到，格式如下，要注意染色体要与maf对应，比如都有chr三个字符。如果maf中的染色体带chr，可以awk ‘{print “chr”$0}’ old.roi &gt; new.chr.roi 。roi文件中的基因名要和maf中对应。</p>
+<pre>chr1t11867t12229tDDX11L1
+chr1t12611t12723tDDX11L1
+chr1t29552t30041tMIR1302-11</pre>
+
+<p>如何生成自己需要的roi文件，过几天我可能会讲。</p>
+<p>运行命令</p>
+<pre>genome music bmr calc-covg 
+    --bam-list bam_list  
+    --output-dir output_dir/   
+    --reference-sequence ref.fa  
+    --roi-file new.chr.roi </pre>
+
+<p>文件夹结构</p>
+<pre>.
+├── gene_covgs
+│   ├── aaa.covg
+│   └── bbb.covg
+├── roi_covgs
+│   ├── aaa.covg
+│   └── bbb.covg
+└── total_covgs
+
+2 directories, 5 files</pre>
+
+<h1 id="5，MuSiC-bmr-calc-bmr-生成-gene-mrs-文件"><a href="#5，MuSiC-bmr-calc-bmr-生成-gene-mrs-文件" class="headerlink" title="5，MuSiC bmr calc-bmr 生成 gene_mrs 文件"></a>5，MuSiC bmr calc-bmr 生成 gene_mrs 文件</h1>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/archives/770/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/769/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhongxu's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/archives/769/" class="post-title-link" itemprop="url">oncotator对VCF进行注释，并生成MAF格式文件</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-09-06 16:00:01" itemprop="dateCreated datePublished" datetime="2016-09-06T16:00:01+08:00">2016-09-06</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>MAF格式Mutation Annotation Format (MAF) ，是TCGA组织对突变进行注释的格式。一些和癌症分析相关的软件，经常要求MAF格式文件作为输入。而现在经过GATK或samtools检测出突变的格式一般为VCF格式，的注释软件，即使经过SNPEff和annovar注释（当然还有VEP），结果依然为VCF格式或者tab分割的文件等。</p>
+<p>MAF中每一列是一种注释信息，由于包含的注释信息太多（<a target="_blank" rel="noopener" href="https://wiki.nci.nih.gov/display/TCGA/Mutation+Annotation+Format+%28MAF%29+Specification;WIKISESSIONID=52395E56D6223DF1AB5840164882D34A">详见格式</a>），单纯的通过写脚本转换SNPEff或者annovar的注释文件，会变得非常麻烦而且考虑的问题可能不完全（有人实现过，通过Ensembl的VEP对VCF注释，然后转换，可以在github上搜索到）。</p>
+<p>这里介绍注释软件oncotator，可以注释VCF文件，并直接生成MAF格式，相当于将VCF格式转换成MAF格式。Broad institute开发的，用起来放心哈。</p>
+<h2 id="首先安装python-virtualenv"><a href="#首先安装python-virtualenv" class="headerlink" title="首先安装python virtualenv"></a>首先安装python virtualenv</h2><p>virtualenv可以创建一个虚拟的python环境，在虚拟环境中安装的包，不影响机器已经安装的python包。</p>
+<pre>curl -O https://pypi.python.org/packages/source/v/virtualenv/virtualenv-14.0.6.tar.gz
+tar -xvzf virtualenv-14.0.6.tar.gz 
+cd virtualenv-14.0.6/
+python setup.py install --prefix=~/pypackages/
+cd ..
+rm -rf virtualenv-14.0.6*</pre>
+
+<h2 id="安装oncotator依赖"><a href="#安装oncotator依赖" class="headerlink" title="安装oncotator依赖"></a>安装oncotator依赖</h2><pre>git clone  https://github.com/broadinstitute/oncotator.git
+cd oncotator
+mkdir env
+bash scripts/create_oncotator_venv.sh -e ./env</pre>
+
+<h2 id="安装oncotator"><a href="#安装oncotator" class="headerlink" title="安装oncotator"></a>安装oncotator</h2><pre>source ./env/bin/activate
+python setup.py install
+deactivate</pre>
+
+<h2 id="下载注释数据文件"><a href="#下载注释数据文件" class="headerlink" title="下载注释数据文件"></a>下载注释数据文件</h2><pre>wget -c http://www.broadinstitute.org/~lichtens/oncobeta/oncotator_v1_ds_Jan262015.tar.gz
+tar -xvzf  oncotator_v1_ds_Jan262015.tar.gz</pre>
+<p>注释内容如下，包括基因组注释，蛋白注释，癌症突变注释等，用的基因组是GENCODE的hg19版本。<br><strong>Genomic Annotations</strong></p>
+<p>Gene, transcript, and functional consequence annotations using GENCODE for hg19.<br>Reference sequence around a variant.<br>GC content around a variant.<br>Human DNA Repair Gene annotations from Wood et al.</p>
+<p><strong>Protein Annotations</strong></p>
+<p>Site-specific protein annotations from UniProt.<br>Functional impact predictions from dbNSFP.</p>
+<p><strong>Cancer Variant Annotations</strong></p>
+<p>Observed cancer mutation frequency annotations from COSMIC.<br>Cancer gene and mutation annotations from the Cancer GenCensus.<br>Overlapping mutations from the Cancer Cell Line Encyclopedia.<br>Cancer gene annotations from the Familial Cancer Database.<br>Cancer variant annotations from ClinVar.</p>
+<p><strong>Non-Cancer Variant Annotations</strong></p>
+<p>Common SNP annotations from dbSNP.<br>Variant annotations from 1000 Genomes.<br>Variant annotations from NHLBI GO Exome Sequencing Project (ESP).</p>
+<h1 id="运行oncotator"><a href="#运行oncotator" class="headerlink" title="运行oncotator"></a>运行oncotator</h1><pre>#进入虚拟环境env
+source ./env/bin/activate
+# WGS = whole genome sequencing, WXS = whole exome sequencing
+# 通过annotate-manual设置MAF注释，比如样本barcode，样本来源等，至于氨基酸突变等，会自动进行注释
+oncotator --input_format=VCF --db-dir=./oncotator_v1_ds_Jan262014 --output_format=TCGAMAF --tx-mode=EFFECT --collapse-number-annotations --annotate-default='Sequencer:Illumina HiSeq' --annotate-manual='Sequence_Source:WGS' --annotate-manual='Tumor_Sample_Barcode:Tumor'  --annotate-manual='Matched_Norm_Sample_Barcode:normal'  input.vcf output.maf hg19
+deactivate</pre>
+
+<h1 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h1><p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2016-09-06-oncotator-annotation-maf.png"></p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/archives/769/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/768/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -183,13 +405,6 @@ var _hmt = _hmt || [];
 
               <time title="Created: 2016-08-30 21:29:32" itemprop="dateCreated datePublished" datetime="2016-08-30T21:29:32+08:00">2016-08-30</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -299,13 +514,6 @@ sys     0m0.567s</pre>
 
               <time title="Created: 2016-08-16 16:23:15" itemprop="dateCreated datePublished" datetime="2016-08-16T16:23:15+08:00">2016-08-16</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -458,13 +666,6 @@ dev.off()</pre>
 
               <time title="Created: 2016-08-06 12:22:27" itemprop="dateCreated datePublished" datetime="2016-08-06T12:22:27+08:00">2016-08-06</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -555,13 +756,6 @@ alias jdk7='export JAVA_HOME=$JAVA7_HOME && export JRE_HOME=$JAVA_HOME/jre && ex
 
               <time title="Created: 2016-08-01 22:07:58" itemprop="dateCreated datePublished" datetime="2016-08-01T22:07:58+08:00">2016-08-01</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -644,13 +838,6 @@ biocLite("package-name")  </pre>
 
               <time title="Created: 2016-07-29 15:45:34" itemprop="dateCreated datePublished" datetime="2016-07-29T15:45:34+08:00">2016-07-29</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -732,13 +919,6 @@ biocLite("package-name")  </pre>
 
               <time title="Created: 2016-07-22 16:31:16" itemprop="dateCreated datePublished" datetime="2016-07-22T16:31:16+08:00">2016-07-22</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -853,13 +1033,6 @@ RESULTS
 
               <time title="Created: 2016-07-06 18:49:53" itemprop="dateCreated datePublished" datetime="2016-07-06T18:49:53+08:00">2016-07-06</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -932,13 +1105,6 @@ RESULTS
 
               <time title="Created: 2016-06-16 15:36:10" itemprop="dateCreated datePublished" datetime="2016-06-16T15:36:10+08:00">2016-06-16</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -987,238 +1153,6 @@ cd ..</pre>
             </div>
           <!--/noindex-->
         
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/760/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Jason">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Zhongxu's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/archives/760/" class="post-title-link" itemprop="url">修改MySQL远程访问权限</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2016-06-08 14:35:08" itemprop="dateCreated datePublished" datetime="2016-06-08T14:35:08+08:00">2016-06-08</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="修改MySQL远程访问权限"><a href="#修改MySQL远程访问权限" class="headerlink" title="修改MySQL远程访问权限"></a>修改MySQL远程访问权限</h1><p><code>grant all privileges on *.* to &#39;root&#39;@&#39;%&#39; identified by &#39;123456&#39;;</code></p>
-<p># <em>.</em> 表示允许所有表 ‘root’ 表示允许root用户 ‘%’ 表示任意ip ‘123456’ 表示密码</p>
-<p><code>flush privileges;</code></p>
-<p># 刷新</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/759/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Jason">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Zhongxu's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/archives/759/" class="post-title-link" itemprop="url">bismark DNA甲基化测序比对-bisulfite-seq</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2016-05-21 21:58:40" itemprop="dateCreated datePublished" datetime="2016-05-21T21:58:40+08:00">2016-05-21</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-09-11 22:36:21" itemprop="dateModified" datetime="2020-09-11T22:36:21+08:00">2020-09-11</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>bismark调用bowtie2进行比对，调用samtools生成bam文件，因此在运行bismark之前，需要安装bowtie2和samtools </p>
-<p>请注意，fastq文件要进行质控，比如去掉低质量的reads，去掉adaptor等，可以看本文最下方推荐的PPT,本文不介绍，此外本本只介绍到序列比对，后续的统计分析没有介绍，有兴趣的朋友可以关注swDMR和methykit工具包。 </p>
-<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2016-05-21-bismark-bisulfite-seq.png"></p>
-<h2 id="安装bismark"><a href="#安装bismark" class="headerlink" title="安装bismark"></a>安装bismark</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wget http://www.bioinformatics.babraham.ac.uk/projects/bismark/bismark_v0.16.1.tar.gz</span><br><span class="line">tar -xvzf bismark_v0.16.1.tar.gz</span><br></pre></td></tr></table></figure>
-
-<h2 id="生成转换后的基因组"><a href="#生成转换后的基因组" class="headerlink" title="生成转换后的基因组"></a>生成转换后的基因组</h2><pre><code># --path\_to\_bowtie后面跟的是文件夹
-# --verbose 输出log信息
-# ./ref 文件夹中有一个基因组fasta文件
-# --bowtie2指明用的是bowtie2
-./bismark\_v0.16.1/bismark\_genome\_preparation --path\_to_bowtie /home/zzx/bowtie2-2.2.9/ --bowtie2 --verbose ./ref/</code></pre>
-<p>因为在重亚硫酸盐甲基化测序中，因为未甲基化的C会变为T，在正链表现为C–&gt;T，但是在负链有C变为T，转换为正链时，即为G–&gt;A，所以基因组需要进行两种转化，才能用于比对。在基因组目录下产生Bisulfite_Genome目录，有CT_conversion和GA_conversion文件夹，这两个文件夹包含转换后的fasta文件和bowtie2建立的索引bt2文件。</p>
-<p>fastq中的BS转换后的read与转换的参考基因组比对，得到在参考基因组中的位置，再与原始的参考基因组比较，确定methylate call</p>
-<h2 id="bismark比对"><a href="#bismark比对" class="headerlink" title="bismark比对"></a>bismark比对</h2><pre><code>--non_bs_mm     Optionally outputs an extra column specifying the number of non-bisulfite mismatches a read during the alignment step. 
---nucleotide_coverage   该选项 会生成nucleotide_stats.txt文件。creates a &#39;...nucleotide_stats.txt&#39; file that is also automatically detected by bismark2report and incorporated into the HTML report.
---multicore   Sets the number of parallel instances of Bismark to be run concurrently. 一个实例已经将1个核分配给bismark，两个或者4个核分配给bowtie2，一个分给samtools
-./bismark\_v0.16.1/bismark --genome\_folder ./ref --bowtie2 --nucleotide\_coverage --non\_bs\_mm --basename test --temp\_dir ./tmp --samtools\_path ./samtools-1.2/ --path\_to\_bowtie ./bowtie2-2.2.9/ -1 1.fastq -2 2.fastq --output\_dir ./</code></pre>
-<p>生成bam文件，bam文件可以用samtools view转成sam格式 </p>
-<p>SAM文件</p>
-<pre><code>ST-E00206:135:HMMMWCCXX:4:1101:3710:1801\_1:N:0:GATCAG 163 chr13 20584212 40 90M = 20584274 183 TTTTCCATATTTTAAACTTTTAATTTTTCTTATAAATATCTTAATACATATACGATAATATCTCATAATTTTAATTTACATTTCCCTAAT A,&lt;FFKAKKKKKKA,AFF&lt;FK,&lt;AFKKKAKK&lt;AAF&lt;KA&lt;&lt;FKF&lt;F,,7FFFA,&lt;&lt;AA&lt;K,&lt;AFA7AA,FKKKA7FKF7A7AKKK,AA,A7 NM:i:16  MD:Z:8G6G5G9G2G8G1G3G1G2G1G0G8G0G4G4G12 M:Z:........h......h.....h.........h..h........h.h...h.h.Zx.hh........hh....h....h............ XR:Z:GA XG:Z:GA XB:Z:0 </code></pre>
-<p>(11) QUAL (Phred33 scale) </p>
-<p>(12) NM-tag (edit distance to the reference) </p>
-<p>Edit distance to the reference, including ambiguous bases but excluding clipping NM-tag，与bowtie中NM:i相同。read string转换成reference string需要的最少核苷酸的edits:插入/缺失/替换</p>
-<p>(13) MD-tag (base-by-base mismatches to the reference) </p>
-<p>String for mismatching positions </p>
-<pre><code>eg.XX:Z:2C4C2C6C1C1AC18C3C15C4C2CC14 </code></pre>
-<p>表示2个碱基完全匹配，一个C替换，接着4个碱基完全匹配，一个C发生替换. </p>
-<p>(14) XM-tag (methylation call string) </p>
-<p>methylation call： </p>
-<pre><code>X for methylated C in CHG context (was protected) CHG上的C发生了甲基化 
-x for not methylated C CHG (was converted) CHG上的C未发生甲基化 
-H for methylated C in CHH context (was protected) CHH上的C发生了甲基化 
-h for not methylated C in CHH context (was converted) CHH上的C未发生甲基化 
-Z for methylated C in CpG context (was protected) CpG上的C发生了甲基化 
-z for not methylated C in CpG context (was converted) CpG上的C未发生甲基化 
-. for any bases not involving cytosines </code></pre>
-<p>(15) XR-tag (read conversion state for the alignment) </p>
-<p>共两种转换：CT和GA，GA就是指将read里的所有G转换成A </p>
-<pre><code>eg.XR:Z:CT </code></pre>
-<p>(16) XG-tag (genome conversion state for the alignment) </p>
-<p>共两种：GA和CT。</p>
-<p>CT是指将全基因组上所有的C转换成T </p>
-<pre><code>eg.XG:Z:CT </code></pre>
-<p>此外还会生成一个比对的PE_report.txt文件，后续生成html版本的report会用到</p>
-<h2 id="deduplicate-去重"><a href="#deduplicate-去重" class="headerlink" title="deduplicate 去重"></a>deduplicate 去重</h2><p>会生成deduplicated.bam为后缀的文件</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./bismark\_v0.16.1/deduplicate\_bismark --paired --bam --samtools_path ./samtools-1.2/ /path/to/bam</span><br></pre></td></tr></table></figure>
-
-<h2 id="提取甲基化信息"><a href="#提取甲基化信息" class="headerlink" title="提取甲基化信息"></a>提取甲基化信息</h2><pre><code>bismark_methylation_extractor --no_overlap --paired-end --bedGraph --comprehensive  --counts --remove_spaces  --buffer_size 10G --cytosine_report --genome_folder ref/ --output ./test_pe.deduplicated.bam</code></pre>
-<p>–remove_spaces Replaces whitespaces in the sequence ID field with underscores to allow sorting. </p>
-<p>–cytosine_report 指报道全基因组所有的CpG。只有当指定</p>
-<p>–cytosine_report时才需要genome_folder。生成的文件很大 After the conversion to bedGraph has completed, the option </p>
-<p>–cytosine_report produces a genome-wide methylation report for all cytosines in the genome. By default, the output uses 1-based chromosome coordinates (zero-based cords are optional) and reports CpG context only (all cytosine context is optional). –bedGraph 指将产生一个BedGraph文件存储CpG的甲基化信息 </p>
-<p>–counts 指在bedGraph中有每个C上甲基化reads和非甲基化reads的数目 -</p>
-<p>-genome_folder 后跟着参考基因组的位置 </p>
-<p>–no_overlap Suppresses the Bismark version header line in all output files for more convenient batch processing. This option avoids scoring overlapping methylation calls twice (only methylation calls of read 1 are used for in the process since read 1 has historically higher quality basecalls than read 2). </p>
-<p>–paired-end Input file(s) are Bismark result file(s) generated from paired-end read data. –comprehensive 指把四条链的结果合并为一个文件 Specifying this option will merge all four possible strand-specific methylation info into context-dependent output files. </p>
-<p>–cutoff [threshold] The minimum number of times a methylation state has to be seen for that nucleotide before its methylation percentage is reported. Default: 1 (i.e. all covered cytosines) bismark extractor不支持sort后的bam文件，可能因为sort之后，配对的read不在连续的两行。 This might be a result of sorting the paired-end SAM/BAM files by chromosomal position which is not compatible with correct methylation extraction. Please use an unsorted file instead </p>
-<p>–no_header Suppresses the Bismark version header line in all output files for more convenient batch processing </p>
-<p>–CX/-CX_context bedGrap中包含CpG context以外的 </p>
-<p>CHG_context_test_pe.txt CHH_context_test_pe.txt</p>
-<p>CpG_context_test_pe.txt </p>
-<p>CpG_context_test_pe.txt.spaces_removed.txt </p>
-<p>这四个context文件格式如下 </p>
-<p>(1) seq-ID</p>
-<p>(2) methylation state + 为甲基化， - 为未甲基化</p>
-<p>(3) chromosome </p>
-<p>(4) start position (= end position) </p>
-<p>(5) methylation call </p>
-<p>test_pe_splitting_report.txt </p>
-<p>test_pe.M-bias.txt R1和R2中M-bias作图的数据 </p>
-<p>test_pe.M-bias_R1.png M-bias图 </p>
-<p>test_pe.M-bias_R2.png M-bias图</p>
-<p>test_pe.bedGraph.gz 0-based genomic start and 1-based end coordinates</p>
-<p>test_pe.bismark.cov.gz </p>
-<p>By default, this mode will only consider cytosines in CpG context, but it can be extended to cytosines in any sequence context by using the option ‘–CX’</p>
-<h2 id="生成report"><a href="#生成report" class="headerlink" title="生成report"></a>生成report</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># test\_PE\_report.txt 在比对结束时生成</span></span><br><span class="line"><span class="comment"># --dir 输出路径</span></span><br><span class="line">./bismark_v0.16.1/bismark2report --alignment_report ./test_PE_report.txt --dir ./</span><br></pre></td></tr></table></figure>
-
-<p>会生成一个html文件，可以在浏览器中打开</p>
-<h2 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h2><p><a target="_blank" rel="noopener" href="http://blog.sciencenet.cn/home.php/fgcfmt/home.php?mod=space&uid=1271266&do=blog&id=842711">http://blog.sciencenet.cn/home.php/fgcfmt/home.php?mod=space&amp;uid=1271266&amp;do=blog&amp;id=842711</a></p>
-<p><a target="_blank" rel="noopener" href="http://www.bioinformatics.babraham.ac.uk/projects/bismark/">www.bioinformatics.babraham.ac.uk/projects/bismark/</a></p>
-<p><a target="_blank" rel="noopener" href="http://www.bioinformatics.babraham.ac.uk/training/Methylation_Course/BS-Seq%20theory%20and%20QC%20lecture.pptx">http://www.bioinformatics.babraham.ac.uk/training/Methylation_Course/BS-Seq%20theory%20and%20QC%20lecture.pptx</a> 强烈推荐阅读该PPT，介绍了甲基化测序，质控，比对，去重等</p>
-<p><a target="_blank" rel="noopener" href="http://www.bioinformatics.babraham.ac.uk/projects/bismark/Bismark_User_Guide.pdf">http://www.bioinformatics.babraham.ac.uk/projects/bismark/Bismark_User_Guide.pdf</a> </p>
-<p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>####################################################################</p>
-
       
     </div>
 
@@ -1302,7 +1236,7 @@ z for not methylated C in CpG context (was converted) CpG上的C未发生甲基�
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">146</span>
+          <span class="site-state-item-count">148</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -1311,7 +1245,7 @@ z for not methylated C in CpG context (was converted) CpG上的C未发生甲基�
         <span class="site-state-item-name">categories</span>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">152</span>
+        <span class="site-state-item-count">154</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>
