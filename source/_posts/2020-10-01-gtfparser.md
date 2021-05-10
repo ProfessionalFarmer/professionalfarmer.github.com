@@ -12,6 +12,10 @@ date: 2020-10-01 01:03:23
 ---
 I always use gtf file and retrieve gene information. There isn’t a highly flexible tool to solve my demand. I modified the code from “https://github.com/Jverma/GFF-Parser”, thanks Jverma. This tool will be easier to use.
 
+
+
+![](https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2020-10-02-gtf-parser.gif)
+
 # Usage
 Basically, there are three parameters.
 
