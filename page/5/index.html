@@ -145,6 +145,223 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/1030/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhongxu's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/archives/1030/" class="post-title-link" itemprop="url">将VCF文件中的突变拆分成SNP和INDEL</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-09-10 11:14:45" itemprop="dateCreated datePublished" datetime="2018-09-10T11:14:45+08:00">2018-09-10</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="VCFTOOLS"><a href="#VCFTOOLS" class="headerlink" title="VCFTOOLS"></a>VCFTOOLS</h1><p>得到SNP</p>
+<pre>vcftools --vcf X.vcf --remove-indels --out X.snps --recode --recode-INFO-all</pre>
+
+<p>得到INDEL</p>
+<pre>vcftools --vcf X.vcf --keep-only-indels --out X.indel --recode --recode-INFO-all</pre>
+
+<h1 id="GATK"><a href="#GATK" class="headerlink" title="GATK"></a>GATK</h1><p>得到SNP</p>
+<pre>java -jar GenomeAnalysisTK.jar \
+    -T SelectVariants \
+    -R reference.fasta \
+    -V X.vcf   \
+    -selectType SNP \
+    -o X.snps.vcf</pre>
+
+<p>得到INDEL</p>
+<pre>java -jar GenomeAnalysisTK.jar \
+    -T SelectVariants \
+    -R reference.fasta \
+    -V X.vcf  \
+    -selectType INDEL \
+    -o X.indel.vcf</pre>
+
+<p>本着有轮子不造轮子的原则，可以用VCFTOOLS和GATK来实现，当然如果想自己拆分的话，可以根据VCF中是否有SNP和INDEL的tag标签，或者根据ALT和REF中的碱基长度是否一致来实现拆分。</p>
+<p>参考：</p>
+<p><a target="_blank" rel="noopener" href="https://www.biostars.org/p/48204/">https://www.biostars.org/p/48204/</a><br><a target="_blank" rel="noopener" href="https://software.broadinstitute.org/gatk/documentation/tooldocs/3.8-0/org_broadinstitute_gatk_tools_walkers_variantutils_SelectVariants.php">https://software.broadinstitute.org/gatk/documentation/tooldocs/3.8-0/org_broadinstitute_gatk_tools_walkers_variantutils_SelectVariants.php</a></p>
+<p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>#####################################################################</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/1026/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhongxu's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/archives/1026/" class="post-title-link" itemprop="url">分析带UMI标签的测序数据</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-07-31 12:50:00" itemprop="dateCreated datePublished" datetime="2018-07-31T12:50:00+08:00">2018-07-31</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>分析带UMI标签的测序数据</p>
+<p>检测癌组织的低频突变，为了提高检测低频突变的灵敏度，往往进行高深度的测序。但样本之间存在交叉污染，测序有存在一定概率的错误，这些因素会导致高深度测序过程中将假阳性的信号放到，得到假阳性的结果。解决交叉污染的方法，有公司比如IDT采用唯一配对的样本index，只有配对的index中的reads才属于特定样本。解决测序错误的方法，研究人员在建库的时候，先对分子加上UMI碱基，unique molecular identifier -&gt; UMI，然后根据来源于同一个分子的测序数据进行测序错误修正，得到正确的分子序列。两种方法结合可以减少交叉污染提高准确性（<a target="_blank" rel="noopener" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5759201/%EF%BC%89%E3%80%82">https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5759201/）。</a></p>
+<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-07-30-UMI-analysis.png"></p>
+<p>如图中所示，左侧一个分子被测了5次，其中第二次有一个测序错误，但该错误并没有在每个测序数据中出现，所以在后续合成一个分子的时候，测序错误被修正，只保留了真正的突变。（<a target="_blank" rel="noopener" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5852328/%EF%BC%89">https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5852328/）</a></p>
+<p>常规的肿瘤配对测序分析，或者遗传性突变位点的分析，并不需要UMI信息，所以包含UMI的数据分析是需要不一样的分析流程来得到准确的分析结果，其中包括提取UMI分子标签，合并来自同一个分子的测序reads，低频突变检测而非胚系突变检测等。</p>
+<p>大致流程为：</p>
+<pre>-----prepare analysis ready BAM file------
+'         FASTQ
+'            ↓
+'          uBAM
+'            ↓  Extract UMI
+'          uBAM
+'             ↓  Align uBAM and merge 
+'           BAM
+-----call consensus------
+'             ↓  Group Reads By Umi
+'           BAM
+'             ↓  Group Reads By Umi
+'           BAM
+'             ↓  Call Molecular Consensus Reads
+'           uBAM
+'             ↓  Align uBAM and merge
+'           BAM
+'             ↓  Filter Consensus Reads
+'           BAM
+'             ↓  Clip
+'           BAM
+-----Vardict------
+'             ↓  Call
+'            VCF</pre>
+
+<h1 id="一，得到包含UMI分子标签信息的BAM文件"><a href="#一，得到包含UMI分子标签信息的BAM文件" class="headerlink" title="一，得到包含UMI分子标签信息的BAM文件"></a>一，得到包含UMI分子标签信息的BAM文件</h1><p>UMI信息，应该从fastq中的配对的reads中提取，但fastq不能存储更多的信息，所以需要先将fastq转成uBAM文件，提取uBAM文件中的UMI分子标签信息，将该信息通过RX标签写入uBAM文件中，通过uBAM和BAM文件合并，把RX信息合并到比对到的BAM文件中进行下一步分析。</p>
+<h2 id="1）生成uBAM"><a href="#1）生成uBAM" class="headerlink" title="1）生成uBAM"></a>1）生成uBAM</h2><pre>java -Xmx8G -jar picard.jar FastqToSam \
+    FASTQ=$fq1    \
+    FASTQ2=$fq2   \
+    OUTPUT=test.uBAM \
+    READ_GROUP_NAME=test \
+    SAMPLE_NAME=test \
+    LIBRARY_NAME=test \
+    PLATFORM_UNIT=HiseqX10  PLATFORM=illumina \
+    RUN_DATE=`date --iso-8601=seconds`</pre>
+
+<h2 id="2）提取UMI信息"><a href="#2）提取UMI信息" class="headerlink" title="2）提取UMI信息"></a>2）提取UMI信息</h2><pre>java -jar fgbio.jar ExtractUmisFromBAM \
+    --input=test.uBAM  \
+    --output=test.umi.uBAM \
+    --read-structure=2M148T 2M148T \
+    --single-tag=RX \
+    --molecular-index-tags=ZA ZB</pre>
+
+<p>此时，uBAM文件中RX标签记录着UMI的信息，2M148T表示前两个碱基是UMI分子标签，148个template 测序序列，配对read在uBAM文件中有如下信息</p>
+<pre>R1----ZA:Z:TC ZB:Z:TA RG:Z:test       RX:Z:TC-TA
+R2----ZA:Z:TC ZB:Z:TA RG:Z:test       RX:Z:TC-TA</pre>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/archives/1026/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/1016/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -862,161 +1079,6 @@ POS&gt;=100   ..   限制检索范围，比如20:100-200内的突变</code></pre
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/979/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Jason">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Zhongxu's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/archives/979/" class="post-title-link" itemprop="url">测序数据的预处理</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2018-05-10 10:42:26" itemprop="dateCreated datePublished" datetime="2018-05-10T10:42:26+08:00">2018-05-10</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>测序得到的原始测序序列，里面含有低质量的reads。低质量的reads可能因为flowcell上的cluters不是有单一DNA扩增而来，或者几个cluters混为一起等。还有测序仪在前几个和几个cycle测序质量不好，需要关注一条read的前后几个碱基的质量。如果质量非常不好，测出来的碱基可能为N（无法确定碱基类型）。</p>
-<p>此外，原始reads中还包含测序接头等序列。如果一个文库的平常插入长度为450bp的话，不一定每个插入长度都为450bp，如果个别分子插入长度为100bp，双端配对150bp测序的，会将该片断测穿，配对的reads会多包含50bp的index或者SP等序列。为了保证信息分析质量，需要对下机的raw reads 进行精细过滤，得到clean reads，后续分析都基于clean reads进行。</p>
-<p>为了提高下一步的比对质量，此时数据预处理的过程主要包括：<br>•    去掉接头，去掉开头和结尾几个碱基中质量不好的碱基<br>•    滑窗扫描，检查是否有好几个连续碱基质量不好的情况<br>•    丢弃过短的read<br>•    去接头<br>•    去掉前端碱基质量低于一定值的碱基<br>•    去掉后端碱基质量低于一定值的碱基<br>•    以4bp为窗口滑窗扫描read，如果4个碱基平均质量低于15，则截断<br>•    丢弃序列长度小于36bp的reads</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/archives/979/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/954/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Jason">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Zhongxu's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/archives/954/" class="post-title-link" itemprop="url">文件介绍--FASTQ文件格式</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2018-05-08 21:49:09" itemprop="dateCreated datePublished" datetime="2018-05-08T21:49:09+08:00">2018-05-08</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>在培训部门同事的时候，发现刚开始学生信的人，只是在学如何运行命令，但对自己手头的文件格式和内容却不了解，这对分析的流程的深入理解和研究是非常不好的，所以刚学习的人，应该在等待分析结果的时候，多去了解下文件的内容，程序的大体算法等，这对以后的工作优化是非常有好处的。本文简单介绍一下Fastq的文件格式，希望新手多查文档，多了解自己接触的东西。</p>
-<h1 id="文库构建和测序"><a href="#文库构建和测序" class="headerlink" title="文库构建和测序"></a>文库构建和测序</h1><p>DNA分子会通过超声波或者酶被打断成几百碱基的小片段，然后在小片段DNA分子的两端添加接头，便于测序和样本区分。当然现在也有转座酶技术，通过转座酶同时实现DNA片断化和加接头和引物的过程。将文库上机，文库中的DNA分子首先与flowcell上lane中的接头结合，通过桥式PCR进行扩增（cluster簇增长），待达到一定量之后，进行便合成边测序。</p>
-<h1 id="测序数据的产生"><a href="#测序数据的产生" class="headerlink" title="测序数据的产生"></a>测序数据的产生</h1><p>每进行一个cycle，测序仪会合成过程中产生的荧光进行拍照分析，将产生的数据记录在bcl（base calling）文件，测序仪后续会将bcl文件转化成fastq文件，并同时进行demultiplexing。Demultiplexing会将属于同一Index的reads放在同一个fastq文件中，就个过程是Illumina测序仪自动化进行的，如果涉及更复杂参数的demultiplexing，可以下载illumima的bcl2fastq程序，指定相关文件夹即可自己进行demultiplexing。因为在测序上机之前，会在测序仪中设置样本对应的index，这样通过demultiplexing，测序仪对每个样本产生一对fastq文件。Illumina测序仪会自动将拍照形成的bcl文件转换成FASTQ文件。此文件为数据分析的开始。</p>
-<h1 id="FASTQ文件格式简介"><a href="#FASTQ文件格式简介" class="headerlink" title="FASTQ文件格式简介"></a>FASTQ文件格式简介</h1><p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-05-08-FASTQ1.png"> </p>
-<p>Paired End(PE)测序，会生成的一对FASTQ文件，分别为R1和R2，正是因为双端测序的产生，使得序列拼接和比对更加准确，因为如果单端的话，只能依靠单端read的长短信息，如果双端的话，能依靠整个插入DNA片断长度的信息，通过判断配对序列的相近距离，确认reads的位置，减少了read比对到多个地方的情况发生。<br>配对的reads分别在两个FASTQ文件中，其中一个FASTQ文件的内容如下，每四行表示一条read：</p>
-<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-05-08-FASTQ2.png"> </p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/archives/954/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1086,7 +1148,7 @@ POS&gt;=100   ..   限制检索范围，比如20:100-200内的突变</code></pre
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">148</span>
+          <span class="site-state-item-count">150</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -1095,7 +1157,7 @@ POS&gt;=100   ..   限制检索范围，比如20:100-200内的突变</code></pre
         <span class="site-state-item-name">categories</span>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">154</span>
+        <span class="site-state-item-count">156</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>

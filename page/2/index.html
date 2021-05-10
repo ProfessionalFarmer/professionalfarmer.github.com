@@ -145,6 +145,167 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/1129/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhongxu's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/archives/1129/" class="post-title-link" itemprop="url">甲基化芯片中的M值和B值</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-09-11 06:08:23" itemprop="dateCreated datePublished" datetime="2020-09-11T06:08:23+08:00">2020-09-11</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>M值和B值的计算公式</p>
+<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2020-09-10-M-B-value1.png"></p>
+<p><a target="_blank" rel="noopener" href="https://link.springer.com/article/10.1186/s41241-017-0041-9">https://link.springer.com/article/10.1186/s41241-017-0041-9</a></p>
+<h2 id="The-relationship-curve-between-M-value-and-Beta-value"><a href="#The-relationship-curve-between-M-value-and-Beta-value" class="headerlink" title="The relationship curve between M-value and Beta-value"></a>The relationship curve between M-value and Beta-value</h2><p>M值和B值的对应关系</p>
+<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2020-09-10-M-B-value2.jpg"></p>
+<h2 id="The-histograms-of-Beta-value-left-and-M-value-right-27578-interrogated-CpG-sites-in-total"><a href="#The-histograms-of-Beta-value-left-and-M-value-right-27578-interrogated-CpG-sites-in-total" class="headerlink" title="The histograms of Beta-value (left) and M-value (right) (27578 interrogated CpG sites in total)"></a>The histograms of Beta-value (left) and M-value (right) (27578 interrogated CpG sites in total)</h2><p>M值和B值的分布</p>
+<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2020-09-10-M-B-value3.jpg"></p>
+<p>minfi包有getM和getBeta来分别计算M-values和Beta-values，包的作者认为，</p>
+<ul>
+<li>M-values具有更好的统计特性，更适合用于进行下游的统计分析（差异分析等）</li>
+<li>Beta-values更加容易解释，更能说明生物学上的意义</li>
+<li>CHAMP包在load的时候，可以指定计算Beta-value还是M-value</li>
+</ul>
+<p>一般来说，具体的β值的意义是：</p>
+<ul>
+<li>任何等于或大于0.6的β值都被认为是完全甲基化的</li>
+<li>任何等于或小于0.2的β值被认为是完全未甲基化的</li>
+<li>β值在0.2和0.6之间被认为是部分甲基化的。</li>
+</ul>
+<p>参考：</p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/108364645">https://zhuanlan.zhihu.com/p/108364645</a></p>
+<p><a target="_blank" rel="noopener" href="https://link.springer.com/article/10.1186/s41241-017-0041-9">https://link.springer.com/article/10.1186/s41241-017-0041-9</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/1127/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhongxu's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/archives/1127/" class="post-title-link" itemprop="url">Failed to mount 大容量的RAID组</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-08-31 01:22:23" itemprop="dateCreated datePublished" datetime="2020-08-31T01:22:23+08:00">2020-08-31</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>我们的存储服务器有两组RAID，容量均大于150T，我在mount的时候，提示我</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">NTFS signature is missing.</span><br><span class="line">Failed to mount &#39;&#x2F;dev&#x2F;sdc&#39;: Invalid argument</span><br><span class="line">The device &#39;&#x2F;dev&#x2F;sdc&#39; doesn&#39;t seem to have a valid NTFS.</span><br><span class="line">Maybe the wrong device is used? Or the whole disk instead of a</span><br><span class="line">partition (e.g. &#x2F;dev&#x2F;sda, not &#x2F;dev&#x2F;sda1)? Or the other way around?</span><br></pre></td></tr></table></figure>
+
+<p>是因为没有分区导致的，分区之后就可以了。分区的命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"># 使用parted命令进行分区,等同parted; select &#x2F;dev&#x2F;sdc</span><br><span class="line">parted &#x2F;dev&#x2F;sdc </span><br><span class="line"></span><br><span class="line"># 创建分区表</span><br><span class="line">mklabel gpt </span><br><span class="line"></span><br><span class="line"># 使用print命令查看当前分区情况</span><br><span class="line">print </span><br><span class="line"></span><br><span class="line"># 留1M的空余空间，目的是为了让数据块整齐，提高磁盘的运行效率, -1表示分区的结尾  意思是划分整个硬盘空间为主分区</span><br><span class="line">mkpart primary 1 -1 </span><br><span class="line"></span><br><span class="line">p  # print的简写</span><br><span class="line"></span><br><span class="line"># 使用q命令退出, </span><br><span class="line">quit </span><br><span class="line"></span><br><span class="line"># 退出之后会提示</span><br><span class="line">会提示Information: You may need to update &#x2F;etc&#x2F;fstab.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 格式化分区，为分区写入文件系统,格式为ext4</span><br><span class="line">mkfs –t ext4 &#x2F;dev&#x2F;sdc1 # 格式化分区</span><br><span class="line"></span><br><span class="line"># 使用blkid命令，找到 UUID，然后编辑 &#x2F;etc&#x2F;fstab，实现自动挂载</span><br><span class="line">vim &#x2F;etc&#x2F;fstab</span><br><span class="line"></span><br><span class="line">UUID&#x3D;******	directory	ext4	defaults	0	0</span><br></pre></td></tr></table></figure>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考:"></a>参考:</h1><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/kreo/p/9462641.html">https://www.cnblogs.com/kreo/p/9462641.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/saszhuqing/p/9964262.html">https://www.cnblogs.com/saszhuqing/p/9964262.html</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/1125/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1155,152 +1316,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/1098/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Jason">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Zhongxu's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/archives/1098/" class="post-title-link" itemprop="url">Google Docs + PaperPile = 提高生产力</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-05-16 11:14:16" itemprop="dateCreated datePublished" datetime="2020-05-16T11:14:16+08:00">2020-05-16</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="Google-Docs的优点："><a href="#Google-Docs的优点：" class="headerlink" title="Google Docs的优点："></a>Google Docs的优点：</h1><p>1，便于协作，多个人可以同时（注意是同时）编辑一个文件，当然有道云笔记，腾讯文档、office 365也可以。<br>2，可以追踪修订，版本控制<br>3，虽然office的功能很强大，但平常用的功能，Google Docs都有<br>4，不用考虑文件同步的问题，有网就有文件，直接编辑即可，实在不行，拿个PAD连个键盘都行<br>5，可以用插件，比如PaperPile</p>
-<h1 id="PaperPile："><a href="#PaperPile：" class="headerlink" title="PaperPile："></a>PaperPile：</h1><p>我是来到HK之后才接触PaperPile的，和Google Docs配合，插入文件，简直太爽了。我也用百度搜了下看是否有人介绍 PaperPile，很少有介绍的。</p>
-<p>可能的原因是大陆用Google Docs不方便，进而不经常用PaperPile。PaperPile有个编辑公司提到 “科研写作在云端:协同写作工具”。这个形容真的是太贴切了，有了PaperPile，感觉文献管理无敌了。</p>
-<p>1，插入文献：随便提供文献的网址、题目等，插入即可，简单的不要不要的</p>
-<p>2，文献管理：有PaperPile的Chrome插件，随时搜集你喜欢的文献，如果能下载到PDF，PaperPile一并帮你下载好，当然这个需要占用你的Google Drive的空间。你可以设置文件夹，管理不同的文献</p>
-<p>3，文献阅读：有时候文献阅读，需要高亮、备注什么的，要用到PDF阅读器，还要考虑电脑间的文件的同步问题，PaperPile最近开发了自己的PDF阅读器，在PaperPile中设置成它自己的阅读器打开文献即可。这样的好处是，只要有网和浏览器，你就可以随时的阅读和标记。这比Endnote什么的方便多了。</p>
-<p>不截图了，就是想推荐这个组合，祝大家科研愉快。</p>
-<p>PS：还可以加个Grammarly，检查下英文语法什么的，总之用工具提高自己的生产力呗。</p>
-<p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>#####################################################################</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/1092/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Jason">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Zhongxu's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/archives/1092/" class="post-title-link" itemprop="url">Matlab error when running GISTIC</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-03-27 13:50:36" itemprop="dateCreated datePublished" datetime="2020-03-27T13:50:36+08:00">2020-03-27</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>If you instal MCR (MATLAB Compiler Runtime) provided by GISTIC package, may have the following error. This error could disrupt GISTIC.<br><strong>libGL error: failed to load driver: swrast</strong></p>
-<p>If this situation occurs, rename the file found at <strong>“ _$MATLAB_ROOT_/sys/os/glnxa64/libstdc++.so.6” to “libstdc++.so.6.old”</strong>, This forces MATLAB to use the OS library.</p>
-<p>Works for me.</p>
-<p>Ref:<br><a target="_blank" rel="noopener" href="https://ww2.mathworks.cn/matlabcentral/answers/296999-libgl-error-unable-to-load-driver-in-ubuntu-16-04-while-running-matlab-r2013b">https://ww2.mathworks.cn/matlabcentral/answers/296999-libgl-error-unable-to-load-driver-in-ubuntu-16-04-while-running-matlab-r2013b</a></p>
-<p><a target="_blank" rel="noopener" href="http://portals.broadinstitute.org/cgi-bin/cancer/publications/pub_paper.cgi?mode=view&paper_id=216&p=t">GISTIC2.0 facilitates sensitive and confident localization of the targets of focal somatic copy-number alteration in human cancers</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1370,7 +1385,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">148</span>
+          <span class="site-state-item-count">150</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -1379,7 +1394,7 @@
         <span class="site-state-item-name">categories</span>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">154</span>
+        <span class="site-state-item-count">156</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>

@@ -145,6 +145,274 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/750/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhongxu's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/archives/750/" class="post-title-link" itemprop="url">利用ionice命令设置程序的IO调度与优先级</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-04-01 21:30:20" itemprop="dateCreated datePublished" datetime="2016-04-01T21:30:20+08:00">2016-04-01</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>我合并多个文件，用cat将流重定向到一个文件，或者把一个大文件rm掉腾出空间，要进行IO，但如果这个时候服务器有进程进行IO时，同个进程同时进行IO，效率就会很慢。有时候我想把别的进程IO缓一缓，先把合并或者rm的任务有限解决掉，再继续别的进程的IO。</p>
+<p>就google了下如何提高效率，查ionice这个命令。</p>
+<p>ionice - 获取或设置程序的IO调度与优先级，通过设置命令或进程的IO调度优先级，加快IO效率</p>
+<h2 id="命令格式"><a href="#命令格式" class="headerlink" title="命令格式"></a>命令格式</h2><p>跟命令时，设置命令的IO调度优先级，跟PID时，设置相应进程的IPD调度优先级。</p>
+<pre>ionice [[-c class] [-n classdata] [-t]] -p PID [PID]...
+ionice [-c class] [-n classdata] [-t] COMMAND [ARG]... </pre>
+
+<p>我也进行了测试，比如在有其进程进行IO工作时，我要在删除Fastq文件（R1文件20G，R2文件21G）时，用法详见下文。</p>
+<pre>time rm R1.fastq
+real    0m37.306s
+user    0m0.001s
+sys     0m0.300s
+
+time ionice -c 2 -n 0 rm R2.fastq
+real    0m2.579s
+user    0m0.002s
+sys     0m0.682s</pre>
+
+<p>可以看到当提高IO的优先级后，效率还是非常快的，当然这暂时牺牲了其他进程的IO。</p>
+<h2 id="ionice-h用法"><a href="#ionice-h用法" class="headerlink" title="ionice -h用法"></a>ionice -h用法</h2>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/archives/750/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/749/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhongxu's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/archives/749/" class="post-title-link" itemprop="url">NC编号与对应的染色体</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-03-30 21:13:19" itemprop="dateCreated datePublished" datetime="2016-03-30T21:13:19+08:00">2016-03-30</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <table>
+<thead>
+<tr>
+<th>NC编号</th>
+<th>染色体</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>NC_000001.10</td>
+<td>Chr1</td>
+</tr>
+<tr>
+<td>NC_000002.11</td>
+<td>Chr2</td>
+</tr>
+<tr>
+<td>NC_000003.11</td>
+<td>Chr3</td>
+</tr>
+<tr>
+<td>NC_000004.11</td>
+<td>Chr4</td>
+</tr>
+<tr>
+<td>NC_000005.9</td>
+<td>Chr5</td>
+</tr>
+<tr>
+<td>NC_000006.11</td>
+<td>Chr6</td>
+</tr>
+<tr>
+<td>NC_000007.13</td>
+<td>Chr7</td>
+</tr>
+<tr>
+<td>NC_000008.10</td>
+<td>Chr8</td>
+</tr>
+<tr>
+<td>NC_000009.11</td>
+<td>Chr9</td>
+</tr>
+<tr>
+<td>NC_000010.10</td>
+<td>Chr10</td>
+</tr>
+<tr>
+<td>NC_000011.9</td>
+<td>Chr11</td>
+</tr>
+<tr>
+<td>NC_000012.11</td>
+<td>Chr12</td>
+</tr>
+<tr>
+<td>NC_000013.10</td>
+<td>Chr13</td>
+</tr>
+<tr>
+<td>NC_000014.8</td>
+<td>Chr14</td>
+</tr>
+<tr>
+<td>NC_000015.9</td>
+<td>Chr15</td>
+</tr>
+<tr>
+<td>NC_000016.9</td>
+<td>Chr16</td>
+</tr>
+<tr>
+<td>NC_000017.10</td>
+<td>Chr17</td>
+</tr>
+<tr>
+<td>NC_000018.9</td>
+<td>Chr18</td>
+</tr>
+<tr>
+<td>NC_000019.9</td>
+<td>Chr19</td>
+</tr>
+<tr>
+<td>NC_000020.10</td>
+<td>Chr20</td>
+</tr>
+<tr>
+<td>NC_000021.8</td>
+<td>Chr21</td>
+</tr>
+<tr>
+<td>NC_000022.10</td>
+<td>Chr22</td>
+</tr>
+<tr>
+<td>NC_000023.10</td>
+<td>ChrX</td>
+</tr>
+<tr>
+<td>NC_000024.9</td>
+<td>ChrY</td>
+</tr>
+<tr>
+<td>NC_012920.1</td>
+<td>ChrM</td>
+</tr>
+</tbody></table>
+<p>PS：NC编号中的点后面代表版本，可能会更新。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/748/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -770,198 +1038,6 @@ mv .header.vcf  sorted.vcf && rm .header.vcf .pre.sorted.vcf</pre>
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/740/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Jason">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Zhongxu's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/archives/740/" class="post-title-link" itemprop="url">合并VCF文件 Merge VCF file</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2016-02-29 20:47:58" itemprop="dateCreated datePublished" datetime="2016-02-29T20:47:58+08:00">2016-02-29</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>VCF为variant call file格式，现为标准的SNV突变存储格式。通常情况下，一个VCF文件对应一个样本的突变。但VCF格式同样支持同时在一个文件中表示多个样本的突变，在每一行的最后几列，每一列代表一个样本在特定位点的突变情况，若样本在该位点没有突变，在代表样本的那一列在该位点的记录为.点号。<br>此外，在生成VCF的时候，可以生成包含多个样本突变的VCF。但是要在序列比对生成SAM文件时要加入SM tag用来指定哪些reads属于哪个样本。</p>
-<p>多个样本的突变情况用一个VCF文件存储的好处在于，对于发生突变的特定位点，可以迅速了解不同样本在该位点的突变情况。比如下列，最后三列表示三个样本在染色体chrT的525位点的突变情况，</p>
-<pre>
-#对应GT:PL:GQ:AD:DP。其中第一个样本在该位点没有发生突变，第二个样本的基因型为C/C，第三个样本的基因型为G/T。
-chrT    515    .    G    C,T    1230.23    PASS    AC=4;AF=1.00;AN=4;DP=76;FS=0.000;MLEAC=2;MLEAF=1.00;MQ0=0;MQ=60.24;QD=33.32;RPA=5,4;RU=CA;SF=1,2;SOR=0.793;STR;set=variant23    GT:PL:GQ:AD:DP    .    1/1:1570,120,0:99:0,40:46    0/2:965,69,0:69:0,23:30`</pre>
-
-<h2 id="一，vcftools"><a href="#一，vcftools" class="headerlink" title="一，vcftools"></a>一，vcftools</h2><p>VCFtools is a program package designed for working with VCF files, such as those generated by the 1000 Genomes Project. The aim of VCFtools is to provide easily accessible methods for working with complex genetic variation data in the form of VCF files.</p>
-<p>VCFtools的功能和SAMtools类似，用于处理VCF格式的文件，可用于合并VCF。</p>
-<p>VCFtools的输入文件格式为gz格式，需要用bgzip压缩，并用tabix生成index文件。<br>tabix和bgzip在samtools安装包的htslib-*文件夹中，需要单独安装。首先下载samtools（也可以专门下载htslib包，或者你已经有samtools，看是否有htslib文件夹），进入htslib文件夹中</p>
-<pre>wget https://github.com/samtools/htslib/releases/download/1.3/htslib-1.3.tar.bz2
-tar -jxvf htslib-1.3.tar.bz2
-cd htslib-1.3
-./configure 
-make
-make prefix=/path/to/install install</pre>
-
-<h3 id="download-vcftools，install-vcftools"><a href="#download-vcftools，install-vcftools" class="headerlink" title="download vcftools，install vcftools"></a>download vcftools，install vcftools</h3><pre>git clone https://github.com/vcftools/vcftools.git
-cd vcftools/ 
-./autogen.sh 
-./configure 
-make 
-make install</pre>
-
-<h3 id="compress-index-and-merge-VCF"><a href="#compress-index-and-merge-VCF" class="headerlink" title="compress, index and merge VCF"></a>compress, index and merge VCF</h3><pre>bgzip -c "x.vcf" > "x.vcf.gz"
-bgzip -c "y.vcf > "y.vcf.gz"
-bgzip -c "z.vcf" > "z.vcf.gz"
-tabix -f "x.vcf.gz"
-tabix -f "y.vcf.gz"
-tabix -f "z.vcf.gz"
-vcf_merge   x.vcf.gz   y.vcf.gz   z.vcf.gz  > merged.vcf</pre>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/archives/740/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/739/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Jason">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Zhongxu's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/archives/739/" class="post-title-link" itemprop="url">Get the reference allele based on genomic position</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2016-02-24 21:17:26" itemprop="dateCreated datePublished" datetime="2016-02-24T21:17:26+08:00">2016-02-24</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>This post will show how to get the reference base of chr1 from 49999 to 500001 (Version: hg19).<br>Please note: different tools has different coordinate (0 start or 1 start).</p>
-<h2 id="1-SAMtools"><a href="#1-SAMtools" class="headerlink" title="1, SAMtools"></a>1, SAMtools</h2><p>Index reference sequence in the FASTA format or extract subsequence from indexed reference sequence. If no region is specified, faidx will index the file and create .fai on the disk. If regions are specified, the subsequences will be retrieved and printed to stdout in the FASTA format.</p>
-<pre>$samtools faidx ucsc.hg19.fasta chr1:49999-50001
->chr1:49999-50001
-ATA</pre>
-
-<h2 id="2-twoBitToFa"><a href="#2-twoBitToFa" class="headerlink" title="2, twoBitToFa"></a>2, twoBitToFa</h2><pre>$wget http://hgdownload.soe.ucsc.edu/admin/exe/linux.x86_64/faToTwoBit
-$wget http://hgdownload.soe.ucsc.edu/admin/exe/linux.x86_64/twoBitToFa
-$chmod 755 twoBitToFa faToTwoBit 
-$faToTwoBit ucsc.hg19.fasta ucsc.hg19.2bit
-$twoBitToFa ucsc.hg19.2bit -seq=chr1 -start=49998 -end=50001 temp.out && cat temp.out && rm temp.out
->chr1:49998-50001
-ATA</pre>
-
-<h2 id="3-UCSC-DAS-server"><a href="#3-UCSC-DAS-server" class="headerlink" title="3, UCSC DAS server"></a>3, UCSC DAS server</h2><pre>$wget -qO- http://genome.ucsc.edu/cgi-bin/das/hg19/dna?segment=chr1:49999,50001 ' grep -v '<&#039;
-ata</pre>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/archives/739/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1031,7 +1107,7 @@ ata</pre>
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">148</span>
+          <span class="site-state-item-count">150</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -1040,7 +1116,7 @@ ata</pre>
         <span class="site-state-item-name">categories</span>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">154</span>
+        <span class="site-state-item-count">156</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>

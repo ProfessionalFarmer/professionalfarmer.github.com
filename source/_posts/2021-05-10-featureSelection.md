@@ -1,9 +1,20 @@
+---
+title: 特征选择
+tags:
+  - Machine learning
+  - Feature selection
+url: 1235.html
+id: 1235
+categories:
+  - Default Category
+date: 2021-05-10 13:36:20
+---
+
+
 特征选择是机器学习中的一个重要步骤，通过特征选择挑选出对预测起重要作用的变量，既可以减少数据的维度，也可以减少计算的消耗，同时也有助于我们对自己的数据的理解。有许多方法都可以应用到特征选择，比如大家常用的LASSO。我在用R做数据分析的时候，看到过这个帖子，进而了解了很多算法，所以对这个帖子进行了翻译，方便自己复习，也方便大家学习。
 
 
-
-参考： https://www.machinelearningplus.com/machine-learning/feature-selection/
-
+原文参考： https://www.machinelearningplus.com/machine-learning/feature-selection/
 
 
 1. Boruta
@@ -387,6 +398,8 @@ mv          4.94
 ```
 
 上面的输出显示了LASSO认为重要的变量。绝对值越高表示该变量越重要。
+
+<!-- more -->
 
 ## 4. Step wise Forward and Backward Selection
 
@@ -919,4 +932,6 @@ plot(varimps)
 ```
 
 ![](https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2021/2021-05-10-dalex_variable_importance.webp)Dalex变量重要性
+
+参考： https://www.machinelearningplus.com/machine-learning/feature-selection/
 

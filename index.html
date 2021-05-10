@@ -145,6 +145,285 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/1235/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhongxu's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/archives/1235/" class="post-title-link" itemprop="url">特征选择</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2021-05-10 13:36:20" itemprop="dateCreated datePublished" datetime="2021-05-10T13:36:20+08:00">2021-05-10</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>特征选择是机器学习中的一个重要步骤，通过特征选择挑选出对预测起重要作用的变量，既可以减少数据的维度，也可以减少计算的消耗，同时也有助于我们对自己的数据的理解。有许多方法都可以应用到特征选择，比如大家常用的LASSO。我在用R做数据分析的时候，看到过这个帖子，进而了解了很多算法，所以对这个帖子进行了翻译，方便自己复习，也方便大家学习。</p>
+<p>原文参考： <a target="_blank" rel="noopener" href="https://www.machinelearningplus.com/machine-learning/feature-selection/">https://www.machinelearningplus.com/machine-learning/feature-selection/</a></p>
+<ol>
+<li>Boruta</li>
+<li>Variable Importance from Machine Learning Algorithms</li>
+<li>Lasso Regression</li>
+<li>Step wise Forward and Backward Selection</li>
+<li>Relative Importance from Linear Regression</li>
+<li>Recursive Feature Elimination (RFE)</li>
+<li>Genetic Algorithm</li>
+<li>Simulated Annealing</li>
+<li>Information Value and Weights of Evidence</li>
+<li>DALEX Package</li>
+</ol>
+<h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>真实的数据中，有些变量可能仅是噪声，并没有多少重要意义。</p>
+<p>这类变量占用内存空间、消耗计算资源，我们最好去除这类变量，特别是在很大的数据集中。</p>
+<p>有时候，我们有一个具有业务意义的变量，但不确定它是否确实有助于预测Y。还有一个事实：在一个机器学习算法中有用的特征（例如决策树） 可能其他算法中（例如回归模型）不被选用或者低估。</p>
+<p>同时，有些变量单独预测Y的性能不好，但与其他预测变量/特征组合的情况下却非常显著。比如说有些变量与预测指标的相关性很低，但在其他变量参与的情况下，它可以帮助解释某些其他变量无法解释的模式/现象。</p>
+<p>在这些情况下，很难决定包含还是去掉这些变量/特征。</p>
+<p>这里讨论的策略可以解决这些问题，同时可以帮助理解对于一个模型而言，变量的重要性与否importance，以及对模型有多少贡献。</p>
+<p>重要的一点是，我们最希望使用的变量是既具有业务意义同时也有重要性方面的指标。</p>
+<p>我们这里导入Glaucoma 数据集，此数据集的目标是通过63个不同的生理测量指标来预测青光眼的与否。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Load Packages and prepare dataset</span></span><br><span class="line"><span class="keyword">library</span>(TH.data)</span><br><span class="line"><span class="keyword">library</span>(caret)</span><br><span class="line">data(<span class="string">&quot;GlaucomaM&quot;</span>, package = <span class="string">&quot;TH.data&quot;</span>)</span><br><span class="line">trainData &lt;- GlaucomaM</span><br><span class="line">head(trainData)</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2021/2021-05-10-glaucoma-dataset.webp"></p>
+<p>Glaucoma数据集</p>
+<h2 id="1-Boruta"><a href="#1-Boruta" class="headerlink" title="1. Boruta"></a>1. Boruta</h2><p>Boruta 是一个基于随机森林对特征进行排名和筛选的算法。</p>
+<p>Boruta 的优势是它可以明确的决定变量是否重要，并且帮助选择那些统计显著的变量。此外，可以通过调整p值和maxRuns来调整算法的严格性。</p>
+<p>maxRuns是算法运行的次数，该参数值越大，会选择出更多的变量。默认是100.</p>
+<p>在决定特征是否重要的过程中，一些特征可能会被标为Tentative。有时增加maxRuns或许可以解决特征的暂定行Tentativeness。</p>
+<p>以TH.data的Glaucoma数据集为例子。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># install.packages(&#x27;Boruta&#x27;)</span></span><br><span class="line"><span class="keyword">library</span>(Boruta)</span><br></pre></td></tr></table></figure>
+
+<p>Boruta的方程用的公式同其他预测模型类似，响应变量response在左边，预测变量在右边。</p>
+<p>如果预测变量处输入的是点，则意味着所有变量都会纳入评价中。</p>
+<p><code>doTrace</code>参数控制打印到终端的数目。该值越高，打印的log信息越多。为了节省空间，这里设置0，你可以设置1和2试试。</p>
+<p>结果输出在<code>boruta_output</code>.</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Perform Boruta search</span></span><br><span class="line">boruta_output &lt;- Boruta(Class ~ ., data=na.omit(trainData), doTrace=<span class="number">0</span>)  </span><br></pre></td></tr></table></figure>
+
+<p>看看里面包含哪些内容</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">names(boruta_output)</span><br><span class="line"><span class="number">1.</span> ‘finalDecision’</span><br><span class="line"><span class="number">2.</span> ‘ImpHistory’</span><br><span class="line"><span class="number">3.</span> ‘pValue’</span><br><span class="line"><span class="number">4.</span> ‘maxRuns’</span><br><span class="line"><span class="number">5.</span> ‘light’</span><br><span class="line"><span class="number">6.</span> ‘mcAdj’</span><br><span class="line"><span class="number">7.</span> ‘timeTaken’</span><br><span class="line"><span class="number">8.</span> ‘roughfixed’</span><br><span class="line"><span class="number">9.</span> ‘call’</span><br><span class="line"><span class="number">10.</span> ‘impSource’</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 得到显著的或者潜在的变量</span></span><br><span class="line">boruta_signif &lt;- getSelectedAttributes(boruta_output, withTentative = <span class="literal">TRUE</span>)</span><br><span class="line">print(boruta_signif)  </span><br><span class="line"> [<span class="number">1</span>] <span class="string">&quot;as&quot;</span>   <span class="string">&quot;ean&quot;</span>  <span class="string">&quot;abrg&quot;</span> <span class="string">&quot;abrs&quot;</span> <span class="string">&quot;abrn&quot;</span> <span class="string">&quot;abri&quot;</span> <span class="string">&quot;hic&quot;</span>  <span class="string">&quot;mhcg&quot;</span> <span class="string">&quot;mhcn&quot;</span> <span class="string">&quot;mhci&quot;</span></span><br><span class="line">[<span class="number">11</span>] <span class="string">&quot;phcg&quot;</span> <span class="string">&quot;phcn&quot;</span> <span class="string">&quot;phci&quot;</span> <span class="string">&quot;hvc&quot;</span>  <span class="string">&quot;vbss&quot;</span> <span class="string">&quot;vbsn&quot;</span> <span class="string">&quot;vbsi&quot;</span> <span class="string">&quot;vasg&quot;</span> <span class="string">&quot;vass&quot;</span> <span class="string">&quot;vasi&quot;</span></span><br><span class="line">[<span class="number">21</span>] <span class="string">&quot;vbrg&quot;</span> <span class="string">&quot;vbrs&quot;</span> <span class="string">&quot;vbrn&quot;</span> <span class="string">&quot;vbri&quot;</span> <span class="string">&quot;varg&quot;</span> <span class="string">&quot;vart&quot;</span> <span class="string">&quot;vars&quot;</span> <span class="string">&quot;varn&quot;</span> <span class="string">&quot;vari&quot;</span> <span class="string">&quot;mdn&quot;</span> </span><br><span class="line">[<span class="number">31</span>] <span class="string">&quot;tmg&quot;</span>  <span class="string">&quot;tmt&quot;</span>  <span class="string">&quot;tms&quot;</span>  <span class="string">&quot;tmn&quot;</span>  <span class="string">&quot;tmi&quot;</span>  <span class="string">&quot;rnf&quot;</span>  <span class="string">&quot;mdic&quot;</span> <span class="string">&quot;emd&quot;</span> </span><br></pre></td></tr></table></figure>
+
+<p>如果不确定潜在的变量是否保留，可以对<code>boruta_output</code>进行<code>TentativeRoughFix</code> </p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Do a tentative rough fix</span></span><br><span class="line">roughFixMod &lt;- TentativeRoughFix(boruta_output)</span><br><span class="line">boruta_signif &lt;- getSelectedAttributes(roughFixMod)</span><br><span class="line">print(boruta_signif)</span><br><span class="line"> [<span class="number">1</span>] <span class="string">&quot;abrg&quot;</span> <span class="string">&quot;abrs&quot;</span> <span class="string">&quot;abrn&quot;</span> <span class="string">&quot;abri&quot;</span> <span class="string">&quot;hic&quot;</span>  <span class="string">&quot;mhcg&quot;</span> <span class="string">&quot;mhcn&quot;</span> <span class="string">&quot;mhci&quot;</span> <span class="string">&quot;phcg&quot;</span> <span class="string">&quot;phcn&quot;</span></span><br><span class="line">[<span class="number">11</span>] <span class="string">&quot;phci&quot;</span> <span class="string">&quot;hvc&quot;</span>  <span class="string">&quot;vbsn&quot;</span> <span class="string">&quot;vbsi&quot;</span> <span class="string">&quot;vasg&quot;</span> <span class="string">&quot;vbrg&quot;</span> <span class="string">&quot;vbrs&quot;</span> <span class="string">&quot;vbrn&quot;</span> <span class="string">&quot;vbri&quot;</span> <span class="string">&quot;varg&quot;</span></span><br><span class="line">[<span class="number">21</span>] <span class="string">&quot;vart&quot;</span> <span class="string">&quot;vars&quot;</span> <span class="string">&quot;varn&quot;</span> <span class="string">&quot;vari&quot;</span> <span class="string">&quot;tmg&quot;</span>  <span class="string">&quot;tms&quot;</span>  <span class="string">&quot;tmi&quot;</span>  <span class="string">&quot;rnf&quot;</span>  <span class="string">&quot;mdic&quot;</span> <span class="string">&quot;emd&quot;</span> </span><br></pre></td></tr></table></figure>
+
+<p>这样Boruta就代表我们来决定是否保留Tentative变量。查看这些变量的重要性分值。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Variable Importance Scores</span></span><br><span class="line">imps &lt;- attStats(roughFixMod)</span><br><span class="line">imps2 = imps[imps$decision != <span class="string">&#x27;Rejected&#x27;</span>, c(<span class="string">&#x27;meanImp&#x27;</span>, <span class="string">&#x27;decision&#x27;</span>)]</span><br><span class="line">head(imps2[order(-imps2$meanImp), ])  <span class="comment"># descending sort</span></span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th align="left"></th>
+<th align="left">meanImp</th>
+<th align="left">decision</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">varg</td>
+<td align="left">10.279747</td>
+<td align="left">Confirmed</td>
+</tr>
+<tr>
+<td align="left">vari</td>
+<td align="left">10.245936</td>
+<td align="left">Confirmed</td>
+</tr>
+<tr>
+<td align="left">tmi</td>
+<td align="left">9.067300</td>
+<td align="left">Confirmed</td>
+</tr>
+<tr>
+<td align="left">vars</td>
+<td align="left">8.690654</td>
+<td align="left">Confirmed</td>
+</tr>
+<tr>
+<td align="left">hic</td>
+<td align="left">8.324252</td>
+<td align="left">Confirmed</td>
+</tr>
+<tr>
+<td align="left">varn</td>
+<td align="left">7.327045</td>
+<td align="left">Confirmed</td>
+</tr>
+</tbody></table>
+<p>用画图的形式来展示变量的重要性</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Plot variable importance</span></span><br><span class="line">plot(boruta_output, cex.axis=<span class="number">.7</span>, las=<span class="number">2</span>, xlab=<span class="string">&quot;&quot;</span>, main=<span class="string">&quot;Variable Importance&quot;</span>)  </span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2021/2021-05-10-Variable_Importance_Boruta.webp">Variable Importance Boruta</p>
+<p>这幅图展示了每个变量的重要性。</p>
+<p>绿色表示的是筛选出的变量confirmed，红色则是需要提出的变量，蓝色不是真实的特征，待变的是<code>ShadowMax</code> 和 <code>ShadowMin</code>，用来决定变量重要性与否。</p>
+<h2 id="2-Variable-Importance-from-Machine-Learning-Algorithms"><a href="#2-Variable-Importance-from-Machine-Learning-Algorithms" class="headerlink" title="2. Variable Importance from Machine Learning Algorithms"></a>2. Variable Importance from Machine Learning Algorithms</h2><p>另外一种特征选择的方法是将各种ML算法最常用的变量视为最重要的变量。</p>
+<p>根据机器学习算法学习X与Y之间关系的方式，不同的机器学习算法选出不同的变量（大多数是重叠的），但赋予的权重并不相同。</p>
+<p>例如，在基于树的算法（如“ rpart”）中被证明有用的变量在基于回归的模型中可能没那么有用。 因此，不同算法没必要用相同的变量。</p>
+<p>那么对于一个特定的机器学算法，如何找到变量的重要性？</p>
+<ol>
+<li><p>利用<a target="_blank" rel="noopener" href="https://www.machinelearningplus.com/machine-learning/caret-package/">caret 包</a>中的train()一个特定的模型</p>
+</li>
+<li><p>使用 <code>varImp()</code> 来决定变量的重要性。</p>
+</li>
+</ol>
+<p>可能尝试多种算法，以了解各种算法之间的重要变量。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 训练rpart模型，计算变量重要性</span></span><br><span class="line"><span class="keyword">library</span>(caret)</span><br><span class="line">set.seed(<span class="number">100</span>)</span><br><span class="line">rPartMod &lt;- train(Class ~ ., data=trainData, method=<span class="string">&quot;rpart&quot;</span>)</span><br><span class="line">rpartImp &lt;- varImp(rPartMod)</span><br><span class="line">print(rpartImp)</span><br><span class="line">rpart variable importance</span><br><span class="line"></span><br><span class="line">  only <span class="number">20</span> most important variables shown (out of <span class="number">62</span>)</span><br><span class="line"></span><br><span class="line">     Overall</span><br><span class="line">varg  <span class="number">100.00</span></span><br><span class="line">vari   <span class="number">93.19</span></span><br><span class="line">vars   <span class="number">85.20</span></span><br><span class="line">varn   <span class="number">76.86</span></span><br><span class="line">tmi    <span class="number">72.31</span></span><br><span class="line">vbss    <span class="number">0.00</span></span><br><span class="line">eai     <span class="number">0.00</span></span><br><span class="line">tmg     <span class="number">0.00</span></span><br><span class="line">tmt     <span class="number">0.00</span></span><br><span class="line">vbst    <span class="number">0.00</span></span><br><span class="line">vasg    <span class="number">0.00</span></span><br><span class="line">at      <span class="number">0.00</span></span><br><span class="line">abrg    <span class="number">0.00</span></span><br><span class="line">vbsg    <span class="number">0.00</span></span><br><span class="line">eag     <span class="number">0.00</span></span><br><span class="line">phcs    <span class="number">0.00</span></span><br><span class="line">abrs    <span class="number">0.00</span></span><br><span class="line">mdic    <span class="number">0.00</span></span><br><span class="line">abrt    <span class="number">0.00</span></span><br><span class="line">ean     <span class="number">0.00</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p> rpart仅使用了63个功能中的5个，如果仔细观察，这5个变量位于boruta选择的前6个中。</p>
+<p>让我们再做一件事：正则随机森林（Regularized Random Forest ，RRF）算法中的变量重要性。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Train an RRF model and compute variable importance.</span></span><br><span class="line">set.seed(<span class="number">100</span>)</span><br><span class="line">rrfMod &lt;- train(Class ~ ., data=trainData, method=<span class="string">&quot;RRF&quot;</span>)</span><br><span class="line">rrfImp &lt;- varImp(rrfMod, scale=<span class="literal">F</span>)</span><br><span class="line">rrfImp</span><br><span class="line">RRF variable importance</span><br><span class="line"></span><br><span class="line">  only <span class="number">20</span> most important variables shown (out of <span class="number">62</span>)</span><br><span class="line"></span><br><span class="line">     Overall</span><br><span class="line">varg <span class="number">24.0013</span></span><br><span class="line">vari <span class="number">18.5349</span></span><br><span class="line">vars  <span class="number">6.0483</span></span><br><span class="line">tmi   <span class="number">3.8699</span></span><br><span class="line">hic   <span class="number">3.3926</span></span><br><span class="line">mhci  <span class="number">3.1856</span></span><br><span class="line">mhcg  <span class="number">3.0383</span></span><br><span class="line">mv    <span class="number">2.1570</span></span><br><span class="line">hvc   <span class="number">2.1357</span></span><br><span class="line">phci  <span class="number">1.8830</span></span><br><span class="line">vasg  <span class="number">1.8570</span></span><br><span class="line">tms   <span class="number">1.5705</span></span><br><span class="line">phcn  <span class="number">1.4475</span></span><br><span class="line">phct  <span class="number">1.4473</span></span><br><span class="line">vass  <span class="number">1.3097</span></span><br><span class="line">tmt   <span class="number">1.2485</span></span><br><span class="line">phcg  <span class="number">1.1992</span></span><br><span class="line">mdn   <span class="number">1.1737</span></span><br><span class="line">tmg   <span class="number">1.0988</span></span><br><span class="line">abrs  <span class="number">0.9537</span></span><br><span class="line">plot(rrfImp, top = <span class="number">20</span>, main=<span class="string">&#x27;Variable Importance&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2021/2021-05-10-RRF-Variable-Importance.webp">正则随机森林中的变量重要性。</p>
+<p>最前面的重要变量也于Boruta选择的吻合</p>
+<p>其它的在train()中可以用的算法也可以用varImp计算变量的重要性：包括</p>
+<p><em>ada, AdaBag, AdaBoost.M1, adaboost, bagEarth, bagEarthGCV, bagFDA, bagFDAGCV, bartMachine, blasso, BstLm, bstSm, C5.0, C5.0Cost, C5.0Rules, C5.0Tree, cforest, chaid, ctree, ctree2, cubist, deepboost, earth, enet, evtree, extraTrees, fda, gamboost, gbm_h2o, gbm, gcvEarth, glmnet_h2o, glmnet, glmStepAIC, J48, JRip, lars, lars2, lasso, LMT, LogitBoost, M5, M5Rules, msaenet, nodeHarvest, OneR, ordinalNet, ORFlog, ORFpls, ORFridge, ORFsvm, pam, parRF, PART, penalized, PenalizedLDA, qrf, ranger, Rborist, relaxo, rf, rFerns, rfRules, rotationForest, rotationForestCp, rpart, rpart1SE, rpart2, rpartCost, rpartScore, rqlasso, rqnc, RRF, RRFglobal, sdwd, smda, sparseLDA, spikeslab, wsrf, xgbLinear, xgbTree.</em></p>
+<h2 id="3-Lasso-Regression"><a href="#3-Lasso-Regression" class="headerlink" title="3. Lasso Regression"></a>3. Lasso Regression</h2><p>最小绝对收缩和选择算子（LASSO，Least Absolute Shrinkage and Selection Operator）回归是一种用L1范数惩罚的正则化方法。</p>
+<p>从根本上来说，要增加权重（系数值）会带来成本。 它被称为L1正则化，增加的成本，与权重系数的绝对值成正比。</p>
+<p>结果，在收缩系数的过程中，最终将某些不需要的特征的系数全部减小到零。 也就是说，它删除了不重要的变量。</p>
+<p>LASSO回归也可以被视为有效的变量选择技术。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">library</span>(glmnet)</span><br><span class="line">trainData &lt;- read.csv(<span class="string">&#x27;https://raw.githubusercontent.com/selva86/datasets/master/GlaucomaM.csv&#x27;</span>)</span><br><span class="line"></span><br><span class="line">x &lt;- as.matrix(trainData[,-<span class="number">63</span>]) <span class="comment"># all X vars</span></span><br><span class="line">y &lt;- as.double(as.matrix(ifelse(trainData[, <span class="number">63</span>]==<span class="string">&#x27;normal&#x27;</span>, <span class="number">0</span>, <span class="number">1</span>))) <span class="comment"># Only Class</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Fit the LASSO model (Lasso: Alpha = 1)</span></span><br><span class="line">set.seed(<span class="number">100</span>)</span><br><span class="line">cv.lasso &lt;- cv.glmnet(x, y, family=<span class="string">&#x27;binomial&#x27;</span>, alpha=<span class="number">1</span>, parallel=<span class="literal">TRUE</span>, standardize=<span class="literal">TRUE</span>, type.measure=<span class="string">&#x27;auc&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Results</span></span><br><span class="line">plot(cv.lasso)</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2021/2021-05-10-Variable_Importance_LASSO.webp"></p>
+<p>LASSO变量重要性</p>
+<p>X轴是log之后的lambda，当是2的时候，lambda的真实值是100。</p>
+<p>图的最上面显示了模型使用了多少个变量，相对应的红点Y值则是在这些变量使用的情况下，模型可以达到多少的AUC。</p>
+<p>可以看到两条垂直虚线，左边的第一个指向具有最小均方误差的lambda。 右边的一个表示在1个标准偏差内偏差最大的变量的数量。</p>
+<p>最优的lambda值存储在cv.lasso $ lambda.min中。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># plot(cv.lasso$glmnet.fit, xvar=&quot;lambda&quot;, label=TRUE)</span></span><br><span class="line">cat(<span class="string">&#x27;Min Lambda: &#x27;</span>, cv.lasso$lambda.min, <span class="string">&#x27;\n 1Sd Lambda: &#x27;</span>, cv.lasso$lambda.1se)</span><br><span class="line">df_coef &lt;- round(as.matrix(coef(cv.lasso, s=cv.lasso$lambda.min)), <span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># See all contributing variables</span></span><br><span class="line">df_coef[df_coef[, <span class="number">1</span>] != <span class="number">0</span>, ]</span><br><span class="line">Min Lambda:  <span class="number">0.01166507</span> </span><br><span class="line"> 1Sd Lambda:  <span class="number">0.2513163</span></span><br><span class="line"></span><br><span class="line">Min Lambda:  <span class="number">0.01166507</span> </span><br><span class="line">1Sd Lambda:  <span class="number">0.2513163</span></span><br><span class="line"></span><br><span class="line">(Intercept) <span class="number">3.65</span></span><br><span class="line">at         -<span class="number">0.17</span></span><br><span class="line">as         -<span class="number">2.05</span></span><br><span class="line">eat        -<span class="number">0.53</span></span><br><span class="line">mhci        <span class="number">6.22</span></span><br><span class="line">phcs       -<span class="number">0.83</span></span><br><span class="line">phci        <span class="number">6.03</span></span><br><span class="line">hvc        -<span class="number">4.15</span></span><br><span class="line">vass       -<span class="number">23.72</span></span><br><span class="line">vbrn       -<span class="number">0.26</span></span><br><span class="line">vars       -<span class="number">25.86</span></span><br><span class="line">mdt        -<span class="number">2.34</span></span><br><span class="line">mds         <span class="number">0.5</span></span><br><span class="line">mdn         <span class="number">0.83</span></span><br><span class="line">mdi         <span class="number">0.3</span></span><br><span class="line">tmg         <span class="number">0.01</span></span><br><span class="line">tms         <span class="number">3.02</span></span><br><span class="line">tmi         <span class="number">2.65</span></span><br><span class="line">mv          <span class="number">4.94</span></span><br></pre></td></tr></table></figure>
+
+<p>上面的输出显示了LASSO认为重要的变量。绝对值越高表示该变量越重要。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/archives/1235/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/1232/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhongxu's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/archives/1232/" class="post-title-link" itemprop="url">Continuous Long Read, subreads and scraps in Pacbio Raw data</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2021-05-09 15:16:30" itemprop="dateCreated datePublished" datetime="2021-05-09T15:16:30+08:00">2021-05-09</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="1，export的graph2ppt函数"><a href="#1，export的graph2ppt函数" class="headerlink" title="1，export的graph2ppt函数"></a>1，export的graph2ppt函数</h2><p><a target="_blank" rel="noopener" href="https://github.com/tomwenseleers/export">https://github.com/tomwenseleers/export</a></p>
+<p>export虽然从CRAN下架了，但依然可以通过github的库来安装，devtools::install_github(“tomwenseleers/export”)</p>
+<h2 id="2，eoffice的topptx函数"><a href="#2，eoffice的topptx函数" class="headerlink" title="2，eoffice的topptx函数"></a>2，eoffice的topptx函数</h2><p><a target="_blank" rel="noopener" href="https://github.com/guokai8/eoffice">https://github.com/guokai8/eoffice</a></p>
+<h2 id="3-officer"><a href="#3-officer" class="headerlink" title="3, officer"></a>3, officer</h2><p><a target="_blank" rel="noopener" href="https://github.com/davidgohel/officer">https://github.com/davidgohel/officer</a></p>
+<p>用法可以参考：<a target="_blank" rel="noopener" href="https://www.brodrigues.co/blog/2018-10-05-ggplot2_purrr_officer/">https://www.brodrigues.co/blog/2018-10-05-ggplot2_purrr_officer/</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/1219/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -360,14 +639,6 @@
 <p><a target="_blank" rel="noopener" href="https://github.com/r-lib/styler">https://github.com/r-lib/styler</a></p>
 <p><a target="_blank" rel="noopener" href="https://github.com/daattali/addinslist">https://github.com/daattali/addinslist</a></p>
 <p><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/398418315">https://www.zhihu.com/question/398418315</a></p>
-<h1 id="最后推荐两个可以将ggplot导出成ppt的R包"><a href="#最后推荐两个可以将ggplot导出成ppt的R包" class="headerlink" title="最后推荐两个可以将ggplot导出成ppt的R包"></a>最后推荐两个可以将ggplot导出成ppt的R包</h1><p>1，export的graph2ppt函数</p>
-<p><a target="_blank" rel="noopener" href="https://github.com/tomwenseleers/export">https://github.com/tomwenseleers/export</a></p>
-<p>export虽然从CRAN下架了，但依然可以通过github的库来安装，devtools::install_github(“tomwenseleers/export”)</p>
-<p>2，eoffice的topptx函数</p>
-<p><a target="_blank" rel="noopener" href="https://github.com/guokai8/eoffice">https://github.com/guokai8/eoffice</a></p>
-<p>3, officer</p>
-<p><a target="_blank" rel="noopener" href="https://github.com/davidgohel/officer">https://github.com/davidgohel/officer</a></p>
-<p>用法可以参考：<a target="_blank" rel="noopener" href="https://www.brodrigues.co/blog/2018-10-05-ggplot2_purrr_officer/">https://www.brodrigues.co/blog/2018-10-05-ggplot2_purrr_officer/</a></p>
 
       
     </div>
@@ -488,7 +759,7 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2020-11-01 21:03:23" itemprop="dateCreated datePublished" datetime="2020-11-01T21:03:23+08:00">2020-11-01</time>
+              <time title="Created: 2020-11-02 21:03:23" itemprop="dateCreated datePublished" datetime="2020-11-02T21:03:23+08:00">2020-11-02</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -947,6 +1218,7 @@
 
       
           <p>I always use gtf file and retrieve gene information. There isn’t a highly flexible tool to solve my demand. I modified the code from “<a target="_blank" rel="noopener" href="https://github.com/Jverma/GFF-Parser%E2%80%9D">https://github.com/Jverma/GFF-Parser”</a>, thanks Jverma. This tool will be easier to use.</p>
+<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2020-10-02-gtf-parser.gif"></p>
 <h1 id="Usage"><a href="#Usage" class="headerlink" title="Usage"></a>Usage</h1><p>Basically, there are three parameters.</p>
 <p>id: either transcript id or gene id.</p>
 <p>attType: attribute defined in gtf file. E.g. feature (column 3), gene_name, exon_number, transcript_id in column 9</p>
@@ -1134,167 +1406,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/1129/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Jason">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Zhongxu's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/archives/1129/" class="post-title-link" itemprop="url">甲基化芯片中的M值和B值</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-09-11 06:08:23" itemprop="dateCreated datePublished" datetime="2020-09-11T06:08:23+08:00">2020-09-11</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>M值和B值的计算公式</p>
-<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2020-09-10-M-B-value1.png"></p>
-<p><a target="_blank" rel="noopener" href="https://link.springer.com/article/10.1186/s41241-017-0041-9">https://link.springer.com/article/10.1186/s41241-017-0041-9</a></p>
-<h2 id="The-relationship-curve-between-M-value-and-Beta-value"><a href="#The-relationship-curve-between-M-value-and-Beta-value" class="headerlink" title="The relationship curve between M-value and Beta-value"></a>The relationship curve between M-value and Beta-value</h2><p>M值和B值的对应关系</p>
-<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2020-09-10-M-B-value2.jpg"></p>
-<h2 id="The-histograms-of-Beta-value-left-and-M-value-right-27578-interrogated-CpG-sites-in-total"><a href="#The-histograms-of-Beta-value-left-and-M-value-right-27578-interrogated-CpG-sites-in-total" class="headerlink" title="The histograms of Beta-value (left) and M-value (right) (27578 interrogated CpG sites in total)"></a>The histograms of Beta-value (left) and M-value (right) (27578 interrogated CpG sites in total)</h2><p>M值和B值的分布</p>
-<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2020-09-10-M-B-value3.jpg"></p>
-<p>minfi包有getM和getBeta来分别计算M-values和Beta-values，包的作者认为，</p>
-<ul>
-<li>M-values具有更好的统计特性，更适合用于进行下游的统计分析（差异分析等）</li>
-<li>Beta-values更加容易解释，更能说明生物学上的意义</li>
-<li>CHAMP包在load的时候，可以指定计算Beta-value还是M-value</li>
-</ul>
-<p>一般来说，具体的β值的意义是：</p>
-<ul>
-<li>任何等于或大于0.6的β值都被认为是完全甲基化的</li>
-<li>任何等于或小于0.2的β值被认为是完全未甲基化的</li>
-<li>β值在0.2和0.6之间被认为是部分甲基化的。</li>
-</ul>
-<p>参考：</p>
-<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/108364645">https://zhuanlan.zhihu.com/p/108364645</a></p>
-<p><a target="_blank" rel="noopener" href="https://link.springer.com/article/10.1186/s41241-017-0041-9">https://link.springer.com/article/10.1186/s41241-017-0041-9</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/1127/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Jason">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Zhongxu's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/archives/1127/" class="post-title-link" itemprop="url">Failed to mount 大容量的RAID组</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-08-31 01:22:23" itemprop="dateCreated datePublished" datetime="2020-08-31T01:22:23+08:00">2020-08-31</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>我们的存储服务器有两组RAID，容量均大于150T，我在mount的时候，提示我</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">NTFS signature is missing.</span><br><span class="line">Failed to mount &#39;&#x2F;dev&#x2F;sdc&#39;: Invalid argument</span><br><span class="line">The device &#39;&#x2F;dev&#x2F;sdc&#39; doesn&#39;t seem to have a valid NTFS.</span><br><span class="line">Maybe the wrong device is used? Or the whole disk instead of a</span><br><span class="line">partition (e.g. &#x2F;dev&#x2F;sda, not &#x2F;dev&#x2F;sda1)? Or the other way around?</span><br></pre></td></tr></table></figure>
-
-<p>是因为没有分区导致的，分区之后就可以了。分区的命令</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"># 使用parted命令进行分区,等同parted; select &#x2F;dev&#x2F;sdc</span><br><span class="line">parted &#x2F;dev&#x2F;sdc </span><br><span class="line"></span><br><span class="line"># 创建分区表</span><br><span class="line">mklabel gpt </span><br><span class="line"></span><br><span class="line"># 使用print命令查看当前分区情况</span><br><span class="line">print </span><br><span class="line"></span><br><span class="line"># 留1M的空余空间，目的是为了让数据块整齐，提高磁盘的运行效率, -1表示分区的结尾  意思是划分整个硬盘空间为主分区</span><br><span class="line">mkpart primary 1 -1 </span><br><span class="line"></span><br><span class="line">p  # print的简写</span><br><span class="line"></span><br><span class="line"># 使用q命令退出, </span><br><span class="line">quit </span><br><span class="line"></span><br><span class="line"># 退出之后会提示</span><br><span class="line">会提示Information: You may need to update &#x2F;etc&#x2F;fstab.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 格式化分区，为分区写入文件系统,格式为ext4</span><br><span class="line">mkfs –t ext4 &#x2F;dev&#x2F;sdc1 # 格式化分区</span><br><span class="line"></span><br><span class="line"># 使用blkid命令，找到 UUID，然后编辑 &#x2F;etc&#x2F;fstab，实现自动挂载</span><br><span class="line">vim &#x2F;etc&#x2F;fstab</span><br><span class="line"></span><br><span class="line">UUID&#x3D;******	directory	ext4	defaults	0	0</span><br></pre></td></tr></table></figure>
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考:"></a>参考:</h1><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/kreo/p/9462641.html">https://www.cnblogs.com/kreo/p/9462641.html</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/saszhuqing/p/9964262.html">https://www.cnblogs.com/saszhuqing/p/9964262.html</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1364,7 +1475,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">148</span>
+          <span class="site-state-item-count">150</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -1373,7 +1484,7 @@
         <span class="site-state-item-name">categories</span>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">154</span>
+        <span class="site-state-item-count">156</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>

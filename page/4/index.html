@@ -145,6 +145,187 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/1060/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhongxu's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/archives/1060/" class="post-title-link" itemprop="url">Fusion Gene Annotation</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-05-15 09:45:45" itemprop="dateCreated datePublished" datetime="2019-05-15T09:45:45+08:00">2019-05-15</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>STAR-FUSION和FusonAnnotator都属于Trinity Trinity Cancer Transcriptome Analysis Toolkit Fusion-finding modules。<br>CTAT_HumanFusionLib现阶段整合了各种资源帮助分析癌症生物学相关的fusion，同样也鉴别可能在正常样本只能出现的fusion。下载地址：<a target="_blank" rel="noopener" href="https://data.broadinstitute.org/Trinity/CTAT_RESOURCE_LIB/">https://data.broadinstitute.org/Trinity/CTAT_RESOURCE_LIB/</a></p>
+<p>FusionAnnotator –genome_lib_dir GRCh37_gencode_v19_CTAT_lib_July192017/ctat_genome_lib_build_dir/ <br>                   –annotate fusions.list.txt<br>fusions.list.txt为star-fusion的结果中的第一列，两个参与融合的基因中间用–连在一起，就可以用FusionAnnotator进行注释，相关的标签会注释到融合基因上。</p>
+<p>会有三类标签，每类下面又有很多具体的来源标签：<br>Fusions relevant to cancer biology<br>Individual genes of cancer relevance, which may show up in fusions<br>Red Herrings: Fusion pairs that may not be relevant to cancer, and potential false positives.</p>
+<p>通过注释，就可以了解到分析结果中的融合基因是否在其他数据库中出现过，或者可能是和癌症无关的突变。</p>
+<p>参考：<a target="_blank" rel="noopener" href="https://github.com/FusionAnnotator/CTAT_HumanFusionLib/wiki">https://github.com/FusionAnnotator/CTAT_HumanFusionLib/wiki</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/1057/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhongxu's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/archives/1057/" class="post-title-link" itemprop="url">NIS+NFS+SGE</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-05-02 20:48:43" itemprop="dateCreated datePublished" datetime="2019-05-02T20:48:43+08:00">2019-05-02</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>需求，把多台服务器组成一个cluster(<strong>SGE</strong>)，把一台电脑（比如存储）的home文件件共享给其他服务器(<strong>NFS</strong>)，共用一个home文件夹，并进行用户的统一管理(<strong>NIS</strong>)。</p>
+<p>操作系统为操作系统：CentOS，用virtual box虚拟出来的系统做测试。<br>server端：10.0.2.5<br>client或compute端：在同样网段</p>
+<p>![](<a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020">https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020</a><br>/2019-05-02-NSF-SGE-NIS.png)</p>
+<h1 id="1，NFS共享存储"><a href="#1，NFS共享存储" class="headerlink" title="1，NFS共享存储"></a>1，NFS共享存储</h1><p>通过nfs，实现每台服务器都有同样的路径和文件，便于后续集群管理。这里共享两个路径，一个是server端的/home路径，实现每个服务器都有同样的家目录，一个是/opt/gridengine用于安装SGE。</p>
+<h2 id="1-1-Server端："><a href="#1-1-Server端：" class="headerlink" title="1.1 Server端："></a>1.1 Server端：</h2><p>安装相关软件，NFS的端口是不固定的（因此如果客户端连不上的时候，往往需要iptables -F清理一下），客户端要准确的获得NFS服务器所使用的端口，就需要RPC服务。RPC最主要的功能就是记录每个NFS功能所对应的端口号，并且在NFS客户端请求时将该端口和功能对应的信息传递给请求数据的NFS客户端，让客户端可以链接到正确的端口上去，从而实现数据传输。</p>
+<pre>yum install nfs-utils rpcbind</pre>
+
+<h3 id="开机启动rpcbind"><a href="#开机启动rpcbind" class="headerlink" title="开机启动rpcbind"></a>开机启动rpcbind</h3><pre>systemctl enable rpcbind.service</pre>
+
+<h3 id="开启rpcbind"><a href="#开启rpcbind" class="headerlink" title="开启rpcbind"></a>开启rpcbind</h3><pre>systemctl start rpcbind.service</pre>
+
+<h3 id="设置要共享的目录"><a href="#设置要共享的目录" class="headerlink" title="设置要共享的目录"></a>设置要共享的目录</h3><pre>mkdir /opt/gridengine
+vi /etc/exports
+/home 10.0.2.0/255.255.255.0(rw,sync)
+/opt/gridengine 10.0.2.0/255.255.255.0(rw,sync)</pre>
+
+<h3 id="nfs开机启动和开启服务"><a href="#nfs开机启动和开启服务" class="headerlink" title="nfs开机启动和开启服务"></a>nfs开机启动和开启服务</h3><pre>systemctl enable nfs
+systemctl start nfs</pre>
+
+<h3 id="生效export"><a href="#生效export" class="headerlink" title="生效export"></a>生效export</h3><pre>exportfs -r -v</pre>
+
+<h2 id="1-2-客户端："><a href="#1-2-客户端：" class="headerlink" title="1.2 客户端："></a>1.2 客户端：</h2><pre>yum install nfs-utils rpcbind
+systemctl enable  rpcbind.service
+systemctl restart rpcbind.service
+systemctl enable nfs
+systemctl start  nfs</pre>
+
+<h3 id="设置自动挂载，用tab分割，不是空格"><a href="#设置自动挂载，用tab分割，不是空格" class="headerlink" title="设置自动挂载，用tab分割，不是空格"></a>设置自动挂载，用tab分割，不是空格</h3><pre>mkdir /opt/gridengine
+vi /etc/fstab
+10.0.2.5:/home    /home    nfs    defaults    0    0
+10.0.2.5:/opt/gridengine    /opt/gridengine    nfs    defaults    0    0</pre>
+
+<h3 id="挂载"><a href="#挂载" class="headerlink" title="挂载"></a>挂载</h3><pre>mount -a</pre>
+
+<p>这样的话，客户端服务器的home目录都是server端的home家目录。</p>
+<h1 id="2，NIS-Network-Information-Service"><a href="#2，NIS-Network-Information-Service" class="headerlink" title="2，NIS(Network Information Service)"></a>2，NIS(Network Information Service)</h1><p>通过NIS实现帐号的统一权限管理和认证，避免在多台服务器上重复开设帐号</p>
+<h2 id="2-1-Server端："><a href="#2-1-Server端：" class="headerlink" title="2.1 Server端："></a>2.1 Server端：</h2>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/archives/1057/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/1054/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -895,223 +1076,6 @@ TGGCAGACGATGTATGGCTGCGACCTGGGGCCGGACGGGCGCCTCCTCCGCGGGCATAACCAGTTAGCTACGACGGCAGG
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/1030/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Jason">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Zhongxu's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/archives/1030/" class="post-title-link" itemprop="url">将VCF文件中的突变拆分成SNP和INDEL</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2018-09-10 11:14:45" itemprop="dateCreated datePublished" datetime="2018-09-10T11:14:45+08:00">2018-09-10</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="VCFTOOLS"><a href="#VCFTOOLS" class="headerlink" title="VCFTOOLS"></a>VCFTOOLS</h1><p>得到SNP</p>
-<pre>vcftools --vcf X.vcf --remove-indels --out X.snps --recode --recode-INFO-all</pre>
-
-<p>得到INDEL</p>
-<pre>vcftools --vcf X.vcf --keep-only-indels --out X.indel --recode --recode-INFO-all</pre>
-
-<h1 id="GATK"><a href="#GATK" class="headerlink" title="GATK"></a>GATK</h1><p>得到SNP</p>
-<pre>java -jar GenomeAnalysisTK.jar \
-    -T SelectVariants \
-    -R reference.fasta \
-    -V X.vcf   \
-    -selectType SNP \
-    -o X.snps.vcf</pre>
-
-<p>得到INDEL</p>
-<pre>java -jar GenomeAnalysisTK.jar \
-    -T SelectVariants \
-    -R reference.fasta \
-    -V X.vcf  \
-    -selectType INDEL \
-    -o X.indel.vcf</pre>
-
-<p>本着有轮子不造轮子的原则，可以用VCFTOOLS和GATK来实现，当然如果想自己拆分的话，可以根据VCF中是否有SNP和INDEL的tag标签，或者根据ALT和REF中的碱基长度是否一致来实现拆分。</p>
-<p>参考：</p>
-<p><a target="_blank" rel="noopener" href="https://www.biostars.org/p/48204/">https://www.biostars.org/p/48204/</a><br><a target="_blank" rel="noopener" href="https://software.broadinstitute.org/gatk/documentation/tooldocs/3.8-0/org_broadinstitute_gatk_tools_walkers_variantutils_SelectVariants.php">https://software.broadinstitute.org/gatk/documentation/tooldocs/3.8-0/org_broadinstitute_gatk_tools_walkers_variantutils_SelectVariants.php</a></p>
-<p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>#####################################################################</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://md.zxzyl.com/archives/1026/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Jason">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Zhongxu's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/archives/1026/" class="post-title-link" itemprop="url">分析带UMI标签的测序数据</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2018-07-31 12:50:00" itemprop="dateCreated datePublished" datetime="2018-07-31T12:50:00+08:00">2018-07-31</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>分析带UMI标签的测序数据</p>
-<p>检测癌组织的低频突变，为了提高检测低频突变的灵敏度，往往进行高深度的测序。但样本之间存在交叉污染，测序有存在一定概率的错误，这些因素会导致高深度测序过程中将假阳性的信号放到，得到假阳性的结果。解决交叉污染的方法，有公司比如IDT采用唯一配对的样本index，只有配对的index中的reads才属于特定样本。解决测序错误的方法，研究人员在建库的时候，先对分子加上UMI碱基，unique molecular identifier -&gt; UMI，然后根据来源于同一个分子的测序数据进行测序错误修正，得到正确的分子序列。两种方法结合可以减少交叉污染提高准确性（<a target="_blank" rel="noopener" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5759201/%EF%BC%89%E3%80%82">https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5759201/）。</a></p>
-<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-07-30-UMI-analysis.png"></p>
-<p>如图中所示，左侧一个分子被测了5次，其中第二次有一个测序错误，但该错误并没有在每个测序数据中出现，所以在后续合成一个分子的时候，测序错误被修正，只保留了真正的突变。（<a target="_blank" rel="noopener" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5852328/%EF%BC%89">https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5852328/）</a></p>
-<p>常规的肿瘤配对测序分析，或者遗传性突变位点的分析，并不需要UMI信息，所以包含UMI的数据分析是需要不一样的分析流程来得到准确的分析结果，其中包括提取UMI分子标签，合并来自同一个分子的测序reads，低频突变检测而非胚系突变检测等。</p>
-<p>大致流程为：</p>
-<pre>-----prepare analysis ready BAM file------
-'         FASTQ
-'            ↓
-'          uBAM
-'            ↓  Extract UMI
-'          uBAM
-'             ↓  Align uBAM and merge 
-'           BAM
------call consensus------
-'             ↓  Group Reads By Umi
-'           BAM
-'             ↓  Group Reads By Umi
-'           BAM
-'             ↓  Call Molecular Consensus Reads
-'           uBAM
-'             ↓  Align uBAM and merge
-'           BAM
-'             ↓  Filter Consensus Reads
-'           BAM
-'             ↓  Clip
-'           BAM
------Vardict------
-'             ↓  Call
-'            VCF</pre>
-
-<h1 id="一，得到包含UMI分子标签信息的BAM文件"><a href="#一，得到包含UMI分子标签信息的BAM文件" class="headerlink" title="一，得到包含UMI分子标签信息的BAM文件"></a>一，得到包含UMI分子标签信息的BAM文件</h1><p>UMI信息，应该从fastq中的配对的reads中提取，但fastq不能存储更多的信息，所以需要先将fastq转成uBAM文件，提取uBAM文件中的UMI分子标签信息，将该信息通过RX标签写入uBAM文件中，通过uBAM和BAM文件合并，把RX信息合并到比对到的BAM文件中进行下一步分析。</p>
-<h2 id="1）生成uBAM"><a href="#1）生成uBAM" class="headerlink" title="1）生成uBAM"></a>1）生成uBAM</h2><pre>java -Xmx8G -jar picard.jar FastqToSam \
-    FASTQ=$fq1    \
-    FASTQ2=$fq2   \
-    OUTPUT=test.uBAM \
-    READ_GROUP_NAME=test \
-    SAMPLE_NAME=test \
-    LIBRARY_NAME=test \
-    PLATFORM_UNIT=HiseqX10  PLATFORM=illumina \
-    RUN_DATE=`date --iso-8601=seconds`</pre>
-
-<h2 id="2）提取UMI信息"><a href="#2）提取UMI信息" class="headerlink" title="2）提取UMI信息"></a>2）提取UMI信息</h2><pre>java -jar fgbio.jar ExtractUmisFromBAM \
-    --input=test.uBAM  \
-    --output=test.umi.uBAM \
-    --read-structure=2M148T 2M148T \
-    --single-tag=RX \
-    --molecular-index-tags=ZA ZB</pre>
-
-<p>此时，uBAM文件中RX标签记录着UMI的信息，2M148T表示前两个碱基是UMI分子标签，148个template 测序序列，配对read在uBAM文件中有如下信息</p>
-<pre>R1----ZA:Z:TC ZB:Z:TA RG:Z:test       RX:Z:TC-TA
-R2----ZA:Z:TC ZB:Z:TA RG:Z:test       RX:Z:TC-TA</pre>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/archives/1026/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1181,7 +1145,7 @@ R2----ZA:Z:TC ZB:Z:TA RG:Z:test       RX:Z:TC-TA</pre>
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">148</span>
+          <span class="site-state-item-count">150</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -1190,7 +1154,7 @@ R2----ZA:Z:TC ZB:Z:TA RG:Z:test       RX:Z:TC-TA</pre>
         <span class="site-state-item-name">categories</span>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">154</span>
+        <span class="site-state-item-count">156</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>
