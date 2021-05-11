@@ -28,6 +28,14 @@ gr <- read_gff("/path/to/gtf/or/gff") %>% select(transcript_id, gene_id, gene_na
 gr <- unique(data.frame(gr))
 ```
 
+我也在自己的包里面写了一个函数得到ensembl，refseq，hgnc，gene symbol的对应关系，biomaRt比较慢，可以把结果保存成文件
+```R
+devtools::install_github("ProfessionalFarmer/loonR")
+# 需要安装biomaRt和dplyr
+mapping.table <- loonR::get_full_mapping_table()
+# 保存mapping.table
+
+```
 
 #####################################################################
 #版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任

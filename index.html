@@ -20,6 +20,7 @@
     var CONFIG = {"hostname":"md.zxzyl.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
+
   <meta property="og:type" content="website">
 <meta property="og:title" content="Zhongxu&#39;s blog">
 <meta property="og:url" content="http://md.zxzyl.com/index.html">
@@ -718,11 +719,13 @@
 <p>以前写过映射ENSEMBL ID 和 NCBI ID， <a target="_blank" rel="noopener" href="http://www.zxzyl.com/archives/736">http://www.zxzyl.com/archives/736</a>。</p>
 <p>日常分析中，我们也会经常遇到其他的ID mapping的工作，这种工作不是基因ID转基因ID，而是转录本的ID转基因ID。</p>
 <p>如果用的是refGene的注释，最简单了，直接用下面的命令即可</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql --user&#x3D;genome -N --host&#x3D;genome-mysql.cse.ucsc.edu -A -D hg38 -e &quot;select name,name2 from refGene&quot;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql --user=genome -N --host=genome-mysql.cse.ucsc.edu -A -D hg38 -e &quot;select name,name2 from refGene&quot;</span><br></pre></td></tr></table></figure>
 
 <p>不过我也经常通过解析gtf文件获得，因为gtf有转本的ID，也有基因的symbol或者ID，只要有gtf文件就可以提取。本着不造轮子的精神，我利用的是现成的R包</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">library(plyranges)</span><br><span class="line">gr &lt;- read_gff(&quot;&#x2F;path&#x2F;to&#x2F;gtf&#x2F;or&#x2F;gff&quot;) %&gt;% select(transcript_id, gene_id, gene_name)</span><br><span class="line">gr &lt;- unique(data.frame(gr))</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">library(plyranges)</span><br><span class="line">gr &lt;- read_gff(&quot;/path/to/gtf/or/gff&quot;) %&gt;% select(transcript_id, gene_id, gene_name)</span><br><span class="line">gr &lt;- unique(data.frame(gr))</span><br></pre></td></tr></table></figure>
 
+<p>我也在自己的包里面写了一个函数得到ensembl，refseq，hgnc，gene symbol的对应关系，biomaRt比较慢，可以把结果保存成文件</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">devtools::install_github(<span class="string">&quot;ProfessionalFarmer/loonR&quot;</span>)</span><br><span class="line"><span class="comment"># 需要安装biomaRt和dplyr</span></span><br><span class="line">mapping.table &lt;- loonR::get_full_mapping_table()</span><br><span class="line"><span class="comment"># 保存mapping.table</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>#####################################################################</p>
 
@@ -1549,6 +1552,18 @@
   <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
   </div>
 
+<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- PGAD -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-9370593480269435"
+     data-ad-slot="8824957305"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
         
 
 
