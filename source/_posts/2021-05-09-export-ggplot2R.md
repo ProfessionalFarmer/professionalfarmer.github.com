@@ -1,5 +1,5 @@
 ---
-title: Continuous Long Read, subreads and scraps in Pacbio Raw data
+title: 将ggplot导出成ppt的R包
 tags:
   - ggplot
   - R
