@@ -155,6 +155,177 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://md.zxzyl.com/archives/834/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhongxu's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/archives/834/" class="post-title-link" itemprop="url">基因组坐标转换工具-以BED文件为例，从hg19转换到hg38坐标</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-02-11 11:39:11" itemprop="dateCreated datePublished" datetime="2018-02-11T11:39:11+08:00">2018-02-11</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>分析时使用的基因组版本，可能会与其他来源数据所使用的基因组版本不一致，需要统一成同一个版本的坐标，才能方便下一步的分析。</p>
+<p>常用的有NCBI的Remap在线服务和UCSC的liftover，其实还有很多，本文暂时总结部分工具的用法。以将APOA1的编码区坐标（利用UCSC的genome browser下载，或者下载该文件<a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/FileAttach/2018-02-11-APOA1.bed">APOA1.bed</a>）转换为例，从hg19转到hg38版本坐标上。需要注意的是，在使用的时候，需要注意是否支持对应的格式。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>类型</th>
+<th>支持格式</th>
+<th>地址</th>
+<th>推荐指数</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Liftover</td>
+<td>在线</td>
+<td>bed</td>
+<td><a target="_blank" rel="noopener" href="http://genome.ucsc.edu/cgi-bin/hgLiftOver">http://genome.ucsc.edu/cgi-bin/hgLiftOver</a></td>
+<td>一般</td>
+</tr>
+<tr>
+<td>Liftover</td>
+<td>本地</td>
+<td>bed和gff</td>
+<td><a target="_blank" rel="noopener" href="http://hgdownload.cse.ucsc.edu/admin/exe/linux.x86_64/liftOver">http://hgdownload.cse.ucsc.edu/admin/exe/linux.x86_64/liftOver</a></td>
+<td>推荐</td>
+</tr>
+<tr>
+<td>Remap</td>
+<td>在线</td>
+<td>hgvs，bed，gvf，gff，gtf，Text ASN.1，Binary ASN.1，UCSC Region和VCF</td>
+<td><a target="_blank" rel="noopener" href="https://www.ncbi.nlm.nih.gov/genome/tools/remap">https://www.ncbi.nlm.nih.gov/genome/tools/remap</a></td>
+<td>推荐</td>
+</tr>
+<tr>
+<td>CrossMap</td>
+<td>本地</td>
+<td>SAM/BAM,，Wiggle/BigWig， bed， gff/gtf，VCF</td>
+<td><a target="_blank" rel="noopener" href="http://crossmap.sourceforge.net/">http://crossmap.sourceforge.net/</a></td>
+<td>推荐</td>
+</tr>
+<tr>
+<td>picard</td>
+<td>本地</td>
+<td>interval和VCF</td>
+<td><a target="_blank" rel="noopener" href="http://broadinstitute.github.io/picard/">http://broadinstitute.github.io/picard/</a></td>
+<td></td>
+</tr>
+</tbody></table>
+<h1 id="在线版"><a href="#在线版" class="headerlink" title="在线版"></a>在线版</h1><h2 id="Liftover"><a href="#Liftover" class="headerlink" title="Liftover"></a>Liftover</h2><p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-02-11-screencapture-UCSC-hgLiftOver.png" alt="hg-liftover-ucsc"> </p>
+<p>服务地址： <a target="_blank" rel="noopener" href="http://genome.ucsc.edu/cgi-bin/hgLiftOver">http://genome.ucsc.edu/cgi-bin/hgLiftOver</a></p>
+<ul>
+<li><ul>
+<li>1，首先选择检索和目标基因组<pre>Original Genome:    Human
+Original Assembly:    Feb. 2009 (GRCh37/hg19)
+New Genome:      Human
+New Assembly:    Dec. 2013 (GRCh38/hg38)   
+</pre>
+</li>
+</ul>
+</li>
+<li><p>2，将bed格式内容复制或者上传，如果是复制内容的话，点击submit；如果是上传文件的 话，点击submit</p>
+</li>
+<li><p>3，在Result部分下载结果，Result部分会显示结果说明，点击View Conversions，即能得到转换后的bed文件。</p>
+</li>
+</ul>
+<h2 id="Remap"><a href="#Remap" class="headerlink" title="Remap"></a>Remap</h2><p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-02-11-screencapture-NCBI-remap.png" alt="NCBI-remap"></p>
+<p>支持hgvs，bed，gvf，gff，gtf，Text ASN.1，Binary ASN.1，UCSC Region和VCF，如果数据量较少，可以考虑该方法。</p>
+<p>服务地址：<a target="_blank" rel="noopener" href="https://www.ncbi.nlm.nih.gov/genome/tools/remap">https://www.ncbi.nlm.nih.gov/genome/tools/remap</a></p>
+<ul>
+<li><ul>
+<li>1，在Assembly-Assembly中选择<pre>Source Organism *：Homo sapiens
+Source Assembly *:   GRCh37(hg19)
+Target Assembly *:    GRCh38(hg38)
+</pre>
+</li>
+</ul>
+</li>
+<li><p>2，在Data处，可以选择复制文件内容还是上传文件，还可以指定文件格式。</p>
+</li>
+<li><p>3，点击submit，页面会跳转到结果页面，Summary Data告诉你有多少条匹配，Mapping Report告诉你对应关系。这些都可以下载，NCBI remap的结果文件前几列是原来的内容，后几列是转换后的坐标。</p>
+</li>
+</ul>
+<h2 id="Ensembl-Assembly-Converter"><a href="#Ensembl-Assembly-Converter" class="headerlink" title="Ensembl Assembly Converter"></a>Ensembl Assembly Converter</h2><p><a target="_blank" rel="noopener" href="http://asia.ensembl.org/Homo_sapiens/Tools/AssemblyConverter?db=core">http://asia.ensembl.org/Homo_sapiens/Tools/AssemblyConverter?db=core</a></p>
+<h1 id="本地版"><a href="#本地版" class="headerlink" title="本地版"></a>本地版</h1><p>本地工具需要利用chain file，才能知道两个版本的坐标对应关系。chain文件可以从UCSC下载。我们需要的是hg19Thg38.over.chain.gz<br><a target="_blank" rel="noopener" href="http://hgdownload.soe.ucsc.edu/goldenPath/hg19/liftOver/hg19ToHg38.over.chain.gz">http://hgdownload.soe.ucsc.edu/goldenPath/hg19/liftOver/hg19ToHg38.over.chain.gz</a><br>chain文件后续会有介绍。</p>
+<h2 id="CrossMap"><a href="#CrossMap" class="headerlink" title="CrossMap"></a>CrossMap</h2><p>CrossMap支持SAM/BAM, Wiggle/BigWig, BED, GFF/GTF, VCF格式。支持的格式较多，用起来方便。</p>
+<p>软件网址：<a target="_blank" rel="noopener" href="http://crossmap.sourceforge.net/">http://crossmap.sourceforge.net/</a></p>
+<p>安装：pip install CrossMap</p>
+<p>当然也可以从源码编译安装，官网有说明（<a target="_blank" rel="noopener" href="http://crossmap.sourceforge.net/#install-crossmap-from-source-code%EF%BC%89%E3%80%82">http://crossmap.sourceforge.net/#install-crossmap-from-source-code）。</a></p>
+<pre>python CrossMap.py bed    hg19ToHg38.over.chain      APOA1.bed      APOA1.hg38.bed</pre>
+
+<h2 id="Liftover-1"><a href="#Liftover-1" class="headerlink" title="Liftover"></a>Liftover</h2><p>支持bed和gff格式</p>
+<pre>wget -c http://hgdownload.cse.ucsc.edu/admin/exe/linux.x86_64/liftOver
+chmod 755 liftOver
+# liftOver oldFile map.chain newFile unMapped
+liftOver   APOA1.bed    hg19ToHg38.over.chain    APOA1.hg38.bed   unMapped.txt
+</pre>
+
+<h2 id="Picard"><a href="#Picard" class="headerlink" title="Picard"></a>Picard</h2><p>地址： <a target="_blank" rel="noopener" href="http://broadinstitute.github.io/picard/">http://broadinstitute.github.io/picard/</a></p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/archives/834/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="https://md.zxzyl.com/archives/829/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -989,87 +1160,10 @@ chr19   496453  505207  ENST00000617201 0.194969</pre>
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://md.zxzyl.com/archives/787/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Jason">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Zhongxu's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/archives/787/" class="post-title-link" itemprop="url">思考---基因组中那些“看起来”很严重的突变往往不致病</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2016-10-19 22:19:28" itemprop="dateCreated datePublished" datetime="2016-10-19T22:19:28+08:00">2016-10-19</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>在全基因组数据或者外显子数据得到的突变通过注释之后，每个人或多多少都含有一定数目的”看起来”很严重的突变，比如剪切位点上突变，终止密码子突变，移码突变等等（正如《ExAC-外显子组聚合数据库：揭露那些”披着狼皮的羊”基因》标题中的描述———披着狼皮的羊）。</p>
-<p>但真实情况是，人并没有疾病表型，或者疾病只与其中的个别突变有关系，其他的突变都没有影响。这是我一直思考的问题，偶然机会，我向业内做遗传咨询的一个博士（感谢）提出这个问题，讨论之后认为主要有以下几点原因：</p>
-<p><strong>一，</strong>很多基因不是必须基因，即使全部删除也不影响机体的正常功能。</p>
-<p><strong>二，</strong>隐性基因即使有一份被破坏，不影响另外一份行使功能。</p>
-<p><strong>三，</strong>如果参考的是文献中的致病突变，有很多是假的。也就说参考文献有可能存在假的结果。</p>
-<p><strong>四，</strong>机体有很强的代偿能力，即使真的是有缺陷的基因，机体也有可能代偿其缺陷而不影响正常机体功能，比如有一些个体携带确定致病的基因突变，表型仍正常。</p>
-<p>欢迎您留言补充。</p>
-<p><strong>PS：</strong>虽然在以往的生物学研究中，我们发现了很多（经典案例的）携带有某个突变会导致疾病，但这种突变往往是罕见病的致病突变。也不绝对，可能有些人确实携带我们认为的致病突变，但由于机体的其他通路代偿功能，补偿了该突变造成的损害。因为机体是一个复杂的过程，复杂到现在我们都不清楚对生命的过程有多少了解。过往的经典研究案例越来越少，从复杂的整体层面来研究或许能够突破现在的瓶颈。</p>
-<p>DNA双螺旋的发现是由于 物理和化学中X光射线衍射的介入。细胞微观结构的发现是由于 物理和电子中的电子显微镜的介入。每一次生物学的飞跃都与其他学科的介入，带来新的研究方式有关。</p>
-<p>现在，正是这个时代，高通量测序技术和计算机技术的飞速发展，生物领域或许正在下一次飞跃的黎明。</p>
-<p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>####################################################################</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/6/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><a class="extend next" rel="next" href="/page/8/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/page/6/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="extend next" rel="next" href="/page/8/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -1135,7 +1229,7 @@ chr19   496453  505207  ENST00000617201 0.194969</pre>
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">150</span>
+          <span class="site-state-item-count">151</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -1144,7 +1238,7 @@ chr19   496453  505207  ENST00000617201 0.194969</pre>
         <span class="site-state-item-name">categories</span>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">156</span>
+        <span class="site-state-item-count">157</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>

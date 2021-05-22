@@ -155,6 +155,96 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://md.zxzyl.com/archives/741/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhongxu's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/archives/741/" class="post-title-link" itemprop="url">Sort VCF by Chr and Pos根据染色体位置对VCF进行排序</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-03-01 21:53:23" itemprop="dateCreated datePublished" datetime="2016-03-01T21:53:23+08:00">2016-03-01</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>对VCF文件中的突变按照染色体和位置进行排序，下面是本人的总结，其中利用bash命令的方法不依赖其他的工具或包。htslib<a target="_blank" rel="noopener" href="http://wp.zxzyl.com/?p=189" title="合并VCF文件 Merge VCF file">前文</a>中也提到过。</p>
+<h2 id="1-Use-bash"><a href="#1-Use-bash" class="headerlink" title="1, Use bash"></a>1, Use bash</h2><p><strong>bash raw.vcf</strong></p>
+<pre>chr_order="chrMnchr1nchr2nchr3nchr4nchr5nchr6nchr7nchr8nchr9nchr10nchr11nchr12nchr13nchr14nchr15nchr16nchr17nchr18nchr19nchr20nchr21nchr22nchrXnchrY"
+
+cat "$1" ' grep "^#" > .header.vcf
+cat "$1" ' grep -v "^#" ' sort -k1,1 -k2,2n > .pre.sorted.vcf
+echo -e $chr_order ' while read line
+do
+    cat .pre.sorted.vcf ' grep "^$line"$'t' >> .header.vcf
+done
+mv .header.vcf  sorted.vcf && rm .header.vcf .pre.sorted.vcf</pre>
+
+<h2 id="2，Use-awk-and-sed"><a href="#2，Use-awk-and-sed" class="headerlink" title="2，Use awk and sed"></a>2，Use awk and sed</h2><p>(awk ‘/^#/{print}!/^#/{exit}’ raw.vcf;sed ‘/^#/d’ raw.vcf’awk -F”\t” ‘($1<del>/^[0-9]+$/){sub(“^chr”,””,$0);print $0}’’sort -k1,1n -k2,2n’awk ‘{print “chr”$0}’ ;sed ‘/^#/d’ raw.vcf’ awk -F”\t” ‘($1!</del>/^[0-9]+$/){sub(“^chr”,””,$0);print $0}’’sort -k1,1d -k2,2n’awk ‘{print “chr”$0}’) &gt; sort.vcf</p>
+<h2 id="3-Use-Picard"><a href="#3-Use-Picard" class="headerlink" title="3, Use Picard"></a>3, Use Picard</h2><p>Sorts one or more VCF files. This tool sorts the records in VCF files according to the order of the contigs in the header/sequence dictionary and then by coordinate. It can accept an external sequence dictionary.</p>
+<pre>java -jar picard.jar SortVcf I=unsort.vcf O=sorted.vcf</pre>
+
+<h2 id="4，Use-vcf-sort-in-vcftools"><a href="#4，Use-vcf-sort-in-vcftools" class="headerlink" title="4，Use vcf-sort (in vcftools)"></a>4，Use vcf-sort (in vcftools)</h2><pre>cat file.vcf  '  vcf-sort > sorted.vcf</pre>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/archives/741/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="https://md.zxzyl.com/archives/740/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -966,82 +1056,10 @@ java -jar varscan.jar copynumber $normal-tumor.mpileup  --output-file out</pre>
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://md.zxzyl.com/archives/731/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Jason">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Zhongxu's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/archives/731/" class="post-title-link" itemprop="url">PyCharm启动时报failed to create jvm error code 4</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2016-01-18 22:23:33" itemprop="dateCreated datePublished" datetime="2016-01-18T22:23:33+08:00">2016-01-18</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>pycharm failed to create JVM with error code 4 when launching pycharm.</p>
-<p><img src="2016-01-18-failed-to-create-jvm2.png" alt="pycharm failed to create jvm"></p>
-<p>In a ordinary way, you can decrease -Xmx and -XX option value in $IDE_HOMEBINidea.exe.vmoptions.</p>
-<p>Another way, when pycharm invoking JVM, pycharm depends on its own vm options in VM optioins configuraion file.</p>
-<p><img src="2016-01-18-failed-to-create-jvm.png" alt="pycharm fail to create jvm"></p>
-<p>VM options can be set in JetBrainsPyCharm Community Edition 3.4.1bin. In the direcotry, there is a file named by pycharm.exe.vmoptions. You can decrease the -XX and -Xmx value in this file. Recommend 100M per time to decrease and try to open pycharm.</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/10/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><span class="page-number current">11</span><a class="page-number" href="/page/12/">12</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><a class="extend next" rel="next" href="/page/12/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/page/10/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><span class="page-number current">11</span><a class="page-number" href="/page/12/">12</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="extend next" rel="next" href="/page/12/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -1107,7 +1125,7 @@ java -jar varscan.jar copynumber $normal-tumor.mpileup  --output-file out</pre>
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">150</span>
+          <span class="site-state-item-count">151</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -1116,7 +1134,7 @@ java -jar varscan.jar copynumber $normal-tumor.mpileup  --output-file out</pre>
         <span class="site-state-item-name">categories</span>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">156</span>
+        <span class="site-state-item-count">157</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>

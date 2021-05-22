@@ -155,6 +155,83 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://md.zxzyl.com/archives/751/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhongxu's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/archives/751/" class="post-title-link" itemprop="url">用Circos表示基因组上的突变密度</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-04-01 22:33:28" itemprop="dateCreated datePublished" datetime="2016-04-01T22:33:28+08:00">2016-04-01</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>不光是生信，感觉整个生物领域越来越靠图吃饭了。谁的图漂亮，谁的分析就好。好吧，我也承认，图多图漂亮了，确实显得高大上哈。在我眼中图的信息量比较大，能够给人直观的表示，为了说明图的意义，我没把持住，在本文多放了几张和circos图无关的图，见谅。本文有多图，都是本人自己画的，请勿盗图，如果你想知道怎么做或者由更好的表示办法，欢迎留言讨论。</p>
+<p>想当年，我为了表示SNP在染色体上的数目分布，用python画了24个图，每个染色体一张SNP的密度分布。那可是我第一次用matplot。</p>
+<p>先上我年yi轻qian时做的图，那个时候我都佩服自己能想出可以用图的形式来表示突变的密度，哈哈哈,因为这样就能很直观的看出哪些地方突变频率比较高，突变频率比较高的地方，可能是突变热点区域，在肿瘤研究中常常有意义。</p>
+<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2016-04-01-chr8.number-distribution-by-window.png"> </p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/archives/751/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="https://md.zxzyl.com/archives/750/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -958,100 +1035,10 @@ sys     0m0.682s</pre>
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://md.zxzyl.com/archives/741/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Jason">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Zhongxu's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/archives/741/" class="post-title-link" itemprop="url">Sort VCF by Chr and Pos根据染色体位置对VCF进行排序</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2016-03-01 21:53:23" itemprop="dateCreated datePublished" datetime="2016-03-01T21:53:23+08:00">2016-03-01</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>对VCF文件中的突变按照染色体和位置进行排序，下面是本人的总结，其中利用bash命令的方法不依赖其他的工具或包。htslib<a target="_blank" rel="noopener" href="http://wp.zxzyl.com/?p=189" title="合并VCF文件 Merge VCF file">前文</a>中也提到过。</p>
-<h2 id="1-Use-bash"><a href="#1-Use-bash" class="headerlink" title="1, Use bash"></a>1, Use bash</h2><p><strong>bash raw.vcf</strong></p>
-<pre>chr_order="chrMnchr1nchr2nchr3nchr4nchr5nchr6nchr7nchr8nchr9nchr10nchr11nchr12nchr13nchr14nchr15nchr16nchr17nchr18nchr19nchr20nchr21nchr22nchrXnchrY"
-
-cat "$1" ' grep "^#" > .header.vcf
-cat "$1" ' grep -v "^#" ' sort -k1,1 -k2,2n > .pre.sorted.vcf
-echo -e $chr_order ' while read line
-do
-    cat .pre.sorted.vcf ' grep "^$line"$'t' >> .header.vcf
-done
-mv .header.vcf  sorted.vcf && rm .header.vcf .pre.sorted.vcf</pre>
-
-<h2 id="2，Use-awk-and-sed"><a href="#2，Use-awk-and-sed" class="headerlink" title="2，Use awk and sed"></a>2，Use awk and sed</h2><p>(awk ‘/^#/{print}!/^#/{exit}’ raw.vcf;sed ‘/^#/d’ raw.vcf’awk -F”\t” ‘($1<del>/^[0-9]+$/){sub(“^chr”,””,$0);print $0}’’sort -k1,1n -k2,2n’awk ‘{print “chr”$0}’ ;sed ‘/^#/d’ raw.vcf’ awk -F”\t” ‘($1!</del>/^[0-9]+$/){sub(“^chr”,””,$0);print $0}’’sort -k1,1d -k2,2n’awk ‘{print “chr”$0}’) &gt; sort.vcf</p>
-<h2 id="3-Use-Picard"><a href="#3-Use-Picard" class="headerlink" title="3, Use Picard"></a>3, Use Picard</h2><p>Sorts one or more VCF files. This tool sorts the records in VCF files according to the order of the contigs in the header/sequence dictionary and then by coordinate. It can accept an external sequence dictionary.</p>
-<pre>java -jar picard.jar SortVcf I=unsort.vcf O=sorted.vcf</pre>
-
-<h2 id="4，Use-vcf-sort-in-vcftools"><a href="#4，Use-vcf-sort-in-vcftools" class="headerlink" title="4，Use vcf-sort (in vcftools)"></a>4，Use vcf-sort (in vcftools)</h2><pre>cat file.vcf  '  vcf-sort > sorted.vcf</pre>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/archives/741/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/9/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><span class="page-number current">10</span><a class="page-number" href="/page/11/">11</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><a class="extend next" rel="next" href="/page/11/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/page/9/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><span class="page-number current">10</span><a class="page-number" href="/page/11/">11</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="extend next" rel="next" href="/page/11/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -1117,7 +1104,7 @@ mv .header.vcf  sorted.vcf && rm .header.vcf .pre.sorted.vcf</pre>
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">150</span>
+          <span class="site-state-item-count">151</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -1126,7 +1113,7 @@ mv .header.vcf  sorted.vcf && rm .header.vcf .pre.sorted.vcf</pre>
         <span class="site-state-item-name">categories</span>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">156</span>
+        <span class="site-state-item-count">157</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>

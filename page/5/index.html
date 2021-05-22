@@ -155,6 +155,95 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://md.zxzyl.com/archives/1032/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhongxu's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/archives/1032/" class="post-title-link" itemprop="url">EBI提供HLA序列BLAST</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-09-14 15:08:57" itemprop="dateCreated datePublished" datetime="2018-09-14T15:08:57+08:00">2018-09-14</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>基于我们有的HLA序列，可以和HLA序列的数据库比较，看与哪个HLA allele最相似。</p>
+<p>HLA （human leukocyte antigen，人类白细胞抗原）是人类主要组织相容性复合体（major histocompatibility complex，MHC）的表达产物，根据HLA抗原结构、功能及组织分布的不同，分为I类，II类，III类分子，其中I类分子包括HLA-A，-B，-C系列抗原，广泛分布于各组织有核系统表面。</p>
+<p>BLAST表示局部比对搜索工具，用来将新的序列与已有的数据库中的序列进行比较，可以发现区域的相似性，进而为功能和进化研究提供线索。<br>EBI（欧洲生物信息学中心）提供基于IPD-IMGT/HLA（IMGT国际免疫遗传学数据库）数据库的BLAST库。BLAST工具会搜索数据库中的HLA allele的核苷酸、蛋白质及相关对的序列。</p>
+<p>HLA BLAST在线服务的链接如下：<br><a target="_blank" rel="noopener" href="https://www.ebi.ac.uk/Tools/services/web_ncbiblast/toolform.ebi?tool=ncbiblast&context=nucleotide&database=imgthla">https://www.ebi.ac.uk/Tools/services/web_ncbiblast/toolform.ebi?tool=ncbiblast&amp;context=nucleotide&amp;database=imgthla</a></p>
+<h2 id="1）选择数据库"><a href="#1）选择数据库" class="headerlink" title="1）选择数据库"></a>1）选择数据库</h2><p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-09-14-EBI-EMBL-HLA-BLAST1.png"> </p>
+<p>选择IMGT下的IMGT/HLA (genomic)数据据，表示与HLA的基因组序列进行比对，如果需要和编码区序列进行比对，可以选择IMGT/HLA (cds)。</p>
+<h2 id="2）输入待比对的序列"><a href="#2）输入待比对的序列" class="headerlink" title="2）输入待比对的序列"></a>2）输入待比对的序列</h2><p>BLAST支持简并碱基的比对，比如用R表示G或A (puRine)，用A表示M表示A或C。</p>
+<h2 id="3）设置参数"><a href="#3）设置参数" class="headerlink" title="3）设置参数"></a>3）设置参数</h2><p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-09-14-EBI-EMBL-HLA-BLAST3.png"></p>
+<p>选择blastn表示进行核苷酸序列比对，task可以用megablast也可以用blastn，其他参数可以选择默认。</p>
+<h2 id="4）提交任务"><a href="#4）提交任务" class="headerlink" title="4）提交任务"></a>4）提交任务</h2><p>点击submit提交任务。</p>
+<h2 id="5）等待结果"><a href="#5）等待结果" class="headerlink" title="5）等待结果"></a>5）等待结果</h2><p>一般情况下，会在10秒左右进入比对结果页面。结果页面包含相似性和显著性结果。</p>
+<h2 id="测试序列"><a href="#测试序列" class="headerlink" title="测试序列"></a>测试序列</h2><pre>CGAACTTGGCGGGTCTCAGCCCTCCTSGCCCCAGGCTCCCACTCCATGAGGTATTTCTACACCGCCATGTCCCGGCCCGG
+CCGCGGGGAGCCCCGCTTCATCRCMGTGGGCTACGTGGACGACACSCAGTTCGTGMGGTTCGACAGCGACGCCRCGAGTC
+CGAGRRKGGMGCCSCGGGCGCCRTGGRTRGAGCAGGAGGGGCCGGAGTATTGGGACCGGAASACACAGATCTMCAAGGCC
+MASGCACAGACTGACCGAGAGAACCTGCGSAACCTGCTCGGCTACTACAACCAGAGCGAGGCCGGTGAGTGACCCCGGCC
+CGGGGCGCAGGTCACGACTCCCCATCCCCCACGKACGGCCCGGGTCGCCCCGAGTCTCCGGGTCCGAGATCCGCCTCCCT
+GAGGCCGCGGGACCCGCCCAGACCCTCGACCGGCGAGAGCCCCAGGCGCGTTTACCCGGTTTCATTTTCAGTTGAGGCCA
+AAATCCCCGCGGGTTGGTCGGGGCGGGGCGGGGCTCGGGGGACGGGGCTGACCGCGGGGCCGGGGCCAGGGTCTCACACT
+TGGCAGACGATGTATGGCTGCGACCTGGGGCCGGACGGGCGCCTCCTCCGCGGGCATAACCAGTTAGCTACGACGGCAGG</pre>
+
+<p>该序列的测试结果，与本地blast的结果一致。</p>
+<h2 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h2><p><a target="_blank" rel="noopener" href="https://www.ebi.ac.uk/ipd/imgt/hla/blast.html">https://www.ebi.ac.uk/ipd/imgt/hla/blast.html</a></p>
+<p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>#####################################################################</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="https://md.zxzyl.com/archives/1030/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1019,80 +1108,10 @@ POS&gt;=100   ..   限制检索范围，比如20:100-200内的突变</code></pre
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://md.zxzyl.com/archives/982/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Jason">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Zhongxu's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/archives/982/" class="post-title-link" itemprop="url">insert size和fragment size</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2018-05-16 11:12:15" itemprop="dateCreated datePublished" datetime="2018-05-16T11:12:15+08:00">2018-05-16</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-05-16-insertsize-fragmentsize.png"> </p>
-<p>**Insert_size = the sequence betwwn adapters ** </p>
-<p><strong>Fragment_size= Insert_size + Adapters</strong> </p>
-<p>参考：<a target="_blank" rel="noopener" href="https://www.biostars.org/p/95803/">https://www.biostars.org/p/95803/</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><a class="extend next" rel="next" href="/page/6/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="extend next" rel="next" href="/page/6/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -1158,7 +1177,7 @@ POS&gt;=100   ..   限制检索范围，比如20:100-200内的突变</code></pre
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">150</span>
+          <span class="site-state-item-count">151</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -1167,7 +1186,7 @@ POS&gt;=100   ..   限制检索范围，比如20:100-200内的突变</code></pre
         <span class="site-state-item-name">categories</span>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">156</span>
+        <span class="site-state-item-count">157</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>
