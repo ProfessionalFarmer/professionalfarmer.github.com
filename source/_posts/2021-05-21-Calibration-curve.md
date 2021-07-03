@@ -39,6 +39,9 @@ Calibration curve的**横坐标**是我们用模型预测的probability，比如
 library(rms)
 val.prob(predicted.probability, TRUE.Label)
 
+如果模型用rms建立的话，还可以用
+rms::calibrate的方法
+
 #我自己也参考别人写了一个函数,结果如下图，欢迎使用
 library(loonR)
 riskCalibrationPlot(TRUE.Label, predicted.probability)

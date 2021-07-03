@@ -155,6 +155,98 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://md.zxzyl.com/archives/1102/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhongxu's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/archives/1102/" class="post-title-link" itemprop="url">安装黑苹果</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-05-29 16:55:23" itemprop="dateCreated datePublished" datetime="2020-05-29T16:55:23+08:00">2020-05-29</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>最近电脑老是蓝屏，很是恼人，怀疑是win10系统的原因，重装了好几次还是蓝屏，于是决定装个黑苹果，用macOS系统（装好黑苹果MacOS 10.15 Catalina之后，发现可能是硬盘的问题导致蓝屏的，pity）。总结一下过程，看教程的时候很麻烦，实操一遍之后，回顾一下，其实还是蛮简单的，大致过程和装windows一样，就是多了添加clover引导，方便黑苹果从硬盘引导而不是U盘。下面是总结了一下过程，不是详细，方便以后再装</p>
+<h1 id="1，设置好分区"><a href="#1，设置好分区" class="headerlink" title="1，设置好分区"></a>1，设置好分区</h1><p>此电脑-管理-磁盘管理</p>
+<p>（1）确保格式为GPT格式（GUID）</p>
+<p>（2）确保有EFI分区</p>
+<p>（3）压缩卷，给空出来的卷新建卷，不要选择格式化这个卷（安装黑苹果的过程中会进行）</p>
+<p>（4）这个新建的卷就是安装黑苹果的分区</p>
+<h1 id="2，制作-MacOS-安装盘"><a href="#2，制作-MacOS-安装盘" class="headerlink" title="2，制作 MacOS 安装盘"></a>2，制作 MacOS 安装盘</h1><h2 id="（1）下载镜像"><a href="#（1）下载镜像" class="headerlink" title="（1）下载镜像"></a>（1）下载镜像</h2><p>强烈推荐 “黑果小兵“ 的网站： <a target="_blank" rel="noopener" href="https://blog.daliansky.net/">https://blog.daliansky.net/</a></p>
+<p>上面可以找OS的镜像，含有Clover引导</p>
+<h2 id="（2）制作安装U盘"><a href="#（2）制作安装U盘" class="headerlink" title="（2）制作安装U盘"></a>（2）制作安装U盘</h2><p>下载Transmac: <a target="_blank" rel="noopener" href="https://transmac.en.softonic.com/">https://transmac.en.softonic.com/</a></p>
+<p>有15天的试用期</p>
+<p>选择 format with disk image，选择下载的OS文件，等待完成</p>
+<h1 id="3，安装Mac-OS"><a href="#3，安装Mac-OS" class="headerlink" title="3，安装Mac OS"></a>3，安装Mac OS</h1><h2 id="（1）设置BIOS"><a href="#（1）设置BIOS" class="headerlink" title="（1）设置BIOS"></a>（1）设置BIOS</h2><p>不同的电脑的BIOS稍微不同，我看多数涉及下面这两个，其他的还需要自己搜下</p>
+<p>比如SATA Operation 勾选 AHCI</p>
+<p>Secure Boot Enable 勾选 Disable</p>
+<h2 id="（2）设置BIOS为UEFI-U盘启动"><a href="#（2）设置BIOS为UEFI-U盘启动" class="headerlink" title="（2）设置BIOS为UEFI U盘启动"></a>（2）设置BIOS为UEFI U盘启动</h2><p>通过U盘进入Clover引导之后，选择安装Install macOS ，中间会重启一次，重启之后，选择Install macOS Mojave from “你设置的盘”</p>
+<p>等待系统安装好</p>
+<h1 id="4，设置Clover引导"><a href="#4，设置Clover引导" class="headerlink" title="4，设置Clover引导"></a>4，设置Clover引导</h1><h2 id="（1）复制Clover文件夹"><a href="#（1）复制Clover文件夹" class="headerlink" title="（1）复制Clover文件夹"></a>（1）复制Clover文件夹</h2><p>下载Mac版本的Clover configurator <a target="_blank" rel="noopener" href="http://www.pc6.com/mac/294926.html">http://www.pc6.com/mac/294926.html</a>，不拔安装U盘的情况下，在挂载分区的选项中把系统的ESP和U盘的ESP分区挂载上。</p>
+<p>复制U盘ESP分区中的clover文件到到系统的ESP分区EFI文件夹下（和mircosoft同级）</p>
+<h2 id="（2）利用bootice添加Clover引导"><a href="#（2）利用bootice添加Clover引导" class="headerlink" title="（2）利用bootice添加Clover引导"></a>（2）利用bootice添加Clover引导</h2><p>在原来的windows系统下，或者通过Win PE，利用Disk Genius普通版即可，<a target="_blank" rel="noopener" href="https://www.diskgenius.cn/">https://www.diskgenius.cn/</a> ，把系统的ESP分配一个盘符</p>
+<p>下载安装bootice之后，<a target="_blank" rel="noopener" href="https://bootice.en.softonic.com/">https://bootice.en.softonic.com/</a></p>
+<p>Bootice-UEFI0修改启动序列-添加，在路径上，选择ESP下EFI/CLOVER/CLOVERX64.efi，名称可以自己设置成Clover Boot Manager（开机的时候就是显示这个）</p>
+<h1 id="5，大功告成"><a href="#5，大功告成" class="headerlink" title="5，大功告成"></a>5，大功告成</h1><p>开机的时候选择不同的引导进入不同的系统，这样也实现了单硬盘双系统。</p>
+<p>参考：</p>
+<p><a target="_blank" rel="noopener" href="https://hackintosh.kirainmoe.com/an-zhuang-zhong/efi-ti-huan-jiao-cheng">https://hackintosh.kirainmoe.com/an-zhuang-zhong/efi-ti-huan-jiao-cheng</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.daliansky.net/macOS-Catalina-10.15.5-19F96-Release-version-with-Clover-5118-original-image-Double-EFI-Version-UEFI-and-MBR.html">https://blog.daliansky.net/macOS-Catalina-10.15.5-19F96-Release-version-with-Clover-5118-original-image-Double-EFI-Version-UEFI-and-MBR.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_28735663/article/details/99695786">https://blog.csdn.net/qq_28735663/article/details/99695786</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="https://md.zxzyl.com/archives/1099/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -868,146 +960,6 @@ chrX    hg19.refGene.ucsc       stop_codon      70683894        70683896        
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://md.zxzyl.com/archives/1063/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Jason">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Zhongxu's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/archives/1063/" class="post-title-link" itemprop="url">TCGABiolinks下载TCGA数据做生存分析</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2019-06-10 10:30:37" itemprop="dateCreated datePublished" datetime="2019-06-10T10:30:37+08:00">2019-06-10</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2019-06-09-TCGABiolinks-Rplot.png"></p>
-<p>以前的工作是全基因组或全外分析，不涉及癌症和生存分析，但现在的工作主要围绕癌症方面，生存分析一定少不了。实验室小伙伴推荐用TCGAbiolinks下载TCGA的数据，于是研究了如何用TCGABiolinks下载TCGA的数据，以下载RNA的count数据为例，并做生存分析。</p>
-<pre># 安装相关的包
-if (!requireNamespace("BiocManager", quietly=TRUE))   
-  install.packages("BiocManager")
-BiocManager::install("TCGAbiolinks")
-BiocManager::install("SummarizedExperiment")
-install.packages('survival')
-install.packages('survminer')
-library(SummarizedExperiment)
-library(TCGAbiolinks)
-library(survival)
-library(survminer)
-
-# 项目的概括信息，project的名称可以从 https://portal.gdc.cancer.gov/ 上面选择对应的器官，进入之后左侧列表中就会显示。我们以下载TCGA-LIHC项目的数据为例。
-TCGAbiolinks:::getProjectSummary("TCGA-LIHC") 
-# 获取该项目样本的临床信息
-clinical <- GDCquery_clinic(project = "TCGA-LIHC", type = "clinical")
-
-# 下载TCGA-LIHC项目的rna-seq的counts数据,构建GDCquery，具体的数据类型的写法可以参考 https://portal.gdc.cancer.gov/repository 左侧列表
-# 比如data type有Raw Simple Somatic Mutation, Annotated Somatic Mutation, Aligned Reads, Gene Expression Quantification, Slide Image这几种，不过不同的项目，有可能有不同的数据类型。
-query <- GDCquery(project = "TCGA-LIHC", 
-            experimental.strategy = "RNA-Seq",
-                    data.category = "Transcriptome Profiling", 
-                    data.type = "Gene Expression Quantification",
-            workflow.type = "HTSeq - Counts")
-# 下载数据
-GDCdownload(query)
-# 导入数据
-LIHCRnaseq <- GDCprepare(query)
-# 得到样本的基因counts矩阵，每行为一个基因，每列为一个样本
-count_matrix <- assay(LIHCRnaseq)
-
-# TCGA样本的编号以'-'分割，前三列是患者编号，第四列是类型，一般11表示正常样本，01表示肿瘤样本，见https://gdc.cancer.gov/resources-tcga-users/tcga-code-tables/sample-type-codes
-samplesNT <- TCGAquery_SampleTypes(barcode = colnames(count_matrix),typesample = c("NT"))
-# selection of tumor samples "TP"
-samplesTP <- TCGAquery_SampleTypes(barcode = colnames(count_matrix),typesample = c("TP"))
-
-# 根据ensembl id选择特定基因在癌症样本中的表达
-gexp <- count_matrix[c("ENSG00000198431"),samplesTP]
-
-# 这样选出的样本都是肿瘤样本，但样本名称是TCGA-CC-A7IL-01A-11R-A33R-07，与clinical信息不对应，需要将名字简化成TCGA-CC-A7IL
-names(gexp) <-  sapply(strsplit(names(gexp),'-'),function(x) paste0(x[1:3],collapse="-"))
-
-# 将表达数据和clinical数据合并，并且挑出来用于做生存分析的数据
-clinical$"ENSG00000198431" <- gexp[clinical$submitter_id]
-df<-subset(clinical,select =c(submitter_id,vital_status,days_to_death,ENSG00000198431))
-
-#去掉NA
-df <- df[!is.na(df$ENSG00000198431),]
-
-#取基因的平均值，大于平均值的为H，小于为L
-df$exp <- ''
-df[df$ENSG00000198431 >= mean(df$ENSG00000198431),]$exp <- "H"
-df[df$ENSG00000198431 <  mean(df$ENSG00000198431),]$exp <- "L"
-
-# 将status表示患者结局，1表示删失，2表示死亡
-df[df$vital_status=='Dead',]$vital_status <- 2
-df[df$vital_status=='Alive',]$vital_status <- 1
-df$vital_status <- as.numeric(df$vital_status)
-
-# 建模
-fit <- survfit(Surv(days_to_death, vital_status)~exp, data=df) # 根据表达建模
-# 显示P value
-surv_pvalue(fit)$pval.txt 
-# 画图
-ggsurvplot(fit,pval=TRUE)</pre>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/archives/1063/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1077,7 +1029,7 @@ ggsurvplot(fit,pval=TRUE)</pre>
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">151</span>
+          <span class="site-state-item-count">152</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>

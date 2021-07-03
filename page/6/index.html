@@ -155,6 +155,86 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://md.zxzyl.com/archives/988/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhongxu's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/archives/988/" class="post-title-link" itemprop="url">GC偏好</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-05-18 15:57:00" itemprop="dateCreated datePublished" datetime="2018-05-18T15:57:00+08:00">2018-05-18</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="GC偏好"><a href="#GC偏好" class="headerlink" title="GC偏好"></a>GC偏好</h1><p>测序中的GC偏好指的是基因组上GC含量在50%左右的区域更容易被测到，产生的reads更多，这些区域的覆盖度更高，在高GC或者低GC区域，不容易被测到，产生较少的reads，这些区域的覆盖度更少。用基因组单位长度的bin中的GC含量作为横坐标，覆盖度作为纵坐标作图，可以明显的看到该趋势。这种趋势在100kb为单位的bin中依然存在。</p>
+<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-05-18-gc-bias.jpg"> </p>
+<p>如图A中可以看出随着GC含量的增加，counts是先增加后减少，bin的大小为10kb。图C可以看出大部分片断的GC含量0.4到0.6之间。</p>
+<p>GC偏好也存在其他地方，比如基因编码区内密码子的最后一位，C碱基往往占优势；基因的长度和GC含量成相关性；Aquifex aeolicus 的基因组整体GC含量是43%，而核糖体RNA操纵子的GC含量是65%。</p>
+<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-05-18-chicken-genome-gene-density.jpg"></p>
+<p>如图，鸡(Gallus_gallus-5.0)基因组的GC含量与基因密度之间的散点图和拟合曲线，相关性非常明显。</p>
+<h1 id="影响"><a href="#影响" class="headerlink" title="影响"></a>影响</h1><p>举个例子，1）在检测拷贝数的时候，GC含量低或者高的区域，其覆盖度小于GC含量中等的，但不意味着仅仅根据测序的覆盖度，就认为GC含量中等的拷贝数比高/低GC含量区域的高。2）在做RNA测序分析的时候，GC含量高/低的区域reads数少，并不一定说明这个基因的表达量低。3）在做基因组拼接的时候，因为GC偏好的存在，高/低GC含量的区域被测的少，这些区域的拼接难度就较大。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/archives/988/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="https://md.zxzyl.com/archives/982/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -873,123 +953,6 @@ TP    2142260    2163113    2150844</pre>
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://md.zxzyl.com/archives/838/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Jason">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Zhongxu's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/archives/838/" class="post-title-link" itemprop="url">liftover,crossmap进行坐标转换时用到的chain文件介绍</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2018-02-12 21:46:41" itemprop="dateCreated datePublished" datetime="2018-02-12T21:46:41+08:00">2018-02-12</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-02-11-liftover-chain-description.png" alt="chain description"></p>
-<p>在做基因组坐标转换的时候，用crossmap和liftover的时候，会用到chain file。大家都在讲坐标转换会用到这个文件，却没有讲过chain文件的具体内容（百度和谷歌搜索结果都没有中文介绍，本文应该是第一个）。本文的内容都翻译自UCSC网站，原文<a target="_blank" rel="noopener" href="https://genome.ucsc.edu/goldenpath/help/chain.html%EF%BC%8C%E5%B8%8C%E6%9C%9B%E8%83%BD%E5%B8%AE%E5%88%B0%E5%A4%A7%E5%AE%B6%E4%BA%86%E8%A7%A3%E8%BF%99%E4%B8%AA%E6%96%87%E4%BB%B6%E3%80%82">https://genome.ucsc.edu/goldenpath/help/chain.html，希望能帮到大家了解这个文件。</a></p>
-<p>UCSC chain文件 <a target="_blank" rel="noopener" href="http://hgdownload.soe.ucsc.edu/goldenPath/hg38/liftOver/">http://hgdownload.soe.ucsc.edu/goldenPath/hg38/liftOver/</a><br>Ensembl chain文件 <a target="_blank" rel="noopener" href="https://sourceforge.net/projects/crossmap/files/Ensembl_chain_files/">https://sourceforge.net/projects/crossmap/files/Ensembl_chain_files/</a></p>
-<p>chain file里面包含许多块alignment的信息（个人觉得可以理解为同源的地方，chain），其中每一块有一个header，记录alignment在两个版本中坐标，以及许多行alignment data line记录具体比对情况。</p>
-<p>即每一块有 Header Line 和 Alignment Data Lines组成。形式如下，有两个chain</p>
-<pre>    chain 4900 chrY 58368225 + 25985403 25985638 chr5 151006098 - 43257292 43257528 1
-     9       1       0
-     10      0       5
-     61      4       0
-     16      0       4
-     42      3       0
-     16      0       8
-     14      1       0
-     3       7       0
-     48
-
-     chain 4900 chrY 58368225 + 25985406 25985566 chr5 151006098 - 43549808 43549970 2
-     16      0       2
-     60      4       0
-     10      0       4
-     70
-</pre>
-
-<h1 id="Header-Lines"><a href="#Header-Lines" class="headerlink" title="Header Lines"></a>Header Lines</h1><p>记录两个版本的序列对应区域</p>
-<pre>chain score tName tSize tStrand tStart tEnd qName qSize qStrand qStart qEnd id</pre>
-
-<p>header line以chain开头<br>score – chain 值<br>tName – 染色体 (reference sequence)<br>tSize – 染色体大小 (reference sequence)<br>tStrand – 链strand (reference sequence)<br>tStart – 比对开始 (reference sequence)<br>tEnd – 比对结束 (reference sequence)<br>qName – 检索染色体 (query sequence，对应的另外一个基因组版本 )<br>qSize – 检索染色体大小 (query sequence)<br>qStrand – 链strand (query sequence)<br>qStart – 比对开始 (query sequence)<br>qEnd – 比对结束 (query sequence)<br>id – chain ID</p>
-<p>位置从0开始，前100bp的表示方法为0到100，接下的100bp为100到200，strand的值为-号时，对应的是反向互补序列。</p>
-<h1 id="Alignment-Data-Lines"><a href="#Alignment-Data-Lines" class="headerlink" title="Alignment Data Lines"></a>Alignment Data Lines</h1><p>Alignment Data Line有三列，记录区域内的具体对应信息，最后一行只有ungapped的序列长度。</p>
-<pre>    size dt dq</pre>
-
-<p>size – ungapped（一致的区域）的长度<br>dt – 该block块（一致的区域）的结束位置，到下一个block快（下一个一致的区域）起始位置的长度，其实就是gapped block不一致的区域的长度 (reference sequence)<br>dq – 该block块（一致的区域）的结束位置，到下一个block快（下一个一致的区域）起始位置的长度，其实就是gapped block不一致的区域的长度(query sequence)</p>
-<p>以chain id为2的chain为例</p>
-<pre>     chain 4900 chrY 58368225 + 25985406 25985566 chr5 151006098 - 43549808 43549970 2
-     16      0       2
-     60      4       0
-     10      0       4
-     70
-</pre>
-
-<p>我个人理解的，不一定正确，欢迎指正</p>
-<p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2018-02-11-liftover-chain-description.png" alt="chain description"></p>
-<p>坐标转换在reference和query的位置为：<br>reference: start 25985406 end 25985566<br>query: start 43549808 end 43549970</p>
-<p>区域长度分别为：<br>reference region length = 25985566 - 25985406 = 160 bp<br>query region length = 43549970 - 43549808 = 162 bp</p>
-<p>一致的区域（ungapped）长度为<br>reference = query = 16 + 60 +10 + 70 = 156 bp</p>
-<p>不一致的区域（gapped）长度为<br>reference = 0 + 4 +0 =4<br>query = 2 + 0 + 4 =6</p>
-<p>区域长度也可以通过ungapped和gapped区域计算，分别为：<br>reference = ungapped + gapped = 156 + 4 =160 bp<br>query = ungapped + gapped = 156 + 6 =162 bp</p>
-<p>更多信息详见：</p>
-<p><a target="_blank" rel="noopener" href="http://genomewiki.ucsc.edu/index.php/LiftOver_Howto">http://genomewiki.ucsc.edu/index.php/LiftOver_Howto</a></p>
-<p><a target="_blank" rel="noopener" href="https://genome.ucsc.edu/goldenpath/help/chain.html">https://genome.ucsc.edu/goldenpath/help/chain.html</a></p>
-<p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>#####################################################################</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1059,7 +1022,7 @@ TP    2142260    2163113    2150844</pre>
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">151</span>
+          <span class="site-state-item-count">152</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>

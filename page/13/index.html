@@ -155,6 +155,86 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://md.zxzyl.com/archives/721/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhongxu's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/archives/721/" class="post-title-link" itemprop="url">PCA主成分分析和NMF非负矩阵分解感悟</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-01-10 01:41:52" itemprop="dateCreated datePublished" datetime="2016-01-10T01:41:52+08:00">2016-01-10</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>以前只了解PCA分析，这两天看到有用非负矩阵分解NMF提取肿瘤突变特征的，遂了解了下NMF。我关注的是如何理解这两种分析，实现的话，可以找相应的R包Python包来做。</p>
+<p>样本数：M<br>属性数：N<br>如果属性N过多话，数据存储占地方，直接分析N个属性也看不出什么，所以要降维，要研究重点。</p>
+<p>维数由N降到X，比如降到两维</p>
+<p>PCA分析通过分解协方差矩阵，找的是N个属性中对方差贡献靠前的X个属性，即能解释大部分variance。<br>样本1=0.5<em>属性1N1+0.2</em>属性1N4<br>样本2=0.5<em>属性1N2+0.2</em>属性2N4</p>
+<p>NMF分析找的是X组包含对N个属性的加权值（或系数）的向量（每个属性的分解成由X个特征表示）， M<em>N=M</em>X x X<em>N，M</em>N为原始矩阵，M<em>X为基矩阵（每一列对应X组特征的基值），X</em>N为系数矩阵（每一行为一组特征）。最终还是利用了N个属性，但是利用的X组特征，每一组特征包含不同权重的N个属，X组特征共同对原始值有贡献（贡献的强度不同而已）。<br>样本1=0.5<em>特征a+0.2</em>特征b+0.3<em>特征c<br>样本2=0.1</em>特征a+0.2<em>特征b+0.7</em>特征c</p>
+<p>PCA主要用于降维<br>NMF应用于非负的矩阵，一是可以降维，二还可以提取特征，看哪些特征贡献大。</p>
+<p>参考阅读：<br><a target="_blank" rel="noopener" href="http://www.cnblogs.com/zhangchaoyang/articles/2222048.html">http://www.cnblogs.com/zhangchaoyang/articles/2222048.html</a><br><a target="_blank" rel="noopener" href="http://blog.csdn.net/acdreamers/article/details/44663421">http://blog.csdn.net/acdreamers/article/details/44663421</a></p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/archives/721/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="https://md.zxzyl.com/archives/720/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -913,80 +993,6 @@ yum makecache</pre>
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://md.zxzyl.com/archives/712/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Jason">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Zhongxu's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/archives/712/" class="post-title-link" itemprop="url">在Mac上安装cirocs，在Mac上安装perl GD模块</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2015-05-08 08:38:25" itemprop="dateCreated datePublished" datetime="2015-05-08T08:38:25+08:00">2015-05-08</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>久闻Circos作图高大上，今天一师兄让我帮他用circos画个图，便试着在Mac安装Circos。Circos是作图软件，需要GD Graphics库，关于如何在Mac上用perl安装GD，可以直接看两行星号之间的内容。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/archives/712/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1056,7 +1062,7 @@ yum makecache</pre>
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">151</span>
+          <span class="site-state-item-count">152</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>

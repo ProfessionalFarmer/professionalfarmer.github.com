@@ -155,6 +155,131 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://md.zxzyl.com/archives/788/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhongxu's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/archives/788/" class="post-title-link" itemprop="url">Calculate phastCon Score for a gene ---- 计算基因的phastCon平均分，判断基因保守型</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-11-04 21:45:25" itemprop="dateCreated datePublished" datetime="2016-11-04T21:45:25+08:00">2016-11-04</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>Calculate phastCon Score for a gene —- 计算基因的phastCon平均分，判断基因保守型</p>
+<p>PhastCon socre is the score from 0 to 1 to show the conservation level.</p>
+<p>A score showing the posterior probability that phastCons’s phylogenetic hidden Markov model (HMM) is in its most conserved state at that base position.</p>
+<p>The phastCons scores represent probabilities of negative selection and range between 0 and 1. </p>
+<p>Short highly-conserved regions and long moderately conserved regions can both obtain high scores. </p>
+<p>也就是说如果某个位点或者一段序列的phastCon分值高的话，表示保守型较高。</p>
+<h1 id="1，下载phast-score的wigFix格式文件（以19号染色体为测试）"><a href="#1，下载phast-score的wigFix格式文件（以19号染色体为测试）" class="headerlink" title="1，下载phast score的wigFix格式文件（以19号染色体为测试）"></a>1，下载phast score的wigFix格式文件（以19号染色体为测试）</h1><pre>wget -c http://hgdownload.cse.ucsc.edu/goldenPath/hg19/phastCons46way/placentalMammals/chr19.phastCons46way.placental.wigFix.gz
+gunzip -k chr19.phastCons46way.placental.wigFix.gz
+
+head chr19.phastCons46way.placental.wigFix
+
+fixedStep chrom=chr19 start=60001 step=1
+0.412
+0.407
+0.394
+0.393
+0.381
+0.381
+0.369
+0.345
+0.291</pre>
+
+<p>wigFix格式是 fixed 的 Wiggle 格式，根据上面的前几行，应该能够看出该文件表示19号染色体，从60001位置开始，每一步step（base）的phastCon分值。</p>
+<h1 id="利用bedops，将wig转成bed文件"><a href="#利用bedops，将wig转成bed文件" class="headerlink" title="利用bedops，将wig转成bed文件"></a>利用bedops，将wig转成bed文件</h1><p>bedops的官网 <a target="_blank" rel="noopener" href="https://bedops.readthedocs.io/en/latest/">https://bedops.readthedocs.io/en/latest/</a> ， 转成bed文件便于利用bed工具进行处理。</p>
+<pre>wig2bed chr19.phastCons46way.placental.wigFix > chr19.phastCons46way.placental.bed</pre>
+
+<p>如果需要合并的话，运行下面的命令即可，这里以chr19染色体为例，就不合并了。<br>bedops –everything chr*.bed &gt; vertebrate.phastCons46.bed</p>
+<h1 id="将gtf文件分割成已基因为单位的gtf文件"><a href="#将gtf文件分割成已基因为单位的gtf文件" class="headerlink" title="将gtf文件分割成已基因为单位的gtf文件"></a>将gtf文件分割成已基因为单位的gtf文件</h1><p>gtf文件中只有chr19染色体的基因注释信息。</p>
+<pre>mkdir test
+awk -F 't' '{split($9,a,";"); split(a[1],a," "); gsub(""", "", a[2]); x="test/"a[2]".gtf"; print >> ("test/"a[2]".gtf"); close(x);}' Homo_sapiens.GRCh38.85.gtf && rm test/.gtf</pre>
+
+<h1 id="将gft文件转成bed文件"><a href="#将gft文件转成bed文件" class="headerlink" title="将gft文件转成bed文件"></a>将gft文件转成bed文件</h1><pre>rm test/*bed
+for fn in `ls test/*gtf`; do
+    gene=`echo $fn ' cut -d . -f 1`
+    gtf2bed $fn ' sort -k1,1 -k2,2n >> $gene.bed
+    rm $fn
+done</pre>
+
+<p>gtf2bed是<a target="_blank" rel="noopener" href="http://wp.zxzyl.com/?p=270">前面文章</a>中提到的，只要能将gtf转成bed就可。</p>
+<h1 id="利用bedtools工具计算每个序列的平均phastCon-score"><a href="#利用bedtools工具计算每个序列的平均phastCon-score" class="headerlink" title="利用bedtools工具计算每个序列的平均phastCon score"></a>利用bedtools工具计算每个序列的平均phastCon score</h1><pre># 最新版的bedtools有split选项
+for fn in `ls test/*.bed`;do
+bedtools map -split -sorted -a $fn -b chr19.phastCons46way.placental.bed -o mean ' awk -F 't' '{printf ("%st%4fn", $1,$NF)}'
+done</pre>
+
+<p>bedtools官网 <a target="_blank" rel="noopener" href="http://bedtools.readthedocs.io/">bedtools.readthedocs.io</a> ，mean表示计算平均分。结果如下，平均分越高越保守。</p>
+<pre>chr19   531711  542092  ENST00000215574 0.388707
+chr19   531768  536715  ENST00000586788 0.317417
+chr19   532031  542092  ENST00000586283 0.431241
+chr19   532099  541585  ENST00000607527 0.643244
+chr19   535836  542087  ENST00000606065 0.404337
+chr19   536952  542042  ENST00000606400 0.288264
+chr19   541216  541661  ENST00000593036 0.434159
+chr19   489175  505342  ENST00000587541 0.032945
+chr19   496453  505207  ENST00000613880 0.186624
+chr19   496453  505207  ENST00000617201 0.194969</pre>
+
+<h1 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h1><p><strong><a target="_blank" rel="noopener" href="https://www.biostars.org/p/150152/">https://www.biostars.org/p/150152/</a></strong></p>
+<p><strong><a target="_blank" rel="noopener" href="http://ccg.vital-it.ch/mga/mm9/phastcons/phastcons.html">http://ccg.vital-it.ch/mga/mm9/phastcons/phastcons.html</a></strong></p>
+<p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>########################################################################################################################################</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="https://md.zxzyl.com/archives/787/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1058,87 +1183,6 @@ biocLite("package-name")  </pre>
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://md.zxzyl.com/archives/764/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Jason">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Zhongxu's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/archives/764/" class="post-title-link" itemprop="url">思考--在比对时，关于是否将chr*_random和chrUn_*序列放在参考基因组中的思考</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2016-07-29 15:45:34" itemprop="dateCreated datePublished" datetime="2016-07-29T15:45:34+08:00">2016-07-29</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>通常认为chr1-22，chrY，chrX和chrM为参考基因组序列，于是包括我在内的很多人，分别下载了25条染色体序列，合并成一个fasta文件，用bowtie2或者BWA构建index，用于下一步的read比对，然后是各种分析（包括突变、转录表达等）。</p>
-<p>UCSC下载的HG19版本的整个参考基因组文件<strong><a target="_blank" rel="noopener" href="http://hgdownload.cse.ucsc.edu/goldenPath/hg19/bigZips/chromFa.tar.gz">http://hgdownload.cse.ucsc.edu/goldenPath/hg19/bigZips/chromFa.tar.gz</a></strong>中，除还包括chr<em><em>random和chrUn</em></em>序列（暂时理解为补丁序列，真实的补丁序列称呼常见assemble过程，见<a target="_blank" rel="noopener" href="http://www.ncbi.nlm.nih.gov/projects/genome/assembly/grc/info/patches.shtml"><strong>http://www.ncbi.nlm.nih.gov/projects/genome/assembly/grc/info/patches.shtml</strong></a>，有fix 和novel patch，这里我们现在只讨论chr<em><em>random和chrUn</em></em>）。</p>
-<p>The *<em>chr</em>_random** sequences are unplaced sequence on those reference<br>chromosomes.</p>
-<p>The *<em>chrUn_**</em> sequences are unlocalized sequences where the corresponding<br>reference chromosome has not been determined.</p>
-<p>当然如果DNA或RNA测序的read比对到chr<em><em>random 和 chrUn</em></em> 序列上，显示大多数人都不关注这些序列上信息，我想这也是很多人不把chr<em><em>random 和 chrUn</em></em> 放到参考基因组fasta文件中的原因。但是，chr<em><em>random 和 chrUn</em></em> 显然是存在的，只不过现在暂时没有确定位置或者后续用于基因组序列更正。</p>
-<p>如果参考基因组序列中不包含chr<em><em>random 和 chrUn</em></em>序列，那么原来属于chr<em><em>random 和 chrUn</em></em>的read则有可能比对到（不是一定）chr1-22，chrX，chrY上的相似区域（这些区域与chr<em><em>random 和 chrUn</em></em>中的部分区域相似），造成假阳性比对，后续这些reads提供的信息都是不可靠的。</p>
-<p>如果参考基因组序列中包含chr<em><em>random 和 chrUn</em></em>序列，那么来自这些区域的reads则会正确的比对到这个地方，没有假阳性比对，只不过后续分析不需要考虑chr<em><em>random 和 chrUn</em></em>即可。</p>
-<pre>假设有一条read来自chr1_random，
-条件                                     比对结果             分析结果
-基因组fa文件包含chr1_random序列          比对到chr1_random    后续不考虑
-基因组fa文件中不包含chr1_random序列      比对到chr1           造成假阳性</pre>
-
-<p>举个例子，以前，我们确认一个突变是否存在，看覆盖这个点的read上有多少突变的碱基，如果覆盖这个点的read本来属于chr<em><em>random 和 chrUn</em></em>序列的，但比对到这个地方，即使这个位点的突变碱基再多，也是个假阳性突变，影响后续分析。</p>
-<p><strong>综上，参考基因组需要放chr<em><em>random和chrUn</em></em>序列，降低reads比对时的假阳性。</strong></p>
-<p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>####################################################################</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1208,7 +1252,7 @@ biocLite("package-name")  </pre>
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">151</span>
+          <span class="site-state-item-count">152</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>

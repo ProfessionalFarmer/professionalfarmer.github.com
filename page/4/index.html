@@ -155,6 +155,146 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://md.zxzyl.com/archives/1063/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhongxu's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/archives/1063/" class="post-title-link" itemprop="url">TCGABiolinks下载TCGA数据做生存分析</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-06-10 10:30:37" itemprop="dateCreated datePublished" datetime="2019-06-10T10:30:37+08:00">2019-06-10</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><img src="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020/2019-06-09-TCGABiolinks-Rplot.png"></p>
+<p>以前的工作是全基因组或全外分析，不涉及癌症和生存分析，但现在的工作主要围绕癌症方面，生存分析一定少不了。实验室小伙伴推荐用TCGAbiolinks下载TCGA的数据，于是研究了如何用TCGABiolinks下载TCGA的数据，以下载RNA的count数据为例，并做生存分析。</p>
+<pre># 安装相关的包
+if (!requireNamespace("BiocManager", quietly=TRUE))   
+  install.packages("BiocManager")
+BiocManager::install("TCGAbiolinks")
+BiocManager::install("SummarizedExperiment")
+install.packages('survival')
+install.packages('survminer')
+library(SummarizedExperiment)
+library(TCGAbiolinks)
+library(survival)
+library(survminer)
+
+# 项目的概括信息，project的名称可以从 https://portal.gdc.cancer.gov/ 上面选择对应的器官，进入之后左侧列表中就会显示。我们以下载TCGA-LIHC项目的数据为例。
+TCGAbiolinks:::getProjectSummary("TCGA-LIHC") 
+# 获取该项目样本的临床信息
+clinical <- GDCquery_clinic(project = "TCGA-LIHC", type = "clinical")
+
+# 下载TCGA-LIHC项目的rna-seq的counts数据,构建GDCquery，具体的数据类型的写法可以参考 https://portal.gdc.cancer.gov/repository 左侧列表
+# 比如data type有Raw Simple Somatic Mutation, Annotated Somatic Mutation, Aligned Reads, Gene Expression Quantification, Slide Image这几种，不过不同的项目，有可能有不同的数据类型。
+query <- GDCquery(project = "TCGA-LIHC", 
+            experimental.strategy = "RNA-Seq",
+                    data.category = "Transcriptome Profiling", 
+                    data.type = "Gene Expression Quantification",
+            workflow.type = "HTSeq - Counts")
+# 下载数据
+GDCdownload(query)
+# 导入数据
+LIHCRnaseq <- GDCprepare(query)
+# 得到样本的基因counts矩阵，每行为一个基因，每列为一个样本
+count_matrix <- assay(LIHCRnaseq)
+
+# TCGA样本的编号以'-'分割，前三列是患者编号，第四列是类型，一般11表示正常样本，01表示肿瘤样本，见https://gdc.cancer.gov/resources-tcga-users/tcga-code-tables/sample-type-codes
+samplesNT <- TCGAquery_SampleTypes(barcode = colnames(count_matrix),typesample = c("NT"))
+# selection of tumor samples "TP"
+samplesTP <- TCGAquery_SampleTypes(barcode = colnames(count_matrix),typesample = c("TP"))
+
+# 根据ensembl id选择特定基因在癌症样本中的表达
+gexp <- count_matrix[c("ENSG00000198431"),samplesTP]
+
+# 这样选出的样本都是肿瘤样本，但样本名称是TCGA-CC-A7IL-01A-11R-A33R-07，与clinical信息不对应，需要将名字简化成TCGA-CC-A7IL
+names(gexp) <-  sapply(strsplit(names(gexp),'-'),function(x) paste0(x[1:3],collapse="-"))
+
+# 将表达数据和clinical数据合并，并且挑出来用于做生存分析的数据
+clinical$"ENSG00000198431" <- gexp[clinical$submitter_id]
+df<-subset(clinical,select =c(submitter_id,vital_status,days_to_death,ENSG00000198431))
+
+#去掉NA
+df <- df[!is.na(df$ENSG00000198431),]
+
+#取基因的平均值，大于平均值的为H，小于为L
+df$exp <- ''
+df[df$ENSG00000198431 >= mean(df$ENSG00000198431),]$exp <- "H"
+df[df$ENSG00000198431 <  mean(df$ENSG00000198431),]$exp <- "L"
+
+# 将status表示患者结局，1表示删失，2表示死亡
+df[df$vital_status=='Dead',]$vital_status <- 2
+df[df$vital_status=='Alive',]$vital_status <- 1
+df$vital_status <- as.numeric(df$vital_status)
+
+# 建模
+fit <- survfit(Surv(days_to_death, vital_status)~exp, data=df) # 根据表达建模
+# 显示P value
+surv_pvalue(fit)$pval.txt 
+# 画图
+ggsurvplot(fit,pval=TRUE)</pre>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/archives/1063/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="https://md.zxzyl.com/archives/1061/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -935,142 +1075,6 @@ R[28405]        113     chr21   14070620        255     100M    =       14070536
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://md.zxzyl.com/archives/1042/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Jason">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Zhongxu's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/archives/1042/" class="post-title-link" itemprop="url">Pacbio三代测序Primary Analysis Data文件夹</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2019-03-20 18:08:34" itemprop="dateCreated datePublished" datetime="2019-03-20T18:08:34+08:00">2019-03-20</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>三代测序很多年了，刚工作的时候在超算中心做过三代的拼接，没好好研究过之后就再也没接触过，现在要做三代的项目，从头学习，Primary Analysis Data为初步数据分析文件夹，类似下面的文件夹结构</p>
-<pre>/path/to/secondary/storage/2420294/0011
-├── Analysis_Results
-│   ├── m140415_143853_42175_c100635972550000001823121909121417_s1_p0.1.bax.h5
-│   ├── m140415_143853_42175_c100635972550000001823121909121417_s1_p0.1.log
-│   ├── m140415_143853_42175_c100635972550000001823121909121417_s1_p0.1.subreads.fasta
-│   ├── m140415_143853_42175_c100635972550000001823121909121417_s1_p0.1.subreads.fastq
-│   ├── m140415_143853_42175_c100635972550000001823121909121417_s1_p0.2.bax.h5
-│   ├── m140415_143853_42175_c100635972550000001823121909121417_s1_p0.2.log
-│   ├── m140415_143853_42175_c100635972550000001823121909121417_s1_p0.2.subreads.fasta
-│   ├── m140415_143853_42175_c100635972550000001823121909121417_s1_p0.2.subreads.fastq
-│   ├── m140415_143853_42175_c100635972550000001823121909121417_s1_p0.3.bax.h5
-│   ├── m140415_143853_42175_c100635972550000001823121909121417_s1_p0.3.log
-│   ├── m140415_143853_42175_c100635972550000001823121909121417_s1_p0.3.subreads.fasta
-│   ├── m140415_143853_42175_c100635972550000001823121909121417_s1_p0.3.subreads.fastq
-│   ├── m140415_143853_42175_c100635972550000001823121909121417_s1_p0.bas.h5
-│   ├── m140415_143853_42175_c100635972550000001823121909121417_s1_p0.sts.csv
-│   └── m140415_143853_42175_c100635972550000001823121909121417_s1_p0.sts.xml
-├── m140415_143853_42175_c100635972550000001823121909121417_s1_p0.1.xfer.xml
-├── m140415_143853_42175_c100635972550000001823121909121417_s1_p0.2.xfer.xml
-├── m140415_143853_42175_c100635972550000001823121909121417_s1_p0.3.xfer.xml
-├── m140415_143853_42175_c100635972550000001823121909121417_s1_p0.mcd.h5
-└── m140415_143853_42175_c100635972550000001823121909121417_s1_p0.metadata.xml</pre>
-
-<p><strong>主要文件有</strong></p>
-<h1 id="bas-h5文件和bax-h5文件"><a href="#bas-h5文件和bax-h5文件" class="headerlink" title="bas.h5文件和bax.h5文件"></a>bas.h5文件和bax.h5文件</h1><p>bas.h5和相关的bax.h5文件是PacBio@RS II初级分析（primary analysis）的主要输出文件，这些文件由设备产生到本地存储位置，作为后续SMRT分析软件进行alignment、consensus和variant分析的输入文件。<br>PacBio@RS II之前，单个bas.h5文件包含了所有测序数据，随着PacBio@RS II升级，通量和read长度都在增加，现在包含一个bas.h5和3个bax.h5文件（1-3.bax.h5）。bax.h5文件包含测序的base call的信息，bas.h5是三个bax.h5的重要指针。<br>用h5dupm -n [movie name].bas.h5命令看一下文件</p>
-<pre>FILE_CONTENTS {
- group      /
- group      /MultiPart
- dataset    /MultiPart/HoleLookup
- dataset    /MultiPart/Parts
- }</pre>
-
-<p>可以看到有一个MultiPart的group组，下面有两个数据集，一个是HoleLookup，一个是Parts。<br>/MultiPart/Parts提供相关对应的的三个bax.h5的文件名<br>/MultiPart/HoleLookup对应ZMW零模波导孔编号</p>
-<p>单个的bax.h5文件结构和原来一致 ，有两个组，分别是PulseData和ScanData。ScanData<br>包含了用于测试的仪器信息，一般不会用到。PulseData下面重点看/PulseData/BaseCalls组<br>用命令h5dump -d /PulseData/BaseCalls/Basecall [movie name].bax.h5 ‘ head -10 查看数据集basecall如下序列</p>
-<pre>DATASET "/PulseData/BaseCalls/Basecall" {
-   DATATYPE  H5T_STD_U8LE
-   DATASPACE  SIMPLE { ( 305612594 ) / ( H5S_UNLIMITED ) }
-   DATA {
-   (0): 84, 84, 67, 84, 84, 67, 84, 84, 84, 84, 67, 71, 84, 71, 71, 84, 84,
-   (17): 84, 84, 71, 84, 67, 84, 84, 84, 67, 84, 71, 84, 84, 84, 67, 84, 84,
-   (34): 84, 67, 84, 84, 71, 84, 84, 67, 84, 71, 67, 71, 71, 84, 84, 84, 84,
-   (51): 84, 84, 84, 84, 84, 84, 84, 84, 84, 84, 84, 84, 84, 84, 84, 84, 84,
-   (68): 84, 84, 84, 84, 71, 84, 84, 71, 84, 84, 84, 84, 84, 84, 84, 84, 84,</pre>
-
-<p>其中A=&gt; 65, C=&gt; 67, G=&gt;71, T=&gt;84，与ASCII编码一致。</p>
-<p>用h5dump -d /PulseData/BaseCalls/QualityValue bax.h5 ‘ head -10 查看数据集qualityvalue如下</p>
-<pre>DATASET "/PulseData/BaseCalls/QualityValue" {
-   DATATYPE  H5T_STD_U8LE
-   DATASPACE  SIMPLE { ( 305612594 ) / ( H5S_UNLIMITED ) }
-   DATA {
-   (0): 10, 11, 21, 12, 11, 9, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 14, 0, 0, 0, 10, 0, 1,
-   (23): 0, 0, 15, 1, 1, 1, 0, 1, 1, 1, 1, 0, 2, 10, 0, 0, 0, 0, 0, 0, 14, 20, 1,
-   (46): 1, 30, 1, 0, 0, 1, 22, 0, 19, 0, 1, 0, 0, 21, 1, 1, 1, 0, 0, 17, 0, 0, 1,
-   (69): 1, 1, 30, 2, 1, 0, 2, 1, 0, 10, 0, 1, 1, 0, 1, 1, 13, 0, 0, 0, 1, 0, 0,
-   (92): 1, 0, 5, 1, 0, 0, 1, 0, 2, 1, 0, 0, 21, 0, 1, 0, 0, 20, 0, 0, 0, 16, 1,</pre>
-
-<p>表示测错的概率，用的是phred socre，和Illumina类似。当然，我看的这个文件可以看出测序质量并不是很好。</p>
-<p>具体的组和数据集的说明，可以参考：</p>
-<p><a target="_blank" rel="noopener" href="https://s3.amazonaws.com/files.pacb.com/software/instrument/2.0.0/bas.h5+Reference+Guide.pdf">https://s3.amazonaws.com/files.pacb.com/software/instrument/2.0.0/bas.h5+Reference+Guide.pdf</a></p>
-<h1 id="metadata-xml"><a href="#metadata-xml" class="headerlink" title="metadata.xml"></a>metadata.xml</h1><p>包含测序仪ID，样本名，测序酶，试剂等元数据。<br>参考文件：<a target="_blank" rel="noopener" href="https://s3.amazonaws.com/files.pacb.com/software/instrument/2.0.0/Metadata+Output+Guide.pdf">https://s3.amazonaws.com/files.pacb.com/software/instrument/2.0.0/Metadata+Output+Guide.pdf</a></p>
-<h1 id="sts-xml"><a href="#sts-xml" class="headerlink" title="sts.xml"></a>sts.xml</h1><p>包含了单个movie的概括统计<br>参考文件：<a target="_blank" rel="noopener" href="https://s3.amazonaws.com/files.pacb.com/software/instrument/1.3.1/Statistics+Output+Guide.pdf">https://s3.amazonaws.com/files.pacb.com/software/instrument/1.3.1/Statistics+Output+Guide.pdf</a></p>
-<h1 id="用h5dump查看pacbio数据"><a href="#用h5dump查看pacbio数据" class="headerlink" title="用h5dump查看pacbio数据"></a>用h5dump查看pacbio数据</h1><p>查看h5格式的文件可以用hdf5下的h5dump工具查看,安装如下</p>
-<pre>wget -c https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.10/hdf5-1.10.5/src/hdf5-1.10.5.tar.gz
-tar -xzvf hdf5-1.10.5.tar.gz
-cd hdf5-1.10.5  
-./configure &&make && make install</pre>
-
-<h1 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h1><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/xudongliang/p/6908953.html">https://www.cnblogs.com/xudongliang/p/6908953.html</a><br><a target="_blank" rel="noopener" href="https://smrt-analysis.readthedocs.io/en/latest/Data-files-you-received-from-your-service-provider/">https://smrt-analysis.readthedocs.io/en/latest/Data-files-you-received-from-your-service-provider/</a></p>
-<p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>#####################################################################</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1140,7 +1144,7 @@ cd hdf5-1.10.5
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">151</span>
+          <span class="site-state-item-count">152</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
