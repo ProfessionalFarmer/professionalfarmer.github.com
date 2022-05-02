@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"md.zxzyl.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+
+  <meta name="description" content="Some software requires bed12 format, not gtf&#x2F;gff. So a convertion work should be done. bedops gtf2bedEasy way to get your result —- bedops 1234567891011gtf2bed &lt; Homo_sapiens.GRCh38.85.gtf &amp;#x27; h">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Convert gtf to bed12 format --- gtf2bed">
+<meta property="og:url" content="https://md.zxzyl.com/archives/768/index.html">
+<meta property="og:site_name" content="Zhongxu&#39;s blog">
+<meta property="og:description" content="Some software requires bed12 format, not gtf&#x2F;gff. So a convertion work should be done. bedops gtf2bedEasy way to get your result —- bedops 1234567891011gtf2bed &lt; Homo_sapiens.GRCh38.85.gtf &amp;#x27; h">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2016-08-30T13:29:32.000Z">
+<meta property="article:modified_time" content="2016-08-30T13:29:32.000Z">
+<meta property="article:author" content="Jason">
+<meta property="article:tag" content="bed">
+<meta property="article:tag" content="gtf">
+<meta property="article:tag" content="gtf2bed">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://md.zxzyl.com/archives/768/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>Convert gtf to bed12 format --- gtf2bed | Zhongxu's blog</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a3b5d3f466edb3e3f15e8238d8f04be8";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Zhongxu's blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://md.zxzyl.com/archives/768/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhongxu's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Convert gtf to bed12 format --- gtf2bed
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-08-30 21:29:32" itemprop="dateCreated datePublished" datetime="2016-08-30T21:29:32+08:00">2016-08-30</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>Some software requires bed12 format, not gtf/gff. So a convertion work should be done.</p>
+<h1 id="bedops-gtf2bed"><a href="#bedops-gtf2bed" class="headerlink" title="bedops gtf2bed"></a>bedops gtf2bed</h1><p>Easy way to get your result —- <a target="_blank" rel="noopener" href="http://bedops.readthedocs.io/">bedops</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">gtf2bed &lt; Homo_sapiens.GRCh38.85.gtf &#x27; head</span><br><span class="line">1       11868   14409   ENST00000456328 0       +       11868   14409   0       3       359,109,1189,   0,744,1352,</span><br><span class="line">1       12009   13670   ENST00000450305 0       +       12009   13670   0       6       48,49,85,78,154,218,    0,169,603,965,1211,1443,</span><br><span class="line">1       17368   17436   ENST00000619216 0       -       17368   17436   0       1       68,     0,</span><br><span class="line">1       14403   29570   ENST00000488147 0       -       14403   29570   0       11      98,34,152,159,198,136,137,147,99,154,37,        0,601,1392,2203,2454,2829,3202,3511,3864,10334,15130,</span><br><span class="line">1       29553   31097   ENST00000473358 0       +       29553   31097   0       3       486,104,122,    0,1010,1422,</span><br><span class="line">1       30266   31109   ENST00000469289 0       +       30266   31109   0       2       401,134,        0,709,</span><br><span class="line">1       30365   30503   ENST00000607096 0       +       30365   30503   0       1       138,    0,</span><br><span class="line">1       34553   36081   ENST00000417324 0       -       34553   36081   0       3       621,205,361,    0,723,1167,</span><br><span class="line">1       35244   36073   ENST00000461467 0       -       35244   36073   0       2       237,353,        0,476,</span><br><span class="line">1       52472   53312   ENST00000606857 0       +       52472   53312   0       1       840,    0,</span><br></pre></td></tr></table></figure>
+
+
+<p>Here we use UCSC’s package to convert gtf format file to bed12 format file.</p>
+<h1 id="Download-UCSC-package"><a href="#Download-UCSC-package" class="headerlink" title="Download UCSC package"></a>Download UCSC package</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wget -c http://hgdownload.cse.ucsc.edu/admin/exe/linux.x86_64/gtfToGenePred</span><br><span class="line">wget -c http://hgdownload.cse.ucsc.edu/admin/exe/linux.x86_64/genePredToBed</span><br><span class="line">chmod 755 gtfToGenePred genePredToBed</span><br></pre></td></tr></table></figure>
+
+
+
+
+<h2 id="Convert-gtf-to-bed12"><a href="#Convert-gtf-to-bed12" class="headerlink" title="Convert gtf to bed12"></a>Convert gtf to bed12</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">time gtfToGenePred Homo_sapiens.GRCh38.85.gtf test.genePhred &amp;&amp; genePredToBed test.genePhred result.bed &amp;&amp; rm test.genePhred </span><br><span class="line"></span><br><span class="line">real    0m14.959s</span><br><span class="line">user    0m14.387s</span><br><span class="line">sys     0m0.567s</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">head reult.bed </span><br><span class="line">1       11868   14409   ENST00000456328 0       +       14409   14409   0       3       359,109,1189,   0,744,1352,</span><br><span class="line">1       12009   13670   ENST00000450305 0       +       13670   13670   0       6       48,49,85,78,154,218,    0,169,603,965,1211,1443,</span><br><span class="line">1       14403   29570   ENST00000488147 0       -       29570   29570   0       11      98,34,152,159,198,136,137,147,99,154,37,       0,601,1392,2203,2454,2829,3202,3511,3864,10334,15130,</span><br><span class="line">1       17368   17436   ENST00000619216 0       -       17436   17436   0       1       68,     0,</span><br><span class="line">1       29553   31097   ENST00000473358 0       +       31097   31097   0       3       486,104,122,    0,1010,1422,</span><br><span class="line">1       30266   31109   ENST00000469289 0       +       31109   31109   0       2       401,134,        0,709,</span><br><span class="line">1       30365   30503   ENST00000607096 0       +       30503   30503   0       1       138,    0,</span><br><span class="line">1       34553   36081   ENST00000417324 0       -       36081   36081   0       3       621,205,361,    0,723,1167,</span><br><span class="line">1       35244   36073   ENST00000461467 0       -       36073   36073   0       2       237,353,        0,476,</span><br><span class="line">1       52472   53312   ENST00000606857 0       +       53312   53312   0       1       840,    0,</span><br></pre></td></tr></table></figure>
+
+
+<p>Cheers. </p>
+<h1 id="Another-tool"><a href="#Another-tool" class="headerlink" title="Another tool"></a>Another tool</h1><p>I also recommend a perl script – <a target="_blank" rel="noopener" href="https://github.com/ExpressionAnalysis/ea-utils/blob/master/clipper/gtf2bed">gtf2bed</a>. This script works fine to convert gtf to bed format. Thanks for ea-utils project.</p>
+<h1 id="Ref"><a href="#Ref" class="headerlink" title="Ref"></a>Ref</h1><p><a target="_blank" rel="noopener" href="https://groups.google.com/a/soe.ucsc.edu/forum/#!topic/genome/fTNuZOS-CYA">https://groups.google.com/a/soe.ucsc.edu/forum/#!topic/genome/fTNuZOS-CYA</a></p>
+<p><a target="_blank" rel="noopener" href="https://expressionanalysis.github.io/ea-utils/">https://expressionanalysis.github.io/ea-utils/</a></p>
+<p><a target="_blank" rel="noopener" href="http://bedops.readthedocs.io/">bedops.readthedocs.io</a></p>
+<p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>####################################################################</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/bed/" rel="tag"># bed</a>
+              <a href="/tags/gtf/" rel="tag"># gtf</a>
+              <a href="/tags/gtf2bed/" rel="tag"># gtf2bed</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/archives/767/" rel="prev" title="topGO包进行-GO富集分析-做有向无环图">
+      <i class="fa fa-chevron-left"></i> topGO包进行-GO富集分析-做有向无环图
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/archives/769/" rel="next" title="oncotator对VCF进行注释，并生成MAF格式文件">
+      oncotator对VCF进行注释，并生成MAF格式文件 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#bedops-gtf2bed"><span class="nav-number">1.</span> <span class="nav-text">bedops gtf2bed</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Download-UCSC-package"><span class="nav-number">2.</span> <span class="nav-text">Download UCSC package</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Convert-gtf-to-bed12"><span class="nav-number">2.1.</span> <span class="nav-text">Convert gtf to bed12</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Another-tool"><span class="nav-number">3.</span> <span class="nav-text">Another tool</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Ref"><span class="nav-number">4.</span> <span class="nav-text">Ref</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Jason</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">163</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">167</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+
+<!--google_adsense-->
+
+  <div class="links-of-blogroll-title">
+    <i class="fa fa-google"></i> AdSense
+    <ins class="adsbygoogle"
+        style="display:block"
+        data-ad-client="ca-pub-9370593480269435"
+        data-ad-slot="8824957305"
+        data-ad-format="auto"
+        data-full-width-responsive="true"></ins>
+    <script>
+      (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+  </div>
+
+<!--/google_adsense-->
+
+
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jason</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- PGAD -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-9370593480269435"
+     data-ad-slot="8824957305"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

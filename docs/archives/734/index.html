@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"md.zxzyl.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+
+  <meta name="description" content="A short introdution of Illunima sequencing machine, especially for Hiseq. Illumina测序平台     HiSeq 2000 HiSeq 2500 HiSeq 3000 HiSeq 4000    Output 500-600 GB 900-1000 GB 630-750 GB 1300-1500 GB   Reads">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Illumina测序平台介绍">
+<meta property="og:url" content="https://md.zxzyl.com/archives/734/index.html">
+<meta property="og:site_name" content="Zhongxu&#39;s blog">
+<meta property="og:description" content="A short introdution of Illunima sequencing machine, especially for Hiseq. Illumina测序平台     HiSeq 2000 HiSeq 2500 HiSeq 3000 HiSeq 4000    Output 500-600 GB 900-1000 GB 630-750 GB 1300-1500 GB   Reads">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://md.zxzyl.com/wp/f4w/2020/2016-01-31-hiseq-x-ten.jpg">
+<meta property="article:published_time" content="2016-01-30T17:52:40.000Z">
+<meta property="article:modified_time" content="2016-01-30T17:52:40.000Z">
+<meta property="article:author" content="Jason">
+<meta property="article:tag" content="Sequencing">
+<meta property="article:tag" content="Hiseq">
+<meta property="article:tag" content="Illumina">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://md.zxzyl.com/wp/f4w/2020/2016-01-31-hiseq-x-ten.jpg">
+
+<link rel="canonical" href="https://md.zxzyl.com/archives/734/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>Illumina测序平台介绍 | Zhongxu's blog</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a3b5d3f466edb3e3f15e8238d8f04be8";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Zhongxu's blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://md.zxzyl.com/archives/734/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhongxu's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Illumina测序平台介绍
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-01-31 01:52:40" itemprop="dateCreated datePublished" datetime="2016-01-31T01:52:40+08:00">2016-01-31</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>A short introdution of Illunima sequencing machine, especially for Hiseq.</p>
+<p>Illumina测序平台</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>HiSeq 2000</th>
+<th>HiSeq 2500</th>
+<th>HiSeq 3000</th>
+<th>HiSeq 4000</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Output</td>
+<td>500-600 GB</td>
+<td>900-1000 GB</td>
+<td>630-750 GB</td>
+<td>1300-1500 GB</td>
+</tr>
+<tr>
+<td>Reads passing Filter</td>
+<td>1.7-2 billion</td>
+<td>3-3.3 billion</td>
+<td>2.1-2.5 billion</td>
+<td>4.3-5 billion</td>
+</tr>
+<tr>
+<td>Read Length</td>
+<td>2 x 100bp</td>
+<td>2 x 125bp</td>
+<td>2 x 150bp</td>
+<td>2 x 150bp</td>
+</tr>
+<tr>
+<td>Quality Scores（Q30）</td>
+<td>&gt;85%</td>
+<td>&gt;80%</td>
+<td>&gt;75%</td>
+<td>&gt;75%</td>
+</tr>
+<tr>
+<td>Run Time</td>
+<td>11 days</td>
+<td>6 days</td>
+<td>3.5 days</td>
+<td>3.5 days</td>
+</tr>
+<tr>
+<td>Human Genomes per Run</td>
+<td>Up to 5</td>
+<td>Up to 8</td>
+<td>Up to 6</td>
+<td>Up to 12</td>
+</tr>
+<tr>
+<td>Exomes per Run</td>
+<td>Up to 72</td>
+<td>Up to 120</td>
+<td>Up to 90</td>
+<td>Up to 180</td>
+</tr>
+<tr>
+<td>Transcriptomes per Run</td>
+<td>Up to 40</td>
+<td>Up to 67</td>
+<td>Up to 50</td>
+<td>Up to 100</td>
+</tr>
+</tbody></table>
+<p><img src="/wp/f4w/2020/2016-01-31-hiseq-x-ten.jpg" alt="hiseq-x-ten Illumina测序平台"></p>
+<h2 id="Hiseq-2500"><a href="#Hiseq-2500" class="headerlink" title="Hiseq 2500"></a>Hiseq 2500</h2><p>Hiseq 2500是Hiseq 2000的升级版。其主要的改进点是：Hiseq 2500可以在快速、高通量两种模式之间切换。高通量模式就是原来的Hiseq2000的每张Flowcell有8个Lane的模式。<span id="more"></span></p>
+<p>Hiseq 2500的快速模式，核心的改进是用2个Lane的Flowcell来测序，而且这种快速Flowcell的Lane比Hiseq 2000的Lane要短，数据产量也略低于高通量模式的2条Lane。</p>
+<h2 id="HiSeq-3000"><a href="#HiSeq-3000" class="headerlink" title="HiSeq 3000"></a>HiSeq 3000</h2><p>基于成熟的HiSeq 2500系统，凭借创新的图案化流动槽技术，HiSeq 3000/4000系统带来了无可匹敌的速度和性能。双流动槽的HiSeq 4000系统提供了最高的通量和每个样品的最低价格，适合广泛的应用。而单流动槽的HiSeq 3000系统则享有同样的低价格和快速运行时间。</p>
+<h2 id="HiSeq-4000"><a href="#HiSeq-4000" class="headerlink" title="HiSeq 4000"></a>HiSeq 4000</h2><p>HiSeq 4000系统每次运行3.5天，最多可产出1.5T数据。与HiSeq2500系统（PE125）相比，HiSeq 4000相同时间总产出是HiSeq2500的3倍。HiSeq 4000系统可平行进行单或双流动槽模式，在最短的时间内提供最大化的数据输出。</p>
+<p>HiSeq X Ten和NextSeq 500。HiSeq X Ten定位为工厂规模的测序仪，通量超高，价格不菲；而NextSeq 500则旨在以MiSeq的大小提供HiSeq的性能。</p>
+<h2 id="NextSeq-500"><a href="#NextSeq-500" class="headerlink" title="NextSeq 500"></a>NextSeq 500</h2><p>NextSeq 500系统集高通量测序的性能和台式测序仪的简约为一体，是目前唯一一款可实现外显子组、转录组和全基因组测序的台式测序仪。它可在两种模式下开展测序实验：高产量（High Output）和中等产量（Medium Output），在单次运行中可获得20-120 Gb的数据，为您带来广泛的应用灵活性。</p>
+<h2 id="NextSeq550"><a href="#NextSeq550" class="headerlink" title="NextSeq550"></a>NextSeq550</h2><p>NextSeq550在原有高通量测序平台NextSeq 500 的基础上，增加了芯片扫描功能。该系统为用户基于芯片应用转化到测序技术平台上来，搭建了新的桥梁。在临床市场，使用同一系统可以互相补充不同的应用，如细胞遗传学分析和胚胎植入前遗传病筛查等应用。因此这款为临床应用设计的平台可以开展NIPT业务，不过价格比测序仪NextSeq500高了一些。</p>
+<h2 id="HiSeq-X-Ten"><a href="#HiSeq-X-Ten" class="headerlink" title="HiSeq X Ten"></a>HiSeq X Ten</h2><p>HiSeq X Ten系统由10台超高通量测序仪HiSeq X组成，测序读长为2×150bp，单台仪器每次运行可产出高达1.8Tb的数据，运行时间在三天以内，即每台仪器每天产出约600Gb的数据。10台仪器同时运行时，每周至少可完成320个人类基因组测序（以30×覆盖度计算），每年完成的数量可超过18000个。</p>
+<p>X10 芯片表面变成了孔，扩增技术模拟自然扩增，酶也发生了变化，减少了对dNTP的修饰，提高了反应速度，光学扫描速度也提高了，读长也增加。</p>
+<p>参考</p>
+<p><a target="_blank" rel="noopener" href="http://www.novogene.com/index.php?a=show&c=index&catid=83&id=360&m=content">http://www.novogene.com/index.php?a=show&amp;c=index&amp;catid=83&amp;id=360&amp;m=content</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.macrogencn.com/_d276676746.htm">http://www.macrogencn.com/_d276676746.htm</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.instrument.com.cn/news/20150113/151062.shtml">http://www.instrument.com.cn/news/20150113/151062.shtml</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.illumina.com.cn/systems/hiseq-3000-4000.html">http://www.illumina.com.cn/systems/hiseq-3000-4000.html</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Sequencing/" rel="tag"># Sequencing</a>
+              <a href="/tags/Hiseq/" rel="tag"># Hiseq</a>
+              <a href="/tags/Illumina/" rel="tag"># Illumina</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/archives/733/" rel="prev" title="通路富集分析计算显著性">
+      <i class="fa fa-chevron-left"></i> 通路富集分析计算显著性
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/archives/735/" rel="next" title="转录组分析新工具流程--HISAT2-stringtie-ballgown">
+      转录组分析新工具流程--HISAT2-stringtie-ballgown <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Hiseq-2500"><span class="nav-number">1.</span> <span class="nav-text">Hiseq 2500</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HiSeq-3000"><span class="nav-number">2.</span> <span class="nav-text">HiSeq 3000</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HiSeq-4000"><span class="nav-number">3.</span> <span class="nav-text">HiSeq 4000</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NextSeq-500"><span class="nav-number">4.</span> <span class="nav-text">NextSeq 500</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NextSeq550"><span class="nav-number">5.</span> <span class="nav-text">NextSeq550</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HiSeq-X-Ten"><span class="nav-number">6.</span> <span class="nav-text">HiSeq X Ten</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Jason</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">163</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">167</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+
+<!--google_adsense-->
+
+  <div class="links-of-blogroll-title">
+    <i class="fa fa-google"></i> AdSense
+    <ins class="adsbygoogle"
+        style="display:block"
+        data-ad-client="ca-pub-9370593480269435"
+        data-ad-slot="8824957305"
+        data-ad-format="auto"
+        data-full-width-responsive="true"></ins>
+    <script>
+      (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+  </div>
+
+<!--/google_adsense-->
+
+
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jason</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- PGAD -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-9370593480269435"
+     data-ad-slot="8824957305"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

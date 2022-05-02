@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"md.zxzyl.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+
+  <meta name="description" content="SpliceMap是一个从头开始发现和比对splice junction的工具。它提供高敏感度并且支持任意长度RNA-seq 序列片段read长度. SpliceMap将RNA-seq reads比对到参考基因组上用于发现splicing junctions. 它至少拥有与当前技术条件下其它分析工具同等的灵敏度和特异性。 官网    http:&#x2F;&#x2F;web.stanford.edu&#x2F;group&#x2F;wo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SpliceMap官网示例教程">
+<meta property="og:url" content="https://md.zxzyl.com/archives/1043/index.html">
+<meta property="og:site_name" content="Zhongxu&#39;s blog">
+<meta property="og:description" content="SpliceMap是一个从头开始发现和比对splice junction的工具。它提供高敏感度并且支持任意长度RNA-seq 序列片段read长度. SpliceMap将RNA-seq reads比对到参考基因组上用于发现splicing junctions. 它至少拥有与当前技术条件下其它分析工具同等的灵敏度和特异性。 官网    http:&#x2F;&#x2F;web.stanford.edu&#x2F;group&#x2F;wo">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2019-03-21T10:21:55.000Z">
+<meta property="article:modified_time" content="2019-03-21T10:21:55.000Z">
+<meta property="article:author" content="Jason">
+<meta property="article:tag" content="RNA">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://md.zxzyl.com/archives/1043/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>SpliceMap官网示例教程 | Zhongxu's blog</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a3b5d3f466edb3e3f15e8238d8f04be8";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Zhongxu's blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://md.zxzyl.com/archives/1043/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhongxu's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          SpliceMap官网示例教程
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-03-21 18:21:55" itemprop="dateCreated datePublished" datetime="2019-03-21T18:21:55+08:00">2019-03-21</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>SpliceMap是一个从头开始发现和比对splice junction的工具。它提供高敏感度并且支持任意长度RNA-seq 序列片段read长度. SpliceMap将RNA-seq reads比对到参考基因组上用于发现splicing junctions. 它至少拥有与当前技术条件下其它分析工具同等的灵敏度和特异性。</p>
+<p>官网    <a target="_blank" rel="noopener" href="http://web.stanford.edu/group/wonglab/SpliceMap/manual.html">http://web.stanford.edu/group/wonglab/SpliceMap/manual.html</a></p>
+<p>下载    <a target="_blank" rel="noopener" href="http://web.stanford.edu/group/wonglab/SpliceMap/download.html">http://web.stanford.edu/group/wonglab/SpliceMap/download.html</a></p>
+<p>示例教程    <a target="_blank" rel="noopener" href="https://web.stanford.edu/group/wonglab/SpliceMap/tutorial.html">https://web.stanford.edu/group/wonglab/SpliceMap/tutorial.html</a></p>
+<p>以官网SpliceMap 3.3.5.2 example (Linux-x86 64bit)为例，介绍如何用来自21号染色体的100k 条100bp的RNA reads寻找junction。</p>
+<p>测试是否正常./bin/runSpliceMap，如果报错的话，需要到src文件夹运行 ./install.sh ../bin来安装SpliceMap，运行./install-bowtie.sh ../bin来安装</p>
+<h1 id="示例文件夹下面的结构"><a href="#示例文件夹下面的结构" class="headerlink" title="示例文件夹下面的结构"></a>示例文件夹下面的结构</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ls SpliceMap3352_example_linux-64</span><br><span class="line">all.gene.refFlat.txt  bin  data  genome  INSTALL  LICENSE  output  run.cfg  src  temp</span><br></pre></td></tr></table></figure>
+
+
+
+
+<h1 id="run-cfg"><a href="#run-cfg" class="headerlink" title="run.cfg"></a>run.cfg</h1><p>最重要的文件，为文本文件，包含测序reads路径，基因组文件路径，配置设置等详见<br><a target="_blank" rel="noopener" href="https://web.stanford.edu/group/wonglab/SpliceMap/cfg.html%EF%BC%8C%E9%9C%80%E8%A6%81%E5%AF%B9%E6%AF%8F%E4%B8%AA%E6%95%B0%E6%8D%AE%E9%9B%86%E8%BF%9B%E8%A1%8C%E9%85%8D%E7%BD%AE%E3%80%82%E5%9C%A8cfg%E6%96%87%E4%BB%B6%E4%B8%AD%EF%BC%8C%E6%B3%A8%E9%87%8A%E4%BB%A5#%E5%BC%80%E5%A4%B4%EF%BC%8C%E8%B5%8B%E5%80%BC%E7%94%A8tag">https://web.stanford.edu/group/wonglab/SpliceMap/cfg.html，需要对每个数据集进行配置。在cfg文件中，注释以#开头，赋值用tag</a> = value表示，比如genome_dir = ../../genome/hg18，多值用如下表示</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt; tag</span><br><span class="line">value_1</span><br><span class="line">value_2</span><br><span class="line">...</span><br><span class="line">&lt;</span><br></pre></td></tr></table></figure>
+
+<h1 id="genome-directory"><a href="#genome-directory" class="headerlink" title="genome directory"></a>genome directory</h1><p>该路径下包括物种的染色体，bowtie的索引，测试示例中仅放了21号染色体和相关bowtie的索引。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ls genome                                                      </span><br><span class="line">chr21.1.ebwt  chr21.2.ebwt  chr21.3.ebwt  chr21.4.ebwt  chr21.fa  chr21.rev.1.ebwt  chr21.rev.2.ebwt</span><br></pre></td></tr></table></figure>
+
+
+<h1 id="data-directory"><a href="#data-directory" class="headerlink" title="data directory"></a>data directory</h1><p>样本的测序reads，真实使用中可以是其他位置。</p>
+<h1 id="temp-directory"><a href="#temp-directory" class="headerlink" title="temp directory"></a>temp directory</h1><p>在SpliceMap运行过程中的临时文件，最初的序列比对结果存储在这里，所以这个文件夹可能会很大。</p>
+<h1 id="output-directory"><a href="#output-directory" class="headerlink" title="output directory"></a>output directory</h1><p>SpliceMap的输出结果文件夹。</p>
+<h1 id="all-gene-refFlat-txt"><a href="#all-gene-refFlat-txt" class="headerlink" title="all.gene.refFlat.txt"></a>all.gene.refFlat.txt</h1><p>包含来自ensembl，refseq，knowGene数据所有基因的注释，可以用来寻找新的junction。</p>
+<h1 id="bin"><a href="#bin" class="headerlink" title="bin"></a>bin</h1><p>SpliceMap的运行程序，不需要安装，可以拷贝到其他地方。</p>
+<h1 id="src"><a href="#src" class="headerlink" title="src"></a>src</h1><p>包含SpliceMap/Bowtie源程序的文件夹。</p>
+<h1 id="运行SpliceMap"><a href="#运行SpliceMap" class="headerlink" title="运行SpliceMap"></a>运行SpliceMap</h1><p>在example文件夹中，运行大概两到三分钟可以结束</p>
+<pre>./bin/runSpliceMap run.cfg</pre>
+
+<h1 id="输出结果文件夹output"><a href="#输出结果文件夹output" class="headerlink" title="输出结果文件夹output"></a>输出结果文件夹output</h1><h1 id="junction-color-bed"><a href="#junction-color-bed" class="headerlink" title="junction_color.bed"></a>junction_color.bed</h1><p>包含发现的junctions，novel junction在bed文件中用红色表示，可以用UCSC基因组浏览器或cisGenome浏览器看。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">track   name=junctions  description=&quot;SpliceMap junctions&quot; itemRgb=&quot;On&quot;</span><br><span class="line">chr21   14669961        14672440        (2)[49_2](2/0)  50      -       14669961        14672440        96,96,96        2 50,50    0,2429</span><br><span class="line">chr21   16125769        16127587        (1)[1_1](1/0)   50      +       16125769        16127587        192,192,192     2 50,50    0,1768</span><br></pre></td></tr></table></figure>
+
+<h1 id="junction-color-new-bed"><a href="#junction-color-new-bed" class="headerlink" title="junction_color.new.bed"></a>junction_color.new.bed</h1><p>不在all.gene.refFlat.txt文件中的新的junction。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">track   name=junctions  description=&quot;SpliceMap junctions&quot; itemRgb=&quot;On&quot;</span><br><span class="line">chr21   17186728        17208745        (2)[6_2](2/0)   50      +       17186728        17208745        255,0,0 2       50,50      0,21967</span><br><span class="line">chr21   23658336        23666569        (1)[1_1](1/0)   50      -       23658336        23666569        255,192,192     2 50,50    0,8183</span><br></pre></td></tr></table></figure>
+
+<h1 id="junction-nUM-color-bed"><a href="#junction-nUM-color-bed" class="headerlink" title="junction_nUM_color.bed"></a>junction_nUM_color.bed</h1><p>junction_color.bed文件中的至少被一条唯一比对的read支持的junction。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">track   name=junctions  description=&quot;SpliceMap junctions&quot; itemRgb=&quot;On&quot;</span><br><span class="line">chr21   14669961        14672440        (2)[49_2](2/0)  50      -       14669961        14672440        96,96,96        2 50,50    0,2429</span><br><span class="line">chr21   16125769        16127587        (1)[1_1](1/0)   50      +       16125769        16127587        192,192,192     2 50,50    0,1768</span><br></pre></td></tr></table></figure>
+
+<h1 id="junction-nUM-color-new-bed"><a href="#junction-nUM-color-new-bed" class="headerlink" title="junction_nUM_color.new.bed"></a>junction_nUM_color.new.bed</h1><p>在junction_nUM_color.bed中且不在all.gene.refFlat.txt中的junction。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">track   name=junctions  description=&quot;SpliceMap junctions&quot; itemRgb=&quot;On&quot;</span><br><span class="line">chr21   17186728        17208745        (2)[6_2](2/0)   50      +       17186728        17208745        255,0,0 2       50,50      0,21967</span><br><span class="line">chr21   23658336        23666569        (1)[1_1](1/0)   50      -       23658336        23666569        255,192,192     2 50,50    0,8183</span><br></pre></td></tr></table></figure>
+
+<h1 id="coverage-up-wig"><a href="#coverage-up-wig" class="headerlink" title="coverage_up.wig"></a>coverage_up.wig</h1><p>染色体位置中唯一比对的reads的覆盖度</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">track   type=bedGraph   name=&quot;SpliceMap unique coverage&quot;</span><br><span class="line">chr21   9944337 9944421 1</span><br><span class="line">chr21   14070536        14070619        1</span><br></pre></td></tr></table></figure>
+
+<h1 id="coverage-down-wig"><a href="#coverage-down-wig" class="headerlink" title="coverage_down.wig"></a>coverage_down.wig</h1><p>染色体位置中多重比对的reads的覆盖度</p>
+<pre>track   type=bedGraph   name="SpliceMap non-unique coverage"
+chr21   16276385        16276484        -0.5
+chr21   16277073        16277137        -0.5</pre>
+
+<h1 id="coverage-all-wig"><a href="#coverage-all-wig" class="headerlink" title="coverage_all.wig"></a>coverage_all.wig</h1><p>所以比对上的reads在染色体上的覆盖度</p>
+<pre>track   type=bedGraph   name="SpliceMap all coverage"
+chr21   9944337 9944421 1
+chr21   14070536        14070619        1</pre>
+
+<h1 id="good-hits-sam"><a href="#good-hits-sam" class="headerlink" title="good_hits.sam"></a>good_hits.sam</h1><p>SAM格式存储的比对好的reads</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">R[87976]        73      chr21   9944337 255     85M     *       0       0       CATGTATCAACACCAAGTGCCATTTCTCTTAAGGATGCAAGGATGTTTTTTCCAAGATGGCAGATTACAGGCTTTTAGCATGCCT      IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII      NM:i:0  XC:i:15</span><br><span class="line">R[28405]        177     chr21   14070536        255     100M    =       14070620        -15     GCAGAGGCTATTATTCATGGACTATCCAGTCTAACAGCTTGCCAGTTGAGAACGATATACATATGTCAGTTTTTGACAAGAATTTCAGCAGGAAAAACCC       IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII       MD:Z:40A43G15   NM:i:2  XC:i:0</span><br><span class="line">R[28405]        113     chr21   14070620        255     100M    =       14070536        -15     GCAGCAGGAAAAACCCTTGATGCACAGTTTGAAAATGATGAACGAATTACACCCTTGGAATCAGCCCTGATGATTTGGGGTTCAATTGAAAAGGAACATG       IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII       MD:Z:42T42C14   NM:i:2  XC:i:0</span><br></pre></td></tr></table></figure>
+
+<h1 id="debug-logs"><a href="#debug-logs" class="headerlink" title="debug_logs"></a>debug_logs</h1><p>输出log</p>
+<h1 id="用自己的数据"><a href="#用自己的数据" class="headerlink" title="用自己的数据"></a>用自己的数据</h1><p>重点修改cfg文件中genome_dir （参考基因组路径），reads_list1和2（fastq文件），annotations （基因注释文件），temp_path（中间数据存放路径），out_path（结果文件夹），bowtie_base_dir （bowtie2的index文件，如果没有，会在temp_path生成）</p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a target="_blank" rel="noopener" href="https://web.stanford.edu/group/wonglab/SpliceMap/tutorial.html">https://web.stanford.edu/group/wonglab/SpliceMap/tutorial.html</a><br>大部分翻译这个tutorial，具体数据是自己跑tutorial得到的。</p>
+<p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>#####################################################################</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/RNA/" rel="tag"># RNA</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/archives/1042/" rel="prev" title="Pacbio三代测序Primary Analysis Data文件夹">
+      <i class="fa fa-chevron-left"></i> Pacbio三代测序Primary Analysis Data文件夹
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/archives/1044/" rel="next" title="Generate Accurate Consensus Sequences from a Single SMRTbell">
+      Generate Accurate Consensus Sequences from a Single SMRTbell <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B%E6%96%87%E4%BB%B6%E5%A4%B9%E4%B8%8B%E9%9D%A2%E7%9A%84%E7%BB%93%E6%9E%84"><span class="nav-number">1.</span> <span class="nav-text">示例文件夹下面的结构</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#run-cfg"><span class="nav-number">2.</span> <span class="nav-text">run.cfg</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#genome-directory"><span class="nav-number">3.</span> <span class="nav-text">genome directory</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#data-directory"><span class="nav-number">4.</span> <span class="nav-text">data directory</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#temp-directory"><span class="nav-number">5.</span> <span class="nav-text">temp directory</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#output-directory"><span class="nav-number">6.</span> <span class="nav-text">output directory</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#all-gene-refFlat-txt"><span class="nav-number">7.</span> <span class="nav-text">all.gene.refFlat.txt</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#bin"><span class="nav-number">8.</span> <span class="nav-text">bin</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#src"><span class="nav-number">9.</span> <span class="nav-text">src</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%BF%90%E8%A1%8CSpliceMap"><span class="nav-number">10.</span> <span class="nav-text">运行SpliceMap</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%BE%93%E5%87%BA%E7%BB%93%E6%9E%9C%E6%96%87%E4%BB%B6%E5%A4%B9output"><span class="nav-number">11.</span> <span class="nav-text">输出结果文件夹output</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#junction-color-bed"><span class="nav-number">12.</span> <span class="nav-text">junction_color.bed</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#junction-color-new-bed"><span class="nav-number">13.</span> <span class="nav-text">junction_color.new.bed</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#junction-nUM-color-bed"><span class="nav-number">14.</span> <span class="nav-text">junction_nUM_color.bed</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#junction-nUM-color-new-bed"><span class="nav-number">15.</span> <span class="nav-text">junction_nUM_color.new.bed</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#coverage-up-wig"><span class="nav-number">16.</span> <span class="nav-text">coverage_up.wig</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#coverage-down-wig"><span class="nav-number">17.</span> <span class="nav-text">coverage_down.wig</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#coverage-all-wig"><span class="nav-number">18.</span> <span class="nav-text">coverage_all.wig</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#good-hits-sam"><span class="nav-number">19.</span> <span class="nav-text">good_hits.sam</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#debug-logs"><span class="nav-number">20.</span> <span class="nav-text">debug_logs</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%94%A8%E8%87%AA%E5%B7%B1%E7%9A%84%E6%95%B0%E6%8D%AE"><span class="nav-number">21.</span> <span class="nav-text">用自己的数据</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">22.</span> <span class="nav-text">参考</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Jason</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">163</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">167</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+
+<!--google_adsense-->
+
+  <div class="links-of-blogroll-title">
+    <i class="fa fa-google"></i> AdSense
+    <ins class="adsbygoogle"
+        style="display:block"
+        data-ad-client="ca-pub-9370593480269435"
+        data-ad-slot="8824957305"
+        data-ad-format="auto"
+        data-full-width-responsive="true"></ins>
+    <script>
+      (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+  </div>
+
+<!--/google_adsense-->
+
+
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jason</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- PGAD -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-9370593480269435"
+     data-ad-slot="8824957305"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

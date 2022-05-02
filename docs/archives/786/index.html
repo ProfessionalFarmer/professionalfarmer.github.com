@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"md.zxzyl.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+
+  <meta name="description" content="PS：我不经常用蛋白质数据库，不过看到这个总结的挺详细的，就转过来了。 一、蛋白质数据库 1.UniProt (The Universal Protein Resource)  网址：http:&#x2F;&#x2F;www.uniprot.org&#x2F;        http:&#x2F;&#x2F;www.ebi.ac.uk&#x2F;uniprot&#x2F;  简介：由EBI(欧洲生物信息研究所)、PIR(蛋白信息资源)和SIB(瑞士生物信息研究所)合">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[转载]蛋白质组学及蛋白质鉴定常用的网站和数据库">
+<meta property="og:url" content="https://md.zxzyl.com/archives/786/index.html">
+<meta property="og:site_name" content="Zhongxu&#39;s blog">
+<meta property="og:description" content="PS：我不经常用蛋白质数据库，不过看到这个总结的挺详细的，就转过来了。 一、蛋白质数据库 1.UniProt (The Universal Protein Resource)  网址：http:&#x2F;&#x2F;www.uniprot.org&#x2F;        http:&#x2F;&#x2F;www.ebi.ac.uk&#x2F;uniprot&#x2F;  简介：由EBI(欧洲生物信息研究所)、PIR(蛋白信息资源)和SIB(瑞士生物信息研究所)合">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2016-10-18T15:29:11.000Z">
+<meta property="article:modified_time" content="2016-10-18T15:29:11.000Z">
+<meta property="article:author" content="Jason">
+<meta property="article:tag" content="Database">
+<meta property="article:tag" content="Protein">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://md.zxzyl.com/archives/786/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>[转载]蛋白质组学及蛋白质鉴定常用的网站和数据库 | Zhongxu's blog</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a3b5d3f466edb3e3f15e8238d8f04be8";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Zhongxu's blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://md.zxzyl.com/archives/786/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhongxu's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          [转载]蛋白质组学及蛋白质鉴定常用的网站和数据库
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-10-18 23:29:11" itemprop="dateCreated datePublished" datetime="2016-10-18T23:29:11+08:00">2016-10-18</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>PS：我不经常用蛋白质数据库，不过看到这个总结的挺详细的，就转过来了。</p>
+<h1 id="一、蛋白质数据库"><a href="#一、蛋白质数据库" class="headerlink" title="一、蛋白质数据库"></a>一、蛋白质数据库</h1><hr>
+<h2 id="1-UniProt-The-Universal-Protein-Resource"><a href="#1-UniProt-The-Universal-Protein-Resource" class="headerlink" title="1.UniProt (The Universal Protein Resource)"></a>1.UniProt (The Universal Protein Resource)</h2><p>  网址：<a target="_blank" rel="noopener" href="http://www.uniprot.org/">http://www.uniprot.org/</a><br>        <a target="_blank" rel="noopener" href="http://www.ebi.ac.uk/uniprot/">http://www.ebi.ac.uk/uniprot/</a><br>  简介：由EBI(欧洲生物信息研究所)、PIR(蛋白信息资源)和SIB(瑞士生物信息研究所)合作建立而成，提供详细的蛋白质序列、功能信息，如蛋白质功能描述、结构域结构、转录后修饰、修饰位点、变异度、二级结构、三级结构等，同时提供其他数据库，包括序列数据库、三维结构数据库、2-D凝聚电泳数据库、蛋白质家族数据库的相应链接。</p>
+<h2 id="2-PIR-Protein-Information-Resource"><a href="#2-PIR-Protein-Information-Resource" class="headerlink" title="2.PIR(Protein Information Resource)"></a>2.PIR(Protein Information Resource)</h2><p>  网址：<a target="_blank" rel="noopener" href="http://pir.georgetown.edu/">http://pir.georgetown.edu/</a><br>  简介：致力于提供及时的、高质量、最广泛的注释，其下的数据库有iProClass、PIRSF、PIR-PSD、PIR-NREF、UniPort，与90多个生物数据库(蛋白家族、蛋白质功能、蛋白质网络、蛋白质互作、基因组等数据库)存在着交叉应用。</p>
+<h2 id="3-BRENDA-enzyme-database"><a href="#3-BRENDA-enzyme-database" class="headerlink" title="3.BRENDA(enzyme database)"></a>3.BRENDA(enzyme database)</h2><p>  网址：<a target="_blank" rel="noopener" href="http://www.brenda-enzymes.org/">http://www.brenda-enzymes.org</a><br>  简介：酶数据库，提供酶的分类、命名法、生化反应、专一性、结构、细胞定位、提取方法、文献、应用与改造及相关疾病的数据。</p>
+<h2 id="4-CORUM-collection-of-experimentally-verified-mammalian-protein-complexes"><a href="#4-CORUM-collection-of-experimentally-verified-mammalian-protein-complexes" class="headerlink" title="4.CORUM(collection of experimentally verified mammalian protein complexes)"></a>4.CORUM(collection of experimentally verified mammalian protein complexes)</h2><p>  网址：<a target="_blank" rel="noopener" href="http://mips.gsf.de/genre/proj/corum/index.html">http://mips.gsf.de/genre/proj/corum/index.html</a><br>  简介：哺乳动物蛋白复合物数据库，提供的数据包括蛋白复合物名称、亚基、功能、相关文献等</p>
+<h2 id="5-CyBase-cyclic-protein-database"><a href="#5-CyBase-cyclic-protein-database" class="headerlink" title="5.CyBase(cyclic protein database)"></a>5.CyBase(cyclic protein database)</h2><p>  网址：<a target="_blank" rel="noopener" href="http://research1t.imb.uq.edu.au/cybase">http://research1t.imb.uq.edu.au/cybase</a><br>  简介：环状蛋白数据库，提供环状蛋白的序列、结构等数据，提供环化蛋白预测服务。</p>
+<h2 id="6-DB-PABP"><a href="#6-DB-PABP" class="headerlink" title="6.DB-PABP"></a>6.DB-PABP</h2><p>  网址：<a target="_blank" rel="noopener" href="http://pabp.bcf.ku.edu/DB_PABP/">http://pabp.bcf.ku.edu/DB_PABP/</a><br>  简介：聚阴离子结合蛋白数据库。聚阴离子结合蛋白与聚阴离子的互作在胞内定位、运输、蛋白质折叠等生命过程中起重要作用，此外许多与神经衰退疾病相关的蛋白质均为聚阴离子结合蛋白。该数据库提供已被鉴定的聚阴离子结合蛋白的数据，与NCBI蛋白数据库存在交叉应用。</p>
+<h2 id="7-IUPHAR-DB"><a href="#7-IUPHAR-DB" class="headerlink" title="7.IUPHAR-DB"></a>7.IUPHAR-DB</h2><p>  网址：<a target="_blank" rel="noopener" href="http://www.iuphar-db.org/">http://www.iuphar-db.org</a><br>  简介：G蛋白偶联受体、离子通道数据库。提供这些蛋白的基因、功能、结构、配体、表达图谱、信号转导机制、多样性等数据。</p>
+<h2 id="8-GLIDA"><a href="#8-GLIDA" class="headerlink" title="8.GLIDA"></a>8.GLIDA</h2><p>  网址：<a target="_blank" rel="noopener" href="http://pharminfo.pharm.kyoto-u.ac.jp/services/glida/">http://pharminfo.pharm.kyoto-u.ac.jp/services/glida/</a><br>　简介：G蛋白偶联受体-配体数据库，提供G蛋白偶联受体-配体互作数据、配体数据、G蛋白偶联受体数据、同源受体关系网、保守识别区，为新药发现提供了支持。</p>
+<h2 id="9-LOCATE"><a href="#9-LOCATE" class="headerlink" title="9.LOCATE"></a>9.LOCATE</h2><p>  网址：<a target="_blank" rel="noopener" href="http://locate.imb.uq.edu.au/">http://locate.imb.uq.edu.au/</a><br>  简介：哺乳动物蛋白质亚细胞定位数据库</p>
+<h2 id="10-InterPro"><a href="#10-InterPro" class="headerlink" title="10.InterPro"></a>10.InterPro</h2><p>  网址：<a target="_blank" rel="noopener" href="http://www.ebi.ac.uk/interpro/">http://www.ebi.ac.uk/interpro/</a><br>  简介：蛋白质综合数据库，从大量的数据库中整合而成的包括蛋白质结构域、蛋白质家族、功能位点等信息的数据库。</p>
+<h2 id="11-OKCAM"><a href="#11-OKCAM" class="headerlink" title="11.OKCAM"></a>11.OKCAM</h2><p>  网址：<a target="_blank" rel="noopener" href="http://okcam.cbi.pku.edu.cn/">http://okcam.cbi.pku.edu.cn</a><br>  简介：人体细胞粘附分子数据库。</p>
+<h1 id="二、蛋白质组数据库"><a href="#二、蛋白质组数据库" class="headerlink" title="二、蛋白质组数据库"></a>二、蛋白质组数据库</h1><hr>
+<h2 id="1-GELBANK"><a href="#1-GELBANK" class="headerlink" title="1.GELBANK"></a>1.GELBANK</h2><span id="more"></span>
+
+<p>  网址：<a target="_blank" rel="noopener" href="http://gelbank.anl.gov/">http://gelbank.anl.gov</a><br>  简介：提供全基因组的二维凝胶电泳图谱，搜集了已知基因组信息生物的蛋白质组二维凝胶电泳图。可通过描述相对分子质量、等电点和蛋白质序列信息进行快速检索。</p>
+<h2 id="2-SWISS-2DPAGE"><a href="#2-SWISS-2DPAGE" class="headerlink" title="2.SWISS-2DPAGE"></a>2.SWISS-2DPAGE</h2><p>  网址：<a target="_blank" rel="noopener" href="http://www.expasy.org/ch2d/">http://www.expasy.org/ch2d/</a><br>  简介：提供人类、小鼠、大肠杆菌、酿酒酵母、盘基网柄菌的2D-PAGE参考图。</p>
+<h2 id="3-SysPIMP-Systematical-Platform-for-Identifying-Mutated-Proteins"><a href="#3-SysPIMP-Systematical-Platform-for-Identifying-Mutated-Proteins" class="headerlink" title="3.SysPIMP(Systematical Platform for Identifying Mutated Proteins)"></a>3.SysPIMP(Systematical Platform for Identifying Mutated Proteins)</h2><p>  网址：<a target="_blank" rel="noopener" href="http://pimp.starflr.info/">http://pimp.starflr.info/</a><br>  简介：通过质谱技术建立的蛋白质突变数据库。当蛋白质某一氨基酸残基发生改变时，其质谱图也会发生改变，通过蛋白质质谱图的改变，检测与疾病相关的突变。</p>
+<h2 id="4-Sys-BodyFluid"><a href="#4-Sys-BodyFluid" class="headerlink" title="4.Sys-BodyFluid"></a>4.Sys-BodyFluid</h2><p>  网址：<a target="_blank" rel="noopener" href="http://www.biosino.org/bodyfluid/">http://www.biosino.org/bodyfluid/</a><br>  简介：人体体液蛋白组研究数据库。提供人体各种体液的蛋白质组数据，包括血浆/血清、尿液、乳汁、泪、汗液、唾液、骨髓液、脑脊液、胃液等。</p>
+<h2 id="5-BloodExpress"><a href="#5-BloodExpress" class="headerlink" title="5.BloodExpress"></a>5.BloodExpress</h2><p>  网址：<a target="_blank" rel="noopener" href="http://hscl.cimr.cam.ac.uk/bloodexpress/">http://hscl.cimr.cam.ac.uk/bloodexpress/</a><br>  简介：小鼠造血过程基因表达数据库</p>
+<h2 id="6-CentrosomeDB-human-centrosomal-proteins-database"><a href="#6-CentrosomeDB-human-centrosomal-proteins-database" class="headerlink" title="6.CentrosomeDB(human centrosomal proteins database)"></a>6.CentrosomeDB(human centrosomal proteins database)</h2><p>  网址：<a target="_blank" rel="noopener" href="http://centrosome.dacya.ucm.es/">http://centrosome.dacya.ucm.es</a><br>  简介：人体中心体蛋白数据库</p>
+<h2 id="7-ConsensusPathDB"><a href="#7-ConsensusPathDB" class="headerlink" title="7.ConsensusPathDB"></a>7.ConsensusPathDB</h2><p>  网址：<a target="_blank" rel="noopener" href="http://cpdb.molgen.mpg.de/">http://cpdb.molgen.mpg.de</a><br>  简介：人类功能作用网络数据库，与多个数据库有交叉应用，提供蛋白质互作、生化反应、基因调控等作用网数据。</p>
+<h2 id="8-Proteome-Analysis-Database"><a href="#8-Proteome-Analysis-Database" class="headerlink" title="8.Proteome Analysis Database"></a>8.Proteome Analysis Database</h2><p>  网址：<a target="_blank" rel="noopener" href="http://www.ebiac.uk.proteome/">http://www.ebiac.uk.proteome/</a><br>  简介：蛋白质组分析数据库</p>
+<h2 id="9-HPRD-Human-Protein-Reference-Database"><a href="#9-HPRD-Human-Protein-Reference-Database" class="headerlink" title="9.HPRD(Human Protein Reference Database)"></a>9.HPRD(Human Protein Reference Database)</h2><p>  网址：<a target="_blank" rel="noopener" href="http://www.hprd.org/">http://www.hprd.org/</a><br>  简介：人体蛋白文献数据库</p>
+<h2 id="10-NOPdb"><a href="#10-NOPdb" class="headerlink" title="10.NOPdb"></a>10.NOPdb</h2><p>  网址：<a target="_blank" rel="noopener" href="http://www.lamondlab.com/NOPdb3.0/">http://www.lamondlab.com/NOPdb3.0/</a><br>  简介：核仁蛋白组数据库</p>
+<h2 id="11-EndoNet"><a href="#11-EndoNet" class="headerlink" title="11.EndoNet"></a>11.EndoNet</h2><p>  网址：<a target="_blank" rel="noopener" href="http://endonet.bioinf.med.uni-goettingen.de/">http://endonet.bioinf.med.uni-goettingen.de/</a><br>  简介：细胞通讯网络数据库，提供激素、激素受体相关信息</p>
+<h1 id="三、蛋白质互作、蛋白质网络数据库"><a href="#三、蛋白质互作、蛋白质网络数据库" class="headerlink" title="三、蛋白质互作、蛋白质网络数据库"></a>三、蛋白质互作、蛋白质网络数据库</h1><hr>
+<h2 id="1-3DID-3D-interacting-domains"><a href="#1-3DID-3D-interacting-domains" class="headerlink" title="1.3DID(3D interacting domains)"></a>1.3DID(3D interacting domains)</h2><p>  网址：<a target="_blank" rel="noopener" href="http://3did.irbbarcelona.org/">http://3did.irbbarcelona.org</a><br>        <a target="_blank" rel="noopener" href="http://gatealoy.pcb.ub.es/3did/">http://gatealoy.pcb.ub.es/3did/</a><br>  简介：搜集3D结构已知的蛋白质的互作信息，可通过结构域名称、基序名称、蛋白质序列、GO编码、PDB ID、Pfam编码进行检索。</p>
+<h2 id="2-DOMINE"><a href="#2-DOMINE" class="headerlink" title="2.DOMINE"></a>2.DOMINE</h2><p>  网址：<a target="_blank" rel="noopener" href="http://domine.utdallas.edu/">http://domine.utdallas.edu</a><br>  简介：结构域互作数据库。</p>
+<h2 id="3-PiSite-Database-of-Protein-interaction-sites"><a href="#3-PiSite-Database-of-Protein-interaction-sites" class="headerlink" title="3.PiSite(Database of Protein interaction sites)"></a>3.PiSite(Database of Protein interaction sites)</h2><p>  网址：<a target="_blank" rel="noopener" href="http://pisite.hgc.jp/">http://pisite.hgc.jp</a><br>  简介：以PDB为基础，在蛋白质序列中搜寻互作位点。</p>
+<h2 id="4-Binding-MOAD"><a href="#4-Binding-MOAD" class="headerlink" title="4.Binding MOAD"></a>4.Binding MOAD</h2><p>  网址：<a target="_blank" rel="noopener" href="http://www.bindingmoad.org/">http://www.BindingMOAD.org</a><br>  简介：致力于提供蛋白质-配体晶体结构数据信息。提供结构已知的蛋白质的相关配体，并附有详细注释，同时提供由实验而得的亲和力数据。</p>
+<h2 id="5-Phospho-ELM"><a href="#5-Phospho-ELM" class="headerlink" title="5.Phospho.ELM"></a>5.Phospho.ELM</h2><p>  网址：<a target="_blank" rel="noopener" href="http://phospho.elm.eu.org/">http://phospho.elm.eu.org</a><br>  简介：蛋白质磷酸化位点数据库</p>
+<h2 id="6-SuperSite"><a href="#6-SuperSite" class="headerlink" title="6.SuperSite"></a>6.SuperSite</h2><p>  网址：<a target="_blank" rel="noopener" href="http://bioinformatics.charite.de/supersite">http://bioinformatics.charite.de/supersite</a><br>  简介：蛋白质中代谢物、药物结合位点数据库，提供结合机制、识别机制、保守结合位点等信息。</p>
+<h2 id="7-STITCH"><a href="#7-STITCH" class="headerlink" title="7.STITCH"></a>7.STITCH</h2><p>  网址：<a target="_blank" rel="noopener" href="http://stitch.embl.de/">http://stitch.embl.de/</a><br>  简介：蛋白质-化合物作用网数据库</p>
+<h2 id="8-Reactome"><a href="#8-Reactome" class="headerlink" title="8.Reactome"></a>8.Reactome</h2><p>  网址：<a target="_blank" rel="noopener" href="http://www.reactome.org/">http://www.reactome.org</a><br>  简介：人体生命活动路径与过程数据库，提供生化过程网络图，并对参与其中的蛋白质分子有详细注解，与其他数据库如UniPort、KEGG、OMIM等建立了广泛的交叉应用。</p>
+<h2 id="9-PID-Pathway-Interaction-Database"><a href="#9-PID-Pathway-Interaction-Database" class="headerlink" title="9.PID(Pathway Interaction Database)"></a>9.PID(Pathway Interaction Database)</h2><p>   网址：<a target="_blank" rel="noopener" href="http://pid.nci.nih.gov/">http://pid.nci.nih.gov</a><br>   简介：由NCI和Nature共同创立，提供已知的人体细胞信号转导、调节活动及主要细胞生命过的蛋白质路径网，可通过输入某个分子名或代谢过程名称进行查询。</p>
+<h2 id="10-UniHI-Unified-Human-Interactome-database"><a href="#10-UniHI-Unified-Human-Interactome-database" class="headerlink" title="10.UniHI(Unified Human Interactome database)"></a>10.UniHI(Unified Human Interactome database)</h2><p>  网址：<a target="_blank" rel="noopener" href="http://www.unihi.org/">http://www.unihi.org</a><br>  简介：人体蛋白-蛋白相互作用数据库，可根据蛋白质名称、代谢路径等进行查询。</p>
+<h2 id="11-VirHostNet"><a href="#11-VirHostNet" class="headerlink" title="11.VirHostNet"></a>11.VirHostNet</h2><p>   网址：<a target="_blank" rel="noopener" href="http://pbildb1.univ-lyon1.fr/virhostnet/index.php">http://pbildb1.univ-lyon1.fr/virhostnet/index.php</a><br>   简介：病毒-宿主分子互作网数据库，提供病毒-宿主蛋白质互作信息及这些蛋白质的相关注释。可通过输入基因、蛋白质、路径等关键词进行查询。</p>
+<h2 id="12-Bionemo-molecular-information-on-biodegradation-metabolism"><a href="#12-Bionemo-molecular-information-on-biodegradation-metabolism" class="headerlink" title="12.Bionemo(molecular information on biodegradation metabolism)"></a>12.Bionemo(molecular information on biodegradation metabolism)</h2><p>  网址：<a target="_blank" rel="noopener" href="http://bionemo.bioinfo.cnio.es/">http://bionemo.bioinfo.cnio.es</a><br>  简介：搜集与生物降解代谢相关的蛋白质、基因数据，包括蛋白质序列、结构域、结构；基因序列、调控元件、转录单元等信息。除此之外还包括生物降解的代谢路径图、相关生化反应等。</p>
+<h2 id="13-PMAP"><a href="#13-PMAP" class="headerlink" title="13.PMAP"></a>13.PMAP</h2><p>   网址：<a target="_blank" rel="noopener" href="http://www.proteolysis.org/">http://www.proteolysis.org</a><br>   简介：蛋白质水解路径数据库</p>
+<h1 id="四、蛋白质三维结构数据库"><a href="#四、蛋白质三维结构数据库" class="headerlink" title="四、蛋白质三维结构数据库"></a>四、蛋白质三维结构数据库</h1><hr>
+<h2 id="1-PDB-Protein-Data-Bank"><a href="#1-PDB-Protein-Data-Bank" class="headerlink" title="1.PDB(Protein Data Bank)"></a>1.PDB(Protein Data Bank)</h2><p>  网址：<a target="_blank" rel="noopener" href="http://www.rcsb.org/pdb">http://www.rcsb.org/pdb</a><br>  简介：生物大分子结构数据库，提供蛋白质、核酸等生物大分子的三维结构数据、序列详细信息、生化性质等。</p>
+<h2 id="2-SARST-Structural-similarity-search-Aided-by-Ramachandran-Sequential-Transformation"><a href="#2-SARST-Structural-similarity-search-Aided-by-Ramachandran-Sequential-Transformation" class="headerlink" title="2. SARST (Structural similarity search Aided by Ramachandran Sequential Transformation)"></a>2. SARST (Structural similarity search Aided by Ramachandran Sequential Transformation)</h2><p>  网址：<a target="_blank" rel="noopener" href="http://sarst.life.nthu.edu.tw/">http://sarst.life.nthu.edu.tw/</a><br>  简介：高效的蛋白质结构比对数据库</p>
+<h1 id="五、蛋白质基序数据库"><a href="#五、蛋白质基序数据库" class="headerlink" title="五、蛋白质基序数据库"></a>五、蛋白质基序数据库</h1><hr>
+<h2 id="1-CDD-Conserved-Domain-Database"><a href="#1-CDD-Conserved-Domain-Database" class="headerlink" title="1. CDD(Conserved Domain Database)"></a>1. CDD(Conserved Domain Database)</h2><p>  网址：<a target="_blank" rel="noopener" href="http://www.ncbi.nlm.nih.gov/Structure/cdd/cdd.shtml">http://www.ncbi.nlm.nih.gov/Structure/cdd/cdd.shtml</a><br>  简介：蛋白质的功能与其结构密切相关，一个蛋白质的保守结构域在一定程度上体现了该蛋白质的功能。CDD，蛋白质保守结构域数据库，收集了大量保守结构域序列信息和蛋白质序列信息。检索者通过CD-Search服务，可获得蛋白质序列中所含的保守结构域信息，从而分析、预测该蛋白质的功能。 </p>
+<h2 id="2-Blocks"><a href="#2-Blocks" class="headerlink" title="2.Blocks"></a>2.Blocks</h2><p>  网址：<a target="_blank" rel="noopener" href="http://blocks.fhcrc.org/">http://blocks.fhcrc.org</a><br>  简介：蛋白家族保守区对比数据库</p>
+<h2 id="3-CPDB-database-of-circular-permutation-in-proteins"><a href="#3-CPDB-database-of-circular-permutation-in-proteins" class="headerlink" title="3.CPDB(database of circular permutation in proteins)"></a>3.CPDB(database of circular permutation in proteins)</h2><p>  网址：<a target="_blank" rel="noopener" href="http://sarst.life.nthu.edu.tw/cpdb">http://sarst.life.nthu.edu.tw/cpdb</a><br>  简介：蛋白质环形序列重组基序数据库。蛋白质的环形序列重组(Circular permutation, or CP)可看作是原来的N与C端被接在一起，然后在另一处产生新开口。 虽然当前已有很多知名的蛋白质家族被发现有CP成员，而且也有研究指出蛋白质结构资料库中可能存在着不少CP实例，高效率的CP搜寻工具却很罕见。CPSARST提供了一套有效的CP搜寻工具。</p>
+<h2 id="4-MegaMotifbase"><a href="#4-MegaMotifbase" class="headerlink" title="4.MegaMotifbase"></a>4.MegaMotifbase</h2><p>  网址：<a target="_blank" rel="noopener" href="http://caps.ncbs.res.in/MegaMotifbase/index.html">http://caps.ncbs.res.in/MegaMotifbase/index.html</a><br>  简介：蛋白质基序家族、超家族数据库，提供已知基序的3D定位图、转角距等数据。</p>
+<h2 id="5-Minimotif-Miner"><a href="#5-Minimotif-Miner" class="headerlink" title="5.Minimotif Miner"></a>5.Minimotif Miner</h2><p>  网址：<a target="_blank" rel="noopener" href="http://mnm.engr.uconn.edu/">http://mnm.engr.uconn.edu</a><br>  简介：蛋白质基序检测数据库，提供在蛋白质序列中寻找基序的服务。</p>
+<h2 id="6-Pfam"><a href="#6-Pfam" class="headerlink" title="6.Pfam"></a>6.Pfam</h2><p>  网址：<a target="_blank" rel="noopener" href="http://www.sanger.ac.uk/Software/Pfam">http://www.sanger.ac.uk/Software/Pfam</a><br>  简介：提供多序列比对服务和并提供共同的蛋白质结构域的隐马尔可夫模型。</p>
+<h1 id="六、预测类数据库"><a href="#六、预测类数据库" class="headerlink" title="六、预测类数据库"></a>六、预测类数据库</h1><hr>
+<h2 id="1-InterPreTS-Interaction-Prediction-through-Tertiary-Structure"><a href="#1-InterPreTS-Interaction-Prediction-through-Tertiary-Structure" class="headerlink" title="1.InterPreTS(Interaction Prediction through Tertiary Structure)"></a>1.InterPreTS(Interaction Prediction through Tertiary Structure)</h2><p>  网址：<a target="_blank" rel="noopener" href="http://www.russell.embl.de/cgi-bin/interprets2">http://www.russell.embl.de/cgi-bin/interprets2</a><br>  简介：提供通过三级结构预测蛋白质相互作用的服务，可输入两个蛋白质的序列信息进行查询。</p>
+<h2 id="2-Predictome"><a href="#2-Predictome" class="headerlink" title="2.Predictome"></a>2.Predictome</h2><p>  网址：<a target="_blank" rel="noopener" href="http://predictome.bu.edu/">http://predictome.bu.edu</a><br>  简介：预测蛋白质间功能关系的数据库。这些蛋白质间的关系是基于将3种计算机预测法，即染色体相邻法、系统发育谱法、结构域融合法应用与44个基因组上而得到的。  </p>
+<h1 id="七、蛋白鉴定类数据库"><a href="#七、蛋白鉴定类数据库" class="headerlink" title="七、蛋白鉴定类数据库"></a>七、蛋白鉴定类数据库</h1><hr>
+<h2 id="Contaminants"><a href="#Contaminants" class="headerlink" title="Contaminants"></a>Contaminants</h2><p>当我们搜索单一物种分类数据库时，记得养成一个好习惯，就是同时选择Contaminants数据库进行匹配，因为污染总是很难避免的！这类数据库中包含常见的污染蛋白如keratins、BSA和 trypsin，帮助我们把需要鉴定的目标蛋白与实验中污染进来的蛋白进行区分。</p>
+<p>目前有两个组织提供此类数据库下载：</p>
+<p>Max Planck Institute of Biochemistry, Martinsried，提供了一套来自多种来源，含有247个蛋白的数据库。</p>
+<p>下载方式：<br><a target="_blank" rel="noopener" href="http://maxquant.org/contaminants.zip">http://maxquant.org/contaminants.zip</a>  </p>
+<p>Tips:不要在网页浏览器里打开哦，因为很可能会显示网址无效，直接找个下载工具下载即可，比如把链接拷到QQ里，启动QQ旋风下载助手就可以下载了。</p>
+<p>Global Proteome Machine Organization common Repository of Adventitious Proteins 提供了一套包含116个来自于Swiss-Prot的污染蛋白库 。</p>
+<p>下载方式：<br><a href="ftp://ftp.thegpm.org/fasta/cRAP/crap.fasta">ftp://ftp.thegpm.org/fasta/cRAP/crap.fasta</a>  </p>
+<h2 id="EMBL-EST"><a href="#EMBL-EST" class="headerlink" title="EMBL EST"></a>EMBL EST</h2><p>由EMBL维护的EST Fasta 数据库，”single-pass” cDNA 序列，或表达序列标签 Expressed Sequence Tags。该数据库包含十个分类：<br>•     ENV: Environmental Samples<br>•     FUN: Fungi<br>•     HUM: Human<br>•     INV: Invertebrates<br>•     MAM: Other Mammals<br>•     MUS: Mus musculus<br>•     PLN: Plants<br>•     PRO: Prokaryotes<br>•     ROD: Rodents<br>•     VRT: Other Vertebrates</p>
+<p>下载方式：单一分类的Fasta文件可以从EBI FTP 服务器上下载。比如FTP上啮齿类动物序列库的压缩文件名就是： em_rel_est_rod.gz，而真菌的是em_rel_est_fun.gz。</p>
+<p>物种分类：一些比较友好的商业软件，比如Mascot，会将所有分类信息在后台进行自动更新下载。如果你用的软件没有这个功能，那就要手动下载，然后根据软件的操作要求，比如解压缩到某个Taxonomy子目录。</p>
+<p>FASTA文件库：<br><a href="ftp://ftp.ebi.ac.uk/pub/databases/embl/misc/acc_to_taxid.mapping.txt.gz">ftp://ftp.ebi.ac.uk/pub/databases/embl/misc/acc_to_taxid.mapping.txt.gz</a><br>物种分类信息：<br><a href="ftp://ftp.ncbi.nlm.nih.gov/pub/taxonomy/taxdump.tar.gz">ftp://ftp.ncbi.nlm.nih.gov/pub/taxonomy/taxdump.tar.gz</a></p>
+<p>Unigene索引：NCBI的 UniGene的索引由GenBank序列自动分割成非冗余的以基因为单位的簇。如果使用UniGene索引，EST数据库的搜库结果会按照基因家族进行分类，而不会仅仅以原始的EST索引号展示。</p>
+<h2 id="NCBI-EST"><a href="#NCBI-EST" class="headerlink" title="NCBI EST"></a>NCBI EST</h2><p>大名鼎鼎的NCBI (National Center for Biotechnology Information) 提供三个不同的 EST 数据库，同样也包含GenBank EST库中的”single-pass” cDNA 序列，或 Expressed Sequence Tags。</p>
+<p>三个 EST 数据库分别是: human、mouse和 others。目前的版本，压缩过的EST_others 文件有11GB大小，而解压后有40 GB。小伙伴们需要注意，像这么大的数据库，32位操作系统是无法处理的，而必须使用64位系统配合足够大的内存。NCBI目前依然没有计划分割EST_others数据库，因此小编觉得比较实用的还是EMBL EST库。</p>
+<p>下载方式：<br>访问 <a href="ftp://ftp.ncbi.nlm.nih.gov/blast/db/FASTA/est_others.gz%E6%88%96%E5%AF%B9%E5%BA%94%E7%9A%84%E5%85%B6%E4%BB%96%E5%90%8D%E7%A7%B0%E4%B8%8B%E8%BD%BD%E7%9B%B8%E5%BA%94%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E3%80%82">ftp://ftp.ncbi.nlm.nih.gov/blast/db/FASTA/est_others.gz或对应的其他名称下载相应的数据库。</a></p>
+<p>物种分类：以Mascot为例，对于 EST_others，在数据库配置时选择 “dbEST FASTA using GI2TAXID”。Mascot需要更新以下文件来构建索引，如果手动下载，同样将它们解压到指定的Taxonomy目录:<br><a href="ftp://ftp.ncbi.nlm.nih.gov/pub/taxonomy/gi_taxid_nucl.dmp.gz">ftp://ftp.ncbi.nlm.nih.gov/pub/taxonomy/gi_taxid_nucl.dmp.gz</a><br><a href="ftp://ftp.ncbi.nlm.nih.gov/pub/taxonomy/taxdump.tar.gz">ftp://ftp.ncbi.nlm.nih.gov/pub/taxonomy/taxdump.tar.gz</a></p>
+<p>Unigene：与EMBL相同</p>
+<h2 id="NCBInr"><a href="#NCBInr" class="headerlink" title="NCBInr"></a>NCBInr</h2><p>Nr数据库也是由NCBI (National Center for Biotechnology Information) 维护。它包含来自于GenBank CDS translations、PDB、Swiss-Prot、PIR 和PRF的非等同序列。NCBInr的特点在于其更新速度非常快，且涵盖度很高。</p>
+<p>下载方式：<br><a href="ftp://ftp.ncbi.nlm.nih.gov/blast/db/FASTA/nr.gz">ftp://ftp.ncbi.nlm.nih.gov/blast/db/FASTA/nr.gz</a><br>由于广受欢迎，一些搜索软件直接做了自动更新功能，比如Mascot 2.3版本及以上的，初始配置成功以后就不用管了，软件会自动去check并且在本地更新这个数据库。</p>
+<p>物种分类：以Mascot为例，在联网更新NCBInr时会自动进行分类索引库下载，并应用”NCBI nr FASTA using GI2TAXID”的格式。</p>
+<h2 id="SwissProt"><a href="#SwissProt" class="headerlink" title="SwissProt"></a>SwissProt</h2><p>UniProtKB/Swiss-Prot (reviewed) 是一个高质量人工注释且非冗余的蛋白序列数据库。其中包含各类实验结果、计算得到的特征信息和文献信息等。UniProtKB中85%的序列是由EMBL-Bank/GenBank/DDBJ 公共核酸数据库中的coding sequences (CDS) 序列翻译而来。 而UniProtKB 本身是European Bioinformatics Institute、Swiss Institute of Bioinformatics 和 Protein Information Resource合作成立。由于其高质量，它被很多人列为首选数据库之一。</p>
+<p>下载方式：<br>Expasy: <a href="ftp://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/">ftp://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/</a><br>EBI: <a href="ftp://ftp.ebi.ac.uk/pub/databases/uniprot/knowledgebase">ftp://ftp.ebi.ac.uk/pub/databases/uniprot/knowledgebase</a><br>其中：<br>Version info: reldate.txt<br>SwissProt Fasta file: uniprot_sprot.fasta.gz<br>SwissProt Dat file: uniprot_sprot.dat.gz</p>
+<p>物种分类：以Mascot为例，物种分类会自动后台更新，并对应格式： “SwissProt FASTA”。</p>
+<h2 id="Trembl"><a href="#Trembl" class="headerlink" title="Trembl"></a>Trembl</h2><p>UniProtKB/TrEMBL (unreviewed) 计算辅助预测注释信息和功能信息的蛋白序列，而都还没经过人工注释。</p>
+<p>下载方式，物种分类格式等信息均和Swissprot一致，相关文件为：<br>TrEMBL Fasta file: uniprot_trembl.fasta.gz<br>TrEMBL Dat file: uniprot_trembl.dat.gz</p>
+<h2 id="UniRef"><a href="#UniRef" class="headerlink" title="UniRef"></a>UniRef</h2><p>UniRef (UniProt Reference Clusters) 从UniProtKB（含isoform序列信息）提供的序列进行聚类。所用的种子序列是各簇中最长的序列。UniRef包含三个子库，按照序列相似度分别为UniRef100, UniRef90和UniRef50。UniRef100无相同序列，而UniRef90和UniRef50则是非冗余的，聚类相似度90%和50%。基于质谱的序列搜索都要求序列的绝对匹配，因此UniRef100适用于蛋白质组学质谱搜库。</p>
+<p>下载方式：<br>PIR: <a href="ftp://ftp.uniprot.org/pub/databases/uniprot/uniref/uniref100/">ftp://ftp.uniprot.org/pub/databases/uniprot/uniref/uniref100/</a><br>EBI: <a href="ftp://ftp.ebi.ac.uk/pub/databases/uniprot/uniref/uniref100/">ftp://ftp.ebi.ac.uk/pub/databases/uniprot/uniref/uniref100/</a><br>Expasy: <a href="ftp://ftp.uniprot.org/pub/databases/uniprot/current_release/uniref/uniref100/">ftp://ftp.uniprot.org/pub/databases/uniprot/current_release/uniref/uniref100/</a><br>包含文件：<br>Version info: uniref100.release_note<br>Fasta file: uniref100.fasta.gz</p>
+<p>物种分类：UniRef采用以下索引库: <a href="ftp://ftp.ncbi.nlm.nih.gov/pub/taxonomy/taxdump.tar.gz">ftp://ftp.ncbi.nlm.nih.gov/pub/taxonomy/taxdump.tar.gz</a></p>
+<h2 id="Uniprot-Proteomes"><a href="#Uniprot-Proteomes" class="headerlink" title="Uniprot Proteomes"></a>Uniprot Proteomes</h2><p>UniProt全蛋白质组数据库包含多个模式生物的全基因组蛋白表达信息。其中收集的Reference Proteome包含多个研究比较透彻或者生物研究中比较受关注的物种的最全面的蛋白质组序列信息。</p>
+<p>下载方式：相关物种的序列数据库可以访问<a target="_blank" rel="noopener" href="http://www.uniprot.org搜索taxonomy,并点击有关键词&quot;complete/">http://www.uniprot.org搜索Taxonomy，并点击有关键词&quot;Complete</a> proteome”的物种分类，或者直接使用关键词如： (e.g.<a target="_blank" rel="noopener" href="http://www.uniprot.org/uniprot/?query=taxonomy:4530+AND+keyword:%22Complete+proteome%22&amp;sort=score">http://www.uniprot.org/uniprot/?query=taxonomy%3A4530+AND+keyword%3A%22Complete+proteome%22&amp;sort=score</a> )可以搜索到人类基因组的Ref Proteome。</p>
+<p>搜索结果中点击Download，并选择格式 FASTA（Canonical）。</p>
+<h1 id="私有数据库"><a href="#私有数据库" class="headerlink" title="私有数据库"></a>私有数据库</h1><p>蛋白质序列数据库FASTA是一个非常流行的标准格式，而且要求非常简单。因此实验室自己收集整理的序列都可以格式化成FASTA并用于搜库。</p>
+<blockquote>
+<p>Title text<br>SEQUENCESEQUENCESEQUENCESEQUENCESEQUENCESEQUENCE<br>SEQUENCESEQUENCESEQUENCESEQUENCESEQUENCESEQUENCE<br>SEQUENCESEQUENCESEQUENCE<br>Next title<br>NEXTSEQUENCE …</p>
+</blockquote>
+<p>以上是一个标准的例子，&gt; 之后是序列ID号和描述信息，然后紧跟整个序列信息，第二个蛋白重新以&gt;开头即可。下面是一些ID和描述信息的例子。</p>
+<blockquote>
+<p>gi’6’bgi’Contig1.seq_7’2412 3299 [+3 L= 888] [Delayed<br>20021010.2.1   1112073F09.y1 1112091F10.y1 1112073F0<br>IPI:IPI00140097.1’REFSEQ_XP:XP_168061 Tax_Id=9606<br>CCRB cytochrome c [validated] - rabbit<br>gi’129249’sp’P02820’OSTC_BOVIN Osteocalcin precursor<br>“ORF5 ‘ start 2178-1309 ‘ frame -1 ‘ length=870 ‘</p>
+</blockquote>
+<p>常用的搜库软件通常需要用户提供一个名称比较统一、符合一定规范的信息，才能将名称中ID和描述信息进行较好地分离。具体的操作需要参考不同软件的操作手册说明。</p>
+<p>文章来源：细胞之邦，生物秀论坛和克里克学院，文章版权归原作者所有</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Database/" rel="tag"># Database</a>
+              <a href="/tags/Protein/" rel="tag"># Protein</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/archives/785/" rel="prev" title="Axel - Linux下多线程下载工具">
+      <i class="fa fa-chevron-left"></i> Axel - Linux下多线程下载工具
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/archives/787/" rel="next" title="思考---基因组中那些“看起来”很严重的突变往往不致病">
+      思考---基因组中那些“看起来”很严重的突变往往不致病 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E8%9B%8B%E7%99%BD%E8%B4%A8%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="nav-number">1.</span> <span class="nav-text">一、蛋白质数据库</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-UniProt-The-Universal-Protein-Resource"><span class="nav-number">1.1.</span> <span class="nav-text">1.UniProt (The Universal Protein Resource)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-PIR-Protein-Information-Resource"><span class="nav-number">1.2.</span> <span class="nav-text">2.PIR(Protein Information Resource)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-BRENDA-enzyme-database"><span class="nav-number">1.3.</span> <span class="nav-text">3.BRENDA(enzyme database)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-CORUM-collection-of-experimentally-verified-mammalian-protein-complexes"><span class="nav-number">1.4.</span> <span class="nav-text">4.CORUM(collection of experimentally verified mammalian protein complexes)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-CyBase-cyclic-protein-database"><span class="nav-number">1.5.</span> <span class="nav-text">5.CyBase(cyclic protein database)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-DB-PABP"><span class="nav-number">1.6.</span> <span class="nav-text">6.DB-PABP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-IUPHAR-DB"><span class="nav-number">1.7.</span> <span class="nav-text">7.IUPHAR-DB</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-GLIDA"><span class="nav-number">1.8.</span> <span class="nav-text">8.GLIDA</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9-LOCATE"><span class="nav-number">1.9.</span> <span class="nav-text">9.LOCATE</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#10-InterPro"><span class="nav-number">1.10.</span> <span class="nav-text">10.InterPro</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#11-OKCAM"><span class="nav-number">1.11.</span> <span class="nav-text">11.OKCAM</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E8%9B%8B%E7%99%BD%E8%B4%A8%E7%BB%84%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="nav-number">2.</span> <span class="nav-text">二、蛋白质组数据库</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-GELBANK"><span class="nav-number">2.1.</span> <span class="nav-text">1.GELBANK</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-SWISS-2DPAGE"><span class="nav-number">2.2.</span> <span class="nav-text">2.SWISS-2DPAGE</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-SysPIMP-Systematical-Platform-for-Identifying-Mutated-Proteins"><span class="nav-number">2.3.</span> <span class="nav-text">3.SysPIMP(Systematical Platform for Identifying Mutated Proteins)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-Sys-BodyFluid"><span class="nav-number">2.4.</span> <span class="nav-text">4.Sys-BodyFluid</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-BloodExpress"><span class="nav-number">2.5.</span> <span class="nav-text">5.BloodExpress</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-CentrosomeDB-human-centrosomal-proteins-database"><span class="nav-number">2.6.</span> <span class="nav-text">6.CentrosomeDB(human centrosomal proteins database)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-ConsensusPathDB"><span class="nav-number">2.7.</span> <span class="nav-text">7.ConsensusPathDB</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-Proteome-Analysis-Database"><span class="nav-number">2.8.</span> <span class="nav-text">8.Proteome Analysis Database</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9-HPRD-Human-Protein-Reference-Database"><span class="nav-number">2.9.</span> <span class="nav-text">9.HPRD(Human Protein Reference Database)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#10-NOPdb"><span class="nav-number">2.10.</span> <span class="nav-text">10.NOPdb</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#11-EndoNet"><span class="nav-number">2.11.</span> <span class="nav-text">11.EndoNet</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E8%9B%8B%E7%99%BD%E8%B4%A8%E4%BA%92%E4%BD%9C%E3%80%81%E8%9B%8B%E7%99%BD%E8%B4%A8%E7%BD%91%E7%BB%9C%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="nav-number">3.</span> <span class="nav-text">三、蛋白质互作、蛋白质网络数据库</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3DID-3D-interacting-domains"><span class="nav-number">3.1.</span> <span class="nav-text">1.3DID(3D interacting domains)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-DOMINE"><span class="nav-number">3.2.</span> <span class="nav-text">2.DOMINE</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-PiSite-Database-of-Protein-interaction-sites"><span class="nav-number">3.3.</span> <span class="nav-text">3.PiSite(Database of Protein interaction sites)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-Binding-MOAD"><span class="nav-number">3.4.</span> <span class="nav-text">4.Binding MOAD</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-Phospho-ELM"><span class="nav-number">3.5.</span> <span class="nav-text">5.Phospho.ELM</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-SuperSite"><span class="nav-number">3.6.</span> <span class="nav-text">6.SuperSite</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-STITCH"><span class="nav-number">3.7.</span> <span class="nav-text">7.STITCH</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-Reactome"><span class="nav-number">3.8.</span> <span class="nav-text">8.Reactome</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9-PID-Pathway-Interaction-Database"><span class="nav-number">3.9.</span> <span class="nav-text">9.PID(Pathway Interaction Database)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#10-UniHI-Unified-Human-Interactome-database"><span class="nav-number">3.10.</span> <span class="nav-text">10.UniHI(Unified Human Interactome database)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#11-VirHostNet"><span class="nav-number">3.11.</span> <span class="nav-text">11.VirHostNet</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#12-Bionemo-molecular-information-on-biodegradation-metabolism"><span class="nav-number">3.12.</span> <span class="nav-text">12.Bionemo(molecular information on biodegradation metabolism)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#13-PMAP"><span class="nav-number">3.13.</span> <span class="nav-text">13.PMAP</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E8%9B%8B%E7%99%BD%E8%B4%A8%E4%B8%89%E7%BB%B4%E7%BB%93%E6%9E%84%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="nav-number">4.</span> <span class="nav-text">四、蛋白质三维结构数据库</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-PDB-Protein-Data-Bank"><span class="nav-number">4.1.</span> <span class="nav-text">1.PDB(Protein Data Bank)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-SARST-Structural-similarity-search-Aided-by-Ramachandran-Sequential-Transformation"><span class="nav-number">4.2.</span> <span class="nav-text">2. SARST (Structural similarity search Aided by Ramachandran Sequential Transformation)</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%94%E3%80%81%E8%9B%8B%E7%99%BD%E8%B4%A8%E5%9F%BA%E5%BA%8F%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="nav-number">5.</span> <span class="nav-text">五、蛋白质基序数据库</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-CDD-Conserved-Domain-Database"><span class="nav-number">5.1.</span> <span class="nav-text">1. CDD(Conserved Domain Database)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-Blocks"><span class="nav-number">5.2.</span> <span class="nav-text">2.Blocks</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-CPDB-database-of-circular-permutation-in-proteins"><span class="nav-number">5.3.</span> <span class="nav-text">3.CPDB(database of circular permutation in proteins)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-MegaMotifbase"><span class="nav-number">5.4.</span> <span class="nav-text">4.MegaMotifbase</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-Minimotif-Miner"><span class="nav-number">5.5.</span> <span class="nav-text">5.Minimotif Miner</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-Pfam"><span class="nav-number">5.6.</span> <span class="nav-text">6.Pfam</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%AD%E3%80%81%E9%A2%84%E6%B5%8B%E7%B1%BB%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="nav-number">6.</span> <span class="nav-text">六、预测类数据库</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-InterPreTS-Interaction-Prediction-through-Tertiary-Structure"><span class="nav-number">6.1.</span> <span class="nav-text">1.InterPreTS(Interaction Prediction through Tertiary Structure)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-Predictome"><span class="nav-number">6.2.</span> <span class="nav-text">2.Predictome</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%83%E3%80%81%E8%9B%8B%E7%99%BD%E9%89%B4%E5%AE%9A%E7%B1%BB%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="nav-number">7.</span> <span class="nav-text">七、蛋白鉴定类数据库</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Contaminants"><span class="nav-number">7.1.</span> <span class="nav-text">Contaminants</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#EMBL-EST"><span class="nav-number">7.2.</span> <span class="nav-text">EMBL EST</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NCBI-EST"><span class="nav-number">7.3.</span> <span class="nav-text">NCBI EST</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NCBInr"><span class="nav-number">7.4.</span> <span class="nav-text">NCBInr</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SwissProt"><span class="nav-number">7.5.</span> <span class="nav-text">SwissProt</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Trembl"><span class="nav-number">7.6.</span> <span class="nav-text">Trembl</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#UniRef"><span class="nav-number">7.7.</span> <span class="nav-text">UniRef</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Uniprot-Proteomes"><span class="nav-number">7.8.</span> <span class="nav-text">Uniprot Proteomes</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%A7%81%E6%9C%89%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="nav-number">8.</span> <span class="nav-text">私有数据库</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Jason</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">163</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">167</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+
+<!--google_adsense-->
+
+  <div class="links-of-blogroll-title">
+    <i class="fa fa-google"></i> AdSense
+    <ins class="adsbygoogle"
+        style="display:block"
+        data-ad-client="ca-pub-9370593480269435"
+        data-ad-slot="8824957305"
+        data-ad-format="auto"
+        data-full-width-responsive="true"></ins>
+    <script>
+      (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+  </div>
+
+<!--/google_adsense-->
+
+
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jason</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- PGAD -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-9370593480269435"
+     data-ad-slot="8824957305"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

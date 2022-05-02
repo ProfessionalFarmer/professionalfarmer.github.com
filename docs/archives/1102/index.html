@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"md.zxzyl.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+
+  <meta name="description" content="最近电脑老是蓝屏，很是恼人，怀疑是win10系统的原因，重装了好几次还是蓝屏，于是决定装个黑苹果，用macOS系统（装好黑苹果MacOS 10.15 Catalina之后，发现可能是硬盘的问题导致蓝屏的，pity）。总结一下过程，看教程的时候很麻烦，实操一遍之后，回顾一下，其实还是蛮简单的，大致过程和装windows一样，就是多了添加clover引导，方便黑苹果从硬盘引导而不是U盘。下面是总结了一">
+<meta property="og:type" content="article">
+<meta property="og:title" content="安装黑苹果">
+<meta property="og:url" content="https://md.zxzyl.com/archives/1102/index.html">
+<meta property="og:site_name" content="Zhongxu&#39;s blog">
+<meta property="og:description" content="最近电脑老是蓝屏，很是恼人，怀疑是win10系统的原因，重装了好几次还是蓝屏，于是决定装个黑苹果，用macOS系统（装好黑苹果MacOS 10.15 Catalina之后，发现可能是硬盘的问题导致蓝屏的，pity）。总结一下过程，看教程的时候很麻烦，实操一遍之后，回顾一下，其实还是蛮简单的，大致过程和装windows一样，就是多了添加clover引导，方便黑苹果从硬盘引导而不是U盘。下面是总结了一">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-05-29T08:55:23.000Z">
+<meta property="article:modified_time" content="2020-05-29T08:55:23.000Z">
+<meta property="article:author" content="Jason">
+<meta property="article:tag" content="Mac">
+<meta property="article:tag" content="OX">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://md.zxzyl.com/archives/1102/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>安装黑苹果 | Zhongxu's blog</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a3b5d3f466edb3e3f15e8238d8f04be8";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Zhongxu's blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://md.zxzyl.com/archives/1102/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhongxu's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          安装黑苹果
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-05-29 16:55:23" itemprop="dateCreated datePublished" datetime="2020-05-29T16:55:23+08:00">2020-05-29</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>最近电脑老是蓝屏，很是恼人，怀疑是win10系统的原因，重装了好几次还是蓝屏，于是决定装个黑苹果，用macOS系统（装好黑苹果MacOS 10.15 Catalina之后，发现可能是硬盘的问题导致蓝屏的，pity）。总结一下过程，看教程的时候很麻烦，实操一遍之后，回顾一下，其实还是蛮简单的，大致过程和装windows一样，就是多了添加clover引导，方便黑苹果从硬盘引导而不是U盘。下面是总结了一下过程，不是详细，方便以后再装</p>
+<h1 id="1，设置好分区"><a href="#1，设置好分区" class="headerlink" title="1，设置好分区"></a>1，设置好分区</h1><p>此电脑-管理-磁盘管理</p>
+<p>（1）确保格式为GPT格式（GUID）</p>
+<p>（2）确保有EFI分区</p>
+<p>（3）压缩卷，给空出来的卷新建卷，不要选择格式化这个卷（安装黑苹果的过程中会进行）</p>
+<p>（4）这个新建的卷就是安装黑苹果的分区</p>
+<h1 id="2，制作-MacOS-安装盘"><a href="#2，制作-MacOS-安装盘" class="headerlink" title="2，制作 MacOS 安装盘"></a>2，制作 MacOS 安装盘</h1><h2 id="（1）下载镜像"><a href="#（1）下载镜像" class="headerlink" title="（1）下载镜像"></a>（1）下载镜像</h2><p>强烈推荐 “黑果小兵“ 的网站： <a target="_blank" rel="noopener" href="https://blog.daliansky.net/">https://blog.daliansky.net/</a></p>
+<p>上面可以找OS的镜像，含有Clover引导</p>
+<h2 id="（2）制作安装U盘"><a href="#（2）制作安装U盘" class="headerlink" title="（2）制作安装U盘"></a>（2）制作安装U盘</h2><p>下载Transmac: <a target="_blank" rel="noopener" href="https://transmac.en.softonic.com/">https://transmac.en.softonic.com/</a></p>
+<p>有15天的试用期</p>
+<p>选择 format with disk image，选择下载的OS文件，等待完成</p>
+<h1 id="3，安装Mac-OS"><a href="#3，安装Mac-OS" class="headerlink" title="3，安装Mac OS"></a>3，安装Mac OS</h1><h2 id="（1）设置BIOS"><a href="#（1）设置BIOS" class="headerlink" title="（1）设置BIOS"></a>（1）设置BIOS</h2><p>不同的电脑的BIOS稍微不同，我看多数涉及下面这两个，其他的还需要自己搜下</p>
+<p>比如SATA Operation 勾选 AHCI</p>
+<p>Secure Boot Enable 勾选 Disable</p>
+<h2 id="（2）设置BIOS为UEFI-U盘启动"><a href="#（2）设置BIOS为UEFI-U盘启动" class="headerlink" title="（2）设置BIOS为UEFI U盘启动"></a>（2）设置BIOS为UEFI U盘启动</h2><p>通过U盘进入Clover引导之后，选择安装Install macOS ，中间会重启一次，重启之后，选择Install macOS Mojave from “你设置的盘”</p>
+<p>等待系统安装好</p>
+<h1 id="4，设置Clover引导"><a href="#4，设置Clover引导" class="headerlink" title="4，设置Clover引导"></a>4，设置Clover引导</h1><h2 id="（1）复制Clover文件夹"><a href="#（1）复制Clover文件夹" class="headerlink" title="（1）复制Clover文件夹"></a>（1）复制Clover文件夹</h2><p>下载Mac版本的Clover configurator <a target="_blank" rel="noopener" href="http://www.pc6.com/mac/294926.html">http://www.pc6.com/mac/294926.html</a>，不拔安装U盘的情况下，在挂载分区的选项中把系统的ESP和U盘的ESP分区挂载上。</p>
+<p>复制U盘ESP分区中的clover文件到到系统的ESP分区EFI文件夹下（和mircosoft同级）</p>
+<h2 id="（2）利用bootice添加Clover引导"><a href="#（2）利用bootice添加Clover引导" class="headerlink" title="（2）利用bootice添加Clover引导"></a>（2）利用bootice添加Clover引导</h2><p>在原来的windows系统下，或者通过Win PE，利用Disk Genius普通版即可，<a target="_blank" rel="noopener" href="https://www.diskgenius.cn/">https://www.diskgenius.cn/</a> ，把系统的ESP分配一个盘符</p>
+<p>下载安装bootice之后，<a target="_blank" rel="noopener" href="https://bootice.en.softonic.com/">https://bootice.en.softonic.com/</a></p>
+<p>Bootice-UEFI0修改启动序列-添加，在路径上，选择ESP下EFI/CLOVER/CLOVERX64.efi，名称可以自己设置成Clover Boot Manager（开机的时候就是显示这个）</p>
+<h1 id="5，大功告成"><a href="#5，大功告成" class="headerlink" title="5，大功告成"></a>5，大功告成</h1><p>开机的时候选择不同的引导进入不同的系统，这样也实现了单硬盘双系统。</p>
+<p>参考：</p>
+<p><a target="_blank" rel="noopener" href="https://hackintosh.kirainmoe.com/an-zhuang-zhong/efi-ti-huan-jiao-cheng">https://hackintosh.kirainmoe.com/an-zhuang-zhong/efi-ti-huan-jiao-cheng</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.daliansky.net/macOS-Catalina-10.15.5-19F96-Release-version-with-Clover-5118-original-image-Double-EFI-Version-UEFI-and-MBR.html">https://blog.daliansky.net/macOS-Catalina-10.15.5-19F96-Release-version-with-Clover-5118-original-image-Double-EFI-Version-UEFI-and-MBR.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_28735663/article/details/99695786">https://blog.csdn.net/qq_28735663/article/details/99695786</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Mac/" rel="tag"># Mac</a>
+              <a href="/tags/OX/" rel="tag"># OX</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/archives/1099/" rel="prev" title="Hello World">
+      <i class="fa fa-chevron-left"></i> Hello World
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/archives/1104/" rel="next" title="分类模型的性能评估">
+      分类模型的性能评估 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1%EF%BC%8C%E8%AE%BE%E7%BD%AE%E5%A5%BD%E5%88%86%E5%8C%BA"><span class="nav-number">1.</span> <span class="nav-text">1，设置好分区</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2%EF%BC%8C%E5%88%B6%E4%BD%9C-MacOS-%E5%AE%89%E8%A3%85%E7%9B%98"><span class="nav-number">2.</span> <span class="nav-text">2，制作 MacOS 安装盘</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%EF%BC%881%EF%BC%89%E4%B8%8B%E8%BD%BD%E9%95%9C%E5%83%8F"><span class="nav-number">2.1.</span> <span class="nav-text">（1）下载镜像</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%EF%BC%882%EF%BC%89%E5%88%B6%E4%BD%9C%E5%AE%89%E8%A3%85U%E7%9B%98"><span class="nav-number">2.2.</span> <span class="nav-text">（2）制作安装U盘</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3%EF%BC%8C%E5%AE%89%E8%A3%85Mac-OS"><span class="nav-number">3.</span> <span class="nav-text">3，安装Mac OS</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%EF%BC%881%EF%BC%89%E8%AE%BE%E7%BD%AEBIOS"><span class="nav-number">3.1.</span> <span class="nav-text">（1）设置BIOS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%EF%BC%882%EF%BC%89%E8%AE%BE%E7%BD%AEBIOS%E4%B8%BAUEFI-U%E7%9B%98%E5%90%AF%E5%8A%A8"><span class="nav-number">3.2.</span> <span class="nav-text">（2）设置BIOS为UEFI U盘启动</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4%EF%BC%8C%E8%AE%BE%E7%BD%AEClover%E5%BC%95%E5%AF%BC"><span class="nav-number">4.</span> <span class="nav-text">4，设置Clover引导</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%EF%BC%881%EF%BC%89%E5%A4%8D%E5%88%B6Clover%E6%96%87%E4%BB%B6%E5%A4%B9"><span class="nav-number">4.1.</span> <span class="nav-text">（1）复制Clover文件夹</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%EF%BC%882%EF%BC%89%E5%88%A9%E7%94%A8bootice%E6%B7%BB%E5%8A%A0Clover%E5%BC%95%E5%AF%BC"><span class="nav-number">4.2.</span> <span class="nav-text">（2）利用bootice添加Clover引导</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5%EF%BC%8C%E5%A4%A7%E5%8A%9F%E5%91%8A%E6%88%90"><span class="nav-number">5.</span> <span class="nav-text">5，大功告成</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Jason</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">163</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">167</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+
+<!--google_adsense-->
+
+  <div class="links-of-blogroll-title">
+    <i class="fa fa-google"></i> AdSense
+    <ins class="adsbygoogle"
+        style="display:block"
+        data-ad-client="ca-pub-9370593480269435"
+        data-ad-slot="8824957305"
+        data-ad-format="auto"
+        data-full-width-responsive="true"></ins>
+    <script>
+      (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+  </div>
+
+<!--/google_adsense-->
+
+
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jason</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- PGAD -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-9370593480269435"
+     data-ad-slot="8824957305"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

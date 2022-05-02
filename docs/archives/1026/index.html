@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"md.zxzyl.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+
+  <meta name="description" content="分析带UMI标签的测序数据 检测癌组织的低频突变，为了提高检测低频突变的灵敏度，往往进行高深度的测序。但样本之间存在交叉污染，测序有存在一定概率的错误，这些因素会导致高深度测序过程中将假阳性的信号放到，得到假阳性的结果。解决交叉污染的方法，有公司比如IDT采用唯一配对的样本index，只有配对的index中的reads才属于特定样本。解决测序错误的方法，研究人员在建库的时候，先对分子加上UMI碱基">
+<meta property="og:type" content="article">
+<meta property="og:title" content="分析带UMI标签的测序数据">
+<meta property="og:url" content="https://md.zxzyl.com/archives/1026/index.html">
+<meta property="og:site_name" content="Zhongxu&#39;s blog">
+<meta property="og:description" content="分析带UMI标签的测序数据 检测癌组织的低频突变，为了提高检测低频突变的灵敏度，往往进行高深度的测序。但样本之间存在交叉污染，测序有存在一定概率的错误，这些因素会导致高深度测序过程中将假阳性的信号放到，得到假阳性的结果。解决交叉污染的方法，有公司比如IDT采用唯一配对的样本index，只有配对的index中的reads才属于特定样本。解决测序错误的方法，研究人员在建库的时候，先对分子加上UMI碱基">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://md.zxzyl.com/wp/f4w/2020/2018-07-30-UMI-analysis.png">
+<meta property="article:published_time" content="2018-07-31T04:50:00.000Z">
+<meta property="article:modified_time" content="2018-07-31T04:50:00.000Z">
+<meta property="article:author" content="Jason">
+<meta property="article:tag" content="Tumor">
+<meta property="article:tag" content="UMI">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://md.zxzyl.com/wp/f4w/2020/2018-07-30-UMI-analysis.png">
+
+<link rel="canonical" href="https://md.zxzyl.com/archives/1026/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>分析带UMI标签的测序数据 | Zhongxu's blog</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a3b5d3f466edb3e3f15e8238d8f04be8";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Zhongxu's blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://md.zxzyl.com/archives/1026/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhongxu's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          分析带UMI标签的测序数据
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-07-31 12:50:00" itemprop="dateCreated datePublished" datetime="2018-07-31T12:50:00+08:00">2018-07-31</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>分析带UMI标签的测序数据</p>
+<p>检测癌组织的低频突变，为了提高检测低频突变的灵敏度，往往进行高深度的测序。但样本之间存在交叉污染，测序有存在一定概率的错误，这些因素会导致高深度测序过程中将假阳性的信号放到，得到假阳性的结果。解决交叉污染的方法，有公司比如IDT采用唯一配对的样本index，只有配对的index中的reads才属于特定样本。解决测序错误的方法，研究人员在建库的时候，先对分子加上UMI碱基，unique molecular identifier -&gt; UMI，然后根据来源于同一个分子的测序数据进行测序错误修正，得到正确的分子序列。两种方法结合可以减少交叉污染提高准确性（<a target="_blank" rel="noopener" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5759201/%EF%BC%89%E3%80%82">https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5759201/）。</a></p>
+<p><img src="/wp/f4w/2020/2018-07-30-UMI-analysis.png"></p>
+<p>如图中所示，左侧一个分子被测了5次，其中第二次有一个测序错误，但该错误并没有在每个测序数据中出现，所以在后续合成一个分子的时候，测序错误被修正，只保留了真正的突变。（<a target="_blank" rel="noopener" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5852328/%EF%BC%89">https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5852328/）</a></p>
+<p>常规的肿瘤配对测序分析，或者遗传性突变位点的分析，并不需要UMI信息，所以包含UMI的数据分析是需要不一样的分析流程来得到准确的分析结果，其中包括提取UMI分子标签，合并来自同一个分子的测序reads，低频突变检测而非胚系突变检测等。</p>
+<p>大致流程为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">-----prepare analysis ready BAM file------</span><br><span class="line">&#x27;         FASTQ</span><br><span class="line">&#x27;            ↓</span><br><span class="line">&#x27;          uBAM</span><br><span class="line">&#x27;            ↓  Extract UMI</span><br><span class="line">&#x27;          uBAM</span><br><span class="line">&#x27;             ↓  Align uBAM and merge </span><br><span class="line">&#x27;           BAM</span><br><span class="line">-----call consensus------</span><br><span class="line">&#x27;             ↓  Group Reads By Umi</span><br><span class="line">&#x27;           BAM</span><br><span class="line">&#x27;             ↓  Group Reads By Umi</span><br><span class="line">&#x27;           BAM</span><br><span class="line">&#x27;             ↓  Call Molecular Consensus Reads</span><br><span class="line">&#x27;           uBAM</span><br><span class="line">&#x27;             ↓  Align uBAM and merge</span><br><span class="line">&#x27;           BAM</span><br><span class="line">&#x27;             ↓  Filter Consensus Reads</span><br><span class="line">&#x27;           BAM</span><br><span class="line">&#x27;             ↓  Clip</span><br><span class="line">&#x27;           BAM</span><br><span class="line">-----Vardict------</span><br><span class="line">&#x27;             ↓  Call</span><br><span class="line">&#x27;            VCF</span><br></pre></td></tr></table></figure>
+
+
+
+
+<h1 id="一，得到包含UMI分子标签信息的BAM文件"><a href="#一，得到包含UMI分子标签信息的BAM文件" class="headerlink" title="一，得到包含UMI分子标签信息的BAM文件"></a>一，得到包含UMI分子标签信息的BAM文件</h1><p>UMI信息，应该从fastq中的配对的reads中提取，但fastq不能存储更多的信息，所以需要先将fastq转成uBAM文件，提取uBAM文件中的UMI分子标签信息，将该信息通过RX标签写入uBAM文件中，通过uBAM和BAM文件合并，把RX信息合并到比对到的BAM文件中进行下一步分析。</p>
+<h2 id="1）生成uBAM"><a href="#1）生成uBAM" class="headerlink" title="1）生成uBAM"></a>1）生成uBAM</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">java -Xmx8G -jar picard.jar FastqToSam \</span><br><span class="line">    FASTQ=$fq1    \</span><br><span class="line">    FASTQ2=$fq2   \</span><br><span class="line">    OUTPUT=test.uBAM \</span><br><span class="line">    READ_GROUP_NAME=test \</span><br><span class="line">    SAMPLE_NAME=test \</span><br><span class="line">    LIBRARY_NAME=test \</span><br><span class="line">    PLATFORM_UNIT=HiseqX10  PLATFORM=illumina \</span><br><span class="line">    RUN_DATE=`date --iso-8601=seconds`</span><br></pre></td></tr></table></figure>
+
+
+
+
+<h2 id="2）提取UMI信息"><a href="#2）提取UMI信息" class="headerlink" title="2）提取UMI信息"></a>2）提取UMI信息</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">java -jar fgbio.jar ExtractUmisFromBAM \</span><br><span class="line">    --input=test.uBAM  \</span><br><span class="line">    --output=test.umi.uBAM \</span><br><span class="line">    --read-structure=2M148T 2M148T \</span><br><span class="line">    --single-tag=RX \</span><br><span class="line">    --molecular-index-tags=ZA ZB</span><br></pre></td></tr></table></figure>
+
+
+
+
+<p>此时，uBAM文件中RX标签记录着UMI的信息，2M148T表示前两个碱基是UMI分子标签，148个template 测序序列，配对read在uBAM文件中有如下信息</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">R1----ZA:Z:TC ZB:Z:TA RG:Z:test       RX:Z:TC-TA</span><br><span class="line">R2----ZA:Z:TC ZB:Z:TA RG:Z:test       RX:Z:TC-TA</span><br></pre></td></tr></table></figure>
+
+
+
+
+<span id="more"></span>
+
+<h2 id="3）比对uBAM文件中的reads"><a href="#3）比对uBAM文件中的reads" class="headerlink" title="3）比对uBAM文件中的reads"></a>3）比对uBAM文件中的reads</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">samtools fastq  test.umi.uBAM &#x27; bwa mem -t 8 -p reference.fa /dev/stdin &#x27; samtools view -b</span><br><span class="line"> &gt; test.umi.BAM</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="4）uBAM和BAM合并"><a href="#4）uBAM和BAM合并" class="headerlink" title="4）uBAM和BAM合并"></a>4）uBAM和BAM合并</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">java -Xmx8G -jar picard.jar MergeBAMAlignment R=reference.fa \</span><br><span class="line">    UNMAPPED_BAM=test.umi.uBAM  \</span><br><span class="line">    ALIGNED_BAM=test.umi.BAM \</span><br><span class="line">    O=test.umi.merged.BAM  \</span><br><span class="line">    CREATE_INDEX=true    \</span><br><span class="line">    MAX_GAPS=-1 \</span><br><span class="line">    ALIGNER_PROPER_PAIR_FLAGS=true \</span><br><span class="line">    VALIDATION_STRINGENCY=SILENT \</span><br><span class="line">    SO=coordinate \</span><br><span class="line">    ATTRIBUTES_TO_RETAIN=XS</span><br></pre></td></tr></table></figure>
+
+<p>通过合并，得到一个包含各种信息包括RX tag等的BAM文件，该文件用于下一步call consensus read，因为将来源于同一个分子的read合并成一个consensus read，所以在得到BAM文件之后，没有进行mark duplication。</p>
+<h1 id="二，Call-Consensus-Reads"><a href="#二，Call-Consensus-Reads" class="headerlink" title="二，Call Consensus Reads"></a>二，Call Consensus Reads</h1><h2 id="1）Group-Reads-By-Umi"><a href="#1）Group-Reads-By-Umi" class="headerlink" title="1）Group Reads By Umi"></a>1）Group Reads By Umi</h2><p>该步会生成一个包含MI tag的文件，存储每个read的最初分子的ID，低质量的read应该过滤掉，因为低比对质量的read上mismatch较多，容易造成假阳性。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">java -jar fgbio.jar GroupReadsByUmi \</span><br><span class="line">    --input=test.umi.merged.BAM \</span><br><span class="line">    --output=test.umi.group.BAM  \</span><br><span class="line">    --strategy=paired  --min-map-q=<span class="number">20</span>  --edits=<span class="number">1</span> --raw-tag=RX</span><br></pre></td></tr></table></figure>
+
+
+
+
+<h2 id="2）Call-Molecular-Consensus-Reads"><a href="#2）Call-Molecular-Consensus-Reads" class="headerlink" title="2）Call Molecular Consensus Reads"></a>2）Call Molecular Consensus Reads</h2><p>根据UMI分子标签的信息和Read1、Read2的位置，从一组read中识别出最初的 molecular 分子序列。min-reads是必填的，如果测序深度较低，单个read也可以用来call consensus，此时设置1，如果深度较高可以设置2或者更高，但1是最安全的，因为后续可以基于此参数进一步过滤。但同时该值的设置显著影响效率，此时我们设置1。此时生成的文件是uBAM格式的，需要进一步比对</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">java -jar fgbio.jar  CallMolecularConsensusReads \</span><br><span class="line">    --min-reads=<span class="number">1</span> \</span><br><span class="line">    --min-input-base-quality=<span class="number">20</span> \</span><br><span class="line">    --input=test.umi.group.BAM \</span><br><span class="line">    --output=test.consensus.uBAM</span><br></pre></td></tr></table></figure>
+
+
+
+
+<h2 id="3）比对uBAM文件中的reads-1"><a href="#3）比对uBAM文件中的reads-1" class="headerlink" title="3）比对uBAM文件中的reads"></a>3）比对uBAM文件中的reads</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">samtools fastq $dir/$smp.callconsensus.BAM &#x27; bwa mem -t 8 -p reference.fa  /dev/stdin &#x27; samtools view -b - &#x27; test.consensus.BAM</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="4）uBAM和BAM合并-1"><a href="#4）uBAM和BAM合并-1" class="headerlink" title="4）uBAM和BAM合并"></a>4）uBAM和BAM合并</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">java -Xmx8G -jar picard.jar MergeBAMAlignment R=reference.fa \</span><br><span class="line">    UNMAPPED_BAM=test.consensus.uBAM  \</span><br><span class="line">    ALIGNED_BAM=test.consensus.BAM \</span><br><span class="line">    O=test.consensus.merge.BAM  \</span><br><span class="line">    CREATE_INDEX=true    \</span><br><span class="line">    MAX_GAPS=-1 \</span><br><span class="line">    ALIGNER_PROPER_PAIR_FLAGS=true \</span><br><span class="line">    VALIDATION_STRINGENCY=SILENT \</span><br><span class="line">    SO=coordinate \</span><br><span class="line">    ATTRIBUTES_TO_RETAIN=XS</span><br></pre></td></tr></table></figure>
+
+
+
+
+<h2 id="4）Filter-Consensus-Reads"><a href="#4）Filter-Consensus-Reads" class="headerlink" title="4）Filter Consensus Reads"></a>4）Filter Consensus Reads</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">java -jar fgbio.jar FilterConsensusReads \</span><br><span class="line">    --input=test.consensus.merge.BAM  \</span><br><span class="line">    --output=test.consensus.merge.filter.BAM \</span><br><span class="line">    --ref=reference --min-reads=2 \</span><br><span class="line">    --max-read-error-rate=0.05 \</span><br><span class="line">    --max-base-error-rate=0.1 \</span><br><span class="line">    --min-base-quality=30 \</span><br><span class="line">    --max-no-call-fraction=0.20</span><br></pre></td></tr></table></figure>
+
+
+
+
+<h2 id="5）Clip"><a href="#5）Clip" class="headerlink" title="5）Clip"></a>5）Clip</h2><p>来源于同一个template的read，若果有重叠，重叠部分的突变其实应该只计一次，所以要clip一下read。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">java -jar fgbio.jar ClipBAM \</span><br><span class="line">    --input=test.consensus.merge.filter.BAM   \</span><br><span class="line">    --output=test.consensus.merge.filter.clip.BAM \</span><br><span class="line">    --ref=$ref  --soft-clip=false --clip-overlapping-reads=true</span><br></pre></td></tr></table></figure>
+
+
+
+
+<h1 id="三、Variant-Call"><a href="#三、Variant-Call" class="headerlink" title="三、Variant Call"></a>三、Variant Call</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">AF_THR=&quot;0.01&quot;</span><br><span class="line">VarDict/bin/VarDict -G reference.fa -f $AF_THR -N test \</span><br><span class="line">    -b test.consensus.merge.filter.BAM \</span><br><span class="line">    -z -c 1 -S 2 -E 3 -g 4 -th 4 target.bed &#x27; \</span><br><span class="line">    VarDictJava/VarDict/teststrandbias.R &#x27; \</span><br><span class="line">    VarDictJava/VarDict/var2vcf_valid.pl -N test -E -f $AF_THR &gt; test.vcf</span><br></pre></td></tr></table></figure>
+
+
+
+
+<h1 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h1><p><a target="_blank" rel="noopener" href="https://github.com/fulcrumgenomics/fgbio">https://github.com/fulcrumgenomics/fgbio</a></p>
+<p><a target="_blank" rel="noopener" href="https://gatkforums.broadinstitute.org/gatk/discussion/6484/how-to-generate-an-unmapped-BAM-from-fastq-or-aligned-BAM">https://gatkforums.broadinstitute.org/gatk/discussion/6484/how-to-generate-an-unmapped-BAM-from-fastq-or-aligned-BAM</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5759201/">https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5759201/</a></p>
+<p><a target="_blank" rel="noopener" href="http://nilshomer.com/2017/07/05/single-strand-umi-somatic-variant-calling/">http://nilshomer.com/2017/07/05/single-strand-umi-somatic-variant-calling/</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5852328/">https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5852328/</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.ncbi.nlm.nih.gov/pubmed/28100584">https://www.ncbi.nlm.nih.gov/pubmed/28100584</a></p>
+<p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>#####################################################################</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Tumor/" rel="tag"># Tumor</a>
+              <a href="/tags/UMI/" rel="tag"># UMI</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/archives/1016/" rel="prev" title="什么是ubam文件，为什么ubam文件比fastq文件好">
+      <i class="fa fa-chevron-left"></i> 什么是ubam文件，为什么ubam文件比fastq文件好
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/archives/1030/" rel="next" title="将VCF文件中的突变拆分成SNP和INDEL">
+      将VCF文件中的突变拆分成SNP和INDEL <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%80%EF%BC%8C%E5%BE%97%E5%88%B0%E5%8C%85%E5%90%ABUMI%E5%88%86%E5%AD%90%E6%A0%87%E7%AD%BE%E4%BF%A1%E6%81%AF%E7%9A%84BAM%E6%96%87%E4%BB%B6"><span class="nav-number">1.</span> <span class="nav-text">一，得到包含UMI分子标签信息的BAM文件</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1%EF%BC%89%E7%94%9F%E6%88%90uBAM"><span class="nav-number">1.1.</span> <span class="nav-text">1）生成uBAM</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2%EF%BC%89%E6%8F%90%E5%8F%96UMI%E4%BF%A1%E6%81%AF"><span class="nav-number">1.2.</span> <span class="nav-text">2）提取UMI信息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3%EF%BC%89%E6%AF%94%E5%AF%B9uBAM%E6%96%87%E4%BB%B6%E4%B8%AD%E7%9A%84reads"><span class="nav-number">1.3.</span> <span class="nav-text">3）比对uBAM文件中的reads</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4%EF%BC%89uBAM%E5%92%8CBAM%E5%90%88%E5%B9%B6"><span class="nav-number">1.4.</span> <span class="nav-text">4）uBAM和BAM合并</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%8C%EF%BC%8CCall-Consensus-Reads"><span class="nav-number">2.</span> <span class="nav-text">二，Call Consensus Reads</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1%EF%BC%89Group-Reads-By-Umi"><span class="nav-number">2.1.</span> <span class="nav-text">1）Group Reads By Umi</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2%EF%BC%89Call-Molecular-Consensus-Reads"><span class="nav-number">2.2.</span> <span class="nav-text">2）Call Molecular Consensus Reads</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3%EF%BC%89%E6%AF%94%E5%AF%B9uBAM%E6%96%87%E4%BB%B6%E4%B8%AD%E7%9A%84reads-1"><span class="nav-number">2.3.</span> <span class="nav-text">3）比对uBAM文件中的reads</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4%EF%BC%89uBAM%E5%92%8CBAM%E5%90%88%E5%B9%B6-1"><span class="nav-number">2.4.</span> <span class="nav-text">4）uBAM和BAM合并</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4%EF%BC%89Filter-Consensus-Reads"><span class="nav-number">2.5.</span> <span class="nav-text">4）Filter Consensus Reads</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5%EF%BC%89Clip"><span class="nav-number">2.6.</span> <span class="nav-text">5）Clip</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%89%E3%80%81Variant-Call"><span class="nav-number">3.</span> <span class="nav-text">三、Variant Call</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83%EF%BC%9A"><span class="nav-number">4.</span> <span class="nav-text">参考：</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Jason</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">163</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">167</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+
+<!--google_adsense-->
+
+  <div class="links-of-blogroll-title">
+    <i class="fa fa-google"></i> AdSense
+    <ins class="adsbygoogle"
+        style="display:block"
+        data-ad-client="ca-pub-9370593480269435"
+        data-ad-slot="8824957305"
+        data-ad-format="auto"
+        data-full-width-responsive="true"></ins>
+    <script>
+      (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+  </div>
+
+<!--/google_adsense-->
+
+
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jason</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- PGAD -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-9370593480269435"
+     data-ad-slot="8824957305"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

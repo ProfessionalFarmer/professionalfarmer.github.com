@@ -1,0 +1,4 @@
+./layout/_macro/sidebar.swig # 添加google_adsense
+./layout/_partials/footer.swig # 最后添加adsense
+./layout/_third-party/analytics/google-analytics.swig # 
+_config.yml # 不确定，但最好比较一下

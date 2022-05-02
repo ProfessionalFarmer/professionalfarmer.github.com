@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"md.zxzyl.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+
+  <meta name="description" content="BCL文件测序产生的原始文件是BCL（binary base call）文件，测序仪在测序的时候，每个cycle都会测量编码不同颜色的通道强度，并确定最有可能的碱基类型。Real Time Analysis (RTA) 软件会将碱基类型和可信度（一个质量分数）。与FASTQ文件不同的是，BCL文件是实时产生，每个cycle的每个tile都会有一个对应文件，文件放在 &lt;run directo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="BCL文件与BCL2FAFSTQ程序简介">
+<meta property="og:url" content="https://md.zxzyl.com/archives/815/index.html">
+<meta property="og:site_name" content="Zhongxu&#39;s blog">
+<meta property="og:description" content="BCL文件测序产生的原始文件是BCL（binary base call）文件，测序仪在测序的时候，每个cycle都会测量编码不同颜色的通道强度，并确定最有可能的碱基类型。Real Time Analysis (RTA) 软件会将碱基类型和可信度（一个质量分数）。与FASTQ文件不同的是，BCL文件是实时产生，每个cycle的每个tile都会有一个对应文件，文件放在 &lt;run directo">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://md.zxzyl.com/wp/f4w/2020/2016-04-0301.jpg">
+<meta property="article:published_time" content="2018-02-07T03:34:40.000Z">
+<meta property="article:modified_time" content="2018-02-07T03:34:40.000Z">
+<meta property="article:author" content="Jason">
+<meta property="article:tag" content="Illumina">
+<meta property="article:tag" content="FASTQ">
+<meta property="article:tag" content="BCL">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://md.zxzyl.com/wp/f4w/2020/2016-04-0301.jpg">
+
+<link rel="canonical" href="https://md.zxzyl.com/archives/815/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>BCL文件与BCL2FAFSTQ程序简介 | Zhongxu's blog</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a3b5d3f466edb3e3f15e8238d8f04be8";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Zhongxu's blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://md.zxzyl.com/archives/815/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhongxu's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          BCL文件与BCL2FAFSTQ程序简介
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-02-07 11:34:40" itemprop="dateCreated datePublished" datetime="2018-02-07T11:34:40+08:00">2018-02-07</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><img src="/wp/f4w/2020/2016-04-0301.jpg"></p>
+<h1 id="BCL文件"><a href="#BCL文件" class="headerlink" title="BCL文件"></a>BCL文件</h1><p>测序产生的原始文件是BCL（binary base call）文件，测序仪在测序的时候，每个cycle都会测量编码不同颜色的通道强度，并确定最有可能的碱基类型。Real Time Analysis (RTA) 软件会将碱基类型和可信度（一个质量分数）。与FASTQ文件不同的是，BCL文件是实时产生，每个cycle的每个tile都会有一个对应文件，文件放在</p>
+<p><code>&lt;run directory&gt;/Data/Intensities/BaseCalls/L&lt;lane&gt;/C&lt;cycle&gt;.1</code></p>
+<p>文件的命名</p>
+<p> <code>s_&lt;lane&gt;_&lt;tile&gt;.bcl</code></p>
+<h1 id="bcl2fastq"><a href="#bcl2fastq" class="headerlink" title="bcl2fastq"></a>bcl2fastq</h1><p>该文件需要通过Illunima的软件或者第三方分析工具将BCL文件转成FASTQ文件。一般而言，数据下机之后，Illumina测序仪会自动将BCL转成FASTQ文件。有时候，根据实验需要，需要自己手工将BCL文件转成FASTQ文件，比如自己设计的index中含有简并碱基，或者需要调整一下转换的参数等。 Illumina提供bcl2fastq的程序包，共离线处理BCL文件，生成FASTQ文件。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">bcl2fastq  -i /paht/to/run/Data/Intensities/BaseCalls/ \</span><br><span class="line">       -o /output/dir --sample-sheet /paht/to/run/SampleSheet.csv \</span><br><span class="line">       -R /paht/to/run/</span><br></pre></td></tr></table></figure>
+
+<p>bcl2fastq文件有很多参数可调，比如在FASTQ中记录read的index(fastq文件中会记录配对的index具体序列，以及会生成额外对应的index文件)，可以添加–create-fastq-for-index-reads选项。 如果允许index有mismatch的话，可以通过–barcode-mismatches设置。 –fastq-compression-level可以设置生成的FASTQ.GZ文件的压缩比例 安装如下</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">unzip bcl2fastq2-v2.17.1.14.tar.zip</span><br><span class="line">tar -xvzf bcl2fastq2-v2.17.1.14.tar.gz</span><br><span class="line">./bcl2fastq/src/configure --prefix=/path/to/install/</span><br><span class="line">make</span><br><span class="line">make install</span><br></pre></td></tr></table></figure>
+
+<p>安装过程中，如果遇到一下问题，请更新gcc版本 问题1 cc1plus: error: unrecognized command line option “-std=c++11” 问题2 undefined reference to `boost::re_detail::perl_matcher collect2: error: ld returned 1 exit status 软件选项说明如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line">BCL to FASTQ file converter</span><br><span class="line">bcl2fastq v2<span class="number">.17</span><span class="number">.1</span><span class="number">.14</span></span><br><span class="line">Copyright (c) <span class="number">2007</span>-<span class="number">2015</span> Illumina, Inc.</span><br><span class="line"></span><br><span class="line">Command-line options:</span><br><span class="line">  -h [ --help ]                                     produce help message and exit</span><br><span class="line">  -v [ --version ]                                print program version information</span><br><span class="line">  -l [ --min-log-level ] arg (=INFO)              minimum log level</span><br><span class="line">                                                          recognized values: NONE, FATAL, ERROR, WARNING, INFO, DEBUG, TRACE</span><br><span class="line">  -i [ --input-dir ] arg (=&lt;runfolder-dir&gt;/Data/Intensities/BaseCalls/)</span><br><span class="line">                                                          path to input directory</span><br><span class="line">  -R [ --runfolder-dir ] arg (=./)         path to runfolder directory</span><br><span class="line">  --intensities-<span class="function">dir <span class="title">arg</span> <span class="params">(=&lt;input-dir&gt;/../)</span>        path to intensities directory</span></span><br><span class="line"><span class="function">                                                          <span class="keyword">if</span> intensities directory is specified, also input directory must be specified</span></span><br><span class="line"><span class="function">  -o [ --output-dir ] <span class="title">arg</span> <span class="params">(=&lt;input-dir&gt;)</span>                path to demultiplexed output</span></span><br><span class="line"><span class="function">  --interop-dir <span class="title">arg</span> <span class="params">(=&lt;runfolder-dir&gt;/InterOp/)</span>   path to demultiplexing statistics directory</span></span><br><span class="line"><span class="function">  --stats-dir <span class="title">arg</span> <span class="params">(=&lt;output-dir&gt;/Stats/)</span>                path to human-readable demultiplexing statistics directory</span></span><br><span class="line"><span class="function">  --reports-dir <span class="title">arg</span> <span class="params">(=&lt;output-dir&gt;/Reports/)</span>       path to reporting directory</span></span><br><span class="line"><span class="function">  --sample-sheet <span class="title">arg</span> <span class="params">(=&lt;runfolder-dir&gt;/SampleSheet.csv)</span></span></span><br><span class="line"><span class="function">                                                                              path to the sample sheet</span></span><br><span class="line"><span class="function">  --aggregated-tiles <span class="title">arg</span> <span class="params">(=AUTO)</span>                  tiles aggregation flag determining structure of input files</span></span><br><span class="line"><span class="function">                                                   recognized values:</span></span><br><span class="line"><span class="function">                                                      AUTO Try to detect correct setting</span></span><br><span class="line"><span class="function">                                                      YES  Tiles are aggregated into single input file</span></span><br><span class="line"><span class="function">                                                      NO   There are separate input files <span class="keyword">for</span> individual tiles</span></span><br><span class="line"><span class="function">                                                  </span></span><br><span class="line"><span class="function">  -r [ --loading-threads ] <span class="title">arg</span> <span class="params">(=<span class="number">4</span>)</span>               number of threads used <span class="keyword">for</span> loading BCL data</span></span><br><span class="line"><span class="function">  -d [ --demultiplexing-threads ] arg          number of threads used <span class="keyword">for</span> demultiplexing</span></span><br><span class="line"><span class="function">  -p [ --processing-threads ] arg                 number of threads used <span class="keyword">for</span> processing demultiplexed data</span></span><br><span class="line"><span class="function">  -w [ --writing-threads ] <span class="title">arg</span> <span class="params">(=<span class="number">4</span>)</span>               number of threads used <span class="keyword">for</span> writing FASTQ data</span></span><br><span class="line"><span class="function">                                                                    <span class="keyword">this</span> must not be higher than number of samples</span></span><br><span class="line"><span class="function">  --tiles arg                                 Comma-separated list of regular expressions to select only a subset of the tiles </span></span><br><span class="line"><span class="function">                                                  available in the flow-cell. Multiple entries allowed, each applies to the corresponding base-calls.</span></span><br><span class="line"><span class="function">                                                  For example:</span></span><br><span class="line"><span class="function">                                                   * to select all the tiles ending with &#x27;5&#x27; in all lanes:</span></span><br><span class="line"><span class="function">                                                       --tiles [0-9][0-9][0-9]5</span></span><br><span class="line"><span class="function">                                                   * to select tile 2 in lane 1 and all the tiles in the other lanes:</span></span><br><span class="line"><span class="function">                                                       --tiles s_1_0002,s_[2-8]</span></span><br><span class="line"><span class="function">  --minimum-trimmed-read-length <span class="title">arg</span> <span class="params">(=<span class="number">35</span>)</span>         minimum read length after adapter trimming</span></span><br><span class="line"><span class="function">  --use-bases-mask arg                                             Specifies how to use each cycle.</span></span><br><span class="line"><span class="function">  --mask-<span class="keyword">short</span>-adapter-reads <span class="title">arg</span> <span class="params">(=<span class="number">22</span>)</span>            smallest number of remaining <span class="title">bases</span> <span class="params">(after masking bases below the minimum </span></span></span><br><span class="line"><span class="params"><span class="function">                                                                           trimmed read  length)</span> below which whole read is masked</span></span><br><span class="line"><span class="function">  --adapter-stringency <span class="title">arg</span> <span class="params">(=<span class="number">0.9</span>)</span>                  adapter stringency</span></span><br><span class="line"><span class="function">  --ignore-missing-bcls                                 assume &#x27;N&#x27;/&#x27;#&#x27; <span class="keyword">for</span> missing calls</span></span><br><span class="line"><span class="function">  --ignore-missing-filter                                assume &#x27;<span class="keyword">true</span>&#x27; <span class="keyword">for</span> missing filters</span></span><br><span class="line"><span class="function">  --ignore-missing-positions                         assume \[0,i\] <span class="keyword">for</span> missing positions, where i is incremented starting from 0</span></span><br><span class="line"><span class="function">  --ignore-missing-controls                           assume 0 <span class="keyword">for</span> missing controls</span></span><br><span class="line"><span class="function">  --write-fastq-reverse-complement              Generate FASTQs containing reverse complements of actual data</span></span><br><span class="line"><span class="function">  --with-failed-reads                                        include non-PF clusters</span></span><br><span class="line"><span class="function">  --create-fastq-<span class="keyword">for</span>-index-reads                     create FASTQ files also <span class="keyword">for</span> index reads</span></span><br><span class="line"><span class="function">  --find-adapters-with-sliding-window           find adapters with simple sliding window algorithm</span></span><br><span class="line"><span class="function">  --no-bgzf-compression                                Turn off BGZF compression <span class="keyword">for</span> FASTQ files</span></span><br><span class="line"><span class="function">  --fastq-compression-level <span class="title">arg</span> <span class="params">(=<span class="number">4</span>)</span>              Zlib compression <span class="title">level</span> <span class="params">(<span class="number">1</span>-<span class="number">9</span>)</span> used <span class="keyword">for</span> FASTQ files</span></span><br><span class="line"><span class="function">  --barcode-mismatches <span class="title">arg</span> <span class="params">(=<span class="number">1</span>)</span>                   number of allowed mismatches per index</span></span><br><span class="line"><span class="function">                                                                        multiple entries, comma delimited entries, allowed</span>; each entry is applied to the </span><br><span class="line">                                                                        corresponding index;last entry applies to all remaining indices</span><br><span class="line">  --no-lane-splitting                             Do not split fastq files by lane.</span><br></pre></td></tr></table></figure>
+
+<p>软件地址 <a target="_blank" rel="noopener" href="http://support.illumina.com.cn/downloads/bcl2fastq-conversion-software-v217.html">http://support.illumina.com.cn/downloads/bcl2fastq-conversion-software-v217.html</a> </p>
+<p>文档手册 <a target="_blank" rel="noopener" href="http://support.illumina.com/content/dam/illumina-support/documents/documentation/software/_documentation/bcl2fastq/bcl2fastq/_letterbooklet_15038058brpmi.pdf">http://support.illumina.com/content/dam/illumina-support/documents/documentation/software\_documentation/bcl2fastq/bcl2fastq\_letterbooklet_15038058brpmi.pdf</a></p>
+<p>##################################################################### #版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>#####################################################################</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Illumina/" rel="tag"># Illumina</a>
+              <a href="/tags/FASTQ/" rel="tag"># FASTQ</a>
+              <a href="/tags/BCL/" rel="tag"># BCL</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/archives/810/" rel="prev" title="PLOT | 目标区域的测序覆盖度作图">
+      <i class="fa fa-chevron-left"></i> PLOT | 目标区域的测序覆盖度作图
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/archives/829/" rel="next" title="hg19、GRCH37、b37、hs37d5介绍和区别">
+      hg19、GRCH37、b37、hs37d5介绍和区别 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#BCL%E6%96%87%E4%BB%B6"><span class="nav-number">1.</span> <span class="nav-text">BCL文件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#bcl2fastq"><span class="nav-number">2.</span> <span class="nav-text">bcl2fastq</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Jason</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">163</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">167</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+
+<!--google_adsense-->
+
+  <div class="links-of-blogroll-title">
+    <i class="fa fa-google"></i> AdSense
+    <ins class="adsbygoogle"
+        style="display:block"
+        data-ad-client="ca-pub-9370593480269435"
+        data-ad-slot="8824957305"
+        data-ad-format="auto"
+        data-full-width-responsive="true"></ins>
+    <script>
+      (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+  </div>
+
+<!--/google_adsense-->
+
+
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jason</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- PGAD -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-9370593480269435"
+     data-ad-slot="8824957305"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

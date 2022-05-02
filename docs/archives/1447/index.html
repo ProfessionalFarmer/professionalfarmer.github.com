@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"md.zxzyl.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+
+  <meta name="description" content="翻译https:&#x2F;&#x2F;varnomen.hgvs.org&#x2F;recommendations&#x2F;protein&#x2F;variant&#x2F;extension&#x2F; 这个突变类型不常见，hgvs的命名挺有意思的 延伸突变定义序列变化导致参考氨基酸序列在N或者C端多了一个或者多个氨基酸 描述p.Met1ext-5N端格式: “prefix”“Met1”“ext”“position_new_initiation_site”,">
+<meta property="og:type" content="article">
+<meta property="og:title" content="蛋白延伸（extension）变异的hgvs命名">
+<meta property="og:url" content="https://md.zxzyl.com/archives/1447/index.html">
+<meta property="og:site_name" content="Zhongxu&#39;s blog">
+<meta property="og:description" content="翻译https:&#x2F;&#x2F;varnomen.hgvs.org&#x2F;recommendations&#x2F;protein&#x2F;variant&#x2F;extension&#x2F; 这个突变类型不常见，hgvs的命名挺有意思的 延伸突变定义序列变化导致参考氨基酸序列在N或者C端多了一个或者多个氨基酸 描述p.Met1ext-5N端格式: “prefix”“Met1”“ext”“position_new_initiation_site”,">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://md.zxzyl.com/wp/f4w/2022/2022-04-25-ExtensionVarianteAtProteinLevel.png">
+<meta property="article:published_time" content="2022-04-25T04:06:20.000Z">
+<meta property="article:modified_time" content="2022-04-25T04:06:20.000Z">
+<meta property="article:author" content="Jason">
+<meta property="article:tag" content="Mutation">
+<meta property="article:tag" content="Variant">
+<meta property="article:tag" content="HGVS">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://md.zxzyl.com/wp/f4w/2022/2022-04-25-ExtensionVarianteAtProteinLevel.png">
+
+<link rel="canonical" href="https://md.zxzyl.com/archives/1447/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>蛋白延伸（extension）变异的hgvs命名 | Zhongxu's blog</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a3b5d3f466edb3e3f15e8238d8f04be8";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Zhongxu's blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://md.zxzyl.com/archives/1447/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhongxu's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          蛋白延伸（extension）变异的hgvs命名
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2022-04-25 12:06:20" itemprop="dateCreated datePublished" datetime="2022-04-25T12:06:20+08:00">2022-04-25</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>翻译<a target="_blank" rel="noopener" href="https://varnomen.hgvs.org/recommendations/protein/variant/extension/">https://varnomen.hgvs.org/recommendations/protein/variant/extension/</a></p>
+<p>这个突变类型不常见，hgvs的命名挺有意思的</p>
+<h1 id="延伸突变定义"><a href="#延伸突变定义" class="headerlink" title="延伸突变定义"></a>延伸突变定义</h1><p>序列变化导致参考氨基酸序列在N或者C端多了一个或者多个氨基酸</p>
+<h1 id="描述"><a href="#描述" class="headerlink" title="描述"></a>描述</h1><h2 id="p-Met1ext-5"><a href="#p-Met1ext-5" class="headerlink" title="p.Met1ext-5"></a>p.Met1ext-5</h2><p>N端格式: “prefix”“Met1”“ext”“position_new_initiation_site”, e.g. p.Met1ext-5</p>
+<p>“prefix” = 前缀，用p.表示<br>“Met1” = 正常的翻译起始位点Met1<br>“ext” = 变化类型是延伸ext<br>“position_new_initiation_site” = 上游新的翻译起始位点-5</p>
+<h2 id="e-g-p-Ter110GlnextTer17"><a href="#e-g-p-Ter110GlnextTer17" class="headerlink" title="e.g. p.Ter110GlnextTer17"></a>e.g. p.Ter110GlnextTer17</h2><p>C端格式：“prefix”“Ter_position”“new_amino_acid”“ext”“Ter”“position_new_termination_site”, e.g. p.Ter110GlnextTer17</p>
+<p>“prefix” = 前缀，用p.表示<br>“Ter_position” = 正常的终止位点Ter110<br>“new_amino_acid” = 在终止位点编码的新的氨基酸Gln<br>“ext” = 变化类型是延伸ext<br>“Ter” = 终止位置Ter（或者用*表示）<br>“position_new_termination_site” = 下游新的终止位点17</p>
+<h1 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h1><span id="more"></span>
+
+<p>预测的序列，例如没有实验证据，应用括号括起来，e.g. p.(Ter110GlnextTer17) or p.(*110Glnext*17)</p>
+<p>影响翻译起始位点的突变（Met1）导致上游（N端）翻译起始位点，描述为deletion-insertion, 导致下游 (C-terminal)翻译起始的描述为deletion</p>
+<p>优先级: (1) extension, (2) frame shift or deletion-insertion.</p>
+<h1 id="Examples"><a href="#Examples" class="headerlink" title="Examples"></a>Examples</h1><h2 id="p-Met1ext-5-1"><a href="#p-Met1ext-5-1" class="headerlink" title="p.Met1ext-5"></a>p.Met1ext-5</h2><p>突变在上游5’UTR导致一个新的翻译起始位点Met-5，是p.Met1extMet-5的改版</p>
+<h2 id="p-Met1-Leu2insArgSerThrVal"><a href="#p-Met1-Leu2insArgSerThrVal" class="headerlink" title="p.Met1_Leu2insArgSerThrVal"></a>p.Met1_Leu2insArgSerThrVal</h2><p>突变造成上游产生一个新的翻译起始位点Met-4,实际表现为Met1和Leu2中插入ArgSerThrVal，氨基酸Met1变为了Val。这种通常不描述为延伸，因为Met1作为正常的氨基酸序列发生了变化。</p>
+<h2 id="p-Ter110GlnextTer17-natively-p-110Glnext-17"><a href="#p-Ter110GlnextTer17-natively-p-110Glnext-17" class="headerlink" title="p.Ter110GlnextTer17 (natively p.*110Glnext*17)"></a>p.Ter110GlnextTer17 (natively p.*110Glnext*17)</h2><p>发生在110位置终止密码子Ter(*)，变为了一个非终止的Gln密码子，C端增加了若干氨基酸，在下游17位置产生新的密码子</p>
+<h2 id="p-Ter315TyrextAsnLysGlyThrTer-p-315TyrextAsnLysGlyThr"><a href="#p-Ter315TyrextAsnLysGlyThrTer-p-315TyrextAsnLysGlyThr" class="headerlink" title="p.(Ter315TyrextAsnLysGlyThrTer) (p.*315TyrextAsnLysGlyThr*)"></a>p.(Ter315TyrextAsnLysGlyThrTer) (p.*315TyrextAsnLysGlyThr*)</h2><p>在315位置的终止密码子变成了非终止的Tyr，并增加几个氨基酸，在下游5号位生成新的终止密码子。</p>
+<h2 id="p-Ter327Argext-p-327Argext"><a href="#p-Ter327Argext-p-327Argext" class="headerlink" title="p.Ter327Argext*? (p.*327Argext*?)"></a>p.Ter327Argext*? (p.*327Argext*?)</h2><p>327号位的终止密码子变成了Arg，但是造成了移码，且移码框内没有终止密码</p>
+<h1 id="Q-amp-A"><a href="#Q-amp-A" class="headerlink" title="Q&amp;A"></a>Q&amp;A</h1><h2 id="蛋白层面的变化如何直接影响翻译起始密码子？"><a href="#蛋白层面的变化如何直接影响翻译起始密码子？" class="headerlink" title="蛋白层面的变化如何直接影响翻译起始密码子？"></a>蛋白层面的变化如何直接影响翻译起始密码子？</h2><p>这类突变成为起始缺失突变，两种蛋白延伸突变的一种，发生在N端。但不同于密码子获得突变，因为这类突变没有直接影响正常的翻译起始密码子。</p>
+<h2 id="蛋白层面的变化如何直接影响翻译终止密码子？"><a href="#蛋白层面的变化如何直接影响翻译终止密码子？" class="headerlink" title="蛋白层面的变化如何直接影响翻译终止密码子？"></a>蛋白层面的变化如何直接影响翻译终止密码子？</h2><p>这类突变成为非终止突变或者终止缺失突变，另外一个蛋白延伸突变的类型，发生在C端。</p>
+<h2 id="没有新的终止密码子产生时如何描述"><a href="#没有新的终止密码子产生时如何描述" class="headerlink" title="没有新的终止密码子产生时如何描述"></a>没有新的终止密码子产生时如何描述</h2><p>这种突变用，比如p.Ter789ArgextTer?，用extTer?来表示没有新的终止密码子</p>
+<h2 id="5’UTR有新的起始密码子时如何描述"><a href="#5’UTR有新的起始密码子时如何描述" class="headerlink" title="5’UTR有新的起始密码子时如何描述"></a>5’UTR有新的起始密码子时如何描述</h2><p>在DNA水平描述，例如c.-23A&gt;T (导致 c.-25 caGggt c.-19 变为 caTggt, 产生新的ATG)。在RNA水平 r.-23a&gt;u，在蛋白水平p.(Met1ext-8), 表明预测的蛋白序列在N端延伸了8个氨基酸。</p>
+<h2 id="把终止密码子TGA变为TGGA描述为移码还是延伸"><a href="#把终止密码子TGA变为TGGA描述为移码还是延伸" class="headerlink" title="把终止密码子TGA变为TGGA描述为移码还是延伸"></a>把终止密码子TGA变为TGGA描述为移码还是延伸</h2><p>这类突变在C端延伸了氨基酸序列，因此定义为延伸extension。</p>
+<h1 id="作业"><a href="#作业" class="headerlink" title="作业"></a>作业</h1><p>下面这个突变我们命名为p.Ter863GlyextTer2或者p.*863Glyext*2</p>
+<p><img src="/wp/f4w/2022/2022-04-25-ExtensionVarianteAtProteinLevel.png"></p>
+<p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>#####################################################################</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Mutation/" rel="tag"># Mutation</a>
+              <a href="/tags/Variant/" rel="tag"># Variant</a>
+              <a href="/tags/HGVS/" rel="tag"># HGVS</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/archives/1373/" rel="prev" title="Entrez Direct (EDirect)!!! Convert Biosample ID to Run ID">
+      <i class="fa fa-chevron-left"></i> Entrez Direct (EDirect)!!! Convert Biosample ID to Run ID
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/archives/1450/" rel="next" title="临床模型的决策曲线分析解读">
+      临床模型的决策曲线分析解读 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BB%B6%E4%BC%B8%E7%AA%81%E5%8F%98%E5%AE%9A%E4%B9%89"><span class="nav-number">1.</span> <span class="nav-text">延伸突变定义</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8F%8F%E8%BF%B0"><span class="nav-number">2.</span> <span class="nav-text">描述</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#p-Met1ext-5"><span class="nav-number">2.1.</span> <span class="nav-text">p.Met1ext-5</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#e-g-p-Ter110GlnextTer17"><span class="nav-number">2.2.</span> <span class="nav-text">e.g. p.Ter110GlnextTer17</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B3%A8%E6%84%8F"><span class="nav-number">3.</span> <span class="nav-text">注意</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Examples"><span class="nav-number">4.</span> <span class="nav-text">Examples</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#p-Met1ext-5-1"><span class="nav-number">4.1.</span> <span class="nav-text">p.Met1ext-5</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#p-Met1-Leu2insArgSerThrVal"><span class="nav-number">4.2.</span> <span class="nav-text">p.Met1_Leu2insArgSerThrVal</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#p-Ter110GlnextTer17-natively-p-110Glnext-17"><span class="nav-number">4.3.</span> <span class="nav-text">p.Ter110GlnextTer17 (natively p.*110Glnext*17)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#p-Ter315TyrextAsnLysGlyThrTer-p-315TyrextAsnLysGlyThr"><span class="nav-number">4.4.</span> <span class="nav-text">p.(Ter315TyrextAsnLysGlyThrTer) (p.*315TyrextAsnLysGlyThr*)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#p-Ter327Argext-p-327Argext"><span class="nav-number">4.5.</span> <span class="nav-text">p.Ter327Argext*? (p.*327Argext*?)</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Q-amp-A"><span class="nav-number">5.</span> <span class="nav-text">Q&amp;A</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%9B%8B%E7%99%BD%E5%B1%82%E9%9D%A2%E7%9A%84%E5%8F%98%E5%8C%96%E5%A6%82%E4%BD%95%E7%9B%B4%E6%8E%A5%E5%BD%B1%E5%93%8D%E7%BF%BB%E8%AF%91%E8%B5%B7%E5%A7%8B%E5%AF%86%E7%A0%81%E5%AD%90%EF%BC%9F"><span class="nav-number">5.1.</span> <span class="nav-text">蛋白层面的变化如何直接影响翻译起始密码子？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%9B%8B%E7%99%BD%E5%B1%82%E9%9D%A2%E7%9A%84%E5%8F%98%E5%8C%96%E5%A6%82%E4%BD%95%E7%9B%B4%E6%8E%A5%E5%BD%B1%E5%93%8D%E7%BF%BB%E8%AF%91%E7%BB%88%E6%AD%A2%E5%AF%86%E7%A0%81%E5%AD%90%EF%BC%9F"><span class="nav-number">5.2.</span> <span class="nav-text">蛋白层面的变化如何直接影响翻译终止密码子？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B2%A1%E6%9C%89%E6%96%B0%E7%9A%84%E7%BB%88%E6%AD%A2%E5%AF%86%E7%A0%81%E5%AD%90%E4%BA%A7%E7%94%9F%E6%97%B6%E5%A6%82%E4%BD%95%E6%8F%8F%E8%BF%B0"><span class="nav-number">5.3.</span> <span class="nav-text">没有新的终止密码子产生时如何描述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5%E2%80%99UTR%E6%9C%89%E6%96%B0%E7%9A%84%E8%B5%B7%E5%A7%8B%E5%AF%86%E7%A0%81%E5%AD%90%E6%97%B6%E5%A6%82%E4%BD%95%E6%8F%8F%E8%BF%B0"><span class="nav-number">5.4.</span> <span class="nav-text">5’UTR有新的起始密码子时如何描述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8A%8A%E7%BB%88%E6%AD%A2%E5%AF%86%E7%A0%81%E5%AD%90TGA%E5%8F%98%E4%B8%BATGGA%E6%8F%8F%E8%BF%B0%E4%B8%BA%E7%A7%BB%E7%A0%81%E8%BF%98%E6%98%AF%E5%BB%B6%E4%BC%B8"><span class="nav-number">5.5.</span> <span class="nav-text">把终止密码子TGA变为TGGA描述为移码还是延伸</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BD%9C%E4%B8%9A"><span class="nav-number">6.</span> <span class="nav-text">作业</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Jason</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">163</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">167</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+
+<!--google_adsense-->
+
+  <div class="links-of-blogroll-title">
+    <i class="fa fa-google"></i> AdSense
+    <ins class="adsbygoogle"
+        style="display:block"
+        data-ad-client="ca-pub-9370593480269435"
+        data-ad-slot="8824957305"
+        data-ad-format="auto"
+        data-full-width-responsive="true"></ins>
+    <script>
+      (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+  </div>
+
+<!--/google_adsense-->
+
+
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jason</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- PGAD -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-9370593480269435"
+     data-ad-slot="8824957305"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

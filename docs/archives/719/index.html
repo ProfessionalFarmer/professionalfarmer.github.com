@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"md.zxzyl.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+
+  <meta name="description" content="虽说用最早知道R是在大学的时候，那个时候因为生物信息的人都会R。实际上，我倒现在都不会R，一直在用JAVA，现在也转到python上了。感觉做转录组的牛人用R比较多。我也在计划学下R，毕竟很多统计和作图的包都是R包。 废话不多说了，为什么我不会R，却还要发这个帖子呢，因为我在做Fastq文件质控的时候，需要一个R包，我不会写R，但是会照猫画虎的用哈，不过在安装这个包的时候提示我package no">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ubuntu下升级更新R版本">
+<meta property="og:url" content="https://md.zxzyl.com/archives/719/index.html">
+<meta property="og:site_name" content="Zhongxu&#39;s blog">
+<meta property="og:description" content="虽说用最早知道R是在大学的时候，那个时候因为生物信息的人都会R。实际上，我倒现在都不会R，一直在用JAVA，现在也转到python上了。感觉做转录组的牛人用R比较多。我也在计划学下R，毕竟很多统计和作图的包都是R包。 废话不多说了，为什么我不会R，却还要发这个帖子呢，因为我在做Fastq文件质控的时候，需要一个R包，我不会写R，但是会照猫画虎的用哈，不过在安装这个包的时候提示我package no">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2016-01-07T14:56:16.000Z">
+<meta property="article:modified_time" content="2016-01-07T14:56:16.000Z">
+<meta property="article:author" content="Jason">
+<meta property="article:tag" content="R">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://md.zxzyl.com/archives/719/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>ubuntu下升级更新R版本 | Zhongxu's blog</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a3b5d3f466edb3e3f15e8238d8f04be8";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Zhongxu's blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://md.zxzyl.com/archives/719/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhongxu's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          ubuntu下升级更新R版本
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-01-07 22:56:16" itemprop="dateCreated datePublished" datetime="2016-01-07T22:56:16+08:00">2016-01-07</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>虽说用最早知道R是在大学的时候，那个时候因为生物信息的人都会R。实际上，我倒现在都不会R，一直在用JAVA，现在也转到python上了。感觉做转录组的牛人用R比较多。我也在计划学下R，毕竟很多统计和作图的包都是R包。</p>
+<p>废话不多说了，为什么我不会R，却还要发这个帖子呢，因为我在做Fastq文件质控的时候，需要一个R包，我不会写R，但是会照猫画虎的用哈，不过在安装这个包的时候提示我<code>package not available for R</code>。当时想，是不是服务器上的版本有点老啊。于是弱弱的用百度搜了下，竟然有人说要先卸载再安装。我想，这不科学啊，还是谷歌了一下。</p>
+<p>上干货</p>
+<p>1，这一步的目的是添加cran到apt的源中，cran也可以换成其他的。</p>
+<pre><code>sudo echo &quot;deb http://mirrors.aliyun.com/CRAN/bin/linux/ubuntu/ trusty/&quot; &gt;&gt; /etc/apt/sources.list
+</code></pre>
+<p>2，从公钥服务器上获得缺失的公钥，公钥服务器也可以换成其他地方的。Fetch the secure APT key</p>
+<pre><code>gpg --keyserver keyserver.ubuntu.com --recv-key E084DAB9
+或者
+gpg --hkp://keyserver keyserver.ubuntu.com:80 --recv-key E084DAB9
+</code></pre>
+<p>4，导入公钥 Feed it to apt-key</p>
+<pre><code>gpg -a --export E084DAB9 &#39; sudo apt-key add -
+</code></pre>
+<p>5， </p>
+<pre><code>sudo apt-get update &amp;&amp; sudo apt-get install r-base
+</code></pre>
+<p>然后完成R语言的更新。<span id="more"></span></p>
+<p>关注怎么更新R版本的童鞋们可以先退了。</p>
+<p>其实，后来我升级完R后，还是出现package not available for R的问题，说明和R版本无关。没关系，我接着找原因，这篇<a target="_blank" rel="noopener" href="http://altons.github.io/r/2013/06/23/when-package-xyz-is-not-available-for-a-specific-version-of-r/" title="文（dian）章（wo）">文（dian）章（wo）</a>。提出出现package not available for R的原因有两种，一种是cran镜像out of date，另外一种是没有特定R版本的二进制包。我不生产水，我是大自然的搬运工–内容粘贴如下：</p>
+<blockquote>
+<p><strong>When package XYZ is not available for a specific version of R</strong></p>
+<p>When you try to install a package in R and you get the following message:</p>
+<p>Warning in install.packages :<br>package XYZ is not available (for R version x.xx.x)<br>is normally down to:</p>
+<ul>
+<li>  CRAN mirror is out-of-date in which case you can change the repo by using:<br><code>install.packages(&quot;XYZ&quot;,repos = &quot;http://cran.us.r-project.org/&quot;)</code></li>
+<li>  Package author have not created a binary package for the specific version of R.<br>If the latter, here they are a set of simple steps to compile an R package from source.</li>
+</ul>
+<ol>
+<li> Go to package’s site, e.g. ggplot2</li>
+<li> Download the package source for your OS. For MacOS would be ggplot2_0.9.3.1.tgz</li>
+<li> Open an R session and type &amp; run the following command:<br><code>install.packages(&quot;/path/to/file/packageName.tgz&quot;,repos = NULL, type=&quot;source&quot;)</code><br>and Voila! your package is now available for your version of R.<br>Note: If package has dependencies you may try to install them using the standard install.packages() and if they are not available then do the above steps.</li>
+</ol>
+</blockquote>
+<p>Ref：Thanks the authors</p>
+<p><a target="_blank" rel="noopener" href="http://stackoverflow.com/questions/10476713/how-to-upgrade-r-in-ubuntu" title="http://stackoverflow.com/questions/10476713/how-to-upgrade-r-in-ubuntu">http://stackoverflow.com/questions/10476713/how-to-upgrade-r-in-ubuntu</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/R/" rel="tag"># R</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/archives/718/" rel="prev" title="SNPedia 资源介绍">
+      <i class="fa fa-chevron-left"></i> SNPedia 资源介绍
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/archives/720/" rel="next" title="BreakDancer检测结构突变SV实战">
+      BreakDancer检测结构突变SV实战 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Jason</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">163</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">167</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+
+<!--google_adsense-->
+
+  <div class="links-of-blogroll-title">
+    <i class="fa fa-google"></i> AdSense
+    <ins class="adsbygoogle"
+        style="display:block"
+        data-ad-client="ca-pub-9370593480269435"
+        data-ad-slot="8824957305"
+        data-ad-format="auto"
+        data-full-width-responsive="true"></ins>
+    <script>
+      (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+  </div>
+
+<!--/google_adsense-->
+
+
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jason</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- PGAD -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-9370593480269435"
+     data-ad-slot="8824957305"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

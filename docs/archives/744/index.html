@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"md.zxzyl.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+
+  <meta name="description" content="Promoter 2.0 Prediction Serverhttp:&#x2F;&#x2F;www.cbs.dtu.dk&#x2F;services&#x2F;Promoter&#x2F;很早之前的预测启动子在线软件，要求输入的gene序列为FASTA格式，可以在线做  Berkeley Drosophila Genome Grouphttp:&#x2F;&#x2F;fruitfly.org:9005&#x2F;seq_tools&#x2F;promoter.html果蝇基因组相关">
+<meta property="og:type" content="article">
+<meta property="og:title" content="启动子分析预测数据库">
+<meta property="og:url" content="https://md.zxzyl.com/archives/744/index.html">
+<meta property="og:site_name" content="Zhongxu&#39;s blog">
+<meta property="og:description" content="Promoter 2.0 Prediction Serverhttp:&#x2F;&#x2F;www.cbs.dtu.dk&#x2F;services&#x2F;Promoter&#x2F;很早之前的预测启动子在线软件，要求输入的gene序列为FASTA格式，可以在线做  Berkeley Drosophila Genome Grouphttp:&#x2F;&#x2F;fruitfly.org:9005&#x2F;seq_tools&#x2F;promoter.html果蝇基因组相关">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2016-03-12T15:16:31.000Z">
+<meta property="article:modified_time" content="2016-03-12T15:16:31.000Z">
+<meta property="article:author" content="Jason">
+<meta property="article:tag" content="Promoter">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://md.zxzyl.com/archives/744/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>启动子分析预测数据库 | Zhongxu's blog</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a3b5d3f466edb3e3f15e8238d8f04be8";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Zhongxu's blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://md.zxzyl.com/archives/744/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhongxu's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          启动子分析预测数据库
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-03-12 23:16:31" itemprop="dateCreated datePublished" datetime="2016-03-12T23:16:31+08:00">2016-03-12</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <hr>
+<p><strong>Promoter 2.0 Prediction Server</strong><br><a target="_blank" rel="noopener" href="http://www.cbs.dtu.dk/services/Promoter/">http://www.cbs.dtu.dk/services/Promoter/</a><br>很早之前的预测启动子在线软件，要求输入的gene序列为FASTA格式，可以在线做</p>
+<hr>
+<p><strong>Berkeley Drosophila Genome Group</strong><br><a target="_blank" rel="noopener" href="http://fruitfly.org:9005/seq_tools/promoter.html">http://fruitfly.org:9005/seq_tools/promoter.html</a><br>果蝇基因组相关信息，利用神经网络预测启动子序列</p>
+<hr>
+<p><strong>McPromoter</strong><br><a target="_blank" rel="noopener" href="http://tools.genome.duke.edu/generegulation/McPromoter/McPromoter.html">http://tools.genome.duke.edu/generegulation/McPromoter/McPromoter.html</a><br>马尔科夫预测gene的转录其实位点，新版本只提供果蝇</p>
+<span id="more"></span>
+
+<hr>
+<p><strong>EPD Eukaryotic Promoter Database</strong><br><a target="_blank" rel="noopener" href="http://epd.vital-it.ch/">http://epd.vital-it.ch/</a><br>比较全的基因启动子数据，并且经过试验验证；同时数据库给出UCSC中gene起始位点的数据下载链接。</p>
+<p>真核生物启动子数据库主要收集了真核POL II启动子的相关数据，这些启动子是均是已经被注释的，转录的起始位点也是通过试验验证的。用户可以通过输入核苷酸序列查找到启动子所在的位置。数据库将会为这些启动子提供转录起始点扫描数据，相关数据库的链接和原始文献的介绍。RPD为用户提供了一种独特而有效地查询方法，它通过比较序列提取出有生物学意义的启动子子集。同时它对初学者提供了详细的使用说明。RPD由瑞士生物信息学会支持。</p>
+<hr>
+<p><strong>SCOPE</strong><br><a target="_blank" rel="noopener" href="http://genie.dartmouth.edu/scope/">http://genie.dartmouth.edu/scope/</a><br>利用计算方法在线预测gene的启动子，可以查看很多个物种，并且给出物种数据信息来源链接</p>
+<hr>
+<p><strong>PROMOTERS TERMINATORS</strong><br><a target="_blank" rel="noopener" href="http://molbiol-tools.ca/Promoters.htm">http://molbiol-tools.ca/Promoters.htm</a><br>收集了预测细菌启动子、真核生物启动子、转录终止位点的预测工具</p>
+<hr>
+<p><strong>FPROM</strong><br><a target="_blank" rel="noopener" href="http://www.softberry.com/berry.phtml?topic=index&group=programs&subgroup=promoter">http://www.softberry.com/berry.phtml?topic=index&amp;group=programs&amp;subgroup=promoter</a>提供人类启动子预测，在线提交序列，可以设置TATA阈值</p>
+<hr>
+<p><strong>Promoters</strong><br><a target="_blank" rel="noopener" href="http://linux1.softberry.com/berry.phtml?topic=bprom&group=programs&subgroup=gfindb">http://linux1.softberry.com/berry.phtml?topic=bprom&amp;group=programs&amp;subgroup=gfindb</a><br>提供3种启动子预测工具，BPROM (bacterial)、TSSP (plant) 、TSSG&amp; TSSW (human)。该数据库还有其它很多功能，如剪切位点寻找、SNP筛选、表达谱分析等</p>
+<hr>
+<p><strong>PlantProm DB</strong><br><a target="_blank" rel="noopener" href="http://linux1.softberry.com/berry.phtml?topic=plantprom&group=data&subgroup=plantprom">http://linux1.softberry.com/berry.phtml?topic=plantprom&amp;group=data&amp;subgroup=plantprom</a><br>各种植物物种的经过实验验证的RNA聚合酶II结合位点，作为可能的启动子区域。</p>
+<hr>
+<p><strong>microPIR microRNA-Promoter Interaction Resource</strong><br><a target="_blank" rel="noopener" href="http://www4a.biotec.or.th/micropir2/">http://www4a.biotec.or.th/micropir2/</a><br>包含15 million个预测的位于人类启动子区域的miRNA目标位点。这些预测的miRNA靶标，依据的是基因组和实验数据，使得microPIR成为含有miRNA promter靶标的全面数据库。</p>
+<hr>
+<p>关于softberry提供的启动子预测服务索引，可以参见<br><a target="_blank" rel="noopener" href="http://www.softberry.com/berry.phtml?topic=index&group=programs&subgroup=promoter">http://www.softberry.com/berry.phtml?topic=index&amp;group=programs&amp;subgroup=promoter</a></p>
+<hr>
+<p><strong>MPromDb</strong><br><a target="_blank" rel="noopener" href="http://mpromdb.wistar.upenn.edu/login">http://mpromdb.wistar.upenn.edu/login</a><br>收集小鼠和人类的启动子，注册后可下载数据</p>
+<hr>
+<p><strong>TFBIND</strong><br><a target="_blank" rel="noopener" href="http://tfbind.hgc.jp/">http://tfbind.hgc.jp/</a><br>结合TRANSFAC数据库预测gene的启动子，使用的TRANSFAC版本为TRANSFACR.3.4</p>
+<hr>
+<p><strong>WWW Promoter Scan</strong><br><a target="_blank" rel="noopener" href="http://www-bimas.cit.nih.gov/molbio/proscan/">http://www-bimas.cit.nih.gov/molbio/proscan/</a><br>基于scoringhomologies 预测真核生物Pol II 启动子序列，是个在线预测工具；接受多种输入格式；预测工具为<br>PROSCANVersion 1.7</p>
+<hr>
+<p><strong>genomatrix software suite</strong><br><a target="_blank" rel="noopener" href="http://www.genomatix.de/cgi-bin//sessions/login.pl?s=77c3fb3ec77cfa5b90236270b8056f04">http://www.genomatix.de/cgi-bin//sessions/login.pl?s=77c3fb3ec77cfa5b90236270b8056f04</a><br>先注册后使用。可以预测分析promoter、TF、variant等分析；提供分析的tools，如geneidBedBAM文件文件处理等</p>
+<hr>
+<p><strong>phiSITE</strong><br><a target="_blank" rel="noopener" href="http://www.phisite.org/main/index.php?nav=tools&nav_sel=hunter">http://www.phisite.org/main/index.php?nav=tools&amp;nav_sel=hunter</a><br>该数据库是（噬菌体基因调控数据库），提供的工具”promoterhunter”可以预测元原核生物的启动子序列，要求输入FASTA格式序列</p>
+<hr>
+<p><strong>DBTSS</strong><br><a target="_blank" rel="noopener" href="http://dbtss.hgc.jp/index.html">http://dbtss.hgc.jp/index.html</a><br>7个物种（人类、小鼠、大鼠、疟原虫、红藻、穴居人、猴）的转录起始位点预测，这些TSS位点是经过TSS-seq实验验证的。可以查看TSS区域的SNV信息</p>
+<hr>
+<p><strong>AtProbe</strong><br><a target="_blank" rel="noopener" href="http://exon.cshl.org/cgi-bin/atprobe/atprobe.pl">http://exon.cshl.org/cgi-bin/atprobe/atprobe.pl</a><br>拟南芥启动子结合元件数据库，给出的元件有118个、基因76个</p>
+<hr>
+<p><strong>FirstEF</strong><br><a target="_blank" rel="noopener" href="http://rulai.cshl.org/tools/FirstEF/">http://rulai.cshl.org/tools/FirstEF/</a><br>预测人类启动子和第一个外显子的在线工具</p>
+<hr>
+<p><strong>Tfsitescan</strong><br><a target="_blank" rel="noopener" href="http://www.ifti.org/cgi-bin/ifti/Tfsitescan.pl">http://www.ifti.org/cgi-bin/ifti/Tfsitescan.pl</a><br>哺乳动物、酵母、果蝇、植物、原核生物等启动子序列的预测</p>
+<hr>
+<p><strong>SCPD Promoter Database of Saccharomyces cerevisiae</strong><br><a target="_blank" rel="noopener" href="http://rulai.cshl.edu/SCPD/">http://rulai.cshl.edu/SCPD/</a><br>提供6000多个酿酒酵母基因的启动子区域</p>
+<hr>
+<p><strong>CpGProD CpG island Promoter Detection</strong><br><a target="_blank" rel="noopener" href="http://doua.prabi.fr/software/cpgprod">http://doua.prabi.fr/software/cpgprod</a><br>在大规模哺乳动物序列中，鉴定与CpG岛有关的启动子区域，尽管预测的启动子能覆盖50%的基因，但又更好的灵敏度和精确度。此外，也预测DNA链上的方向。主要是人和小鼠，提供在线和本地版。</p>
+<hr>
+<p>参考： 云生信<br>后续补充</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Promoter/" rel="tag"># Promoter</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/archives/742/" rel="prev" title="亚效等位基因和超效等位基因">
+      <i class="fa fa-chevron-left"></i> 亚效等位基因和超效等位基因
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/archives/743/" rel="next" title="FPKM,RPKM,TPM  转载">
+      FPKM,RPKM,TPM  转载 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Jason</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">163</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">167</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+
+<!--google_adsense-->
+
+  <div class="links-of-blogroll-title">
+    <i class="fa fa-google"></i> AdSense
+    <ins class="adsbygoogle"
+        style="display:block"
+        data-ad-client="ca-pub-9370593480269435"
+        data-ad-slot="8824957305"
+        data-ad-format="auto"
+        data-full-width-responsive="true"></ins>
+    <script>
+      (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+  </div>
+
+<!--/google_adsense-->
+
+
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jason</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- PGAD -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-9370593480269435"
+     data-ad-slot="8824957305"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

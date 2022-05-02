@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"md.zxzyl.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+
+  <meta name="description" content="在1000genome的FTP服务器上可以下载一个all的vcf文件，里面可以看到AFR, AMR, EAS, EUR, SAS人群的allele频率，但是该种族下面的亚群的频率信息需要在http:&#x2F;&#x2F;grch37.ensembl.org搜索得到，比如 http:&#x2F;&#x2F;grch37.ensembl.org&#x2F;Homo_sapiens&#x2F;Variation&#x2F;Population?db&#x3D;core;r&#x3D;1:2">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Get the allele frequency of 1000 Genome subpopulation">
+<meta property="og:url" content="https://md.zxzyl.com/archives/761/index.html">
+<meta property="og:site_name" content="Zhongxu&#39;s blog">
+<meta property="og:description" content="在1000genome的FTP服务器上可以下载一个all的vcf文件，里面可以看到AFR, AMR, EAS, EUR, SAS人群的allele频率，但是该种族下面的亚群的频率信息需要在http:&#x2F;&#x2F;grch37.ensembl.org搜索得到，比如 http:&#x2F;&#x2F;grch37.ensembl.org&#x2F;Homo_sapiens&#x2F;Variation&#x2F;Population?db&#x3D;core;r&#x3D;1:2">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2016-06-16T07:36:10.000Z">
+<meta property="article:modified_time" content="2016-06-16T07:36:10.000Z">
+<meta property="article:author" content="Jason">
+<meta property="article:tag" content="1000 Genome">
+<meta property="article:tag" content="Frequency">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://md.zxzyl.com/archives/761/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>Get the allele frequency of 1000 Genome subpopulation | Zhongxu's blog</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a3b5d3f466edb3e3f15e8238d8f04be8";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Zhongxu's blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://md.zxzyl.com/archives/761/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhongxu's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Get the allele frequency of 1000 Genome subpopulation
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-06-16 15:36:10" itemprop="dateCreated datePublished" datetime="2016-06-16T15:36:10+08:00">2016-06-16</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>在1000genome的FTP服务器上可以下载一个all的vcf文件，里面可以看到AFR, AMR, EAS, EUR, SAS人群的allele频率，但是该种族下面的亚群的频率信息需要在<a target="_blank" rel="noopener" href="http://grch37.ensembl.org/">http://grch37.ensembl.org</a>搜索得到，比如 <a target="_blank" rel="noopener" href="http://grch37.ensembl.org/Homo_sapiens/Variation/Population?db=core;r=1:230845294-230846294;v=rs699;vdb=variation;vf=102788013">http://grch37.ensembl.org/Homo_sapiens/Variation/Population?db=core;r=1:230845294-230846294;v=rs699;vdb=variation;vf=102788013</a> ，还有一种方式，就是下载包含所有样本的突变信息的VCF文件，利用vcftools计算。</p>
+<p>The allele frequency of super population (AFR, AMR, EAS, EUR, SAS, see <a target="_blank" rel="noopener" href="http://www.1000genomes.org/category/population/">http://www.1000genomes.org/category/population/</a>) can be obtained from <a href="ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/release/20130502/ALL.wgs.phase3_shapeit2_mvncall_integrated_v5b.20130502.sites.vcf.gz">all.vcf</a>.</p>
+<p>However, the allele population frequency in subpopulation is not well obtained.</p>
+<p>One way is search the web <a target="_blank" rel="noopener" href="http://grch37.ensembl.org/">http://grch37.ensembl.org</a> by rs identifier, E.g. <a target="_blank" rel="noopener" href="http://grch37.ensembl.org/Homo_sapiens/Variation/Population?db=core;r=1:230845294-230846294;v=rs699;vdb=variation;vf=102788013">http://grch37.ensembl.org/Homo_sapiens/Variation/Population?db=core;r=1:230845294-230846294;v=rs699;vdb=variation;vf=102788013</a> .</p>
+<p>Another way is calculated on your local machine. The following will introduce how to get allele frequency of CHB population in chr1 chromosome. CHB Han Chinese in Beijing</p>
+<h1 id="Prepare-file-and-software-dependency"><a href="#Prepare-file-and-software-dependency" class="headerlink" title="Prepare file and software dependency"></a>Prepare file and software dependency</h1><p>panel file contains sample information</p>
+<p>panel file: <a href="ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/release/20130502/integrated_call_samples_v3.20130502.ALL.panel">integrated_call_samples_v3.20130502.ALL.panel</a> </p>
+<p>vcf file contains allele information of all samples</p>
+<p>chr1.vcf: <a href="ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/release/20130502/ALL.chr1.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.vcf.gz">ALL.chr1.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.vcf</a></p>
+<p>Also, you should install vcftools.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">wget ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/release/20130502/integrated_call_samples_v3.20130502.ALL.panel</span><br><span class="line">wget ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/release/20130502/ALL.chr1.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.vcf.gz</span><br><span class="line">git <span class="built_in">clone</span> https://github.com/vcftools/vcftools.git</span><br><span class="line"><span class="built_in">cd</span> vcftools/ </span><br><span class="line">./autogen.sh </span><br><span class="line">./configure </span><br><span class="line">make </span><br><span class="line">make install</span><br><span class="line"><span class="built_in">cd</span> ..</span><br></pre></td></tr></table></figure>
+
+
+
+<span id="more"></span>
+
+<h1 id="Calculate-allele-frequency-of-CHB-population"><a href="#Calculate-allele-frequency-of-CHB-population" class="headerlink" title="Calculate allele frequency of CHB population"></a>Calculate allele frequency of CHB population</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">grep CHBintegrated_call_samples_v3.20130502.ALL.panel &#x27; cut -f1 &gt; CHB.samples.list</span><br><span class="line">vcf-subset -c CHB.samples.list ALL.chr1.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.vcf.gz &#x27; fill-an-ac &#x27; bgzip -c &gt; CHB.chr1.phase1.vcf.gz </span><br><span class="line"># Once you have this file you can calculate your frequency by dividing AN (allele number) by AC (allele count)</span><br><span class="line"># or continue, vcftools --freq option will generate a .fre file</span><br><span class="line">vcftools --gzvcf CHB.chr1.phase1.vcf.gz --freq --out CHB</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h1 id="Result"><a href="#Result" class="headerlink" title="Result"></a>Result</h1><pre>head CHB.frq 
+CHROM   POS     N_ALLELES       N_CHR   {ALLELE:FREQ}
+1       10177   2       206     A:0.660194      AC:0.339806
+1       10235   2       206     T:1     TA:0
+1       10352   2       206     T:0.572816      TA:0.427184
+1       10505   2       206     A:1     T:0
+1       10506   2       206     C:1     G:0
+1       10511   2       206     G:1     A:0
+1       10539   2       206     C:1     A:0
+1       10542   2       206     C:1     T:0
+1       10579   2       206     C:1     A:0</pre>
+
+
+<p>Because every sample has two chromosomes, so N_CHR = N_sample * 2</p>
+<p>Reference:</p>
+<p>Population structure</p>
+<p><a target="_blank" rel="noopener" href="http://www.1000genomes.org/category/population/">http://www.1000genomes.org/category/population/</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.1000genomes.org/faq/how-can-i-get-allele-frequency-my-variant/">http://www.1000genomes.org/faq/how-can-i-get-allele-frequency-my-variant/</a></p>
+<p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>####################################################################</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/1000-Genome/" rel="tag"># 1000 Genome</a>
+              <a href="/tags/Frequency/" rel="tag"># Frequency</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/archives/760/" rel="prev" title="修改MySQL远程访问权限">
+      <i class="fa fa-chevron-left"></i> 修改MySQL远程访问权限
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/archives/762/" rel="next" title="Breakdancer------Error: no bams files in config file!">
+      Breakdancer------Error: no bams files in config file! <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Prepare-file-and-software-dependency"><span class="nav-number">1.</span> <span class="nav-text">Prepare file and software dependency</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Calculate-allele-frequency-of-CHB-population"><span class="nav-number">2.</span> <span class="nav-text">Calculate allele frequency of CHB population</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Result"><span class="nav-number">3.</span> <span class="nav-text">Result</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Jason</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">163</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">167</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+
+<!--google_adsense-->
+
+  <div class="links-of-blogroll-title">
+    <i class="fa fa-google"></i> AdSense
+    <ins class="adsbygoogle"
+        style="display:block"
+        data-ad-client="ca-pub-9370593480269435"
+        data-ad-slot="8824957305"
+        data-ad-format="auto"
+        data-full-width-responsive="true"></ins>
+    <script>
+      (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+  </div>
+
+<!--/google_adsense-->
+
+
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jason</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- PGAD -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-9370593480269435"
+     data-ad-slot="8824957305"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

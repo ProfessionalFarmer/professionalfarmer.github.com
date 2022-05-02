@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"md.zxzyl.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+
+  <meta name="description" content="GOdata &#x3D; new(“topGOdata”, ontology &#x3D; “MF”, allGenes &#x3D; geneList,annot &#x3D; annFUN.gene2GO, gene2GO &#x3D; geneID2GO) 利用topGO进行分析，最重要的是构建topGO对象，构建topGO需要两个参数： 1，topGO需要基因和GO号的对应关系 2，基因列表，用来标记背景基因（所有基因）及差异基因 一，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="topGO包进行-GO富集分析-做有向无环图">
+<meta property="og:url" content="https://md.zxzyl.com/archives/767/index.html">
+<meta property="og:site_name" content="Zhongxu&#39;s blog">
+<meta property="og:description" content="GOdata &#x3D; new(“topGOdata”, ontology &#x3D; “MF”, allGenes &#x3D; geneList,annot &#x3D; annFUN.gene2GO, gene2GO &#x3D; geneID2GO) 利用topGO进行分析，最重要的是构建topGO对象，构建topGO需要两个参数： 1，topGO需要基因和GO号的对应关系 2，基因列表，用来标记背景基因（所有基因）及差异基因 一，">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://md.zxzyl.com/wp/f4w/2020/2016-08-16-go.dag.png">
+<meta property="article:published_time" content="2016-08-16T08:23:15.000Z">
+<meta property="article:modified_time" content="2016-08-16T08:23:15.000Z">
+<meta property="article:author" content="Jason">
+<meta property="article:tag" content="R">
+<meta property="article:tag" content="Biomart">
+<meta property="article:tag" content="Enrichment">
+<meta property="article:tag" content="GO">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://md.zxzyl.com/wp/f4w/2020/2016-08-16-go.dag.png">
+
+<link rel="canonical" href="https://md.zxzyl.com/archives/767/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>topGO包进行-GO富集分析-做有向无环图 | Zhongxu's blog</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a3b5d3f466edb3e3f15e8238d8f04be8";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Zhongxu's blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://md.zxzyl.com/archives/767/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhongxu's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          topGO包进行-GO富集分析-做有向无环图
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-08-16 16:23:15" itemprop="dateCreated datePublished" datetime="2016-08-16T16:23:15+08:00">2016-08-16</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>GOdata = new(“topGOdata”, ontology = “MF”, allGenes = geneList,annot = annFUN.gene2GO, gene2GO = geneID2GO)</p>
+<p>利用topGO进行分析，最重要的是构建topGO对象，构建topGO需要两个参数：</p>
+<p>1，topGO需要基因和GO号的对应关系</p>
+<p>2，基因列表，用来标记背景基因（所有基因）及差异基因</p>
+<h1 id="一，获取ensembl和GO号的对应关系-geneID2GO"><a href="#一，获取ensembl和GO号的对应关系-geneID2GO" class="headerlink" title="一，获取ensembl和GO号的对应关系: geneID2GO"></a>一，获取ensembl和GO号的对应关系: geneID2GO</h1><p>如果你有现成的gene id和go id的对应关系，文件格式为</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gene_ID制表符GO_ID1, GO_ID2, GO_ID3, ...</span><br></pre></td></tr></table></figure>
+
+<p>每行，则可以利用readMappings读取该文件（topGO包里面的函数）。</p>
+<p>而我有一个cuffdiff的结果文件gene_exp.diff，用的是ensembl的注释GFF文件。首先需要获得ensembl和GO的对应关系，这里利用biomaRt包（前面的<a target="_blank" rel="noopener" href="http://wp.zxzyl.com/?p=182">文章</a>中有讲，这里不详细介绍）。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">library(biomaRt)</span><br><span class="line">genes = useEnsembl(biomart=<span class="string">&quot;ensembl&quot;</span>,dataset=<span class="string">&quot;hsapiens_gene_ensembl&quot;</span>)</span><br><span class="line"><span class="comment"># 得到go信息和gene</span></span><br><span class="line">gene2goInfo &lt;- getBM(<span class="built_in">attributes</span>=<span class="built_in">c</span>(<span class="string">&#x27;ensembl_gene_id&#x27;</span>,<span class="string">&#x27;go_id&#x27;</span>,<span class="string">&#x27;entrezgene&#x27;</span>,<span class="string">&#x27;name_1006&#x27;</span>,<span class="string">&#x27;go_linkage_type&#x27;</span>,<span class="string">&#x27;namespace_1003&#x27;</span>), mart = genes)</span><br><span class="line"><span class="comment"># 过滤</span></span><br><span class="line">gene2goInfo=gene2goInfo[gene2goInfo$go_id != <span class="string">&quot;&quot;</span>, ]</span><br><span class="line"><span class="comment"># 上述是一个gene对应一个go id，需要合并为一个gene对应多个go id，利用by函数（神器）</span></span><br><span class="line">geneID2GO = by(gene2goInfo$go_id, gene2goInfo$ensembl_gene_id, <span class="keyword">function</span>(x) <span class="built_in">as.character</span>(x))</span><br></pre></td></tr></table></figure>
+
+
+
+<p>geneID2GO是符合topGO要求的，gene2goInfo和geneID2GO的格式如下</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">&gt; head(gene2goInfo)</span><br><span class="line">  ensembl_gene_id      go_id entrezgene                         name_1006</span><br><span class="line"><span class="number">3</span> ENSG00000281614 GO:<span class="number">0005886</span>       <span class="number">3635</span>                   plasma membrane</span><br><span class="line"><span class="number">4</span> ENSG00000281614 GO:<span class="number">0005829</span>       <span class="number">3635</span>                           cytosol</span><br><span class="line"><span class="number">5</span> ENSG00000281614 GO:<span class="number">0005515</span>       <span class="number">3635</span>                   protein binding</span><br><span class="line"><span class="number">6</span> ENSG00000281614 GO:<span class="number">0007165</span>       <span class="number">3635</span>               signal transduction</span><br><span class="line"><span class="number">7</span> ENSG00000281614 GO:<span class="number">0005856</span>       <span class="number">3635</span>                      cytoskeleton</span><br><span class="line"><span class="number">8</span> ENSG00000281614 GO:<span class="number">0050852</span>       <span class="number">3635</span> <span class="built_in">T</span> cell receptor signaling pathway</span><br><span class="line">  go_linkage_type     namespace_1003</span><br><span class="line"><span class="number">3</span>             IEA cellular_component</span><br><span class="line"><span class="number">4</span>             TAS cellular_component</span><br><span class="line"><span class="number">5</span>             IPI molecular_function</span><br><span class="line"><span class="number">6</span>             TAS biological_process</span><br><span class="line"><span class="number">7</span>             IEA cellular_component</span><br><span class="line"><span class="number">8</span>             TAS biological_process</span><br><span class="line"></span><br><span class="line">&gt; head(geneID2GO)</span><br><span class="line">$ENSG00000000003</span><br><span class="line">[<span class="number">1</span>] <span class="string">&quot;GO:0004871&quot;</span> <span class="string">&quot;GO:0005515&quot;</span> <span class="string">&quot;GO:0005887&quot;</span> <span class="string">&quot;GO:0070062&quot;</span> <span class="string">&quot;GO:0007166&quot;</span></span><br><span class="line">[<span class="number">6</span>] <span class="string">&quot;GO:0043123&quot;</span> <span class="string">&quot;GO:0039532&quot;</span> <span class="string">&quot;GO:1901223&quot;</span></span><br><span class="line"></span><br><span class="line">$ENSG00000000005</span><br><span class="line">[<span class="number">1</span>] <span class="string">&quot;GO:0016021&quot;</span> <span class="string">&quot;GO:0005737&quot;</span> <span class="string">&quot;GO:0005515&quot;</span> <span class="string">&quot;GO:0005635&quot;</span> <span class="string">&quot;GO:0016525&quot;</span></span><br><span class="line">[<span class="number">6</span>] <span class="string">&quot;GO:0001886&quot;</span> <span class="string">&quot;GO:0001937&quot;</span> <span class="string">&quot;GO:0071773&quot;</span> <span class="string">&quot;GO:0035990&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="二，构建基因列表：geneList"><a href="#二，构建基因列表：geneList" class="headerlink" title="二，构建基因列表：geneList"></a>二，构建基因列表：geneList</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">diff=read.table(&quot;./gene_exp.diff&quot;,sep=&quot;t&quot;,header=TRUE)</span><br><span class="line"># 差异表达基因</span><br><span class="line">interesting_genes=factor(diff[diff$significant==&quot;yes&quot;,]$gene_id)</span><br><span class="line"># 所有基因</span><br><span class="line">all_genes &lt;- diff$gene_id</span><br><span class="line"># 构建基因列表</span><br><span class="line">geneList &lt;- factor(as.integer (all_genes %in% interesting_genes))</span><br><span class="line">names(geneList)=all_genes</span><br></pre></td></tr></table></figure>
+
+
+<h1 id="三，构建topGO对象"><a href="#三，构建topGO对象" class="headerlink" title="三，构建topGO对象"></a>三，构建topGO对象</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">source(&quot;https://bioconductor.org/biocLite.R&quot;)</span><br><span class="line">chooseBioCmirror()</span><br><span class="line">biocLite(&quot;topGO&quot;)</span><br><span class="line">biocLite(&quot;org.Hs.eg.db&quot;)</span><br><span class="line">biocLite(&quot;GO.db&quot;)</span><br><span class="line">biocLite(&quot;Rgraphviz&quot;)</span><br><span class="line">library(topGO)</span><br><span class="line"></span><br><span class="line">GOdata &lt;- new(&quot;topGOdata&quot;, ontology = &quot;MF&quot;, allGenes = geneList,annot = annFUN.gene2GO, gene2GO = geneID2GO)</span><br><span class="line"></span><br><span class="line">Building most specific GOs .....</span><br><span class="line">( 3893 GO terms found. )</span><br><span class="line"></span><br><span class="line">Build GO DAG topology ..........</span><br><span class="line">( 4356 GO terms and 5490 relations. )</span><br><span class="line"></span><br><span class="line">Annotating nodes ...............</span><br><span class="line">( 16722 genes annotated to the GO terms. )</span><br></pre></td></tr></table></figure>
+
+<h1 id="四，基因富集分析"><a href="#四，基因富集分析" class="headerlink" title="四，基因富集分析"></a>四，基因富集分析</h1><p>Fisher检验，通过2*2的列联表的进行计算。当然还有其他检验，比如KS，KS.elim。</p>
+<p>—————-非差异表达基因—差异表达基因<br>注释到A通路——– 20 ———– 50<br>没有注释到A通路—- 1870 ——— 80</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">resultFisher &lt;- runTest(GOdata, algorithm = <span class="string">&quot;classic&quot;</span>, statistic = <span class="string">&quot;fisher&quot;</span>)</span><br><span class="line">allRes &lt;- GenTable(GOdata,classicFisher = resultFisher, orderBy = <span class="string">&quot;classicFisher&quot;</span>, topNodes = <span class="number">10</span>)</span><br></pre></td></tr></table></figure>
+
+
+<p>根据orderBy的参数对象进行排序，得到结果如下</p>
+<p>GO.ID                                        Term Annotated Significant<br>1 GO:0032794           GTPase activating protein binding        14           2<br>2 GO:0015278            calcium-release channel activity        16           2<br>3 GO:0099604       ligand-gated calcium channel activity        16           2<br>4 GO:0005527                           macrolide binding        19           2<br>5 GO:0005528                               FK506 binding        19           2<br>6 GO:0001225 RNA polymerase II transcription coactiva…         1           1</p>
+<p>Expected classicFisher<br>1     0.05        0.0012<br>2     0.06        0.0016<br>3     0.06        0.0016<br>4     0.07        0.0023<br>5     0.07        0.0023<br>6     0.00        0.0038</p>
+<h1 id="五，生成有向无环图-directed-acycline-praph，DAG）"><a href="#五，生成有向无环图-directed-acycline-praph，DAG）" class="headerlink" title="五，生成有向无环图(directed acycline praph，DAG）"></a>五，生成有向无环图(directed acycline praph，DAG）</h1><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">svg(<span class="string">&quot;go.dag.svg&quot;</span>)</span><br><span class="line">showSigOfNodes(GOdata, score(resultFisher), firstSigNodes = <span class="number">5</span>, useInfo = <span class="string">&#x27;all&#x27;</span>)</span><br><span class="line">dev.off()</span><br></pre></td></tr></table></figure>
+
+
+
+
+<p><img src="/wp/f4w/2020/2016-08-16-go.dag.png">  </p>
+<span id="more"></span>
+
+<p>**参考： **</p>
+<p><a target="_blank" rel="noopener" href="https://bioconductor.org/packages/release/bioc/html/topGO.html">https://bioconductor.org/packages/release/bioc/html/topGO.html</a></p>
+<p><a target="_blank" rel="noopener" href="http://wp.zxzyl.com/?p=182">http://wp.zxzyl.com/?p=182</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.biostars.org/p/102088/">https://www.biostars.org/p/102088/</a></p>
+<p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>####################################################################</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/R/" rel="tag"># R</a>
+              <a href="/tags/Biomart/" rel="tag"># Biomart</a>
+              <a href="/tags/Enrichment/" rel="tag"># Enrichment</a>
+              <a href="/tags/GO/" rel="tag"># GO</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/archives/766/" rel="prev" title="Ubuntu下安装java和多版本java共存控制">
+      <i class="fa fa-chevron-left"></i> Ubuntu下安装java和多版本java共存控制
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/archives/768/" rel="next" title="Convert gtf to bed12 format --- gtf2bed">
+      Convert gtf to bed12 format --- gtf2bed <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%80%EF%BC%8C%E8%8E%B7%E5%8F%96ensembl%E5%92%8CGO%E5%8F%B7%E7%9A%84%E5%AF%B9%E5%BA%94%E5%85%B3%E7%B3%BB-geneID2GO"><span class="nav-number">1.</span> <span class="nav-text">一，获取ensembl和GO号的对应关系: geneID2GO</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%8C%EF%BC%8C%E6%9E%84%E5%BB%BA%E5%9F%BA%E5%9B%A0%E5%88%97%E8%A1%A8%EF%BC%9AgeneList"><span class="nav-number">2.</span> <span class="nav-text">二，构建基因列表：geneList</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%89%EF%BC%8C%E6%9E%84%E5%BB%BAtopGO%E5%AF%B9%E8%B1%A1"><span class="nav-number">3.</span> <span class="nav-text">三，构建topGO对象</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9B%9B%EF%BC%8C%E5%9F%BA%E5%9B%A0%E5%AF%8C%E9%9B%86%E5%88%86%E6%9E%90"><span class="nav-number">4.</span> <span class="nav-text">四，基因富集分析</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%94%EF%BC%8C%E7%94%9F%E6%88%90%E6%9C%89%E5%90%91%E6%97%A0%E7%8E%AF%E5%9B%BE-directed-acycline-praph%EF%BC%8CDAG%EF%BC%89"><span class="nav-number">5.</span> <span class="nav-text">五，生成有向无环图(directed acycline praph，DAG）</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Jason</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">163</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">167</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+
+<!--google_adsense-->
+
+  <div class="links-of-blogroll-title">
+    <i class="fa fa-google"></i> AdSense
+    <ins class="adsbygoogle"
+        style="display:block"
+        data-ad-client="ca-pub-9370593480269435"
+        data-ad-slot="8824957305"
+        data-ad-format="auto"
+        data-full-width-responsive="true"></ins>
+    <script>
+      (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+  </div>
+
+<!--/google_adsense-->
+
+
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jason</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- PGAD -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-9370593480269435"
+     data-ad-slot="8824957305"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

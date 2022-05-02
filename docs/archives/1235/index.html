@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"md.zxzyl.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+
+  <meta name="description" content="特征选择是机器学习中的一个重要步骤，通过特征选择挑选出对预测起重要作用的变量，既可以减少数据的维度，也可以减少计算的消耗，同时也有助于我们对自己的数据的理解。有许多方法都可以应用到特征选择，比如大家常用的LASSO。我在用R做数据分析的时候，看到过这个帖子，进而了解了很多算法，所以对这个帖子进行了翻译，方便自己复习，也方便大家学习。 原文参考： https:&#x2F;&#x2F;www.machinelearnin">
+<meta property="og:type" content="article">
+<meta property="og:title" content="特征选择">
+<meta property="og:url" content="https://md.zxzyl.com/archives/1235/index.html">
+<meta property="og:site_name" content="Zhongxu&#39;s blog">
+<meta property="og:description" content="特征选择是机器学习中的一个重要步骤，通过特征选择挑选出对预测起重要作用的变量，既可以减少数据的维度，也可以减少计算的消耗，同时也有助于我们对自己的数据的理解。有许多方法都可以应用到特征选择，比如大家常用的LASSO。我在用R做数据分析的时候，看到过这个帖子，进而了解了很多算法，所以对这个帖子进行了翻译，方便自己复习，也方便大家学习。 原文参考： https:&#x2F;&#x2F;www.machinelearnin">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://md.zxzyl.com/wp/f4w/2021/2021-05-10-glaucoma-dataset.webp">
+<meta property="og:image" content="https://md.zxzyl.com/wp/f4w/2021/2021-05-10-Variable_Importance_Boruta.webp">
+<meta property="og:image" content="https://md.zxzyl.com/wp/f4w/2021/2021-05-10-RRF-Variable-Importance.webp">
+<meta property="og:image" content="https://md.zxzyl.com/wp/f4w/2021/2021-05-10-Variable_Importance_LASSO.webp">
+<meta property="og:image" content="https://md.zxzyl.com/wp/f4w/2021/2021-05-10-Relative-Importance-of-Features.webp">
+<meta property="og:image" content="https://md.zxzyl.com/wp/f4w/2021/2021-05-10-WOE_Formula.webp">
+<meta property="og:image" content="https://md.zxzyl.com/wp/f4w/2021/2021-05-10-dalex_variable_importance.webp">
+<meta property="article:published_time" content="2021-05-10T05:36:20.000Z">
+<meta property="article:modified_time" content="2021-05-10T05:36:20.000Z">
+<meta property="article:author" content="Jason">
+<meta property="article:tag" content="Machine learning">
+<meta property="article:tag" content="Feature selection">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://md.zxzyl.com/wp/f4w/2021/2021-05-10-glaucoma-dataset.webp">
+
+<link rel="canonical" href="https://md.zxzyl.com/archives/1235/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>特征选择 | Zhongxu's blog</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a3b5d3f466edb3e3f15e8238d8f04be8";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Zhongxu's blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://md.zxzyl.com/archives/1235/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhongxu's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          特征选择
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2021-05-10 13:36:20" itemprop="dateCreated datePublished" datetime="2021-05-10T13:36:20+08:00">2021-05-10</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>特征选择是机器学习中的一个重要步骤，通过特征选择挑选出对预测起重要作用的变量，既可以减少数据的维度，也可以减少计算的消耗，同时也有助于我们对自己的数据的理解。有许多方法都可以应用到特征选择，比如大家常用的LASSO。我在用R做数据分析的时候，看到过这个帖子，进而了解了很多算法，所以对这个帖子进行了翻译，方便自己复习，也方便大家学习。</p>
+<p>原文参考： <a target="_blank" rel="noopener" href="https://www.machinelearningplus.com/machine-learning/feature-selection/">https://www.machinelearningplus.com/machine-learning/feature-selection/</a></p>
+<ol>
+<li>Boruta</li>
+<li>Variable Importance from Machine Learning Algorithms</li>
+<li>Lasso Regression</li>
+<li>Step wise Forward and Backward Selection</li>
+<li>Relative Importance from Linear Regression</li>
+<li>Recursive Feature Elimination (RFE)</li>
+<li>Genetic Algorithm</li>
+<li>Simulated Annealing</li>
+<li>Information Value and Weights of Evidence</li>
+<li>DALEX Package</li>
+</ol>
+<h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>真实的数据中，有些变量可能仅是噪声，并没有多少重要意义。</p>
+<p>这类变量占用内存空间、消耗计算资源，我们最好去除这类变量，特别是在很大的数据集中。</p>
+<p>有时候，我们有一个具有业务意义的变量，但不确定它是否确实有助于预测Y。还有一个事实：在一个机器学习算法中有用的特征（例如决策树） 可能其他算法中（例如回归模型）不被选用或者低估。</p>
+<p>同时，有些变量单独预测Y的性能不好，但与其他预测变量/特征组合的情况下却非常显著。比如说有些变量与预测指标的相关性很低，但在其他变量参与的情况下，它可以帮助解释某些其他变量无法解释的模式/现象。</p>
+<p>在这些情况下，很难决定包含还是去掉这些变量/特征。</p>
+<p>这里讨论的策略可以解决这些问题，同时可以帮助理解对于一个模型而言，变量的重要性与否importance，以及对模型有多少贡献。</p>
+<p>重要的一点是，我们最希望使用的变量是既具有业务意义同时也有重要性方面的指标。</p>
+<p>我们这里导入Glaucoma 数据集，此数据集的目标是通过63个不同的生理测量指标来预测青光眼的与否。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Load Packages and prepare dataset</span></span><br><span class="line">library(TH.data)</span><br><span class="line">library(caret)</span><br><span class="line">data(<span class="string">&quot;GlaucomaM&quot;</span>, package = <span class="string">&quot;TH.data&quot;</span>)</span><br><span class="line">trainData &lt;- GlaucomaM</span><br><span class="line">head(trainData)</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="/wp/f4w/2021/2021-05-10-glaucoma-dataset.webp"></p>
+<p>Glaucoma数据集</p>
+<h2 id="1-Boruta"><a href="#1-Boruta" class="headerlink" title="1. Boruta"></a>1. Boruta</h2><p>Boruta 是一个基于随机森林对特征进行排名和筛选的算法。</p>
+<p>Boruta 的优势是它可以明确的决定变量是否重要，并且帮助选择那些统计显著的变量。此外，可以通过调整p值和maxRuns来调整算法的严格性。</p>
+<p>maxRuns是算法运行的次数，该参数值越大，会选择出更多的变量。默认是100.</p>
+<p>在决定特征是否重要的过程中，一些特征可能会被标为Tentative。有时增加maxRuns或许可以解决特征的暂定行Tentativeness。</p>
+<p>以TH.data的Glaucoma数据集为例子。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># install.packages(&#x27;Boruta&#x27;)</span></span><br><span class="line">library(Boruta)</span><br></pre></td></tr></table></figure>
+
+<p>Boruta的方程用的公式同其他预测模型类似，响应变量response在左边，预测变量在右边。</p>
+<p>如果预测变量处输入的是点，则意味着所有变量都会纳入评价中。</p>
+<p><code>doTrace</code>参数控制打印到终端的数目。该值越高，打印的log信息越多。为了节省空间，这里设置0，你可以设置1和2试试。</p>
+<p>结果输出在<code>boruta_output</code>.</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Perform Boruta search</span></span><br><span class="line">boruta_output &lt;- Boruta(Class ~ ., data=na.omit(trainData), doTrace=<span class="number">0</span>)  </span><br></pre></td></tr></table></figure>
+
+<p>看看里面包含哪些内容</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">names</span>(boruta_output)</span><br><span class="line"><span class="number">1.</span> ‘finalDecision’</span><br><span class="line"><span class="number">2.</span> ‘ImpHistory’</span><br><span class="line"><span class="number">3.</span> ‘pValue’</span><br><span class="line"><span class="number">4.</span> ‘maxRuns’</span><br><span class="line"><span class="number">5.</span> ‘light’</span><br><span class="line"><span class="number">6.</span> ‘mcAdj’</span><br><span class="line"><span class="number">7.</span> ‘timeTaken’</span><br><span class="line"><span class="number">8.</span> ‘roughfixed’</span><br><span class="line"><span class="number">9.</span> ‘<span class="built_in">call</span>’</span><br><span class="line"><span class="number">10.</span> ‘impSource’</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 得到显著的或者潜在的变量</span></span><br><span class="line">boruta_signif &lt;- getSelectedAttributes(boruta_output, withTentative = <span class="literal">TRUE</span>)</span><br><span class="line">print(boruta_signif)  </span><br><span class="line"> [<span class="number">1</span>] <span class="string">&quot;as&quot;</span>   <span class="string">&quot;ean&quot;</span>  <span class="string">&quot;abrg&quot;</span> <span class="string">&quot;abrs&quot;</span> <span class="string">&quot;abrn&quot;</span> <span class="string">&quot;abri&quot;</span> <span class="string">&quot;hic&quot;</span>  <span class="string">&quot;mhcg&quot;</span> <span class="string">&quot;mhcn&quot;</span> <span class="string">&quot;mhci&quot;</span></span><br><span class="line">[<span class="number">11</span>] <span class="string">&quot;phcg&quot;</span> <span class="string">&quot;phcn&quot;</span> <span class="string">&quot;phci&quot;</span> <span class="string">&quot;hvc&quot;</span>  <span class="string">&quot;vbss&quot;</span> <span class="string">&quot;vbsn&quot;</span> <span class="string">&quot;vbsi&quot;</span> <span class="string">&quot;vasg&quot;</span> <span class="string">&quot;vass&quot;</span> <span class="string">&quot;vasi&quot;</span></span><br><span class="line">[<span class="number">21</span>] <span class="string">&quot;vbrg&quot;</span> <span class="string">&quot;vbrs&quot;</span> <span class="string">&quot;vbrn&quot;</span> <span class="string">&quot;vbri&quot;</span> <span class="string">&quot;varg&quot;</span> <span class="string">&quot;vart&quot;</span> <span class="string">&quot;vars&quot;</span> <span class="string">&quot;varn&quot;</span> <span class="string">&quot;vari&quot;</span> <span class="string">&quot;mdn&quot;</span> </span><br><span class="line">[<span class="number">31</span>] <span class="string">&quot;tmg&quot;</span>  <span class="string">&quot;tmt&quot;</span>  <span class="string">&quot;tms&quot;</span>  <span class="string">&quot;tmn&quot;</span>  <span class="string">&quot;tmi&quot;</span>  <span class="string">&quot;rnf&quot;</span>  <span class="string">&quot;mdic&quot;</span> <span class="string">&quot;emd&quot;</span> </span><br></pre></td></tr></table></figure>
+
+<p>如果不确定潜在的变量是否保留，可以对<code>boruta_output</code>进行<code>TentativeRoughFix</code> </p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Do a tentative rough fix</span></span><br><span class="line">roughFixMod &lt;- TentativeRoughFix(boruta_output)</span><br><span class="line">boruta_signif &lt;- getSelectedAttributes(roughFixMod)</span><br><span class="line">print(boruta_signif)</span><br><span class="line"> [<span class="number">1</span>] <span class="string">&quot;abrg&quot;</span> <span class="string">&quot;abrs&quot;</span> <span class="string">&quot;abrn&quot;</span> <span class="string">&quot;abri&quot;</span> <span class="string">&quot;hic&quot;</span>  <span class="string">&quot;mhcg&quot;</span> <span class="string">&quot;mhcn&quot;</span> <span class="string">&quot;mhci&quot;</span> <span class="string">&quot;phcg&quot;</span> <span class="string">&quot;phcn&quot;</span></span><br><span class="line">[<span class="number">11</span>] <span class="string">&quot;phci&quot;</span> <span class="string">&quot;hvc&quot;</span>  <span class="string">&quot;vbsn&quot;</span> <span class="string">&quot;vbsi&quot;</span> <span class="string">&quot;vasg&quot;</span> <span class="string">&quot;vbrg&quot;</span> <span class="string">&quot;vbrs&quot;</span> <span class="string">&quot;vbrn&quot;</span> <span class="string">&quot;vbri&quot;</span> <span class="string">&quot;varg&quot;</span></span><br><span class="line">[<span class="number">21</span>] <span class="string">&quot;vart&quot;</span> <span class="string">&quot;vars&quot;</span> <span class="string">&quot;varn&quot;</span> <span class="string">&quot;vari&quot;</span> <span class="string">&quot;tmg&quot;</span>  <span class="string">&quot;tms&quot;</span>  <span class="string">&quot;tmi&quot;</span>  <span class="string">&quot;rnf&quot;</span>  <span class="string">&quot;mdic&quot;</span> <span class="string">&quot;emd&quot;</span> </span><br></pre></td></tr></table></figure>
+
+<p>这样Boruta就代表我们来决定是否保留Tentative变量。查看这些变量的重要性分值。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Variable Importance Scores</span></span><br><span class="line">imps &lt;- attStats(roughFixMod)</span><br><span class="line">imps2 = imps[imps$decision != <span class="string">&#x27;Rejected&#x27;</span>, <span class="built_in">c</span>(<span class="string">&#x27;meanImp&#x27;</span>, <span class="string">&#x27;decision&#x27;</span>)]</span><br><span class="line">head(imps2[order(-imps2$meanImp), ])  <span class="comment"># descending sort</span></span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th align="left"></th>
+<th align="left">meanImp</th>
+<th align="left">decision</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">varg</td>
+<td align="left">10.279747</td>
+<td align="left">Confirmed</td>
+</tr>
+<tr>
+<td align="left">vari</td>
+<td align="left">10.245936</td>
+<td align="left">Confirmed</td>
+</tr>
+<tr>
+<td align="left">tmi</td>
+<td align="left">9.067300</td>
+<td align="left">Confirmed</td>
+</tr>
+<tr>
+<td align="left">vars</td>
+<td align="left">8.690654</td>
+<td align="left">Confirmed</td>
+</tr>
+<tr>
+<td align="left">hic</td>
+<td align="left">8.324252</td>
+<td align="left">Confirmed</td>
+</tr>
+<tr>
+<td align="left">varn</td>
+<td align="left">7.327045</td>
+<td align="left">Confirmed</td>
+</tr>
+</tbody></table>
+<p>用画图的形式来展示变量的重要性</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Plot variable importance</span></span><br><span class="line">plot(boruta_output, cex.axis=<span class="number">.7</span>, las=<span class="number">2</span>, xlab=<span class="string">&quot;&quot;</span>, main=<span class="string">&quot;Variable Importance&quot;</span>)  </span><br></pre></td></tr></table></figure>
+
+<p><img src="/wp/f4w/2021/2021-05-10-Variable_Importance_Boruta.webp">Variable Importance Boruta</p>
+<p>这幅图展示了每个变量的重要性。</p>
+<p>绿色表示的是筛选出的变量confirmed，红色则是需要提出的变量，蓝色不是真实的特征，待变的是<code>ShadowMax</code> 和 <code>ShadowMin</code>，用来决定变量重要性与否。</p>
+<h2 id="2-Variable-Importance-from-Machine-Learning-Algorithms"><a href="#2-Variable-Importance-from-Machine-Learning-Algorithms" class="headerlink" title="2. Variable Importance from Machine Learning Algorithms"></a>2. Variable Importance from Machine Learning Algorithms</h2><p>另外一种特征选择的方法是将各种ML算法最常用的变量视为最重要的变量。</p>
+<p>根据机器学习算法学习X与Y之间关系的方式，不同的机器学习算法选出不同的变量（大多数是重叠的），但赋予的权重并不相同。</p>
+<p>例如，在基于树的算法（如“ rpart”）中被证明有用的变量在基于回归的模型中可能没那么有用。 因此，不同算法没必要用相同的变量。</p>
+<p>那么对于一个特定的机器学算法，如何找到变量的重要性？</p>
+<ol>
+<li><p>利用<a target="_blank" rel="noopener" href="https://www.machinelearningplus.com/machine-learning/caret-package/">caret 包</a>中的train()一个特定的模型</p>
+</li>
+<li><p>使用 <code>varImp()</code> 来决定变量的重要性。</p>
+</li>
+</ol>
+<p>可能尝试多种算法，以了解各种算法之间的重要变量。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 训练rpart模型，计算变量重要性</span></span><br><span class="line">library(caret)</span><br><span class="line">set.seed(<span class="number">100</span>)</span><br><span class="line">rPartMod &lt;- train(Class ~ ., data=trainData, method=<span class="string">&quot;rpart&quot;</span>)</span><br><span class="line">rpartImp &lt;- varImp(rPartMod)</span><br><span class="line">print(rpartImp)</span><br><span class="line">rpart variable importance</span><br><span class="line"></span><br><span class="line">  only <span class="number">20</span> most important variables shown (out of <span class="number">62</span>)</span><br><span class="line"></span><br><span class="line">     Overall</span><br><span class="line">varg  <span class="number">100.00</span></span><br><span class="line">vari   <span class="number">93.19</span></span><br><span class="line">vars   <span class="number">85.20</span></span><br><span class="line">varn   <span class="number">76.86</span></span><br><span class="line">tmi    <span class="number">72.31</span></span><br><span class="line">vbss    <span class="number">0.00</span></span><br><span class="line">eai     <span class="number">0.00</span></span><br><span class="line">tmg     <span class="number">0.00</span></span><br><span class="line">tmt     <span class="number">0.00</span></span><br><span class="line">vbst    <span class="number">0.00</span></span><br><span class="line">vasg    <span class="number">0.00</span></span><br><span class="line">at      <span class="number">0.00</span></span><br><span class="line">abrg    <span class="number">0.00</span></span><br><span class="line">vbsg    <span class="number">0.00</span></span><br><span class="line">eag     <span class="number">0.00</span></span><br><span class="line">phcs    <span class="number">0.00</span></span><br><span class="line">abrs    <span class="number">0.00</span></span><br><span class="line">mdic    <span class="number">0.00</span></span><br><span class="line">abrt    <span class="number">0.00</span></span><br><span class="line">ean     <span class="number">0.00</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p> rpart仅使用了63个功能中的5个，如果仔细观察，这5个变量位于boruta选择的前6个中。</p>
+<p>让我们再做一件事：正则随机森林（Regularized Random Forest ，RRF）算法中的变量重要性。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Train an RRF model and compute variable importance.</span></span><br><span class="line">set.seed(<span class="number">100</span>)</span><br><span class="line">rrfMod &lt;- train(Class ~ ., data=trainData, method=<span class="string">&quot;RRF&quot;</span>)</span><br><span class="line">rrfImp &lt;- varImp(rrfMod, scale=<span class="built_in">F</span>)</span><br><span class="line">rrfImp</span><br><span class="line">RRF variable importance</span><br><span class="line"></span><br><span class="line">  only <span class="number">20</span> most important variables shown (out of <span class="number">62</span>)</span><br><span class="line"></span><br><span class="line">     Overall</span><br><span class="line">varg <span class="number">24.0013</span></span><br><span class="line">vari <span class="number">18.5349</span></span><br><span class="line">vars  <span class="number">6.0483</span></span><br><span class="line">tmi   <span class="number">3.8699</span></span><br><span class="line">hic   <span class="number">3.3926</span></span><br><span class="line">mhci  <span class="number">3.1856</span></span><br><span class="line">mhcg  <span class="number">3.0383</span></span><br><span class="line">mv    <span class="number">2.1570</span></span><br><span class="line">hvc   <span class="number">2.1357</span></span><br><span class="line">phci  <span class="number">1.8830</span></span><br><span class="line">vasg  <span class="number">1.8570</span></span><br><span class="line">tms   <span class="number">1.5705</span></span><br><span class="line">phcn  <span class="number">1.4475</span></span><br><span class="line">phct  <span class="number">1.4473</span></span><br><span class="line">vass  <span class="number">1.3097</span></span><br><span class="line">tmt   <span class="number">1.2485</span></span><br><span class="line">phcg  <span class="number">1.1992</span></span><br><span class="line">mdn   <span class="number">1.1737</span></span><br><span class="line">tmg   <span class="number">1.0988</span></span><br><span class="line">abrs  <span class="number">0.9537</span></span><br><span class="line">plot(rrfImp, top = <span class="number">20</span>, main=<span class="string">&#x27;Variable Importance&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p><img src="/wp/f4w/2021/2021-05-10-RRF-Variable-Importance.webp">正则随机森林中的变量重要性。</p>
+<p>最前面的重要变量也于Boruta选择的吻合</p>
+<p>其它的在train()中可以用的算法也可以用varImp计算变量的重要性：包括</p>
+<p><em>ada, AdaBag, AdaBoost.M1, adaboost, bagEarth, bagEarthGCV, bagFDA, bagFDAGCV, bartMachine, blasso, BstLm, bstSm, C5.0, C5.0Cost, C5.0Rules, C5.0Tree, cforest, chaid, ctree, ctree2, cubist, deepboost, earth, enet, evtree, extraTrees, fda, gamboost, gbm_h2o, gbm, gcvEarth, glmnet_h2o, glmnet, glmStepAIC, J48, JRip, lars, lars2, lasso, LMT, LogitBoost, M5, M5Rules, msaenet, nodeHarvest, OneR, ordinalNet, ORFlog, ORFpls, ORFridge, ORFsvm, pam, parRF, PART, penalized, PenalizedLDA, qrf, ranger, Rborist, relaxo, rf, rFerns, rfRules, rotationForest, rotationForestCp, rpart, rpart1SE, rpart2, rpartCost, rpartScore, rqlasso, rqnc, RRF, RRFglobal, sdwd, smda, sparseLDA, spikeslab, wsrf, xgbLinear, xgbTree.</em></p>
+<h2 id="3-Lasso-Regression"><a href="#3-Lasso-Regression" class="headerlink" title="3. Lasso Regression"></a>3. Lasso Regression</h2><p>最小绝对收缩和选择算子（LASSO，Least Absolute Shrinkage and Selection Operator）回归是一种用L1范数惩罚的正则化方法。</p>
+<p>从根本上来说，要增加权重（系数值）会带来成本。 它被称为L1正则化，增加的成本，与权重系数的绝对值成正比。</p>
+<p>结果，在收缩系数的过程中，最终将某些不需要的特征的系数全部减小到零。 也就是说，它删除了不重要的变量。</p>
+<p>LASSO回归也可以被视为有效的变量选择技术。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">library(glmnet)</span><br><span class="line">trainData &lt;- read.csv(<span class="string">&#x27;https://raw.githubusercontent.com/selva86/datasets/master/GlaucomaM.csv&#x27;</span>)</span><br><span class="line"></span><br><span class="line">x &lt;- as.matrix(trainData[,-<span class="number">63</span>]) <span class="comment"># all X vars</span></span><br><span class="line">y &lt;- <span class="built_in">as.double</span>(as.matrix(ifelse(trainData[, <span class="number">63</span>]==<span class="string">&#x27;normal&#x27;</span>, <span class="number">0</span>, <span class="number">1</span>))) <span class="comment"># Only Class</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Fit the LASSO model (Lasso: Alpha = 1)</span></span><br><span class="line">set.seed(<span class="number">100</span>)</span><br><span class="line">cv.lasso &lt;- cv.glmnet(x, y, family=<span class="string">&#x27;binomial&#x27;</span>, alpha=<span class="number">1</span>, parallel=<span class="literal">TRUE</span>, standardize=<span class="literal">TRUE</span>, type.measure=<span class="string">&#x27;auc&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Results</span></span><br><span class="line">plot(cv.lasso)</span><br></pre></td></tr></table></figure>
+
+<p><img src="/wp/f4w/2021/2021-05-10-Variable_Importance_LASSO.webp"></p>
+<p>LASSO变量重要性</p>
+<p>X轴是log之后的lambda，当是2的时候，lambda的真实值是100。</p>
+<p>图的最上面显示了模型使用了多少个变量，相对应的红点Y值则是在这些变量使用的情况下，模型可以达到多少的AUC。</p>
+<p>可以看到两条垂直虚线，左边的第一个指向具有最小均方误差的lambda。 右边的一个表示在1个标准偏差内偏差最大的变量的数量。</p>
+<p>最优的lambda值存储在cv.lasso $ lambda.min中。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># plot(cv.lasso$glmnet.fit, xvar=&quot;lambda&quot;, label=TRUE)</span></span><br><span class="line">cat(<span class="string">&#x27;Min Lambda: &#x27;</span>, cv.lasso$lambda.min, <span class="string">&#x27;\n 1Sd Lambda: &#x27;</span>, cv.lasso$lambda.1se)</span><br><span class="line">df_coef &lt;- <span class="built_in">round</span>(as.matrix(coef(cv.lasso, s=cv.lasso$lambda.min)), <span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># See all contributing variables</span></span><br><span class="line">df_coef[df_coef[, <span class="number">1</span>] != <span class="number">0</span>, ]</span><br><span class="line">Min Lambda:  <span class="number">0.01166507</span> </span><br><span class="line"> <span class="number">1</span>Sd Lambda:  <span class="number">0.2513163</span></span><br><span class="line"></span><br><span class="line">Min Lambda:  <span class="number">0.01166507</span> </span><br><span class="line"><span class="number">1</span>Sd Lambda:  <span class="number">0.2513163</span></span><br><span class="line"></span><br><span class="line">(Intercept) <span class="number">3.65</span></span><br><span class="line">at         -<span class="number">0.17</span></span><br><span class="line">as         -<span class="number">2.05</span></span><br><span class="line">eat        -<span class="number">0.53</span></span><br><span class="line">mhci        <span class="number">6.22</span></span><br><span class="line">phcs       -<span class="number">0.83</span></span><br><span class="line">phci        <span class="number">6.03</span></span><br><span class="line">hvc        -<span class="number">4.15</span></span><br><span class="line">vass       -<span class="number">23.72</span></span><br><span class="line">vbrn       -<span class="number">0.26</span></span><br><span class="line">vars       -<span class="number">25.86</span></span><br><span class="line">mdt        -<span class="number">2.34</span></span><br><span class="line">mds         <span class="number">0.5</span></span><br><span class="line">mdn         <span class="number">0.83</span></span><br><span class="line">mdi         <span class="number">0.3</span></span><br><span class="line">tmg         <span class="number">0.01</span></span><br><span class="line">tms         <span class="number">3.02</span></span><br><span class="line">tmi         <span class="number">2.65</span></span><br><span class="line">mv          <span class="number">4.94</span></span><br></pre></td></tr></table></figure>
+
+<p>上面的输出显示了LASSO认为重要的变量。绝对值越高表示该变量越重要。</p>
+<span id="more"></span>
+
+<h2 id="4-Step-wise-Forward-and-Backward-Selection"><a href="#4-Step-wise-Forward-and-Backward-Selection" class="headerlink" title="4. Step wise Forward and Backward Selection"></a>4. Step wise Forward and Backward Selection</h2><p>如果Y变量是数字变量，则可以使用逐步回归来选择特征。 它特别用于选择最佳的线性回归模型。</p>
+<p>它通过迭代地选择和删除变量，以找到具有尽可能低的AIC，来搜索最佳的回归模型。</p>
+<p>可以使用step()函数来实现它，您需要为其提供基础的模型（该模型中的变量不再不去掉）和一个包含所有可能特征的模型。</p>
+<p>这里的情况不是那么复杂（小于20个变量），我们可以在双向（forward和backward）上进行简单的逐步回归分析。</p>
+<p>这里使用ozone数据集，其目的是根据天气有关的观测结果来预测ozone_reading。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Load data</span></span><br><span class="line">trainData &lt;- read.csv(<span class="string">&quot;http://rstatistics.net/wp-content/uploads/2015/09/ozone1.csv&quot;</span>, stringsAsFactors=<span class="built_in">F</span>)</span><br><span class="line">print(head(trainData))</span><br><span class="line">  Month Day_of_month Day_of_week ozone_reading pressure_height Wind_speed</span><br><span class="line"><span class="number">1</span>     <span class="number">1</span>            <span class="number">1</span>           <span class="number">4</span>             <span class="number">3</span>            <span class="number">5480</span>          <span class="number">8</span></span><br><span class="line"><span class="number">2</span>     <span class="number">1</span>            <span class="number">2</span>           <span class="number">5</span>             <span class="number">3</span>            <span class="number">5660</span>          <span class="number">6</span></span><br><span class="line"><span class="number">3</span>     <span class="number">1</span>            <span class="number">3</span>           <span class="number">6</span>             <span class="number">3</span>            <span class="number">5710</span>          <span class="number">4</span></span><br><span class="line"><span class="number">4</span>     <span class="number">1</span>            <span class="number">4</span>           <span class="number">7</span>             <span class="number">5</span>            <span class="number">5700</span>          <span class="number">3</span></span><br><span class="line"><span class="number">5</span>     <span class="number">1</span>            <span class="number">5</span>           <span class="number">1</span>             <span class="number">5</span>            <span class="number">5760</span>          <span class="number">3</span></span><br><span class="line"><span class="number">6</span>     <span class="number">1</span>            <span class="number">6</span>           <span class="number">2</span>             <span class="number">6</span>            <span class="number">5720</span>          <span class="number">4</span></span><br><span class="line"></span><br><span class="line">  Humidity Temperature_Sandburg Temperature_ElMonte Inversion_base_height</span><br><span class="line"><span class="number">1</span> <span class="number">20.00000</span>             <span class="number">40.53473</span>            <span class="number">39.77461</span>              <span class="number">5000.000</span></span><br><span class="line"><span class="number">2</span> <span class="number">40.96306</span>             <span class="number">38.00000</span>            <span class="number">46.74935</span>              <span class="number">4108.904</span></span><br><span class="line"><span class="number">3</span> <span class="number">28.00000</span>             <span class="number">40.00000</span>            <span class="number">49.49278</span>              <span class="number">2693.000</span></span><br><span class="line"><span class="number">4</span> <span class="number">37.00000</span>             <span class="number">45.00000</span>            <span class="number">52.29403</span>               <span class="number">590.000</span></span><br><span class="line"><span class="number">5</span> <span class="number">51.00000</span>             <span class="number">54.00000</span>            <span class="number">45.32000</span>              <span class="number">1450.000</span></span><br><span class="line"><span class="number">6</span> <span class="number">69.00000</span>             <span class="number">35.00000</span>            <span class="number">49.64000</span>              <span class="number">1568.000</span></span><br><span class="line"></span><br><span class="line">  Pressure_gradient Inversion_temperature Visibility</span><br><span class="line"><span class="number">1</span>               -<span class="number">15</span>              <span class="number">30.56000</span>        <span class="number">200</span></span><br><span class="line"><span class="number">2</span>               -<span class="number">14</span>              <span class="number">48.02557</span>        <span class="number">300</span></span><br><span class="line"><span class="number">3</span>               -<span class="number">25</span>              <span class="number">47.66000</span>        <span class="number">250</span></span><br><span class="line"><span class="number">4</span>               -<span class="number">24</span>              <span class="number">55.04000</span>        <span class="number">100</span></span><br><span class="line"><span class="number">5</span>                <span class="number">25</span>              <span class="number">57.02000</span>         <span class="number">60</span></span><br><span class="line"><span class="number">6</span>                <span class="number">15</span>              <span class="number">53.78000</span>         <span class="number">60</span></span><br></pre></td></tr></table></figure>
+
+<p>读取数据之后，进行逐步回归。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Step 1: 定义基础的模型，只有截距</span></span><br><span class="line">base.mod &lt;- lm(ozone_reading ~ <span class="number">1</span> , data=trainData)  </span><br><span class="line"></span><br><span class="line"><span class="comment"># Step 2: 包含所有特征的模型</span></span><br><span class="line">all.mod &lt;- lm(ozone_reading ~ . , data= trainData) </span><br><span class="line"></span><br><span class="line"><span class="comment"># Step 3: 进行逐步回归算法，方向设置为双向forward and backward stepwise</span></span><br><span class="line">stepMod &lt;- step(base.mod, scope = <span class="built_in">list</span>(lower = base.mod, upper = all.mod), direction = <span class="string">&quot;both&quot;</span>, trace = <span class="number">0</span>, steps = <span class="number">1000</span>)  </span><br><span class="line"></span><br><span class="line"><span class="comment"># Step 4: 得到变量列表</span></span><br><span class="line">shortlistedVars &lt;- <span class="built_in">names</span>(unlist(stepMod[[<span class="number">1</span>]])) </span><br><span class="line">shortlistedVars &lt;- shortlistedVars[!shortlistedVars %in% <span class="string">&quot;(Intercept)&quot;</span>] <span class="comment"># remove intercept</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Show</span></span><br><span class="line">print(shortlistedVars)</span><br><span class="line">[<span class="number">1</span>] <span class="string">&quot;Temperature_Sandburg&quot;</span>  <span class="string">&quot;Humidity&quot;</span>              <span class="string">&quot;Temperature_ElMonte&quot;</span>  </span><br><span class="line">[<span class="number">4</span>] <span class="string">&quot;Month&quot;</span>                 <span class="string">&quot;pressure_height&quot;</span>       <span class="string">&quot;Inversion_base_height&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>所选模型具有上述6个变量。</p>
+<p>但是，如果训练数据中的特征过多（&gt; 100），最好将数据集拆分为10个变量的块，每个数据库中都必须包含Y。 遍历所有块并得到最优的变量。</p>
+<p>这样做的原因是，有些变量在训练集特征很少的时候非常重要，但遇到线性模型有很多变量的时候，可能不会被选择出来。</p>
+<p>最后，从入围的特征列表中，运行完整的逐步回归模型，以获取最终的选定特征集。</p>
+<h2 id="5-Relative-Importance-from-Linear-Regression"><a href="#5-Relative-Importance-from-Linear-Regression" class="headerlink" title="5. Relative Importance from Linear Regression"></a>5. Relative Importance from Linear Regression</h2><p>这个基数只针对线性回归模型。</p>
+<p>相对重要性Relative importance可以用来评估哪些变量在解释线性模型的R平方值时起了多大作用。 因此，如果把重要性相加，那么它将总计为模型的R方值。</p>
+<p>本质上，它不是直接选择特征的方法，因为模型中已经包含了特征。 但是，在建立模型之后，relaimpo可以计算每个变量对R方的贡献，或者换句话说，也就是在“解释Y变量”中的重要性。</p>
+<p>那么，如何计算相对重要性呢？它在relaimpo软件包中实现。 通常，可以建立一个线性回归模型，并将其作为参数传递给calc.relimp()。relaimpo有多个选项可以计算相对重要性，但是推荐的方法是使用type =’lmg’，如下所述。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># install.packages(&#x27;relaimpo&#x27;)</span></span><br><span class="line">library(relaimpo)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Build linear regression model</span></span><br><span class="line">model_formula = ozone_reading ~ Temperature_Sandburg + Humidity + Temperature_ElMonte + Month + pressure_height + Inversion_base_height</span><br><span class="line">lmMod &lt;- lm(model_formula, data=trainData)</span><br><span class="line"></span><br><span class="line"><span class="comment"># calculate relative importance</span></span><br><span class="line">relImportance &lt;- calc.relimp(lmMod, type = <span class="string">&quot;lmg&quot;</span>, rela = <span class="built_in">F</span>)  </span><br><span class="line"></span><br><span class="line"><span class="comment"># Sort</span></span><br><span class="line">cat(<span class="string">&#x27;Relative Importances: \n&#x27;</span>)</span><br><span class="line">sort(<span class="built_in">round</span>(relImportance$lmg, <span class="number">3</span>), decreasing=<span class="literal">TRUE</span>)</span><br><span class="line">Relative Importances: </span><br><span class="line">Temperature_ElMonte    <span class="number">0.214</span></span><br><span class="line">Temperature_Sandburg   <span class="number">0.203</span></span><br><span class="line">pressure_height        <span class="number">0.104</span></span><br><span class="line">Inversion_base_height  <span class="number">0.096</span></span><br><span class="line">Humidity               <span class="number">0.086</span></span><br><span class="line">Month                  <span class="number">0.012</span></span><br></pre></td></tr></table></figure>
+
+<p>此外，还可使用boostrapping（boot.relimp）来计算相对重要性的置信区间。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">bootsub &lt;- boot.relimp(ozone_reading ~ Temperature_Sandburg + Humidity + Temperature_ElMonte + Month + pressure_height + Inversion_base_height, data=trainData,</span><br><span class="line">                       b = <span class="number">1000</span>, type = <span class="string">&#x27;lmg&#x27;</span>, rank = <span class="literal">TRUE</span>, diff = <span class="literal">TRUE</span>)</span><br><span class="line"></span><br><span class="line">plot(booteval.relimp(bootsub, level=<span class="number">.95</span>))</span><br></pre></td></tr></table></figure>
+
+<p><img src="/wp/f4w/2021/2021-05-10-Relative-Importance-of-Features.webp">特征的相对重要性</p>
+<h2 id="6-Recursive-Feature-Elimination-RFE"><a href="#6-Recursive-Feature-Elimination-RFE" class="headerlink" title="6. Recursive Feature Elimination (RFE)"></a>6. Recursive Feature Elimination (RFE)</h2><p>递归特征消除<a target="_blank" rel="noopener" href="https://www.machinelearningplus.com/machine-learning/caret-package/#5howtodofeatureselectionusingrecursivefeatureeliminationrfe">Recursive feature elimnation (rfe)</a>提供了一种严格的方法来确定重要变量，甚至可以将它们输入到机器学习算法中。</p>
+<p>可以通过caret包的rfe()函数来使用，rfe()需要两个重要参数。</p>
+<ul>
+<li><p>sizes</p>
+</li>
+<li><p>rfeControl</p>
+</li>
+</ul>
+<p>sizes决定了rfe应该迭代的最重要变量的数目（我们期望的重要变量数目）。 在下面，sizes设置为1到5、10、15和18。</p>
+<p>其次，rfeControl参数接收rfeControl()的输出。 可以设置必须使用哪种机器学习算法来评估变量。 下面使用了基于rfFuncs的随机森林。 method =’repeatedCV’意味着它将使用repeats = 5进行重复的k-fold交叉验证。</p>
+<p>之后，可以得到每个size（前面设置的）的模型的accuracy和kappa值，最优的size的模型右边带有*标记。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">str(trainData)</span><br><span class="line"><span class="string">&#x27;data.frame&#x27;</span>:    <span class="number">366</span> obs. of  <span class="number">13</span> variables:</span><br><span class="line"> $ Month                : int  <span class="number">1</span> <span class="number">1</span> <span class="number">1</span> <span class="number">1</span> <span class="number">1</span> <span class="number">1</span> <span class="number">1</span> <span class="number">1</span> <span class="number">1</span> <span class="number">1</span> ...</span><br><span class="line"> $ Day_of_month         : int  <span class="number">1</span> <span class="number">2</span> <span class="number">3</span> <span class="number">4</span> <span class="number">5</span> <span class="number">6</span> <span class="number">7</span> <span class="number">8</span> <span class="number">9</span> <span class="number">10</span> ...</span><br><span class="line"> $ Day_of_week          : int  <span class="number">4</span> <span class="number">5</span> <span class="number">6</span> <span class="number">7</span> <span class="number">1</span> <span class="number">2</span> <span class="number">3</span> <span class="number">4</span> <span class="number">5</span> <span class="number">6</span> ...</span><br><span class="line"> $ ozone_reading        : num  <span class="number">3</span> <span class="number">3</span> <span class="number">3</span> <span class="number">5</span> <span class="number">5</span> <span class="number">6</span> <span class="number">4</span> <span class="number">4</span> <span class="number">6</span> <span class="number">7</span> ...</span><br><span class="line"> $ pressure_height      : num  <span class="number">5480</span> <span class="number">5660</span> <span class="number">5710</span> <span class="number">5700</span> <span class="number">5760</span> <span class="number">5720</span> <span class="number">5790</span> <span class="number">5790</span> <span class="number">5700</span> <span class="number">5700</span> ...</span><br><span class="line"> $ Wind_speed           : int  <span class="number">8</span> <span class="number">6</span> <span class="number">4</span> <span class="number">3</span> <span class="number">3</span> <span class="number">4</span> <span class="number">6</span> <span class="number">3</span> <span class="number">3</span> <span class="number">3</span> ...</span><br><span class="line"> $ Humidity             : num  <span class="number">20</span> <span class="number">41</span> <span class="number">28</span> <span class="number">37</span> <span class="number">51</span> ...</span><br><span class="line"> $ Temperature_Sandburg : num  <span class="number">40.5</span> <span class="number">38</span> <span class="number">40</span> <span class="number">45</span> <span class="number">54</span> ...</span><br><span class="line"> $ Temperature_ElMonte  : num  <span class="number">39.8</span> <span class="number">46.7</span> <span class="number">49.5</span> <span class="number">52.3</span> <span class="number">45.3</span> ...</span><br><span class="line"> $ Inversion_base_height: num  <span class="number">5000</span> <span class="number">4109</span> <span class="number">2693</span> <span class="number">590</span> <span class="number">1450</span> ...</span><br><span class="line"> $ Pressure_gradient    : num  -<span class="number">15</span> -<span class="number">14</span> -<span class="number">25</span> -<span class="number">24</span> <span class="number">25</span> <span class="number">15</span> -<span class="number">33</span> -<span class="number">28</span> <span class="number">23</span> -<span class="number">2</span> ...</span><br><span class="line"> $ Inversion_temperature: num  <span class="number">30.6</span> <span class="number">48</span> <span class="number">47.7</span> <span class="number">55</span> <span class="number">57</span> ...</span><br><span class="line"> $ Visibility           : int  <span class="number">200</span> <span class="number">300</span> <span class="number">250</span> <span class="number">100</span> <span class="number">60</span> <span class="number">60</span> <span class="number">100</span> <span class="number">250</span> <span class="number">120</span> <span class="number">120</span> ...</span><br><span class="line">set.seed(<span class="number">100</span>)</span><br><span class="line">options(warn=-<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">subsets &lt;- <span class="built_in">c</span>(<span class="number">1</span>:<span class="number">5</span>, <span class="number">10</span>, <span class="number">15</span>, <span class="number">18</span>)</span><br><span class="line"></span><br><span class="line">ctrl &lt;- rfeControl(functions = rfFuncs,</span><br><span class="line">                   method = <span class="string">&quot;repeatedcv&quot;</span>,</span><br><span class="line">                   repeats = <span class="number">5</span>,</span><br><span class="line">                   verbose = <span class="literal">FALSE</span>)</span><br><span class="line"></span><br><span class="line">lmProfile &lt;- rfe(x=trainData[, <span class="built_in">c</span>(<span class="number">1</span>:<span class="number">3</span>, <span class="number">5</span>:<span class="number">13</span>)], y=trainData$ozone_reading,</span><br><span class="line">                 sizes = subsets,</span><br><span class="line">                 rfeControl = ctrl)</span><br><span class="line"></span><br><span class="line">lmProfile</span><br><span class="line">Recursive feature selection</span><br><span class="line"></span><br><span class="line">Outer resampling method: Cross-Validated (<span class="number">10</span> fold, repeated <span class="number">5</span> times) </span><br><span class="line"></span><br><span class="line">Resampling performance over subset size:</span><br><span class="line"></span><br><span class="line"> Variables  RMSE Rsquared   MAE RMSESD RsquaredSD  MAESD Selected</span><br><span class="line">         <span class="number">1</span> <span class="number">5.222</span>   <span class="number">0.5794</span> <span class="number">4.008</span> <span class="number">0.9757</span>    <span class="number">0.15034</span> <span class="number">0.7879</span>         </span><br><span class="line">         <span class="number">2</span> <span class="number">3.971</span>   <span class="number">0.7518</span> <span class="number">3.067</span> <span class="number">0.4614</span>    <span class="number">0.07149</span> <span class="number">0.3276</span>         </span><br><span class="line">         <span class="number">3</span> <span class="number">3.944</span>   <span class="number">0.7553</span> <span class="number">3.054</span> <span class="number">0.4675</span>    <span class="number">0.06523</span> <span class="number">0.3708</span>         </span><br><span class="line">         <span class="number">4</span> <span class="number">3.924</span>   <span class="number">0.7583</span> <span class="number">3.026</span> <span class="number">0.5132</span>    <span class="number">0.06640</span> <span class="number">0.4163</span>         </span><br><span class="line">         <span class="number">5</span> <span class="number">3.880</span>   <span class="number">0.7633</span> <span class="number">2.950</span> <span class="number">0.5525</span>    <span class="number">0.07021</span> <span class="number">0.4334</span>         </span><br><span class="line">        <span class="number">10</span> <span class="number">3.751</span>   <span class="number">0.7796</span> <span class="number">2.853</span> <span class="number">0.5550</span>    <span class="number">0.06791</span> <span class="number">0.4457</span>        *</span><br><span class="line">        <span class="number">12</span> <span class="number">3.767</span>   <span class="number">0.7779</span> <span class="number">2.869</span> <span class="number">0.5511</span>    <span class="number">0.06664</span> <span class="number">0.4424</span>         </span><br><span class="line"></span><br><span class="line">The top <span class="number">5</span> variables (out of <span class="number">10</span>):</span><br><span class="line">   Temperature_ElMonte, Pressure_gradient, Temperature_Sandburg, Inversion_temperature, Humidity</span><br></pre></td></tr></table></figure>
+
+<p>这里Temperature_ElMonte<code>, </code>Pressure_gradient<code>, </code>Temperature_Sandburg<code>, </code>Inversion_temperature<code>, </code>Humidity被选择为前五个重要变量（最优的model size是变量为10个的时候）</p>
+<p>可以通过ref创建的lmProfile$optVariables来查看最终被选择出来的特征。 </p>
+<h2 id="7-Genetic-Algorithm"><a href="#7-Genetic-Algorithm" class="headerlink" title="7. Genetic Algorithm"></a>7. Genetic Algorithm</h2><p>可以通过gafs()利用遗传算法进行有监督的特征选择。遗传算法消耗的计算资源较多，要小心设置gafsControl()中的迭代次数（iters）和repeats。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 定义control function</span></span><br><span class="line">ga_ctrl &lt;- gafsControl(functions = rfGA,  <span class="comment"># another option is `caretGA`.</span></span><br><span class="line">                        method = <span class="string">&quot;cv&quot;</span>,</span><br><span class="line">                        repeats = <span class="number">3</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 遗传算法特征选择</span></span><br><span class="line">set.seed(<span class="number">100</span>)</span><br><span class="line">ga_obj &lt;- gafs(x=trainData[, <span class="built_in">c</span>(<span class="number">1</span>:<span class="number">3</span>, <span class="number">5</span>:<span class="number">13</span>)], </span><br><span class="line">               y=trainData[, <span class="number">4</span>], </span><br><span class="line">               iters = <span class="number">3</span>,   <span class="comment"># normally much higher (100+)</span></span><br><span class="line">               gafsControl = ga_ctrl)</span><br><span class="line"></span><br><span class="line">ga_obj</span><br><span class="line">Genetic Algorithm Feature Selection</span><br><span class="line"></span><br><span class="line"><span class="number">366</span> samples</span><br><span class="line"><span class="number">12</span> predictors</span><br><span class="line"></span><br><span class="line">Maximum generations: <span class="number">3</span> </span><br><span class="line">Population per generation: <span class="number">50</span> </span><br><span class="line">Crossover probability: <span class="number">0.8</span> </span><br><span class="line">Mutation probability: <span class="number">0.1</span> </span><br><span class="line">Elitism: <span class="number">0</span> </span><br><span class="line"></span><br><span class="line">Internal performance values: RMSE, Rsquared</span><br><span class="line">Subset selection driven to minimize internal RMSE </span><br><span class="line"></span><br><span class="line">External performance values: RMSE, Rsquared, MAE</span><br><span class="line">Best iteration chose by minimizing external RMSE </span><br><span class="line">External resampling method: Cross-Validated (<span class="number">10</span> fold) </span><br><span class="line"></span><br><span class="line">During resampling:</span><br><span class="line">  * the top <span class="number">5</span> selected variables (out of a possible <span class="number">12</span>):</span><br><span class="line">    Month (<span class="number">100</span>%), Pressure_gradient (100%), Temperature_ElMonte (<span class="number">100</span>%), Visibility (90%), Inversion_temperature (<span class="number">80</span>%)</span><br><span class="line">  * on average, 7.5 variables were selected (min = 5, max = 10)</span><br><span class="line"></span><br><span class="line">In the final search using the entire training set:</span><br><span class="line">   * 6 features selected at iteration 3 including:</span><br><span class="line">     Month, Day_of_month, Wind_speed, Temperature_ElMonte, Pressure_gradient ... </span><br><span class="line">   * external performance at this iteration is</span><br><span class="line"></span><br><span class="line">       RMSE    Rsquared         MAE </span><br><span class="line">     3.6605      0.7901      2.8010 </span><br><span class="line"># Optimal variables</span><br><span class="line">ga_obj$optVariables</span><br><span class="line"></span><br><span class="line">1. ‘Month’</span><br><span class="line">2. ‘Day_of_month’</span><br><span class="line">3. ‘Wind_speed’</span><br><span class="line">4. ‘Temperature_ElMonte’</span><br><span class="line">5. ‘Pressure_gradient’</span><br><span class="line">6. ‘Visibility’</span><br></pre></td></tr></table></figure>
+
+<p>上面列出了根据遗传算法得到的最佳变量。 但是暂时不会使用它，因为上述仅进行了3次迭代（为了节省计算时间），这是相当低的。</p>
+<h2 id="8-Simulated-Annealing"><a href="#8-Simulated-Annealing" class="headerlink" title="8. Simulated Annealing"></a>8. Simulated Annealing</h2><p>模拟退火算法Simulated annealing是一个全局搜索算法，它允许接受次优解决方案，以期最终出现更好的解决方案。</p>
+<p>它通过对初始解决方案进行随机的小改动，并查看性能是否得到了改善。 如果改动可以改善性能，则接受更改；不过，如果性能差异满足接受标准，则仍可以被接受。</p>
+<p>在caret中，该算法已经在safs()中实现，接收使用safsControl（）函数设置的控制参数。</p>
+<p> safsControl类似于插入caret中的其他控制功能（例如rfe和ga中）。此外，它接受一个“ improve”参数，该参数是它需要等待而没有改进的迭代次数，直到将值重置为先前的迭代为止。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Define control function</span></span><br><span class="line">sa_ctrl &lt;- safsControl(functions = rfSA,</span><br><span class="line">                        method = <span class="string">&quot;repeatedcv&quot;</span>,</span><br><span class="line">                        repeats = <span class="number">3</span>,</span><br><span class="line">                        improve = <span class="number">5</span>) <span class="comment"># n iterations without improvement before a reset</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Genetic Algorithm feature selection</span></span><br><span class="line">set.seed(<span class="number">100</span>)</span><br><span class="line">sa_obj &lt;- safs(x=trainData[, <span class="built_in">c</span>(<span class="number">1</span>:<span class="number">3</span>, <span class="number">5</span>:<span class="number">13</span>)], </span><br><span class="line">               y=trainData[, <span class="number">4</span>],</span><br><span class="line">               safsControl = sa_ctrl)</span><br><span class="line"></span><br><span class="line">sa_obj</span><br><span class="line">Simulated Annealing Feature Selection</span><br><span class="line"></span><br><span class="line"><span class="number">366</span> samples</span><br><span class="line"><span class="number">12</span> predictors</span><br><span class="line"></span><br><span class="line">Maximum search iterations: <span class="number">10</span> </span><br><span class="line">Restart after <span class="number">5</span> iterations without improvement (<span class="number">0.2</span> restarts on average)</span><br><span class="line"></span><br><span class="line">Internal performance values: RMSE, Rsquared</span><br><span class="line">Subset selection driven to minimize internal RMSE </span><br><span class="line"></span><br><span class="line">External performance values: RMSE, Rsquared, MAE</span><br><span class="line">Best iteration chose by minimizing external RMSE </span><br><span class="line">External resampling method: Cross-Validated (<span class="number">10</span> fold, repeated <span class="number">3</span> times) </span><br><span class="line"></span><br><span class="line">During resampling:</span><br><span class="line">  * the top <span class="number">5</span> selected variables (out of a possible <span class="number">12</span>):</span><br><span class="line">    Temperature_ElMonte (<span class="number">73.3</span>%), Inversion_temperature (63.3%), Month (<span class="number">60</span>%), Day_of_week (50%), Inversion_base_height (<span class="number">50</span>%)</span><br><span class="line">  * on average, 6 variables were selected (min = 3, max = 8)</span><br><span class="line"></span><br><span class="line">In the final search using the entire training set:</span><br><span class="line">   * 6 features selected at iteration 10 including:</span><br><span class="line">     Month, Day_of_month, Day_of_week, Wind_speed, Temperature_ElMonte ... </span><br><span class="line">   * external performance at this iteration is</span><br><span class="line"></span><br><span class="line">       RMSE    Rsquared         MAE </span><br><span class="line">     4.0574      0.7382      3.0727 </span><br><span class="line"># Optimal variables</span><br><span class="line">print(sa_obj$optVariables)</span><br><span class="line">[1] &quot;Month&quot;               &quot;Day_of_month&quot;        &quot;Day_of_week&quot;        </span><br><span class="line">[4] &quot;Wind_speed&quot;          &quot;Temperature_ElMonte&quot; &quot;Visibility&quot;         </span><br></pre></td></tr></table></figure>
+
+<h2 id="9-Information-Value-and-Weights-of-Evidence"><a href="#9-Information-Value-and-Weights-of-Evidence" class="headerlink" title="9. Information Value and Weights of Evidence"></a>9. Information Value and Weights of Evidence</h2><p>在响应变量Y是二分类的时候，信息值Information Value可以用来判断预测变量（为分类变量）的重要性。这在逻辑回归和其他二分类的模型模型中表现的很好。</p>
+<p>下面基于adult.csv数据集，来尝试找出哪些分类变量在预测个人是否赚取5万美元时起重要性。 运行下面的代码即可导入数据集。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">library(InformationValue)</span><br><span class="line">inputData &lt;- read.csv(<span class="string">&quot;http://rstatistics.net/wp-content/uploads/2015/09/adult.csv&quot;</span>)</span><br><span class="line">print(head(inputData))</span><br><span class="line">  AGE         WORKCLASS FNLWGT  EDUCATION EDUCATIONNUM       MARITALSTATUS</span><br><span class="line"><span class="number">1</span>  <span class="number">39</span>         State-gov  <span class="number">77516</span>  Bachelors           <span class="number">13</span>       Never-married</span><br><span class="line"><span class="number">2</span>  <span class="number">50</span>  Self-emp-not-inc  <span class="number">83311</span>  Bachelors           <span class="number">13</span>  Married-civ-spouse</span><br><span class="line"><span class="number">3</span>  <span class="number">38</span>           Private <span class="number">215646</span>    HS-grad            <span class="number">9</span>            Divorced</span><br><span class="line"><span class="number">4</span>  <span class="number">53</span>           Private <span class="number">234721</span>       <span class="number">11</span>th            <span class="number">7</span>  Married-civ-spouse</span><br><span class="line"><span class="number">5</span>  <span class="number">28</span>           Private <span class="number">338409</span>  Bachelors           <span class="number">13</span>  Married-civ-spouse</span><br><span class="line"><span class="number">6</span>  <span class="number">37</span>           Private <span class="number">284582</span>    Masters           <span class="number">14</span>  Married-civ-spouse</span><br><span class="line"></span><br><span class="line">          OCCUPATION   RELATIONSHIP   RACE     SEX CAPITALGAIN CAPITALLOSS</span><br><span class="line"><span class="number">1</span>       Adm-clerical  Not-<span class="keyword">in</span>-family  White    Male        <span class="number">2174</span>           <span class="number">0</span></span><br><span class="line"><span class="number">2</span>    Exec-managerial        Husband  White    Male           <span class="number">0</span>           <span class="number">0</span></span><br><span class="line"><span class="number">3</span>  Handlers-cleaners  Not-<span class="keyword">in</span>-family  White    Male           <span class="number">0</span>           <span class="number">0</span></span><br><span class="line"><span class="number">4</span>  Handlers-cleaners        Husband  Black    Male           <span class="number">0</span>           <span class="number">0</span></span><br><span class="line"><span class="number">5</span>     Prof-specialty           Wife  Black  Female           <span class="number">0</span>           <span class="number">0</span></span><br><span class="line"><span class="number">6</span>    Exec-managerial           Wife  White  Female           <span class="number">0</span>           <span class="number">0</span></span><br><span class="line"></span><br><span class="line">  HOURSPERWEEK  NATIVECOUNTRY ABOVE50K</span><br><span class="line"><span class="number">1</span>           <span class="number">40</span>  United-States        <span class="number">0</span></span><br><span class="line"><span class="number">2</span>           <span class="number">13</span>  United-States        <span class="number">0</span></span><br><span class="line"><span class="number">3</span>           <span class="number">40</span>  United-States        <span class="number">0</span></span><br><span class="line"><span class="number">4</span>           <span class="number">40</span>  United-States        <span class="number">0</span></span><br><span class="line"><span class="number">5</span>           <span class="number">40</span>           Cuba        <span class="number">0</span></span><br><span class="line"><span class="number">6</span>           <span class="number">40</span>  United-States        <span class="number">0</span></span><br></pre></td></tr></table></figure>
+
+<p>查看inputData中分类变量的信息值。</p>
+<p>好了，现在让我们在inputData中找到分类变量的信息值。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 选择分类变量，用来计算信息值Info Value.</span></span><br><span class="line">cat_vars &lt;- <span class="built_in">c</span> (<span class="string">&quot;WORKCLASS&quot;</span>, <span class="string">&quot;EDUCATION&quot;</span>, <span class="string">&quot;MARITALSTATUS&quot;</span>, <span class="string">&quot;OCCUPATION&quot;</span>, <span class="string">&quot;RELATIONSHIP&quot;</span>, <span class="string">&quot;RACE&quot;</span>, <span class="string">&quot;SEX&quot;</span>, <span class="string">&quot;NATIVECOUNTRY&quot;</span>)  <span class="comment"># get all categorical variables</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Init Output</span></span><br><span class="line">df_iv &lt;- data.frame(VARS=cat_vars, IV=numeric(<span class="built_in">length</span>(cat_vars)), STRENGTH=character(<span class="built_in">length</span>(cat_vars)), stringsAsFactors = <span class="built_in">F</span>)  <span class="comment"># init output dataframe</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 得到每个变量的信息值</span></span><br><span class="line"><span class="keyword">for</span> (factor_var <span class="keyword">in</span> factor_vars)&#123;</span><br><span class="line">  df_iv[df_iv$VARS == factor_var, <span class="string">&quot;IV&quot;</span>] &lt;- InformationValue::IV(X=inputData[, factor_var], Y=inputData$ABOVE50K)</span><br><span class="line">  df_iv[df_iv$VARS == factor_var, <span class="string">&quot;STRENGTH&quot;</span>] &lt;- <span class="built_in">attr</span>(InformationValue::IV(X=inputData[, factor_var], Y=inputData$ABOVE50K), <span class="string">&quot;howgood&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># Sort</span></span><br><span class="line">df_iv &lt;- df_iv[order(-df_iv$IV), ]</span><br><span class="line"></span><br><span class="line">df_iv</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th align="left"></th>
+<th align="left">VARS</th>
+<th align="left">IV</th>
+<th align="left">STRENGTH</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">5</td>
+<td align="left">RELATIONSHIP</td>
+<td align="left">1.53560810</td>
+<td align="left">Highly Predictive</td>
+</tr>
+<tr>
+<td align="left">3</td>
+<td align="left">MARITALSTATUS</td>
+<td align="left">1.33882907</td>
+<td align="left">Highly Predictive</td>
+</tr>
+<tr>
+<td align="left">4</td>
+<td align="left">OCCUPATION</td>
+<td align="left">0.77622839</td>
+<td align="left">Highly Predictive</td>
+</tr>
+<tr>
+<td align="left">2</td>
+<td align="left">EDUCATION</td>
+<td align="left">0.74105372</td>
+<td align="left">Highly Predictive</td>
+</tr>
+<tr>
+<td align="left">7</td>
+<td align="left">SEX</td>
+<td align="left">0.30328938</td>
+<td align="left">Highly Predictive</td>
+</tr>
+<tr>
+<td align="left">1</td>
+<td align="left">WORKCLASS</td>
+<td align="left">0.16338802</td>
+<td align="left">Highly Predictive</td>
+</tr>
+<tr>
+<td align="left">8</td>
+<td align="left">NATIVECOUNTRY</td>
+<td align="left">0.07939344</td>
+<td align="left">Somewhat Predictive</td>
+</tr>
+<tr>
+<td align="left">6</td>
+<td align="left">RACE</td>
+<td align="left">0.06929987</td>
+<td align="left">Somewhat Predictive</td>
+</tr>
+</tbody></table>
+<p>信息值范围的含义</p>
+<ul>
+<li><p>小于0.02，则预测变量对建模无用</p>
+</li>
+<li><p>0.02至0.1，则预测变量仅具有弱关系</p>
+</li>
+<li><p>0.1到0.3，则预测变量具有中等强度关系</p>
+</li>
+<li><p>0.3或更高，则预测变量具有很强的关系</p>
+</li>
+</ul>
+<p>这是关于信息值IV，那证据权重Weight of Evidence呢？证据权重可以帮助找出找出给定类别变量解释事件events（下表中的Goods）时的重要性。</p>
+<p><img src="/wp/f4w/2021/2021-05-10-WOE_Formula.webp">证据权重</p>
+<p>分类变量的信息值可以从对应的证据权重（WOE）中得到。</p>
+<p>IV=(perc good of all goods - perc bad of all bads) * WOE</p>
+<p>下面的WOETable列出了更详细的信息。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">WOETable(X=inputData[, <span class="string">&#x27;WORKCLASS&#x27;</span>], Y=inputData$ABOVE50K)</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th align="left">CAT</th>
+<th align="left">GOODS</th>
+<th align="left">BADS</th>
+<th align="left">TOTAL</th>
+<th align="left">PCT_G</th>
+<th align="left">PCT_B</th>
+<th align="left">WOE</th>
+<th align="left">IV</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">?</td>
+<td align="left">191</td>
+<td align="left">1645</td>
+<td align="left">1836</td>
+<td align="left">0.0242940728</td>
+<td align="left">0.0665453074</td>
+<td align="left">-1.0076506</td>
+<td align="left">0.0425744832</td>
+</tr>
+<tr>
+<td align="left">Federal-gov</td>
+<td align="left">371</td>
+<td align="left">589</td>
+<td align="left">960</td>
+<td align="left">0.0471890104</td>
+<td align="left">0.0238268608</td>
+<td align="left">0.6833475</td>
+<td align="left">0.0159644662</td>
+</tr>
+<tr>
+<td align="left">Local-gov</td>
+<td align="left">617</td>
+<td align="left">1476</td>
+<td align="left">2093</td>
+<td align="left">0.0784787586</td>
+<td align="left">0.0597087379</td>
+<td align="left">0.2733496</td>
+<td align="left">0.0051307781</td>
+</tr>
+<tr>
+<td align="left">Never-worked</td>
+<td align="left">7</td>
+<td align="left">7</td>
+<td align="left">7</td>
+<td align="left">0.0008903587</td>
+<td align="left">0.0002831715</td>
+<td align="left">1.1455716</td>
+<td align="left">0.0006955764</td>
+</tr>
+<tr>
+<td align="left">Private</td>
+<td align="left">4963</td>
+<td align="left">17733</td>
+<td align="left">22696</td>
+<td align="left">0.6312643093</td>
+<td align="left">0.7173543689</td>
+<td align="left">-0.1278453</td>
+<td align="left">0.0110062102</td>
+</tr>
+<tr>
+<td align="left">Self-emp-inc</td>
+<td align="left">622</td>
+<td align="left">494</td>
+<td align="left">1116</td>
+<td align="left">0.0791147291</td>
+<td align="left">0.0199838188</td>
+<td align="left">1.3759762</td>
+<td align="left">0.0813627242</td>
+</tr>
+<tr>
+<td align="left">Self-emp-not-inc</td>
+<td align="left">724</td>
+<td align="left">1817</td>
+<td align="left">2541</td>
+<td align="left">0.0920885271</td>
+<td align="left">0.0735032362</td>
+<td align="left">0.2254209</td>
+<td align="left">0.0041895135</td>
+</tr>
+<tr>
+<td align="left">State-gov</td>
+<td align="left">353</td>
+<td align="left">945</td>
+<td align="left">1298</td>
+<td align="left">0.0448995167</td>
+<td align="left">0.0382281553</td>
+<td align="left">0.1608547</td>
+<td align="left">0.0010731201</td>
+</tr>
+<tr>
+<td align="left">Without-pay</td>
+<td align="left">14</td>
+<td align="left">14</td>
+<td align="left">14</td>
+<td align="left">0.0017807174</td>
+<td align="left">0.0005663430</td>
+<td align="left">1.1455716</td>
+<td align="left">0.0013911528</td>
+</tr>
+</tbody></table>
+<h2 id="10-DALEX-Package"><a href="#10-DALEX-Package" class="headerlink" title="10. DALEX Package"></a>10. DALEX Package</h2><p>DALEX是一个很强大的包，可以解释关于ML模型中使用的变量的各种事情。</p>
+<p>例如，使用variable_dropout()函数，可以发现基于丢失损失的变量重要性，也就是说，从模型中删除变量会导致多少损失。</p>
+<p>除此之外，它还具有<a target="_blank" rel="noopener" href="http://smarterpoland.pl/wp-content/uploads/2018/02/DALEX_single_variable.png"><code>single_variable()</code></a>函数，当改变变量的值时，模型的输出将会如何改变。</p>
+<p>它还可以通过 <a target="_blank" rel="noopener" href="http://smarterpoland.pl/index.php/2018/02/dalex-which-variables-influence-this-single-prediction/"><code>single_prediction()</code></a>来拆分单个模型的预测值，从而了解哪个变量对Y值的预测产生了什么影响。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">library(randomForest)</span><br><span class="line">library(DALEX)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Load data</span></span><br><span class="line">inputData &lt;- read.csv(<span class="string">&quot;http://rstatistics.net/wp-content/uploads/2015/09/adult.csv&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Train random forest model</span></span><br><span class="line">rf_mod &lt;- randomForest(factor(ABOVE50K) ~ ., data=inputData, ntree=<span class="number">100</span>)</span><br><span class="line">rf_mod</span><br><span class="line"></span><br><span class="line"><span class="comment"># Variable importance with DALEX</span></span><br><span class="line">explained_rf &lt;- explain(rf_mod, data=inputData, y=inputData$ABOVE50K)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Get the variable importances</span></span><br><span class="line">varimps = variable_dropout(explained_rf, type=<span class="string">&#x27;raw&#x27;</span>)</span><br><span class="line"></span><br><span class="line">print(varimps)</span><br><span class="line">Call:</span><br><span class="line"> randomForest(formula = factor(ABOVE50K) ~ ., data = inputData,      ntree = <span class="number">100</span>) </span><br><span class="line">               Type of random forest: classification</span><br><span class="line">                     Number of trees: <span class="number">100</span></span><br><span class="line">No. of variables tried at each split: <span class="number">3</span></span><br><span class="line"></span><br><span class="line">        OOB estimate of  error rate: <span class="number">17.4</span>%</span><br><span class="line">Confusion matrix:</span><br><span class="line">      0    1 class.error</span><br><span class="line">0 24600  120 0.004854369</span><br><span class="line">1  5547 2294 0.707435276</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        variable dropout_loss        label</span><br><span class="line">1   _full_model_          852 randomForest</span><br><span class="line">2   EDUCATIONNUM          842 randomForest</span><br><span class="line">3      EDUCATION          843 randomForest</span><br><span class="line">4  MARITALSTATUS          844 randomForest</span><br><span class="line">5         FNLWGT          845 randomForest</span><br><span class="line">6     OCCUPATION          847 randomForest</span><br><span class="line">7            SEX          847 randomForest</span><br><span class="line">8    CAPITALLOSS          847 randomForest</span><br><span class="line">9   HOURSPERWEEK          847 randomForest</span><br><span class="line">10           AGE          848 randomForest</span><br><span class="line">11          RACE          848 randomForest</span><br><span class="line">12     WORKCLASS          849 randomForest</span><br><span class="line">13  RELATIONSHIP          850 randomForest</span><br><span class="line">14 NATIVECOUNTRY          853 randomForest</span><br><span class="line">15      ABOVE50K          853 randomForest</span><br><span class="line">16   CAPITALGAIN          893 randomForest</span><br><span class="line">17    _baseline_          975 randomForest</span><br><span class="line">plot(varimps)</span><br></pre></td></tr></table></figure>
+
+<p><img src="/wp/f4w/2021/2021-05-10-dalex_variable_importance.webp">Dalex变量重要性</p>
+<p>参考： <a target="_blank" rel="noopener" href="https://www.machinelearningplus.com/machine-learning/feature-selection/">https://www.machinelearningplus.com/machine-learning/feature-selection/</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Machine-learning/" rel="tag"># Machine learning</a>
+              <a href="/tags/Feature-selection/" rel="tag"># Feature selection</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/archives/1232/" rel="prev" title="将ggplot导出成ppt的R包">
+      <i class="fa fa-chevron-left"></i> 将ggplot导出成ppt的R包
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/archives/1256/" rel="next" title="预测模型校准曲线 Calibration curve">
+      预测模型校准曲线 Calibration curve <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Introduction"><span class="nav-number">1.</span> <span class="nav-text">Introduction</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-Boruta"><span class="nav-number">2.</span> <span class="nav-text">1. Boruta</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-Variable-Importance-from-Machine-Learning-Algorithms"><span class="nav-number">3.</span> <span class="nav-text">2. Variable Importance from Machine Learning Algorithms</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-Lasso-Regression"><span class="nav-number">4.</span> <span class="nav-text">3. Lasso Regression</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-Step-wise-Forward-and-Backward-Selection"><span class="nav-number">5.</span> <span class="nav-text">4. Step wise Forward and Backward Selection</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-Relative-Importance-from-Linear-Regression"><span class="nav-number">6.</span> <span class="nav-text">5. Relative Importance from Linear Regression</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-Recursive-Feature-Elimination-RFE"><span class="nav-number">7.</span> <span class="nav-text">6. Recursive Feature Elimination (RFE)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-Genetic-Algorithm"><span class="nav-number">8.</span> <span class="nav-text">7. Genetic Algorithm</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-Simulated-Annealing"><span class="nav-number">9.</span> <span class="nav-text">8. Simulated Annealing</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9-Information-Value-and-Weights-of-Evidence"><span class="nav-number">10.</span> <span class="nav-text">9. Information Value and Weights of Evidence</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#10-DALEX-Package"><span class="nav-number">11.</span> <span class="nav-text">10. DALEX Package</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Jason</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">163</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">167</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+
+<!--google_adsense-->
+
+  <div class="links-of-blogroll-title">
+    <i class="fa fa-google"></i> AdSense
+    <ins class="adsbygoogle"
+        style="display:block"
+        data-ad-client="ca-pub-9370593480269435"
+        data-ad-slot="8824957305"
+        data-ad-format="auto"
+        data-full-width-responsive="true"></ins>
+    <script>
+      (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+  </div>
+
+<!--/google_adsense-->
+
+
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jason</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- PGAD -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-9370593480269435"
+     data-ad-slot="8824957305"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

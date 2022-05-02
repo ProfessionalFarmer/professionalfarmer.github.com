@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"md.zxzyl.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+
+  <meta name="description" content="前面文章介绍了Ensembl的biomart，相信你对biomart应该有所了解了，在此再介绍一种方法，即通过R语言包biomaRt下载HGMD的数据。 HGMD的最新数据是需要购买授权才行，公开版信息不仅滞后，而且不能下载，不能得到基因组位置，在biostart上看到有人说Ensembl整合了HGMD的公开版，心想能获得公开版的数据也不错，于是采用biomaRt包下载。 各位不要高兴，最终的结果">
+<meta property="og:type" content="article">
+<meta property="og:title" content="利用biomaRt包下载HGMD公开版的突变位点">
+<meta property="og:url" content="https://md.zxzyl.com/archives/738/index.html">
+<meta property="og:site_name" content="Zhongxu&#39;s blog">
+<meta property="og:description" content="前面文章介绍了Ensembl的biomart，相信你对biomart应该有所了解了，在此再介绍一种方法，即通过R语言包biomaRt下载HGMD的数据。 HGMD的最新数据是需要购买授权才行，公开版信息不仅滞后，而且不能下载，不能得到基因组位置，在biostart上看到有人说Ensembl整合了HGMD的公开版，心想能获得公开版的数据也不错，于是采用biomaRt包下载。 各位不要高兴，最终的结果">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://md.zxzyl.com/wp/f4w/2020/2016-02-20-biomaRt-listensemblbiomart.png">
+<meta property="og:image" content="https://md.zxzyl.com/wp/f4w/2020/2016-02-20-biomaRt-listensembldataset.png">
+<meta property="og:image" content="https://md.zxzyl.com/wp/f4w/2020/2016-02-20-biomaRt-listensembldatasetfilters.png">
+<meta property="og:image" content="https://md.zxzyl.com/wp/f4w/2020/2016-02-20-biomaRt-listensembldatasetattribute.png">
+<meta property="og:image" content="https://md.zxzyl.com/wp/f4w/2020/2016-02-20-biomaRt-hgmdresult.png">
+<meta property="article:published_time" content="2016-02-20T14:01:07.000Z">
+<meta property="article:modified_time" content="2016-02-20T14:01:07.000Z">
+<meta property="article:author" content="Jason">
+<meta property="article:tag" content="Biomart">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://md.zxzyl.com/wp/f4w/2020/2016-02-20-biomaRt-listensemblbiomart.png">
+
+<link rel="canonical" href="https://md.zxzyl.com/archives/738/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>利用biomaRt包下载HGMD公开版的突变位点 | Zhongxu's blog</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a3b5d3f466edb3e3f15e8238d8f04be8";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Zhongxu's blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://md.zxzyl.com/archives/738/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhongxu's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          利用biomaRt包下载HGMD公开版的突变位点
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-02-20 22:01:07" itemprop="dateCreated datePublished" datetime="2016-02-20T22:01:07+08:00">2016-02-20</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><a target="_blank" rel="noopener" href="http://wp.zxzyl.com/?p=174" title="如何获取Ensembl gene id和NCBI的gene id及与HGNC的对应关系">前面</a>文章介绍了Ensembl的biomart，相信你对biomart应该有所了解了，在此再介绍一种方法，即通过R语言包biomaRt下载HGMD的数据。</p>
+<p>HGMD的最新数据是需要购买授权才行，公开版信息不仅滞后，而且不能下载，不能得到基因组位置，在biostart上看到有人说Ensembl整合了HGMD的公开版，心想能获得公开版的数据也不错，于是采用biomaRt包下载。</p>
+<p>各位不要高兴，最终的结果是，只得到了所有突变的基因组位置，未能下到具体的突变类型，以及与表型的关系。不过能下载基因组的位置，也算不错，结合对这些位置的注释，能获取不少信息。如果您对这些位置的利用有更多或者更好的想法，欢迎与我讨论。</p>
+<h2 id="1，安装biomaRt包"><a href="#1，安装biomaRt包" class="headerlink" title="1，安装biomaRt包"></a>1，安装biomaRt包</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">source(<span class="string">&quot;http://bioconductor.org/biocLite.R&quot;</span>)</span><br><span class="line">chooseCRANmirror()</span><br><span class="line">chooseBioCmirror()</span><br><span class="line">biocLite(<span class="string">&quot;biomaRt&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+
+<h2 id="2，显示ensembl的biomart"><a href="#2，显示ensembl的biomart" class="headerlink" title="2，显示ensembl的biomart"></a>2，显示ensembl的biomart</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">library(biomaRt)</span><br><span class="line">listEnsembl()</span><br><span class="line"><span class="comment">#如果要显示特定版本的，添加version参数</span></span><br><span class="line"><span class="comment">#listEnsembl(version=78)</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+<p><img src="/wp/f4w/2020/2016-02-20-biomaRt-listensemblbiomart.png"> </p>
+<span id="more"></span>
+
+<h2 id="3，选择snp-mart"><a href="#3，选择snp-mart" class="headerlink" title="3，选择snp mart"></a>3，选择snp mart</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#HGMD的数据，不用想，一定是属于SNP，所以选择snp</span></span><br><span class="line">snp = useEnsembl(biomart=<span class="string">&quot;snp&quot;</span>)</span><br><span class="line"><span class="comment">#snp = useEnsembl(biomart=&quot;snp&quot;,version=78)</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+<h2 id="4，显示snp-mart的数据集"><a href="#4，显示snp-mart的数据集" class="headerlink" title="4，显示snp mart的数据集"></a>4，显示snp mart的数据集</h2><p>下述命令会显示snp mart的所有数据集，很明显，我们需要的是hsapiens_snp的数据集，相当于选择哪个物种的数据。description是对数据集的描述，version为版本。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">listDatasets(snp) </span><br><span class="line">snp = useEnsembl(biomart=<span class="string">&quot;snp&quot;</span>,dataset=<span class="string">&quot;hsapiens_snp&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+
+<p><img src="/wp/f4w/2020/2016-02-20-biomaRt-listensembldataset.png"></p>
+<h2 id="5，显示过滤参数"><a href="#5，显示过滤参数" class="headerlink" title="5，显示过滤参数"></a>5，显示过滤参数</h2><p>有时候，我们并不是将整个数据集下载下来，有可能只关注一个基因或者一个RSID，就可以根据显示的过滤参数加上我们的条件，这样得到的数据只是我们关心的。因为我们要获得HGMD的数据，后续要选择variation_source。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">listFilters(snp)</span><br></pre></td></tr></table></figure>
+
+<p><img src="/wp/f4w/2020/2016-02-20-biomaRt-listensembldatasetfilters.png"></p>
+<h2 id="6，显示属性"><a href="#6，显示属性" class="headerlink" title="6，显示属性"></a>6，显示属性</h2><p>如果你看过前两篇文章，应该能明白属性其实对应的是我们想得到的关于某一对象的属性，一个属性对应一列，比如SNP的属性就可以包括chr，pos等。后续我选择了’chr_name’, ‘chrom_start’,’chrom_end’,’refsnp_id’,’associated_gene’,’allele’,’phenotype_description’。我相信，你也关心这些信息，不过最终结果可能没有那么美好，请往下看</p>
+<pre>listAttributes(snp)</pre>
+
+<p><img src="/wp/f4w/2020/2016-02-20-biomaRt-listensembldatasetattribute.png"></p>
+<h2 id="7，通过getBM得到数据"><a href="#7，通过getBM得到数据" class="headerlink" title="7，通过getBM得到数据"></a>7，通过getBM得到数据</h2><p>attributes对应你想要获得的属性<br>filters对应你要过滤的项目，values对应filter的过滤参数<br>如果你有多个filter，values的参数对应的应该是个list</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">result &lt;- getBM(<span class="built_in">attributes</span>=<span class="built_in">c</span>(<span class="string">&#x27;chr_name&#x27;</span>, <span class="string">&#x27;chrom_start&#x27;</span>,<span class="string">&#x27;chrom_end&#x27;</span>,<span class="string">&#x27;refsnp_id&#x27;</span>,<span class="string">&#x27;associated_gene&#x27;</span>,<span class="string">&#x27;allele&#x27;</span>,<span class="string">&#x27;phenotype_description&#x27;</span>), filters = <span class="string">&#x27;variation_source&#x27;</span>, values =<span class="string">&quot;HGMD-PUBLIC&quot;</span>, mart = snp)</span><br><span class="line">write.table(result,sep=<span class="string">&quot;t&quot;</span>,file=<span class="string">&quot;./hgmd.txt&quot;</span>,<span class="built_in">quote</span>=<span class="literal">FALSE</span>,row.names=<span class="built_in">F</span>)</span><br><span class="line">head(result)</span><br></pre></td></tr></table></figure>
+
+
+<p><img src="/wp/f4w/2020/2016-02-20-biomaRt-hgmdresult.png"></p>
+<p>在这里只得到了突变的位置和基因，其他的未公开，想想也对，要是都能下载到了，HGMD的生意也会少了很多。不过HGMD官网没有提供基因组位置，这里能获得，再结合相关基因，这些数据还是很有用的。</p>
+<p>Ensembl官网提供的另外两个例子，也可以参考下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Example query: Fetch all the Ensembl gene, transcript IDs, HGNC symbols and chromosome locations located on the human chromosome 1</span><br><span class="line"></span><br><span class="line">&gt; library(biomaRt)</span><br><span class="line">&gt; ensembl = useEnsembl(biomart=&quot;ensembl&quot;, dataset=&quot;hsapiens_gene_ensembl&quot;)</span><br><span class="line">&gt; chr1_genes  head(chr1_gene)</span><br><span class="line"></span><br><span class="line">Example query: Fetch Ensembl Gene, Transcript IDs, HGNC IDs and symbols and Uniprot Swissprot accessions mapped to the human Ensembl Gene ID &quot;ENSG00000139618&quot;</span><br><span class="line"></span><br><span class="line">&gt; library(biomaRt)</span><br><span class="line">&gt; ensembl = useEnsembl(biomart=&quot;ensembl&quot;, dataset=&quot;hsapiens_gene_ensembl&quot;)</span><br><span class="line">&gt; hgnc_swissprot  hgnc_swissprot</span><br></pre></td></tr></table></figure>
+
+
+<p>参考：</p>
+<p><a target="_blank" rel="noopener" href="http://asia.ensembl.org/info/data/biomart/biomart_r_package.html" title="http://asia.ensembl.org/info/data/biomart/biomart_r_package.html">http://asia.ensembl.org/info/data/biomart/biomart_r_package.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://bioconductor.org/packages/release/bioc/html/biomaRt.html" title="https://bioconductor.org/packages/release/bioc/html/biomaRt.html">https://bioconductor.org/packages/release/bioc/html/biomaRt.html</a></p>
+<p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>#####################################################################</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Biomart/" rel="tag"># Biomart</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/archives/737/" rel="prev" title="安装BioMart Perl及利用BioMart Perl API下载数据">
+      <i class="fa fa-chevron-left"></i> 安装BioMart Perl及利用BioMart Perl API下载数据
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/archives/739/" rel="next" title="Get the reference allele based on genomic position">
+      Get the reference allele based on genomic position <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1%EF%BC%8C%E5%AE%89%E8%A3%85biomaRt%E5%8C%85"><span class="nav-number">1.</span> <span class="nav-text">1，安装biomaRt包</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2%EF%BC%8C%E6%98%BE%E7%A4%BAensembl%E7%9A%84biomart"><span class="nav-number">2.</span> <span class="nav-text">2，显示ensembl的biomart</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3%EF%BC%8C%E9%80%89%E6%8B%A9snp-mart"><span class="nav-number">3.</span> <span class="nav-text">3，选择snp mart</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4%EF%BC%8C%E6%98%BE%E7%A4%BAsnp-mart%E7%9A%84%E6%95%B0%E6%8D%AE%E9%9B%86"><span class="nav-number">4.</span> <span class="nav-text">4，显示snp mart的数据集</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5%EF%BC%8C%E6%98%BE%E7%A4%BA%E8%BF%87%E6%BB%A4%E5%8F%82%E6%95%B0"><span class="nav-number">5.</span> <span class="nav-text">5，显示过滤参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6%EF%BC%8C%E6%98%BE%E7%A4%BA%E5%B1%9E%E6%80%A7"><span class="nav-number">6.</span> <span class="nav-text">6，显示属性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7%EF%BC%8C%E9%80%9A%E8%BF%87getBM%E5%BE%97%E5%88%B0%E6%95%B0%E6%8D%AE"><span class="nav-number">7.</span> <span class="nav-text">7，通过getBM得到数据</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Jason</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">163</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">167</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+
+<!--google_adsense-->
+
+  <div class="links-of-blogroll-title">
+    <i class="fa fa-google"></i> AdSense
+    <ins class="adsbygoogle"
+        style="display:block"
+        data-ad-client="ca-pub-9370593480269435"
+        data-ad-slot="8824957305"
+        data-ad-format="auto"
+        data-full-width-responsive="true"></ins>
+    <script>
+      (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+  </div>
+
+<!--/google_adsense-->
+
+
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jason</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- PGAD -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-9370593480269435"
+     data-ad-slot="8824957305"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"md.zxzyl.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+
+  <meta name="description" content="SAMtools不仅仅用来call snp。从samtools的软件名就能看出，是对SAM格式文件进行操作的工作，比如讲sam转成bam格式，index，rmdup等等。samtools结合linux命令比如grep，awk和SAM格式描述的flag，tag，亦是非常非常非常强大，比如根据flag过滤duplicate的reads，根据XA tag过滤multiple hit的reads。本文在此">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SAMtools自带的统计命令--idxstats、stat、flagstat、bedcov和depth命令">
+<meta property="og:url" content="https://md.zxzyl.com/archives/727/index.html">
+<meta property="og:site_name" content="Zhongxu&#39;s blog">
+<meta property="og:description" content="SAMtools不仅仅用来call snp。从samtools的软件名就能看出，是对SAM格式文件进行操作的工作，比如讲sam转成bam格式，index，rmdup等等。samtools结合linux命令比如grep，awk和SAM格式描述的flag，tag，亦是非常非常非常强大，比如根据flag过滤duplicate的reads，根据XA tag过滤multiple hit的reads。本文在此">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2016-01-11T14:51:33.000Z">
+<meta property="article:modified_time" content="2016-01-11T14:51:33.000Z">
+<meta property="article:author" content="Jason">
+<meta property="article:tag" content="SAM">
+<meta property="article:tag" content="stat">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://md.zxzyl.com/archives/727/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>SAMtools自带的统计命令--idxstats、stat、flagstat、bedcov和depth命令 | Zhongxu's blog</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a3b5d3f466edb3e3f15e8238d8f04be8";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Zhongxu's blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://md.zxzyl.com/archives/727/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhongxu's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          SAMtools自带的统计命令--idxstats、stat、flagstat、bedcov和depth命令
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-01-11 22:51:33" itemprop="dateCreated datePublished" datetime="2016-01-11T22:51:33+08:00">2016-01-11</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><strong>SAMtools</strong>不仅仅用来call snp。从samtools的软件名就能看出，是对SAM格式文件进行操作的工作，比如讲sam转成bam格式，index，rmdup等等。samtools结合linux命令比如grep，awk和SAM格式描述的flag，tag，亦是非常非常非常强大，比如根据flag过滤duplicate的reads，根据XA tag过滤multiple hit的reads。本文在此只介绍一下samtools的统计命令，能快速对bam文件进行各种统计。</p>
+<p>samtools的自带的几种统计工具</p>
+<p>**samtool idxstats **</p>
+<p>检索和打印与输入文件相对应的index file里的统计信息，所以要对输入的bam文件进行index</p>
+<p>reference sequence name, sequence length, # mapped reads and # unmapped reads<br>chr1    249250621       4998344 1005<br>chr2    243199373       3020248 595<br>chr3    198022430       2418804 449</p>
+<p><strong>samtools bedcov</strong></p>
+<p>计算覆盖到每个区域的总碱基数目</p>
+<p>chr    start-1    end    totalbase<br>chr1    100000  1000000 1709228<br>chr2    2000000 65885852        64362582</p>
+<p>**samtools depth **</p>
+<p>计算每个位点的深度</p>
+<p>#chr    pos     depth<br>chr1    1       5<br>chr1    2       5</p>
+<p><strong>samtools flagstat</strong></p>
+<p>根据flag统计多少map的reads等信息<br>43444444 + 0 in total (QC-passed reads + QC-failed reads)<br>5863846 + 0 secondary<br>0 + 0 supplementary<br>0 + 0 duplicates<br>43431948 + 0 mapped (99.97%:-nan%)<br>37580598 + 0 paired in sequencing</p>
+<span id="more"></span>
+
+<p><strong>samtools stat bamfile</strong></p>
+<p>输出的信息比较多，部分如下</p>
+<p>Summary Numbers<br>raw total sequences，filtered sequences, reads mapped, reads mapped and paired,reads properly paired等信息</p>
+<p>Fragment Qualitites<br>根据cycle统计每个位点上的碱基质量分布</p>
+<p>Coverage distribution<br>深度为1，2，3，，，的碱基数目</p>
+<p>ACGT content per cycle<br>ACGT在每个cycle中的比例</p>
+<p>Insert sizes<br>插入长度的统计</p>
+<p>Read lengths<br>read的长度分布</p>
+<p>参考SAMtools的官网提供的document:<br><a target="_blank" rel="noopener" href="http://www.htslib.org/doc/samtools.html">http://www.htslib.org/doc/samtools.html</a></p>
+<p><strong>idxstats</strong></p>
+<p><code>samtools idxstats in.sam&#39;in.bam&#39;in.cram</code></p>
+<p>Retrieve and print stats in the index file corresponding to the input file. Before calling idxstats, the input BAM file must be indexed by samtools index.</p>
+<p>The output is TAB-delimited with each line consisting of reference sequence name, sequence length, # mapped reads and # unmapped reads. It is written to stdout.</p>
+<p><strong>flagstat</strong></p>
+<p><code>samtools flagstat in.sam&#39;in.bam&#39;in.cram</code></p>
+<p>Does a full pass through the input file to calculate and print statistics to stdout.</p>
+<p>Provides counts for each of 13 categories based primarily on bit flags in the FLAG field. Each category in the output is broken down into QC pass and QC fail, which is presented as “#PASS + #FAIL” followed by a description of the category.</p>
+<p>The first row of output gives the total number of reads that are QC pass and fail (according to flag bit 0x200). For example:</p>
+<p>122 + 28 in total (QC-passed reads + QC-failed reads)</p>
+<p>Which would indicate that there are a total of 150 reads in the input file, 122 of which are marked as QC pass and 28 of which are marked as “not passing quality controls”</p>
+<p>Following this, additional categories are given for reads which are:</p>
+<p>secondary<br>0x100 bit set</p>
+<p>supplementary<br>0x800 bit set</p>
+<p>duplicates<br>0x400 bit set</p>
+<p>mapped<br>0x4 bit not set</p>
+<p>paired in sequencing<br>0x1 bit set</p>
+<p>read1<br>both 0x1 and 0x40 bits set</p>
+<p>read2<br>both 0x1 and 0x80 bits set</p>
+<p>properly paired<br>both 0x1 and 0x2 bits set and 0x4 bit not set</p>
+<p>with itself and mate mapped<br>0x1 bit set and neither 0x4 nor 0x8 bits set</p>
+<p>singletons<br>both 0x1 and 0x8 bits set and bit 0x4 not set</p>
+<p>And finally, two rows are given that additionally filter on the reference name (RNAME), mate reference name (MRNM), and mapping quality (MAPQ) fields:</p>
+<p>with mate mapped to a different chr<br>0x1 bit set and neither 0x4 nor 0x8 bits set and MRNM not equal to RNAME</p>
+<p>with mate mapped to a different chr (mapQ&gt;=5)<br>0x1 bit set and neither 0x4 nor 0x8 bits set and MRNM not equal to RNAME and MAPQ &gt;= 5</p>
+<p><strong>stats</strong></p>
+<p><code>samtools stats [options] in.sam&#39;in.bam&#39;in.cram [region...]</code></p>
+<p>samtools stats collects statistics from BAM files and outputs in a text format. The output can be visualized graphically using plot-bamstats.</p>
+<p>Options:</p>
+<p>-c, –coverage MIN,MAX,STEP<br>Set coverage distribution to the specified range (MIN, MAX, STEP all given as integers) [1,1000,1]</p>
+<p>-d, –remove-dups<br>Exclude from statistics reads marked as duplicates</p>
+<p>-f, –required-flag STR’INT<br>Required flag, 0 for unset. See also <code>samtools flags</code> [0]</p>
+<p>-F, –filtering-flag STR’INT<br>Filtering flag, 0 for unset. See also <code>samtools flags</code> [0]</p>
+<p>–GC-depth FLOAT<br>the size of GC-depth bins (decreasing bin size increases memory requirement) [2e4]</p>
+<p>-h, –help<br>This help message</p>
+<p>-i, –insert-size INT<br>Maximum insert size [8000]</p>
+<p>-I, –id STR<br>Include only listed read group or sample name []</p>
+<p>-l, –read-length INT<br>Include in the statistics only reads with the given read length []</p>
+<p>-m, –most-inserts FLOAT<br>Report only the main part of inserts [0.99]</p>
+<p>-P, –split-prefix STR<br>A path or string prefix to prepend to filenames output when creating categorised statistics files with -S/–split. [input filename]</p>
+<p>-q, –trim-quality INT<br>The BWA trimming parameter [0]</p>
+<p>-r, –ref-seq FILE<br>Reference sequence (required for GC-depth and mismatches-per-cycle calculation). []</p>
+<p>-S, –split TAG<br>In addition to the complete statistics, also output categorised statistics based on the tagged field TAG (e.g., use –split RG to split into read groups).</p>
+<p>Categorised statistics are written to files named\ _.bamstat, where prefix is as given by –split-prefix (or the input filename by default) and value has been encountered as the specified tagged field’s value in one or more alignment records.</p>
+<p>-t, –target-regions FILE<br>Do stats in these regions only. Tab-delimited file chr,from,to, 1-based, inclusive. []</p>
+<p>-x, –sparse<br>Suppress outputting IS rows where there are no insertions.</p>
+<p><strong>bedcov</strong></p>
+<p><code>samtools bedcov region.bed in1.sam&#39;in1.bam&#39;in1.cram[...]</code></p>
+<p>Reports read depth per genomic region, as specified in the supplied BED file.</p>
+<p><strong>depth</strong></p>
+<p><code>samtools depth [options] [in1.sam&#39;in1.bam&#39;in1.cram [in2.sam&#39;in2.bam&#39;in2.cram] [...]]</code></p>
+<p>Computes the depth at each position or region.</p>
+<p>Options:</p>
+<p>-a<br>Output all positions (including those with zero depth)</p>
+<p>-a -a, -aa<br>Output absolutely all positions, including unused reference sequences</p>
+<p>-b FILE<br>Compute depth at list of positions or regions in specified BED FILE. []</p>
+<p>-f FILE<br>Use the BAM files specified in the FILE (a file of filenames, one file per line) []</p>
+<p>-l INT<br>Ignore reads shorter than INT</p>
+<p>-m, -d INT<br>Truncate reported depth at a maximum of INT reads. [8000]</p>
+<p>-q INT<br>Only count reads with base quality greater than INT</p>
+<p>-Q INT<br>Only count reads with mapping quality greater than INT</p>
+<p>-r CHR:FROM-TO<br>Only report depth in specified region.</p>
+<p>Ref:<a target="_blank" rel="noopener" href="http://www.htslib.org/doc/samtools.html">http://www.htslib.org/doc/samtools.html</a></p>
+<p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason Zhu<br>#####################################################################</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/SAM/" rel="tag"># SAM</a>
+              <a href="/tags/stat/" rel="tag"># stat</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/archives/726/" rel="prev" title="SAM文件中的soft clipping和hard clipping">
+      <i class="fa fa-chevron-left"></i> SAM文件中的soft clipping和hard clipping
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/archives/728/" rel="next" title="预测突变危害的SIFT和PolyPhen2数据库介绍--SIFT and polyphen2 introduction">
+      预测突变危害的SIFT和PolyPhen2数据库介绍--SIFT and polyphen2 introduction <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Jason</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">163</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">167</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+
+<!--google_adsense-->
+
+  <div class="links-of-blogroll-title">
+    <i class="fa fa-google"></i> AdSense
+    <ins class="adsbygoogle"
+        style="display:block"
+        data-ad-client="ca-pub-9370593480269435"
+        data-ad-slot="8824957305"
+        data-ad-format="auto"
+        data-full-width-responsive="true"></ins>
+    <script>
+      (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+  </div>
+
+<!--/google_adsense-->
+
+
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jason</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- PGAD -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-9370593480269435"
+     data-ad-slot="8824957305"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

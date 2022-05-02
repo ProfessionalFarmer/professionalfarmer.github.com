@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"md.zxzyl.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+
+  <meta name="description" content="对VCF文件中的突变按照染色体和位置进行排序，下面是本人的总结，其中利用bash命令的方法不依赖其他的工具或包。htslib前文中也提到过。 1, Use bashbash raw.vcf 123456789chr_order&#x3D;&quot;chrMnchr1nchr2nchr3nchr4nchr5nchr6nchr7nchr8nchr9nchr10nchr11nchr12nchr13nchr14n">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Sort VCF by Chr and Pos根据染色体位置对VCF进行排序">
+<meta property="og:url" content="https://md.zxzyl.com/archives/741/index.html">
+<meta property="og:site_name" content="Zhongxu&#39;s blog">
+<meta property="og:description" content="对VCF文件中的突变按照染色体和位置进行排序，下面是本人的总结，其中利用bash命令的方法不依赖其他的工具或包。htslib前文中也提到过。 1, Use bashbash raw.vcf 123456789chr_order&#x3D;&quot;chrMnchr1nchr2nchr3nchr4nchr5nchr6nchr7nchr8nchr9nchr10nchr11nchr12nchr13nchr14n">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2016-03-01T13:53:23.000Z">
+<meta property="article:modified_time" content="2016-03-01T13:53:23.000Z">
+<meta property="article:author" content="Jason">
+<meta property="article:tag" content="VCF">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://md.zxzyl.com/archives/741/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>Sort VCF by Chr and Pos根据染色体位置对VCF进行排序 | Zhongxu's blog</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a3b5d3f466edb3e3f15e8238d8f04be8";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Zhongxu's blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://md.zxzyl.com/archives/741/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhongxu's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Sort VCF by Chr and Pos根据染色体位置对VCF进行排序
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-03-01 21:53:23" itemprop="dateCreated datePublished" datetime="2016-03-01T21:53:23+08:00">2016-03-01</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>对VCF文件中的突变按照染色体和位置进行排序，下面是本人的总结，其中利用bash命令的方法不依赖其他的工具或包。htslib<a target="_blank" rel="noopener" href="http://wp.zxzyl.com/?p=189" title="合并VCF文件 Merge VCF file">前文</a>中也提到过。</p>
+<h2 id="1-Use-bash"><a href="#1-Use-bash" class="headerlink" title="1, Use bash"></a>1, Use bash</h2><p><strong>bash raw.vcf</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">chr_order=&quot;chrMnchr1nchr2nchr3nchr4nchr5nchr6nchr7nchr8nchr9nchr10nchr11nchr12nchr13nchr14nchr15nchr16nchr17nchr18nchr19nchr20nchr21nchr22nchrXnchrY&quot;</span><br><span class="line"></span><br><span class="line">cat &quot;$1&quot; &#x27; grep &quot;^#&quot; &gt; .header.vcf</span><br><span class="line">cat &quot;$1&quot; &#x27; grep -v &quot;^#&quot; &#x27; sort -k1,1 -k2,2n &gt; .pre.sorted.vcf</span><br><span class="line">echo -e $chr_order &#x27; while read line</span><br><span class="line">do</span><br><span class="line">    cat .pre.sorted.vcf &#x27; grep &quot;^$line&quot;$&#x27;t&#x27; &gt;&gt; .header.vcf</span><br><span class="line">done</span><br><span class="line">mv .header.vcf  sorted.vcf &amp;&amp; rm .header.vcf .pre.sorted.vcf</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="2，Use-awk-and-sed"><a href="#2，Use-awk-and-sed" class="headerlink" title="2，Use awk and sed"></a>2，Use awk and sed</h2><p>(awk ‘/^#/{print}!/^#/{exit}’ raw.vcf;sed ‘/^#/d’ raw.vcf’awk -F”\t” ‘($1<del>/^[0-9]+$/){sub(“^chr”,””,$0);print $0}’’sort -k1,1n -k2,2n’awk ‘{print “chr”$0}’ ;sed ‘/^#/d’ raw.vcf’ awk -F”\t” ‘($1!</del>/^[0-9]+$/){sub(“^chr”,””,$0);print $0}’’sort -k1,1d -k2,2n’awk ‘{print “chr”$0}’) &gt; sort.vcf</p>
+<h2 id="3-Use-Picard"><a href="#3-Use-Picard" class="headerlink" title="3, Use Picard"></a>3, Use Picard</h2><p>Sorts one or more VCF files. This tool sorts the records in VCF files according to the order of the contigs in the header/sequence dictionary and then by coordinate. It can accept an external sequence dictionary.</p>
+<p><code>java -jar picard.jar SortVcf I=unsort.vcf O=sorted.vcf</code></p>
+<h2 id="4，Use-vcf-sort-in-vcftools"><a href="#4，Use-vcf-sort-in-vcftools" class="headerlink" title="4，Use vcf-sort (in vcftools)"></a>4，Use vcf-sort (in vcftools)</h2><p><code>cat file.vcf  &#39;  vcf-sort &gt; sorted.vcf</code></p>
+<span id="more"></span>
+
+<h2 id="5-Use-htslib"><a href="#5-Use-htslib" class="headerlink" title="5, Use htslib"></a>5, Use htslib</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">chr_order=&quot;chrM chr1 chr2 chr3 chr4 chr5 chr6 chr7 chr8 chr9 chr10 chr11 chr12 chr13 chr14 chr15 chr16 chr17 chr18 chr19 chr20 chr21 chr22 chrX chrY&quot;</span><br><span class="line"></span><br><span class="line">cat &quot;$1&quot; &#x27; grep &quot;^#&quot; &gt; .pre.sorted.vcf</span><br><span class="line">cat &quot;$1&quot; &#x27; grep -v &quot;^#&quot; &#x27; sort -k1,1 -k2,2n  &gt;&gt; .pre.sorted.vcf</span><br><span class="line">bgzip -c .pre.sorted.vcf &gt; .pre.sorted.vcf.gz</span><br><span class="line">tabix -f -p vcf .pre.sorted.vcf.gz</span><br><span class="line">tabix -H .pre.sorted.vcf.gz &gt; .sort.vcf</span><br><span class="line">echo -e $chr_order &#x27; xargs tabix -h .pre.sorted.vcf.gz &gt;&gt; .sort.vcf</span><br><span class="line">mv .header.vcf  sorted.vcf &amp;&amp; rm .pre.sorted.vcf.gz .pre.sorted.vcf .sort.vcf</span><br></pre></td></tr></table></figure>
+
+<h2 id="How-to-install-htslib"><a href="#How-to-install-htslib" class="headerlink" title="How to install htslib"></a>How to install htslib</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">wget https://github.com/samtools/htslib/releases/download/1.3/htslib-1.3.tar.bz2</span><br><span class="line">tar -jxvf htslib-1.3.tar.bz2</span><br><span class="line"><span class="built_in">cd</span> htslib-1.3</span><br><span class="line">autoconf       <span class="comment"># Generate the configure script, if needed</span></span><br><span class="line">./configure    <span class="comment"># Optional, needed for choosing optional functionality</span></span><br><span class="line">make</span><br><span class="line">make prefix=/path/to/install install</span><br></pre></td></tr></table></figure>
+
+<h2 id="How-to-install-vcftools"><a href="#How-to-install-vcftools" class="headerlink" title="How to install vcftools"></a>How to install vcftools</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/vcftools/vcftools.git</span><br><span class="line">cd vcftools/ </span><br><span class="line">./autogen.sh </span><br><span class="line">./configure </span><br><span class="line">make </span><br><span class="line">make install</span><br></pre></td></tr></table></figure>
+
+<h2 id="Ref："><a href="#Ref：" class="headerlink" title="Ref："></a>Ref：</h2><p><a target="_blank" rel="noopener" href="https://www.biostars.org/p/84747/" title="https://www.biostars.org/p/84747/">https://www.biostars.org/p/84747/</a></p>
+<p><a target="_blank" rel="noopener" href="http://broadinstitute.github.io/picard/command-line-overview.html#SortVcf" title="http://broadinstitute.github.io/picard/command-line-overview.html#SortVcf">http://broadinstitute.github.io/picard/command-line-overview.html#SortVcf</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/samtools/htslib" title="https://github.com/samtools/htslib">https://github.com/samtools/htslib</a></p>
+<p><a target="_blank" rel="noopener" href="http://vcftools.sourceforge.net/perl_module.html#vcf-sort" title="http://vcftools.sourceforge.net/perl_module.html#vcf-sort">http://vcftools.sourceforge.net/perl_module.html#vcf-sort</a></p>
+<p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>####################################################################</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/VCF/" rel="tag"># VCF</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/archives/740/" rel="prev" title="合并VCF文件 Merge VCF file">
+      <i class="fa fa-chevron-left"></i> 合并VCF文件 Merge VCF file
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/archives/742/" rel="next" title="亚效等位基因和超效等位基因">
+      亚效等位基因和超效等位基因 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-Use-bash"><span class="nav-number">1.</span> <span class="nav-text">1, Use bash</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2%EF%BC%8CUse-awk-and-sed"><span class="nav-number">2.</span> <span class="nav-text">2，Use awk and sed</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-Use-Picard"><span class="nav-number">3.</span> <span class="nav-text">3, Use Picard</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4%EF%BC%8CUse-vcf-sort-in-vcftools"><span class="nav-number">4.</span> <span class="nav-text">4，Use vcf-sort (in vcftools)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-Use-htslib"><span class="nav-number">5.</span> <span class="nav-text">5, Use htslib</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#How-to-install-htslib"><span class="nav-number">6.</span> <span class="nav-text">How to install htslib</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#How-to-install-vcftools"><span class="nav-number">7.</span> <span class="nav-text">How to install vcftools</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Ref%EF%BC%9A"><span class="nav-number">8.</span> <span class="nav-text">Ref：</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Jason</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">163</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">167</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+
+<!--google_adsense-->
+
+  <div class="links-of-blogroll-title">
+    <i class="fa fa-google"></i> AdSense
+    <ins class="adsbygoogle"
+        style="display:block"
+        data-ad-client="ca-pub-9370593480269435"
+        data-ad-slot="8824957305"
+        data-ad-format="auto"
+        data-full-width-responsive="true"></ins>
+    <script>
+      (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+  </div>
+
+<!--/google_adsense-->
+
+
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jason</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- PGAD -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-9370593480269435"
+     data-ad-slot="8824957305"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

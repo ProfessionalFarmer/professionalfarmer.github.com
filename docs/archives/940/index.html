@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"md.zxzyl.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+
+  <meta name="description" content="单倍剂量不足最近在解读过程中，接触到一个新的名词-单倍剂量不足，它的英文名字叫做Haploinsufficiency。单倍剂量不足指一个等位基因突变或者缺失后后，另一个等位基因能正常表达，这种基因表达翻译后的蛋白水平只有正常的50%，但不足以维持正常的生理功能，导致特定表型出现。 导致单倍剂量不足的愿意可能有多种，比如一个基因的拷贝发生缺失，或者突变导致不能产生正常的mRNA，或者特殊情况下mRN">
+<meta property="og:type" content="article">
+<meta property="og:title" content="遗传解读遇到基因LoF或deletion可以从单倍剂量不足下手">
+<meta property="og:url" content="https://md.zxzyl.com/archives/940/index.html">
+<meta property="og:site_name" content="Zhongxu&#39;s blog">
+<meta property="og:description" content="单倍剂量不足最近在解读过程中，接触到一个新的名词-单倍剂量不足，它的英文名字叫做Haploinsufficiency。单倍剂量不足指一个等位基因突变或者缺失后后，另一个等位基因能正常表达，这种基因表达翻译后的蛋白水平只有正常的50%，但不足以维持正常的生理功能，导致特定表型出现。 导致单倍剂量不足的愿意可能有多种，比如一个基因的拷贝发生缺失，或者突变导致不能产生正常的mRNA，或者特殊情况下mRN">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2018-05-03T08:48:02.000Z">
+<meta property="article:modified_time" content="2018-05-03T08:48:02.000Z">
+<meta property="article:author" content="Jason">
+<meta property="article:tag" content="Genetic Counseling">
+<meta property="article:tag" content="Haploinsufficient">
+<meta property="article:tag" content="Lof">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://md.zxzyl.com/archives/940/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>遗传解读遇到基因LoF或deletion可以从单倍剂量不足下手 | Zhongxu's blog</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a3b5d3f466edb3e3f15e8238d8f04be8";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Zhongxu's blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://md.zxzyl.com/archives/940/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhongxu's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          遗传解读遇到基因LoF或deletion可以从单倍剂量不足下手
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-05-03 16:48:02" itemprop="dateCreated datePublished" datetime="2018-05-03T16:48:02+08:00">2018-05-03</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="单倍剂量不足"><a href="#单倍剂量不足" class="headerlink" title="单倍剂量不足"></a>单倍剂量不足</h1><p>最近在解读过程中，接触到一个新的名词-单倍剂量不足，它的英文名字叫做Haploinsufficiency。单倍剂量不足指一个等位基因突变或者缺失后后，另一个等位基因能正常表达，这种基因表达翻译后的蛋白水平只有正常的50%，但不足以维持正常的生理功能，导致特定表型出现。</p>
+<p>导致单倍剂量不足的愿意可能有多种，比如一个基因的拷贝发生缺失，或者突变导致不能产生正常的mRNA，或者特殊情况下mRNA或蛋白质不稳定导致降解等。</p>
+<p>与解读相关的是，单倍剂量不足现象是导致遗传病发生的一个原因，如果一个基因存在单倍剂量不足的机制，loss of fucntion或者gene deletion可能会导致疾病发生。具体到日常解读中，遇到LoF或者gene deletion，我们可以通过查询NCBI的ClinGen和ExAC的pLI（loss-intolerance）来查看基因是否存在单倍剂量不足，进而寻找可能致病的线索。</p>
+<h1 id="ClinGen的Haploinsufficiency-score"><a href="#ClinGen的Haploinsufficiency-score" class="headerlink" title="ClinGen的Haploinsufficiency score"></a>ClinGen的Haploinsufficiency score</h1><p>ClinGen有一个分级系统，根据Haploinsufficiency score的分级结果，预测基因功能缺失突变（LOF）或拷贝缺失与临床表型的相关性。ClinGen成立了EBR工作组，建立一个分级系统，用来系统评估CNVs的可能临床相关性，该分级系统参考以下内容：已报道的致病突变数，遗传方式，表型一致性，大规模case-control研究，致病机制，公共人群数据库，专家共识。并且会定期整合新的证据和重新评估。ClinGen评估了Loss of fucntion和triplosensitivity（基因发生duplicate），分数从0-3，分值越高则有更多的证据表明这个基因的剂量敏感导致相应临床表型。1表示少量证据表明与表型相关，3表示大量证据表明与表型相关，此外，针对剂量不敏感的基因，给40的score，引起AR疾病的基因，评分为30的score。</p>
+<h1 id="ExAC的pLI"><a href="#ExAC的pLI" class="headerlink" title="ExAC的pLI"></a>ExAC的pLI</h1><p>我们还得聊一聊另一个预测值pLI，它指的是基因对于LOF突变的不可忍受的可能性。The Exome Aggregation Consortium (ExAC) 通过分析60,706 不同族群的个体外显子数据，计算了pLI分值，来表示基因 不耐受Loss of Function (LoF) 突变。ExAC通过模型比较每个基因内观察到的罕见突变和期望的罕见突变数据，通过Z score量化这种偏离。编码区的长度来减少混杂因素，对于蛋白截断突变（Protein Truncating Variants (PTV) ），通过比较PTV在观察和期望中的数据，将基因分成3类。</p>
+<p><strong>Null</strong>, 观察约等于期望，对LoF突变耐受 where observed ≈ expected (LoF variation is tolerated)<br><strong>Recessive</strong>, 观察得到的小于期望的50%，杂合LoF耐受 where observed ≤ 50% of expected (heterozygous LoFs are tolerated)<br><strong>Haploinsufficient</strong>, 观察得到的小于期望的10%，杂合LoF不耐受where observed &lt; 10% of expected (heterozygous LoFs are not tolerated)</p>
+<p>pLI分值是一个给定基因归类到Haploinsufficient 类别中的概率，也就是对LoF不耐受的分值。分值越高，越不耐受（intolerant），分值越低，越耐受（tolerant）。当然，具体运用中，不能仅根据pLI值就判定一个LOF突变的致病性，我们还要同时考虑如疾病发病年龄，外显率，Haploinsufficiency score等。</p>
+<p>想了解跟多可以官网查看。<br><a target="_blank" rel="noopener" href="https://www.ncbi.nlm.nih.gov/projects/dbvar/clingen/help.shtml">https://www.ncbi.nlm.nih.gov/projects/dbvar/clingen/help.shtml</a><br><a target="_blank" rel="noopener" href="https://decipher.sanger.ac.uk/info/loss-intolerance">https://decipher.sanger.ac.uk/info/loss-intolerance</a></p>
+<p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: 感谢好友SYY&amp;33，&amp; Jason<br>#####################################################################</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Genetic-Counseling/" rel="tag"># Genetic Counseling</a>
+              <a href="/tags/Haploinsufficient/" rel="tag"># Haploinsufficient</a>
+              <a href="/tags/Lof/" rel="tag"># Lof</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/archives/927/" rel="prev" title="CoNVaDING和DECoN简评--基于Panel测序的外显子拷贝数变异分析">
+      <i class="fa fa-chevron-left"></i> CoNVaDING和DECoN简评--基于Panel测序的外显子拷贝数变异分析
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/archives/954/" rel="next" title="文件介绍--FASTQ文件格式">
+      文件介绍--FASTQ文件格式 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8D%95%E5%80%8D%E5%89%82%E9%87%8F%E4%B8%8D%E8%B6%B3"><span class="nav-number">1.</span> <span class="nav-text">单倍剂量不足</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ClinGen%E7%9A%84Haploinsufficiency-score"><span class="nav-number">2.</span> <span class="nav-text">ClinGen的Haploinsufficiency score</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ExAC%E7%9A%84pLI"><span class="nav-number">3.</span> <span class="nav-text">ExAC的pLI</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Jason</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">163</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">167</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+
+<!--google_adsense-->
+
+  <div class="links-of-blogroll-title">
+    <i class="fa fa-google"></i> AdSense
+    <ins class="adsbygoogle"
+        style="display:block"
+        data-ad-client="ca-pub-9370593480269435"
+        data-ad-slot="8824957305"
+        data-ad-format="auto"
+        data-full-width-responsive="true"></ins>
+    <script>
+      (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+  </div>
+
+<!--/google_adsense-->
+
+
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jason</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- PGAD -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-9370593480269435"
+     data-ad-slot="8824957305"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

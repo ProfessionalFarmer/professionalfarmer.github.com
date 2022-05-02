@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"md.zxzyl.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+
+  <meta name="description" content="久闻Circos作图高大上，今天一师兄让我帮他用circos画个图，便试着在Mac安装Circos。Circos是作图软件，需要GD Graphics库，关于如何在Mac上用perl安装GD，可以直接看两行星号之间的内容。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在Mac上安装cirocs，在Mac上安装perl GD模块">
+<meta property="og:url" content="https://md.zxzyl.com/archives/712/index.html">
+<meta property="og:site_name" content="Zhongxu&#39;s blog">
+<meta property="og:description" content="久闻Circos作图高大上，今天一师兄让我帮他用circos画个图，便试着在Mac安装Circos。Circos是作图软件，需要GD Graphics库，关于如何在Mac上用perl安装GD，可以直接看两行星号之间的内容。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://md.zxzyl.com/wp/f4w/2020/2015-05-11-circos.png">
+<meta property="article:published_time" content="2015-05-08T00:38:25.000Z">
+<meta property="article:modified_time" content="2015-05-08T00:38:25.000Z">
+<meta property="article:author" content="Jason">
+<meta property="article:tag" content="Mac">
+<meta property="article:tag" content="cirocs">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://md.zxzyl.com/wp/f4w/2020/2015-05-11-circos.png">
+
+<link rel="canonical" href="https://md.zxzyl.com/archives/712/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>在Mac上安装cirocs，在Mac上安装perl GD模块 | Zhongxu's blog</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a3b5d3f466edb3e3f15e8238d8f04be8";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Zhongxu's blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://md.zxzyl.com/archives/712/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhongxu's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          在Mac上安装cirocs，在Mac上安装perl GD模块
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2015-05-08 08:38:25" itemprop="dateCreated datePublished" datetime="2015-05-08T08:38:25+08:00">2015-05-08</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>久闻Circos作图高大上，今天一师兄让我帮他用circos画个图，便试着在Mac安装Circos。Circos是作图软件，需要GD Graphics库，关于如何在Mac上用perl安装GD，可以直接看两行星号之间的内容。</p>
+<span id="more"></span>
+
+<p>下载压缩包之后<br><code>tar xvfz circos-***.tgz</code></p>
+<p>我不喜欢乱将软件软连接到环境变量的路径中，所以直奔主题<br><code>$ cd circos-0.67-7/bin/ circos-0.67-7/bin$ ./circos </code><br>报错没有找到env<br><code>-bash: ./circos: /bin/env: bad interpreter: No such file or directory</code></p>
+<p>执行</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">circos-0.67-7/bin$ which env</span><br><span class="line">/usr/bin/env</span><br></pre></td></tr></table></figure>
+
+<p>将circos-0.67-7/bin/circos文件中的第一行</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#! /bin/env perl替换为</span><br><span class="line">#!/usr/bin/env perl</span><br></pre></td></tr></table></figure>
+
+<p>运行,虽然Mac 的OSX 系统自带peril，但依然提示我有错，缺少perl的组件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">circos-0.67-7/bin$ ./circos</span><br><span class="line">*** REQUIRED MODULE(S) MISSING OR OUT-OF-DATE ***</span><br><span class="line"></span><br><span class="line">You are missing one or more Perl modules, require newer versions, or some modules failed to load. Use CPAN to install it as described in this tutorial</span><br></pre></td></tr></table></figure>
+
+<p>查看必须的模块是否缺少，比如下面缺少Config::General, Font::TTF::Font, GD, GD::Polyline等</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">circos-0.67-7/bin$ ./circos -modules</span><br><span class="line">ok       1.29 Carp</span><br><span class="line">ok       0.36 Clone</span><br><span class="line">missing            Config::General</span><br><span class="line">ok       3.40 Cwd</span><br><span class="line">ok      2.145 Data::Dumper</span><br><span class="line">ok       2.52 Digest::MD5</span><br><span class="line">ok       2.84 File::Basename</span><br><span class="line">ok       3.40 File::Spec::Functions</span><br><span class="line">ok       0.23 File::Temp</span><br><span class="line">ok       1.51 FindBin</span><br><span class="line">missing            Font::TTF::Font</span><br><span class="line">missing            GD</span><br><span class="line">missing            GD::Polyline</span><br><span class="line">ok       2.39 Getopt::Long</span><br><span class="line">ok       1.16 IO::File</span><br><span class="line">ok       0.33 List::MoreUtils</span><br><span class="line">ok       1.38 List::Util</span><br><span class="line">missing            Math::Bezier</span><br><span class="line">ok      1.998 Math::BigFloat</span><br><span class="line">ok       0.06 Math::Round</span><br><span class="line">missing            Math::VecStat</span><br><span class="line">ok       1.03 Memoize</span><br><span class="line">ok       1.32 POSIX</span><br><span class="line">ok       1.08 Params::Validate</span><br><span class="line">ok       1.61 Pod::Usage</span><br><span class="line">missing            Readonly</span><br><span class="line">ok 2013031301 Regexp::Common</span><br><span class="line">missing            SVG</span><br><span class="line">missing            Set::IntSpan</span><br><span class="line">missing            Statistics::Basic</span><br><span class="line">ok       2.41 Storable</span><br><span class="line">ok       1.17 Sys::Hostname</span><br><span class="line">ok       2.02 Text::Balanced</span><br><span class="line">missing            Text::Format</span><br><span class="line">ok     1.9725 Time::HiRes</span><br></pre></td></tr></table></figure>
+
+<p>检查perl的版本，如果早于5.8应该更新perl</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">circos-0.67-7/bin$ perl -v</span><br><span class="line"></span><br><span class="line">This is perl 5, version 18, subversion 2 (v5.18.2) built for darwin-thread-multi-2level</span><br><span class="line">(with 2 registered patches, see perl -V for more detail)</span><br></pre></td></tr></table></figure>
+
+<p>用cpan安装modules，运行cpan，第一次运行选择自动配置yes，和local::lib等待运行结束，输出信息过长，不全部显示了，另外镜像选择的时候选择yes</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">circos-0.67-7/bin$ sudo cpan</span><br><span class="line">Sorry, we have to rerun the configuration dialog for CPAN.pm due to</span><br><span class="line">some missing parameters. Configuration will be written to</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">CPAN.pm requires configuration, but most of it can be done automatically.</span><br><span class="line">If you answer &#x27;no&#x27; below, you will enter an interactive dialog for each</span><br><span class="line">configuration option instead.</span><br><span class="line"></span><br><span class="line">Would you like to configure as much as possible automatically? [yes] yes</span><br><span class="line"></span><br><span class="line">Use of uninitialized value $what in concatenation (.) or string at /System/Library/Perl/5.18/App/Cpan.pm line 553,  line 1.</span><br><span class="line"></span><br><span class="line">Warning: You do not have write permission for Perl library directories.</span><br><span class="line"></span><br><span class="line">To install modules, you need to configure a local Perl library directory or</span><br><span class="line">escalate your privileges.  CPAN can help you by bootstrapping the local::lib</span><br><span class="line">module or by configuring itself to use &#x27;sudo&#x27; (if available).  You may also</span><br><span class="line">resolve this problem manually if you need to customize your setup.</span><br><span class="line"></span><br><span class="line">What approach do you want?  (Choose &#x27;local::lib&#x27;, &#x27;sudo&#x27; or &#x27;manual&#x27;)</span><br><span class="line">[local::lib] local::lib</span><br><span class="line"></span><br><span class="line">Autoconfigured everything but &#x27;urllist&#x27;.</span><br></pre></td></tr></table></figure>
+
+<p>安装相应的module，GD是最难安装的，放在最后。安装的输出信息不再显示</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">cpan[1]&gt; install Config::General</span><br><span class="line">TLINDEN/Config-General-2.56.tar.gz</span><br><span class="line">/usr/bin/make install  -- OK</span><br><span class="line">cpan[2]&gt; install Font::TTF::Font</span><br><span class="line">MHOSKEN/Font-TTF-1.05.tar.gz</span><br><span class="line">/usr/bin/make -- OK</span><br><span class="line">cpan[3]&gt; install Math::Bezier</span><br><span class="line">ABW/Math-Bezier-0.01.tar.gz</span><br><span class="line">/usr/bin/make install  -- OK</span><br><span class="line">cpan[4]&gt; install Math::VecStat</span><br><span class="line">ASPINELLI/Math-VecStat-0.08.tar.gz</span><br><span class="line">/usr/bin/make install  -- OK</span><br><span class="line">cpan[5]&gt; install Readonly</span><br><span class="line">SANKO/Readonly-2.00.tar.gz</span><br><span class="line">./Build install  -- OK</span><br><span class="line">cpan[6]&gt; install SVG</span><br><span class="line">SZABGAB/SVG-2.63.tar.gz</span><br><span class="line">/usr/bin/make install  -- OK</span><br><span class="line">cpan[7]&gt; install Set::IntSpan</span><br><span class="line">SWMCD/Set-IntSpan-1.19.tar.gz</span><br><span class="line">/usr/bin/make install  -- OK</span><br><span class="line">cpan[8]&gt; install Statistics::Basic</span><br><span class="line">JETTERO/Statistics-Basic-1.6611.tar.gz</span><br><span class="line">/usr/bin/make install  -- OK</span><br><span class="line">cpan[9]&gt; install Text::Format</span><br><span class="line">SHLOMIF/Text-Format-0.59.tar.gz</span><br><span class="line">./Build install  -- OK</span><br></pre></td></tr></table></figure>
+
+
+<p>*****************************星号中间的内容可以作为Mac安装GD的参考。</p>
+<p>本来这个地方的内容有很多，但是我没搞定，让我删除了。囧，果然如官网所说，GD不好安装。<br>Circos官网并没有指出所有的依赖的包，比如没有告诉我还要依赖zlib什么的，导致我安装无法成功。</p>
+<p>不过我搜到，有人把需要的模块打包在一起，直接运行install脚本就可以了。</p>
+<p><a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/ProfessionalFarmer/f4w/master/2020//FileAttach/2015-05-08-install-gd.tar.gz">/wp/f4w/2020//FileAttach/2015-05-08-install-gd.tar.gz</a></p>
+<p>参见<a target="_blank" rel="noopener" href="http://wangqinhu.com/install-gd-on-mavericks/">http://wangqinhu.com/install-gd-on-mavericks/</a></p>
+<p>或者参见<a target="_blank" rel="noopener" href="http://www.jb51.net/os/RedHat/1286.html" title="http://www.jb51.net/os/RedHat/1286.html">http://www.jb51.net/os/RedHat/1286.html</a></p>
+<hr>
+<p>看了看circos官网的”快速开始”部分，学习了一下，顺便上自己做的一张简单的图，颜色没有调试，用的circos默认给染色体的颜色。<br>国内介绍circos用法的资料很少，有种要翻译circos的用法的冲动呀。可能对我而言，教程相对简单点，对纯生物的人来说，看起来可能吃力点。</p>
+<p><img src="/wp/f4w/2020/2015-05-11-circos.png"> </p>
+<p>本文主要参考：</p>
+<p>circos官网<a target="_blank" rel="noopener" href="http://circos.ca/tutorials">http://circos.ca/tutorials</a></p>
+<p><a target="_blank" rel="noopener" href="http://zientzilaria.herokuapp.com/blog/2012/06/03/installing-circos-on-os-x/">http://zientzilaria.herokuapp.com/blog/2012/06/03/installing-circos-on-os-x/</a></p>
+<p><a target="_blank" rel="noopener" href="http://wangqinhu.com/install-gd-on-mavericks/">http://wangqinhu.com/install-gd-on-mavericks/</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.jb51.net/os/RedHat/1286.html">http://www.jb51.net/os/RedHat/1286.html</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Mac/" rel="tag"># Mac</a>
+              <a href="/tags/cirocs/" rel="tag"># cirocs</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/archives/711/" rel="prev" title="单细胞测序技术及应用进展-Single Cell Sequencing Technology and Its Applications Progress">
+      <i class="fa fa-chevron-left"></i> 单细胞测序技术及应用进展-Single Cell Sequencing Technology and Its Applications Progress
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/archives/713/" rel="next" title="Update LinuxRHEL yum source to 163 mirror--更新yum源为163的镜像">
+      Update LinuxRHEL yum source to 163 mirror--更新yum源为163的镜像 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Jason</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">163</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">167</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+
+<!--google_adsense-->
+
+  <div class="links-of-blogroll-title">
+    <i class="fa fa-google"></i> AdSense
+    <ins class="adsbygoogle"
+        style="display:block"
+        data-ad-client="ca-pub-9370593480269435"
+        data-ad-slot="8824957305"
+        data-ad-format="auto"
+        data-full-width-responsive="true"></ins>
+    <script>
+      (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+  </div>
+
+<!--/google_adsense-->
+
+
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jason</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- PGAD -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-9370593480269435"
+     data-ad-slot="8824957305"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

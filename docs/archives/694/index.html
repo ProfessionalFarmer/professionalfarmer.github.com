@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"md.zxzyl.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+
+  <meta name="description" content="1998年，Andrew Fire和Craig Mello提出了一项新技术：通过dsRNA诱导特异基因的沉默，即所谓RNAi。2000年，Amy Pasquinelli等将lin-4和let-7作小时序RNAs(stRNAs，mall temporal RNAs)。 RNA干涉（RNAi）在实验室中是一种强大的实验工具，利用具有同源性的双链RNA（dsRNA）诱导序列特异的目标基因的沉寂，迅速阻断">
+<meta property="og:type" content="article">
+<meta property="og:title" content="miRNA和siRNA的基本介绍及区别(转)">
+<meta property="og:url" content="https://md.zxzyl.com/archives/694/index.html">
+<meta property="og:site_name" content="Zhongxu&#39;s blog">
+<meta property="og:description" content="1998年，Andrew Fire和Craig Mello提出了一项新技术：通过dsRNA诱导特异基因的沉默，即所谓RNAi。2000年，Amy Pasquinelli等将lin-4和let-7作小时序RNAs(stRNAs，mall temporal RNAs)。 RNA干涉（RNAi）在实验室中是一种强大的实验工具，利用具有同源性的双链RNA（dsRNA）诱导序列特异的目标基因的沉寂，迅速阻断">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2013-01-12T10:29:48.000Z">
+<meta property="article:modified_time" content="2013-01-12T10:29:48.000Z">
+<meta property="article:author" content="Jason">
+<meta property="article:tag" content="Biology">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://md.zxzyl.com/archives/694/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>miRNA和siRNA的基本介绍及区别(转) | Zhongxu's blog</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a3b5d3f466edb3e3f15e8238d8f04be8";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Zhongxu's blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://md.zxzyl.com/archives/694/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhongxu's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          miRNA和siRNA的基本介绍及区别(转)
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2013-01-12 18:29:48" itemprop="dateCreated datePublished" datetime="2013-01-12T18:29:48+08:00">2013-01-12</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>1998年，Andrew Fire和Craig Mello提出了一项新技术：通过dsRNA诱导特异基因的沉默，即所谓RNAi。2000年，Amy Pasquinelli等将lin-4和let-7作小时序RNAs(stRNAs，mall temporal RNAs)。</p>
+<p>RNA干涉（RNAi）在实验室中是一种强大的实验工具，利用具有同源性的双链RNA（dsRNA）诱导序列特异的目标基因的沉寂，迅速阻断基因活性。SiRNA在RNA沉寂通道中起中心作用，是对特定信使RNA（mRNA）进行降解的指导要素。siRNA是RNAi途径中的中间产物，是RNAi发挥效应所必需的因子。SiRNA的形成主要由Dicer和Rde-1调控完成。由于RNA 病毒入侵、转座子转录、基因组中反向重复序列转录等原因,细胞中出现了dsRNA，Rde-1(RNAi缺陷基因-1)编码的蛋白质识别外源dsRNA，当dsRNA达到一定量的时候，Rde-1引导dsRNA与Rde-1编码的Dicer（Dicer是一种RNaseIII 活性核酸内切酶，具有四个结构域：Argonaute家族的PAZ结构域，III型RNA酶活性区域，dsRNA结合区域以及DEAH/DEXHRNA解旋酶活性区）结合，形成酶-dsRNA复合体。在Dicer酶的作用下，细胞中的单链靶mRNA（与dsRNA具有同源序列）与dsRNA的正义链互换，原来dsRNA中的正义链被mRNA代替而从酶-dsRNA复合物中释放出来，然后，在ATP的参与下，细胞中存在的一种RNA诱导的沉默复合体RNA-induced silencing complex （RISC，由核酸内切酶、核酸外切酶、解旋酶等构成，作用是对靶mRNA进行识别和切割）利用结合在其上的核酸内切酶的活性来切割dsRNA上处于原来正义链位置的靶mRNA分子中与dsRNA反义链互补的区域，形成21-23nt的dsRNA小片段，这些小片段即为siRNA。RNAi干涉的关键步骤是组装RISC和合成介导特异性反应的siRNA蛋白。SiRNA并入RISC中，然后与靶标基因编码区或UTR区完全配对，降解靶标基因，因此说siRNA只降解与其序列互补配对的mRNA。其调控的机制是通过互补配对而沉默相应靶位基因的表达，所以是一种典型的负调控机制。siRNA识别靶序列是有高度特异性的，因为降解首先在相对于siRNA来说的中央位置发生，所以这些中央的碱基位点就显得极为重要，一旦发生错配就会严重抑制RNAi的效应，相对而言，3′末端的核苷酸序列并不要求与靶mRNA完全匹配。<span id="more"></span></p>
+<p>MicroRNA（miRNA,微RNA）即为长度为22nt左右的5′端带磷酸基团、3′端带羟基的非蛋白编码的调控小RNA家族。miRNA广泛存在于真核生物中，不具有开放阅读框架，不编码蛋白质，一般长20-24nt，miRNA的转录产物是发夹状结构，在RNaseⅢ酶切后以双链形式存在，最后释放互补链，miRNA成熟。成熟的miRNA 5′端的磷酸基团和3′端羟基则是它与相同长度的功能RNA降解片段的区分标志。miRNA的又一特点–基因表达时序性。MiRNA表达的时序性和组织特异性提示人们miRNA的分布可能决定组织和细胞的功能特异性，也可能参与了复杂的基因调控，对组织的发育起重要作用。miRNA可能的形成及作用机制为：先由长的内源性转录本（pri-miRNA）生成70nt左右的miRNA前体（pre-miRNA），然后在Dicer酶的作用下使其加工成为一个不稳定的dsRNA分子，接着迅速被降解剪切为22nt左右的单链RNA（这种单链RNA及以后的miRNA只是Dicer作用下pre-miRNA被剪切的一个臂，可能是3′端的一个臂，也可能是5′端的一个臂，不同RNA可能是同一pre-miRNA的不同臂），之后被PPD(PAZ&amp;Piwi domain)蛋白家族识别，形成RNA-蛋白质复合体即miRNA核蛋白体（miRNP）,进而形成成熟的miRNA。miRNA识别并与靶标基因3′UTR区部分配对，从而抑制靶标基因的翻译。miRNA基因是一类高度保守的基因家族，按其作用模式不同可分为三种：第一种以线虫lin-4为代表，作用时与靶标基因不完全互补结合，进而阻遏翻译而不影响mRNA的稳定性，这种miRNA是目前发现最多的种类。第二种以拟南芥miR-171为代表，作用时与靶标基因完全互补结合，作用方式和功能与siRNA非常类似，最后切割靶mRNA,这说明某些miRNA和siRNA一样参与了机体内一些特异性mRNA的剪切过程。第三种以let-7为代表，它具有以上两种作用模式。</p>
+<p>miRNA对生长发育进行更为重要的调控作用。同时，科学家们也发现人类基因组中大约有255个编码miRNA基因，约占人类基因数的1%，但尚不清楚其功能。最近科学家发现小RNA 与’epigenetic’现象有联系。所谓epigenetic 是指并不涉及遗传序列的特征性的遗传改变。有人已试图将小RNA 用于抗病毒治疗之用,认为它们有可能抑制HIV21 和灰质类病毒丙型肝炎病毒的转录,以及也可能用于肿瘤的治疗。</p>
+<p>miRNA与siRNA之间有许多相同之处：1.二者的长度都约在22nt左右。2.二者都依赖Dicer酶的加工，是Dicer的产物，所以具有Dicer产物的特点。3.二者生成都需要Argonaute家族蛋白存在。4.二者都是RISC组分，所以其功能界限变得不清晰，如二者在介导沉默机制上有重叠。5.miRNA和siRNA合成都是由双链的RNA或RNA前体形成的。</p>
+<p>miRNA与siRNA的不同点：1.根本区别是miRNA是内源的，是生物体的固有因素；而siRNA是人工体外合成的，通过转染进入人体内，是RNA干涉的中间产物。2.结构上，miRNA是单链RNA，而siRNA是双链RNA。3.Dicer酶对二者的加工过程不同，miRNA是不对称加工，miRNA仅是剪切pre-miRNA的一个侧臂，其他部分降解；而siRNA对称地来源于双链RNA的前体的两侧臂。4.在作用位置上，miRNA主要作用于靶标基因3′-UTR区，而siRNA可作用于mRNA的任何部位。5.在作用方式上，miRNA可抑制靶标基因的翻译，也可以导致靶标基因降解，即在转录水平后和翻译水平起作用，而siRNA只能导致靶标基因的降解，即为转录水平后调控。6.miRNA主要在发育过程中起作用，调节内源基因表达，而siRNA不参与生物生长，是RNAi的产物，原始作用是抑制转座子活性和病毒感染。</p>
+<p><a target="_blank" rel="noopener" href="http://www.bioon.com/experiment/rna6/248076.shtml" title="原文地址">http://www.bioon.com/experiment/rna6/248076.shtml</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Biology/" rel="tag"># Biology</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/archives/693/" rel="prev" title="HashMap，根据key，value排序和HashMap在声明时初始化">
+      <i class="fa fa-chevron-left"></i> HashMap，根据key，value排序和HashMap在声明时初始化
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/archives/695/" rel="next" title="How PCR duplicates arise in next-generation sequencing(reprinted)">
+      How PCR duplicates arise in next-generation sequencing(reprinted) <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Jason</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">163</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">167</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+
+<!--google_adsense-->
+
+  <div class="links-of-blogroll-title">
+    <i class="fa fa-google"></i> AdSense
+    <ins class="adsbygoogle"
+        style="display:block"
+        data-ad-client="ca-pub-9370593480269435"
+        data-ad-slot="8824957305"
+        data-ad-format="auto"
+        data-full-width-responsive="true"></ins>
+    <script>
+      (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+  </div>
+
+<!--/google_adsense-->
+
+
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jason</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- PGAD -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-9370593480269435"
+     data-ad-slot="8824957305"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

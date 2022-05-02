@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"md.zxzyl.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+
+  <meta name="description" content="拿到突变的数据之后，一般会先看除了进行突变注释，看突变所在的基因和造成的氨基酸变化，还会看具体的碱基变化类型，共96种，以三个碱基为统计单位，看三联核苷酸中间的碱基变化类型的个数，以C变为A为例（等同负链G变为T），NCN&gt;NAN，N可以为任意碱基，所以有4*4&#x3D;16种，所有情况为96种。 统计96种突变类型的具体数目，之后会进行突变的signature分析有三种：  与已知的cosmic">
+<meta property="og:type" content="article">
+<meta property="og:title" content="突变mutation signatures">
+<meta property="og:url" content="https://md.zxzyl.com/archives/1354/index.html">
+<meta property="og:site_name" content="Zhongxu&#39;s blog">
+<meta property="og:description" content="拿到突变的数据之后，一般会先看除了进行突变注释，看突变所在的基因和造成的氨基酸变化，还会看具体的碱基变化类型，共96种，以三个碱基为统计单位，看三联核苷酸中间的碱基变化类型的个数，以C变为A为例（等同负链G变为T），NCN&gt;NAN，N可以为任意碱基，所以有4*4&#x3D;16种，所有情况为96种。 统计96种突变类型的具体数目，之后会进行突变的signature分析有三种：  与已知的cosmic">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://md.zxzyl.com/wp/f4w/2022/2022-03-16-MutationTypes_v3.jpg">
+<meta property="article:published_time" content="2022-03-16T04:35:20.000Z">
+<meta property="article:modified_time" content="2022-03-16T04:35:20.000Z">
+<meta property="article:author" content="Jason">
+<meta property="article:tag" content="Mutation">
+<meta property="article:tag" content="Signature">
+<meta property="article:tag" content="DNA">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://md.zxzyl.com/wp/f4w/2022/2022-03-16-MutationTypes_v3.jpg">
+
+<link rel="canonical" href="https://md.zxzyl.com/archives/1354/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>突变mutation signatures | Zhongxu's blog</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a3b5d3f466edb3e3f15e8238d8f04be8";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Zhongxu's blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://md.zxzyl.com/archives/1354/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jason">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhongxu's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          突变mutation signatures
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2022-03-16 12:35:20" itemprop="dateCreated datePublished" datetime="2022-03-16T12:35:20+08:00">2022-03-16</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Default-Category/" itemprop="url" rel="index"><span itemprop="name">Default Category</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>拿到突变的数据之后，一般会先看除了进行突变注释，看突变所在的基因和造成的氨基酸变化，还会看具体的碱基变化类型，共96种，以三个碱基为统计单位，看三联核苷酸中间的碱基变化类型的个数，以C变为A为例（等同负链G变为T），NCN&gt;NAN，N可以为任意碱基，所以有4*4=16种，所有情况为96种。<br><img src="/wp/f4w/2022/2022-03-16-MutationTypes_v3.jpg"></p>
+<p>统计96种突变类型的具体数目，之后会进行突变的signature分析有三种：</p>
+<ol>
+<li>与已知的cosmic signature进行比较，看哪些signature比重高</li>
+<li>利用非负矩阵分解NFM找novel的signature</li>
+<li>分析1和2之后，看novel的signature和已知的signature的相似性</li>
+</ol>
+<p>突变的signature是内外部环境共同作用下造成的一些特定的变异特征，这些因素包括DNA修复或者复制缺陷，吸烟饮酒等等。</p>
+<h1 id="找cosmic的signature"><a href="#找cosmic的signature" class="headerlink" title="找cosmic的signature"></a>找cosmic的signature</h1><p>利用R包deconstructSigs进行</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 假设你有一个数据框，包含了突变的信息，以包自带的sample.mut.ref为例</span></span><br><span class="line">head(sample.mut.ref)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Convert to deconstructSigs input，得到96碱基突变数据框</span></span><br><span class="line"><span class="comment"># 指定染色体位置、突变碱基和样本名所在的列名</span></span><br><span class="line">sigs.input &lt;- mut.to.sigs.input(mut.ref = sample.mut.ref, </span><br><span class="line">                                sample.id = <span class="string">&quot;Sample&quot;</span>, </span><br><span class="line">                                chr = <span class="string">&quot;chr&quot;</span>, </span><br><span class="line">                                pos = <span class="string">&quot;pos&quot;</span>, </span><br><span class="line">                                ref = <span class="string">&quot;ref&quot;</span>, </span><br><span class="line">                                alt = <span class="string">&quot;alt&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 提取样本的mutation signature</span></span><br><span class="line"><span class="comment"># 这里的signature.nature2013或者signatures.cosmic就是参考的signature，如果你有自己的signature数据，比如SomaticSignatures包找到的，也可以在这个地方指定，这样就计算的是提供的singature</span></span><br><span class="line">sample_1 = whichSignatures(tumor.ref = sigs.input, </span><br><span class="line">                           signatures.ref = signatures.nature2013, <span class="comment"># 参考signature </span></span><br><span class="line">                           sample.id = <span class="number">1</span>,  <span class="comment"># 样本的barcode </span></span><br><span class="line">                           contexts.needed = <span class="literal">TRUE</span>,</span><br><span class="line">                           tri.counts.method = <span class="string">&#x27;default&#x27;</span> <span class="comment"># 是否进行normalzie</span></span><br><span class="line">                           )</span><br><span class="line">                           </span><br><span class="line">sample_1$weights[<span class="number">1</span>:<span class="number">3</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment">#  Signature.1A Signature.1B Signature.2</span></span><br><span class="line"><span class="comment">#1            0    0.1564832           0</span></span><br><span class="line"> </span><br></pre></td></tr></table></figure>
+<h1 id="找novel的signature"><a href="#找novel的signature" class="headerlink" title="找novel的signature"></a>找novel的signature</h1><p>利用SomaticSignatures包进行，这里找到的novel signature可以作为参考的signature用deconstructSigs，注意96突变类型数据框的名应一致。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line">library(SomaticSignatures)</span><br><span class="line">library(SomaticCancerAlterations)</span><br><span class="line">library(BSgenome.Hsapiens.1000genomes.hs37d5)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">sca_metadata = scaMetadata() </span><br><span class="line"></span><br><span class="line"><span class="comment"># sca_data = unlist(scaLoadDatasets())  # 官网用的多种是癌症的数据</span></span><br><span class="line"><span class="comment"># 我们以TCGA的LUAD的全外数据为例</span></span><br><span class="line">sca_data = (scaLoadDatasets())$luad_tcga</span><br><span class="line"></span><br><span class="line">sca_data$study = factor(gsub(<span class="string">&quot;(.*)_(.*)&quot;</span>, <span class="string">&quot;\\1&quot;</span>, toupper(<span class="built_in">names</span>(sca_data))))</span><br><span class="line">sca_data = unname(subset(sca_data, Variant_Type %in% <span class="string">&quot;SNP&quot;</span>))</span><br><span class="line">sca_data = keepSeqlevels(sca_data, hsAutosomes(), pruning.mode = <span class="string">&quot;coarse&quot;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 构建对象，这里可以自己根据自己的数据构建VRanges对象</span></span><br><span class="line">sca_vr = VRanges(</span><br><span class="line">    seqnames = seqnames(sca_data),</span><br><span class="line">    ranges = ranges(sca_data),</span><br><span class="line">    ref = sca_data$Reference_Allele,</span><br><span class="line">    alt = sca_data$Tumor_Seq_Allele2,</span><br><span class="line">    sampleNames = sca_data$Patient_ID,</span><br><span class="line">    seqinfo = seqinfo(sca_data),</span><br><span class="line">    study = sca_data$study)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">sca_motifs = mutationContext(sca_vr, BSgenome.Hsapiens.1000genomes.hs37d5)</span><br><span class="line"><span class="comment"># 这里得到96碱基突变数据框</span></span><br><span class="line">sca_mm = motifMatrix(sca_motifs, normalize = <span class="literal">TRUE</span>)</span><br><span class="line"><span class="comment"># 可视化</span></span><br><span class="line">plotMutationSpectrum(sca_motifs)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 找最佳的signature数目，一种是NMF，一种是PCA方法</span></span><br><span class="line">n_sigs = <span class="number">2</span>:<span class="number">8</span></span><br><span class="line">gof_nmf = assessNumberSignatures(sca_mm, n_sigs, nReplicates = <span class="number">5</span>)</span><br><span class="line">gof_pca = assessNumberSignatures(sca_mm, n_sigs, pcaDecomposition)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 确定最佳的数目</span></span><br><span class="line">plotNumberSignatures(gof_nmf)</span><br><span class="line">plotNumberSignatures(gof_pca)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 找signature</span></span><br><span class="line">n_sigs = <span class="number">5</span> <span class="comment"># 假设最佳的是5</span></span><br><span class="line">sigs_nmf = identifySignatures(sca_mm, n_sigs, nmfDecomposition)</span><br><span class="line">sigs_pca = identifySignatures(sca_mm, n_sigs, pcaDecomposition)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">library(ggplot2)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 看每个样本的signature的权重</span></span><br><span class="line">plotSignatureMap(sigs_nmf) + ggtitle(<span class="string">&quot;Somatic Signatures: NMF - Heatmap&quot;</span>)</span><br><span class="line"><span class="comment"># 看每个样本具体的突变类型统计</span></span><br><span class="line">plotSignatures(sigs_nmf) + ggtitle(<span class="string">&quot;Somatic Signatures: NMF - Barchart&quot;</span>)</span><br><span class="line"><span class="comment"># 没放图，具体的图可以参考 https://bioconductor.org/packages/release/bioc/vignettes/SomaticSignatures/inst/doc/SomaticSignatures-vignette.html</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>另外还可以通过cosine similarity 比较两个signature之间或者样本之间的相似性。</p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a target="_blank" rel="noopener" href="https://github.com/raerose01/deconstructSigs">https://github.com/raerose01/deconstructSigs</a></p>
+<p><a target="_blank" rel="noopener" href="https://bioconductor.org/packages/release/bioc/vignettes/SomaticSignatures/inst/doc/SomaticSignatures-vignette.html">https://bioconductor.org/packages/release/bioc/vignettes/SomaticSignatures/inst/doc/SomaticSignatures-vignette.html
+</a></p>
+<p>#####################################################################<br>#版权所有 转载请告知 版权归作者所有 如有侵权 一经发现 必将追究其法律责任<br>#Author: Jason<br>#####################################################################</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Mutation/" rel="tag"># Mutation</a>
+              <a href="/tags/Signature/" rel="tag"># Signature</a>
+              <a href="/tags/DNA/" rel="tag"># DNA</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/archives/1348/" rel="prev" title="Prognostic versus predictive value of biomarkers">
+      <i class="fa fa-chevron-left"></i> Prognostic versus predictive value of biomarkers
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/archives/1358/" rel="next" title="False-positive genes with high frequency mutation">
+      False-positive genes with high frequency mutation <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%89%BEcosmic%E7%9A%84signature"><span class="nav-number">1.</span> <span class="nav-text">找cosmic的signature</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%89%BEnovel%E7%9A%84signature"><span class="nav-number">2.</span> <span class="nav-text">找novel的signature</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">3.</span> <span class="nav-text">参考</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Jason</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">163</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">167</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+
+<!--google_adsense-->
+
+  <div class="links-of-blogroll-title">
+    <i class="fa fa-google"></i> AdSense
+    <ins class="adsbygoogle"
+        style="display:block"
+        data-ad-client="ca-pub-9370593480269435"
+        data-ad-slot="8824957305"
+        data-ad-format="auto"
+        data-full-width-responsive="true"></ins>
+    <script>
+      (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+  </div>
+
+<!--/google_adsense-->
+
+
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jason</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+<script data-ad-client="ca-pub-9370593480269435" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- PGAD -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-9370593480269435"
+     data-ad-slot="8824957305"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
