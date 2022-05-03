@@ -2,7 +2,7 @@
 title: How PCR duplicates arise in next-generation sequencing(reprinted)
 tags:
   - Sequencing
-url: archives/695.html
+url: archives/695/index.html
 id: 695
 categories:
   - Default Category

@@ -4,7 +4,7 @@ tags:
   - HGVS
   - Mutation
   - Variant
-url: archives/1447.html
+url: archives/1447/index.html
 id: 1447
 categories:
   - Default Category

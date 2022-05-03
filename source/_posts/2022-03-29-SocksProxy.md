@@ -2,7 +2,7 @@
 title: MobaXterm SSHTunnel/v2ray + Switch Omega + Proxifier
 tags:
   - GFW
-url: archives/1363.html
+url: archives/1363/index.html
 id: 1363
 categories:
   - Default Category

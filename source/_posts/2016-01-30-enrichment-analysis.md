@@ -2,7 +2,7 @@
 title: 通路富集分析计算显著性
 tags:
   - Pathway
-url: archives/733.html
+url: archives/733/index.html
 id: 733
 categories:
   - Default Category

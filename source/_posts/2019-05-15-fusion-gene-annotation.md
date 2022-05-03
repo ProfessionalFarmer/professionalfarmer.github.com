@@ -2,7 +2,7 @@
 title: Fusion Gene Annotation
 tags:
   - Fusion
-url: archives/1060.html
+url: archives/1060/index.html
 id: 1060
 categories:
   - Default Category

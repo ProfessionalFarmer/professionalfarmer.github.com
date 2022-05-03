@@ -2,7 +2,7 @@
 title: What is a Scaffold?
 tags:
   - Biology
-url: archives/698.html
+url: archives/698/index.html
 id: 698
 categories:
   - Default Category

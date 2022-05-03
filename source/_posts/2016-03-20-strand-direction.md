@@ -2,7 +2,7 @@
 title: 测序正负链和转录翻译正负链概念
 tags:
   - Strand
-url: archives/747.html
+url: archives/747/index.html
 id: 747
 categories:
   - Default Category

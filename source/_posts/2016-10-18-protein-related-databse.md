@@ -3,7 +3,7 @@ title: '[转载]蛋白质组学及蛋白质鉴定常用的网站和数据库'
 tags:
   - Database
   - Protein
-url: archives/786.html
+url: archives/786/index.html
 id: 786
 categories:
   - Default Category

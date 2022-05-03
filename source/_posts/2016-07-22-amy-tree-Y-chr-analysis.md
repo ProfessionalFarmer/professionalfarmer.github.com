@@ -3,7 +3,7 @@ title: AMY-Tree分析Y染色体 ---分类树
 tags:
   - AMY-Tree
   - 'Y'
-url: archives/763.html
+url: archives/763/index.html
 id: 763
 categories:
   - Default Category

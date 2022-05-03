@@ -4,7 +4,7 @@ tags:
   - Filter
   - Variant
   - VCF
-url: archives/993.html
+url: archives/993/index.html
 id: 993
 categories:
   - Default Category

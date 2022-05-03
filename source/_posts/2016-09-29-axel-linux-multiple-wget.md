@@ -3,7 +3,7 @@ title: Axel - Linux下多线程下载工具
 tags:
   - Linux
   - tool
-url: archives/785.html
+url: archives/785/index.html
 id: 785
 categories:
   - Default Category

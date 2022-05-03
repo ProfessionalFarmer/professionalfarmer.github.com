@@ -1,6 +1,6 @@
 ---
 title: 肿瘤细胞免疫逃逸的几种方式
-url: archives/1051.html
+url: archives/1051/index.html
 id: 1051
 categories:
   - Default Category

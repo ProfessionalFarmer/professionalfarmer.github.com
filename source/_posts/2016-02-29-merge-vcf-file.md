@@ -2,7 +2,7 @@
 title: 合并VCF文件 Merge VCF file
 tags:
   - VCF
-url: archives/740.html
+url: archives/740/index.html
 id: 740
 categories:
   - Default Category

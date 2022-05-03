@@ -3,7 +3,7 @@ title: Asymmetric trimmomatic output with paired-end sequencing reads
 tags:
   - NGS
   - QC
-url: archives/758.html
+url: archives/758/index.html
 id: 758
 categories:
   - Default Category

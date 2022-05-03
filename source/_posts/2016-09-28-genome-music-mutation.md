@@ -2,7 +2,7 @@
 title: 利用genome music分析癌症样本中显著突变的基因和相关通路
 tags:
   - Cancer
-url: archives/770.html
+url: archives/770/index.html
 id: 770
 categories:
   - Default Category

@@ -2,7 +2,7 @@
 title: Prognostic versus predictive value of biomarkers
 tags:
   - Biomarker
-url: archives/1348.html
+url: archives/1348/index.html
 id: 1348
 categories:
   - Default Category

@@ -3,7 +3,7 @@ title: 临床模型的决策曲线分析解读
 tags:
   - Model
   - DCA
-url: archives/1450.html
+url: archives/1450/index.html
 id: 1450
 categories:
   - Default Category

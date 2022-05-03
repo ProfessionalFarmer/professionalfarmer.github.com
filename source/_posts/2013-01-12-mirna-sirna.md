@@ -2,7 +2,7 @@
 title: miRNA和siRNA的基本介绍及区别(转)
 tags:
   - Biology
-url: archives/694.html
+url: archives/694/index.html
 id: 694
 categories:
   - Default Category

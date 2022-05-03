@@ -2,7 +2,7 @@
 title: 'perl: warning: Falling back to the standard locale ("C")'
 tags:
   - Perl
-url: archives/757.html
+url: archives/757/index.html
 id: 757
 categories:
   - Default Category

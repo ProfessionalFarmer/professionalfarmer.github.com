@@ -3,7 +3,7 @@ title: '解决 mount: unknown filesystem type ntfs'
 tags:
   - Linux
   - Mount
-url: archives/860.html
+url: archives/860/index.html
 id: 860
 categories:
   - Default Category

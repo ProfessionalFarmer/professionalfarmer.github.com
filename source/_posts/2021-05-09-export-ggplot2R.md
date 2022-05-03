@@ -3,7 +3,7 @@ title: 将ggplot导出成ppt的R包
 tags:
   - ggplot
   - R
-url: archives/1232.html
+url: archives/1232/index.html
 id: 1232
 categories:
   - Default Category

@@ -2,7 +2,7 @@
 title: Linux read only file system
 tags:
   - Linux
-url: archives/706.html
+url: archives/706/index.html
 id: 706
 categories:
   - Default Category

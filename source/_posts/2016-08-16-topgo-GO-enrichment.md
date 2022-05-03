@@ -5,7 +5,7 @@ tags:
   - Enrichment
   - GO
   - R
-url: archives/767.html
+url: archives/767/index.html
 id: 767
 categories:
   - Default Category

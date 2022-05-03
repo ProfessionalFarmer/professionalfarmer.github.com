@@ -3,7 +3,7 @@ title: 统计覆盖到某一区域的reads数目和reads的GC含量
 tags:
   - BEDtools
   - GC content
-url: archives/729.html
+url: archives/729/index.html
 id: 729
 categories:
   - Default Category

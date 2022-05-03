@@ -3,7 +3,7 @@ title: 基于DNA或RNA的NGS数据进行HLA分型
 tags:
   - NGS
   - HLA
-url: archives/1113.html
+url: archives/1113/index.html
 id: 1113
 categories:
   - Default Category

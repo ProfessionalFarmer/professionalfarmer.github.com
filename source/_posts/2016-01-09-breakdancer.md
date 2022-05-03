@@ -3,7 +3,7 @@ title: BreakDancer检测结构突变SV实战
 tags:
   - Sequencing
   - SV
-url: archives/720.html
+url: archives/720/index.html
 id: 720
 categories:
   - Default Category

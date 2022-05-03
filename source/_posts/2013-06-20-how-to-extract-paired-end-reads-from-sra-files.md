@@ -2,7 +2,7 @@
 title: How to extract paired-end reads from SRA files（reprint）
 tags:
   - SRA
-url: archives/705.html
+url: archives/705/index.html
 id: 705
 categories:
   - Default Category

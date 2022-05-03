@@ -2,7 +2,7 @@
 title: 三代测序组拼接组装工具Falcon
 tags:
   - Assembly
-url: archives/714.html
+url: archives/714/index.html
 id: 714
 categories:
   - Default Category

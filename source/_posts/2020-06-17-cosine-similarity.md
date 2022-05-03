@@ -3,7 +3,7 @@ title: cosine similarity
 tags:
   - Distance
   - Similarity
-url: archives/1117.html
+url: archives/1117/index.html
 id: 1117
 categories:
   - Default Category

@@ -2,7 +2,7 @@
 title: 'Breakdancer------Error: no bams files in config file!'
 tags:
   - Breakdancer
-url: archives/762.html
+url: archives/762/index.html
 id: 762
 categories:
   - Default Category

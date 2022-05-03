@@ -4,7 +4,7 @@ tags:
   - Machine learning
   - Model
   - Performance 
-url: archives/1102.html
+url: archives/1102/index.html
 id: 1104
 categories:
   - Default Category

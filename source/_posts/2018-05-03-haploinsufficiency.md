@@ -4,7 +4,7 @@ tags:
   - Genetic Counseling
   - Haploinsufficient
   - Lof
-url: archives/940.html
+url: archives/940/index.html
 id: 940
 categories:
   - Default Category

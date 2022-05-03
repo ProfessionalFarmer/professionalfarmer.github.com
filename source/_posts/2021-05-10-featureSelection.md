@@ -3,7 +3,7 @@ title: 特征选择
 tags:
   - Machine learning
   - Feature selection
-url: archives/1235.html
+url: archives/1235/index.html
 id: 1235
 categories:
   - Default Category

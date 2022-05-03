@@ -2,7 +2,7 @@
 title: 人基因组每条染色体的GC含量GC content of human chromosomes
 tags:
   - GC content
-url: archives/724.html
+url: archives/724/index.html
 id: 724
 categories:
   - Default Category

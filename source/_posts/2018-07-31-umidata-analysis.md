@@ -3,7 +3,7 @@ title: 分析带UMI标签的测序数据
 tags:
   - Tumor
   - UMI
-url: archives/1026.html
+url: archives/1026/index.html
 id: 1026
 categories:
   - Default Category

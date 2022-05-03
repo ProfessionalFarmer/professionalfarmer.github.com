@@ -3,7 +3,7 @@ title: 思考---基因组中那些“看起来”很严重的突变往往不致�
 tags:
   - Variant
   - Viewpoint
-url: archives/787.html
+url: archives/787/index.html
 id: 787
 categories:
   - Default Category

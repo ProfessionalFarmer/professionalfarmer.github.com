@@ -2,7 +2,7 @@
 title: 修改MySQL远程访问权限
 tags:
   - MySQL
-url: archives/760.html
+url: archives/760/index.html
 id: 760
 categories:
   - Default Category

@@ -3,7 +3,7 @@ title: HashMap，根据key，value排序和HashMap在声明时初始化
 tags:
   - Hashmap
   - Java
-url: archives/693.html
+url: archives/693/index.html
 id: 693
 categories:
   - Default Category

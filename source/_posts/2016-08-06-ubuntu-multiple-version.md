@@ -2,7 +2,7 @@
 title: Ubuntu下安装java和多版本java共存控制
 tags:
   - Java
-url: archives/766.html
+url: archives/766/index.html
 id: 766
 categories:
   - Default Category

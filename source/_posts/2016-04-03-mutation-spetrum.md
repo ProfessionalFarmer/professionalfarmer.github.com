@@ -3,7 +3,7 @@ title: 样本突变频谱分析和基于突变频谱的热图聚类
 tags:
   - Heatmap
   - Mutation
-url: archives/755.html
+url: archives/755/index.html
 id: 755
 categories:
   - Default Category

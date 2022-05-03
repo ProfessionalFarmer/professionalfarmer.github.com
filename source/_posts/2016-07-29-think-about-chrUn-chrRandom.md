@@ -4,7 +4,7 @@ tags:
   - Align
   - Genome
   - Viewpoint
-url: archives/764.html
+url: archives/764/index.html
 id: 764
 categories:
   - Default Category

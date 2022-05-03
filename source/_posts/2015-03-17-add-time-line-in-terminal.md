@@ -3,7 +3,7 @@ title: 为OSX和Linux的TERMINAL增加时间分割线
 tags:
   - Linux
   - Mac
-url: archives/753.html
+url: archives/753/index.html
 id: 753
 categories:
   - Default Category

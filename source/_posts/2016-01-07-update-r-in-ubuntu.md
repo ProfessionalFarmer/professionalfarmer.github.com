@@ -2,7 +2,7 @@
 title: ubuntu下升级更新R版本
 tags:
   - R
-url: archives/719.html
+url: archives/719/index.html
 id: 719
 categories:
   - Default Category

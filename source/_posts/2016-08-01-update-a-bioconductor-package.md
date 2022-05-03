@@ -2,7 +2,7 @@
 title: 更新Bioconductor包--update a Bioconductor package
 tags:
   - R
-url: archives/765.html
+url: archives/765/index.html
 id: 765
 categories:
   - Default Category

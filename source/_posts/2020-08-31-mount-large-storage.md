@@ -3,7 +3,7 @@ title: Failed to mount 大容量的RAID组
 tags:
   - Linux
   - Ubuntu
-url: archives/1127.html
+url: archives/1127/index.html
 id: 1127
 categories:
   - Default Category

@@ -2,7 +2,7 @@
 title: 单细胞测序技术及应用进展-Single Cell Sequencing Technology and Its Applications Progress
 tags:
   - Sequencing
-url: archives/711.html
+url: archives/711/index.html
 id: 711
 categories:
   - Default Category

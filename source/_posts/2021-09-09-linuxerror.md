@@ -2,7 +2,7 @@
 title: C++14 standard requested but CXX14 is not defined
 tags:
   - Linux
-url: archives/1283.html
+url: archives/1283/index.html
 id: 1283
 categories:
   - Default Category

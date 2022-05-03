@@ -2,7 +2,7 @@
 title: 安装BioMart Perl及利用BioMart Perl API下载数据
 tags:
   - Biomart
-url: archives/737.html
+url: archives/737/index.html
 id: 737
 categories:
   - Default Category

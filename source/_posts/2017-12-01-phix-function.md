@@ -4,7 +4,7 @@ tags:
   - Illumina
   - Phix
   - Sequencing
-url: archives/789.html
+url: archives/789/index.html
 id: 789
 categories:
   - Default Category

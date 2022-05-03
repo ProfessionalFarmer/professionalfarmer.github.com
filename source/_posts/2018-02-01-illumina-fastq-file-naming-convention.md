@@ -3,7 +3,7 @@ title: Illumina下机FASTQ文件命名规则
 tags:
   - FASTQ
   - Illumina
-url: archives/805.html
+url: archives/805/index.html
 id: 805
 categories:
   - Default Category

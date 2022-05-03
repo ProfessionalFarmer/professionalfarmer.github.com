@@ -2,7 +2,7 @@
 title: Hello!
 tags:
   - Hello
-url: archives/692.html
+url: archives/692/index.html
 id: 692
 categories:
   - Default Category

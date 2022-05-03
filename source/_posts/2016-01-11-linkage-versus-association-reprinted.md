@@ -2,7 +2,7 @@
 title: Linkage versus association--连锁与关联的区别---reprinted
 tags:
   - Linkage
-url: archives/725.html
+url: archives/725/index.html
 id: 725
 categories:
   - Default Category

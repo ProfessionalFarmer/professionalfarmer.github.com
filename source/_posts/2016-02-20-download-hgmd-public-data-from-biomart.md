@@ -2,7 +2,7 @@
 title: 利用biomaRt包下载HGMD公开版的突变位点
 tags:
   - Biomart
-url: archives/738.html
+url: archives/738/index.html
 id: 738
 categories:
   - Default Category

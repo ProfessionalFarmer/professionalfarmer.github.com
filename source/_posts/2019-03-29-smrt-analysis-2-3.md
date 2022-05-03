@@ -2,7 +2,7 @@
 title: 想用smrt analysis-2.3的过来看看
 tags:
   - Pacbio
-url: archives/1047.html
+url: archives/1047/index.html
 id: 1047
 categories:
   - Default Category

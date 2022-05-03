@@ -2,7 +2,7 @@
 title: Google Docs + PaperPile = 提高生产力
 tags:
   - Academic
-url: archives/1098.html
+url: archives/1098/index.html
 id: 1098
 categories:
   - Default Category

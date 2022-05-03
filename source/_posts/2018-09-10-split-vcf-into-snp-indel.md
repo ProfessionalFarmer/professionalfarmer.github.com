@@ -3,7 +3,7 @@ title: 将VCF文件中的突变拆分成SNP和INDEL
 tags:
   - SNP
   - VCF
-url: archives/1030.html
+url: archives/1030/index.html
 id: 1030
 categories:
   - Default Category

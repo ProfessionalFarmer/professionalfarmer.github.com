@@ -2,7 +2,7 @@
 title: RefSeq的gtf文件
 tags:
   - gtf
-url: archives/1065.html
+url: archives/1065/index.html
 id: 1065
 categories:
   - Default Category

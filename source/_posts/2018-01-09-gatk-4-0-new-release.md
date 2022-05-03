@@ -3,7 +3,7 @@ title: 2018-01-09 GATK 4.0 正式发布
 tags:
   - GATK
   - Variant
-url: archives/854.html
+url: archives/854/index.html
 id: 854
 categories:
   - Default Category

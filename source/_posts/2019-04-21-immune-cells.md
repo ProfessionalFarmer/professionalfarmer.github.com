@@ -2,7 +2,7 @@
 title: T细胞，B细胞，抗原，CD4和CD8
 tags:
   - Immune
-url: archives/1054.html
+url: archives/1054/index.html
 id: 1054
 categories:
   - Default Category

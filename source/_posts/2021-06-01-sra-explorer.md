@@ -3,7 +3,7 @@ title: 用SRA-Explorer辅助下载测序数据
 tags:
   - SRA
   - FASTQ
-url: archives/1269.html
+url: archives/1269/index.html
 id: 1269
 categories:
   - Default Category

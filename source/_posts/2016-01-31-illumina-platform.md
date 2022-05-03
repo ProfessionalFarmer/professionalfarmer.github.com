@@ -4,7 +4,7 @@ tags:
   - Hiseq
   - Illumina
   - Sequencing
-url: archives/734.html
+url: archives/734/index.html
 id: 734
 categories:
   - Default Category

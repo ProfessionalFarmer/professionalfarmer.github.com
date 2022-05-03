@@ -2,7 +2,7 @@
 title: An Explosion Of Bioinformatics Careers (reprint)
 tags:
   - Bioinformatics
-url: archives/707.html
+url: archives/707/index.html
 id: 707
 categories:
   - Default Category

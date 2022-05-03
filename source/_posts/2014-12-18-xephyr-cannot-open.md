@@ -2,7 +2,7 @@
 title: Xephyr cannot open host display. Is DISPLAY set?
 tags:
   - Xephyr
-url: archives/700.html
+url: archives/700/index.html
 id: 700
 categories:
   - Default Category

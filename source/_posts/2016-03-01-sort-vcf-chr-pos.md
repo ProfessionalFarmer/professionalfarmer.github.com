@@ -2,7 +2,7 @@
 title: Sort VCF by Chr and Pos根据染色体位置对VCF进行排序
 tags:
   - VCF
-url: archives/741.html
+url: archives/741/index.html
 id: 741
 categories:
   - Default Category

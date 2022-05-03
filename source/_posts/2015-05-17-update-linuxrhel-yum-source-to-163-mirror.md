@@ -3,7 +3,7 @@ title: Update LinuxRHEL yum source to 163 mirror--更新yum源为163的镜像
 tags:
   - Linux
   - yum
-url: archives/713.html
+url: archives/713/index.html
 id: 713
 categories:
   - Default Category

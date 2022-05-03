@@ -2,7 +2,7 @@
 title: Continuous Long Read, subreads and scraps in Pacbio Raw data
 tags:
   - Pacbio
-url: archives/1219.html
+url: archives/1219/index.html
 id: 1219
 categories:
   - Default Category

@@ -2,7 +2,7 @@
 title: 以后，还会记得曾经的一群人
 tags:
   - Football
-url: archives/708.html
+url: archives/708/index.html
 id: 708
 categories:
   - Default Category

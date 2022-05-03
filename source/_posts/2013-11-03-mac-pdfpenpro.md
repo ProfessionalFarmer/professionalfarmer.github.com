@@ -2,7 +2,7 @@
 title: Mac下编辑PDF文件中文字---PDFpenPro
 tags:
   - Mac
-url: archives/710.html
+url: archives/710/index.html
 id: 710
 categories:
   - Default Category

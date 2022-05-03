@@ -2,7 +2,7 @@
 title: 启动子分析预测数据库
 tags:
   - Promoter
-url: archives/744.html
+url: archives/744/index.html
 id: 744
 categories:
   - Default Category

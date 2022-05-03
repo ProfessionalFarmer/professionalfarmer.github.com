@@ -3,7 +3,7 @@ title: Prepare a data frame for sample CNV data
 tags:
   - CNV
   - R
-url: archives/1091.html
+url: archives/1091/index.html
 id: 1091
 categories:
   - Default Category

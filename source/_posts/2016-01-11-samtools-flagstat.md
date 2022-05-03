@@ -3,7 +3,7 @@ title: SAMtools自带的统计命令--idxstats、stat、flagstat、bedcov和dept
 tags:
   - SAM
   - stat
-url: archives/727.html
+url: archives/727/index.html
 id: 727
 categories:
   - Default Category

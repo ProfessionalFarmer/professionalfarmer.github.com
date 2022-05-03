@@ -5,7 +5,7 @@ tags:
   - Copynumber
   - Exon
   - Panel
-url: archives/927.html
+url: archives/927/index.html
 id: 927
 categories:
   - Default Category

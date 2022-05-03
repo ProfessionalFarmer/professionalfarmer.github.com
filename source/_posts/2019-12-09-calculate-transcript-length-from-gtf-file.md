@@ -2,7 +2,7 @@
 title: 统计GTF文件中转录本的长度 Calculate transcript length from gtf file
 tags:
   - gtf
-url: archives/1067.html
+url: archives/1067/index.html
 id: 1067
 categories:
   - Default Category

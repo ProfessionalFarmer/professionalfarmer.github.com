@@ -4,7 +4,7 @@ tags:
   - FASTQ
   - QC
   - Sequencing
-url: archives/1011.html
+url: archives/1011/index.html
 id: 1011
 categories:
   - Default Category

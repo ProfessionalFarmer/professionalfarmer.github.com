@@ -2,7 +2,7 @@
 title: insert size和fragment size
 tags:
   - Insert size
-url: archives/982.html
+url: archives/982/index.html
 id: 982
 categories:
   - Default Category

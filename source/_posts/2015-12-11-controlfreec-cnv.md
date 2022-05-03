@@ -2,7 +2,7 @@
 title: ControlFreec检测CNV
 tags:
   - CNV
-url: archives/717.html
+url: archives/717/index.html
 id: 717
 categories:
   - Default Category

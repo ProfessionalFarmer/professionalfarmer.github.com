@@ -3,7 +3,7 @@ title: Combining dependent P-values合并多个检验的p-value
 tags:
   - Test
   - Statistic
-url: archives/1133.html
+url: archives/1133/index.html
 id: 1133
 categories:
   - Default Category

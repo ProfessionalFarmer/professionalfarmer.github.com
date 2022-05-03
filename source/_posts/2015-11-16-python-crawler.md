@@ -2,7 +2,7 @@
 title: Python抓取动态网页
 tags:
   - Python
-url: archives/716.html
+url: archives/716/index.html
 id: 716
 categories:
   - Default Category

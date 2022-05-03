@@ -3,7 +3,7 @@ title: Get the reference allele based on genomic position
 tags:
   - Base
   - UCSC
-url: archives/739.html
+url: archives/739/index.html
 id: 739
 categories:
   - Default Category

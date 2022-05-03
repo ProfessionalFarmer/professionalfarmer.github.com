@@ -3,7 +3,7 @@ title: Varscan copynumber Recommended Workflow---has beed tested
 tags:
   - Copynumber
   - Varscan
-url: archives/732.html
+url: archives/732/index.html
 id: 732
 categories:
   - Default Category

@@ -4,7 +4,7 @@ tags:
   - bed
   - gtf
   - gtf2bed
-url: archives/768.html
+url: archives/768/index.html
 id: 768
 categories:
   - Default Category

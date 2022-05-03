@@ -2,7 +2,7 @@
 title: 肿瘤免疫表型-cold (excluded, desert) and hot
 tags:
   - Immune
-url: archives/1298.html
+url: archives/1298/index.html
 id: 1298
 categories:
   - Default Category

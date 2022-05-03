@@ -4,7 +4,7 @@ tags:
   - code
   - gtf
   - Python
-url: archives/1171.html
+url: archives/1171/index.html
 id: 1171
 categories:
   - Default Category

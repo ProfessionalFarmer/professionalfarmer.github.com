@@ -3,7 +3,7 @@ title: 'liftover,crossmap进行坐标转换时用到的chain文件介绍'
 tags:
   - chain
   - liftover
-url: archives/838.html
+url: archives/838/index.html
 id: 838
 categories:
   - Default Category

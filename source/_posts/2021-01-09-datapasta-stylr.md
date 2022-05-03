@@ -3,7 +3,7 @@ title: 推荐两个Rstudio Addins
 tags:
   - R
   - Addins
-url: archives/1199.html
+url: archives/1199/index.html
 id: 1199
 categories:
   - Default Category

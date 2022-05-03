@@ -2,7 +2,7 @@
 title: False-positive genes with high frequency mutation
 tags:
   - Mutation
-url: archives/1358.html
+url: archives/1358/index.html
 id: 1358
 categories:
   - Default Category

@@ -3,7 +3,7 @@ title: 苏州--参加CBGC遗传咨询年会
 tags:
   - CBGC
   - SUDA
-url: archives/881.html
+url: archives/881/index.html
 id: 881
 categories:
   - Default Category

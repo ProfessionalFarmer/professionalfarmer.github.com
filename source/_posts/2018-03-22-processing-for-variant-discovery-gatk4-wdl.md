@@ -3,7 +3,7 @@ title: GATK Best Practices：通过GATK4 docker运行processing-for-variant-disc
 tags:
   - GATK
   - WDL
-url: archives/869.html
+url: archives/869/index.html
 id: 869
 categories:
   - Default Category

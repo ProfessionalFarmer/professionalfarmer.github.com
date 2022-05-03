@@ -2,7 +2,7 @@
 title: Map NM ID to Gene Symbol
 tags:
   - ID
-url: archives/1195.html
+url: archives/1195/index.html
 id: 1195
 categories:
   - Default Category

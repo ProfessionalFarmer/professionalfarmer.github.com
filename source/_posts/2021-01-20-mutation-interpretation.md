@@ -3,7 +3,7 @@ title: 谈一谈在变异解读过程中用到的几个不太熟悉的预测指�
 tags:
   - 帅旸
   - 解读
-url: archives/1209.html
+url: archives/1209/index.html
 id: 1209
 categories:
   - Default Category

@@ -2,7 +2,7 @@
 title: PyCharm启动时报failed to create jvm error code 4
 tags:
   - JVM
-url: archives/731.html
+url: archives/731/index.html
 id: 731
 categories:
   - Default Category

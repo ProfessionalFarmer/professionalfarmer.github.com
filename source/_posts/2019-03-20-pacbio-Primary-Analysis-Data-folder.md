@@ -2,7 +2,7 @@
 title: Pacbio三代测序Primary Analysis Data文件夹
 tags:
   - Pacbio
-url: archives/1042.html
+url: archives/1042/index.html
 id: 1042
 categories:
   - Default Category

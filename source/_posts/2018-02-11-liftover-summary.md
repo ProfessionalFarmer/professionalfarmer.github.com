@@ -4,7 +4,7 @@ tags:
   - Cordinate
   - Genome
   - liftover
-url: archives/834.html
+url: archives/834/index.html
 id: 834
 categories:
   - Default Category

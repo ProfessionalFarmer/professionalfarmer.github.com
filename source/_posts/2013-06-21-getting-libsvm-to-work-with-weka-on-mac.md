@@ -2,7 +2,7 @@
 title: Getting LibSVM to work with Weka on Mac（reprint）
 tags:
   - Weka
-url: archives/696.html
+url: archives/696/index.html
 id: 696
 categories:
   - Default Category

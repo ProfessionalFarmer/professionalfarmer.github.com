@@ -3,7 +3,7 @@ title: 利用wordcloud R包绘制词云
 tags:
   - R
   - wordcloud
-url: archives/746.html
+url: archives/746/index.html
 id: 746
 categories:
   - Default Category

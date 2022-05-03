@@ -3,7 +3,7 @@ title: Matlab error when running GISTIC
 tags:
   - CNV
   - Matlab
-url: archives/1092.html
+url: archives/1092/index.html
 id: 1092
 categories:
   - Default Category

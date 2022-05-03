@@ -2,7 +2,7 @@
 title: 'Picard---RuntimeIOException: java.io.IOException: No space left on device'
 tags:
   - Picard
-url: archives/798.html
+url: archives/798/index.html
 id: 798
 categories:
   - Default Category

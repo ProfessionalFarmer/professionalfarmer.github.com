@@ -5,7 +5,7 @@ tags:
   - Ensembl
   - ID
   - NCBI
-url: archives/736.html
+url: archives/736/index.html
 id: 736
 categories:
   - Default Category

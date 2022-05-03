@@ -3,7 +3,7 @@ title: bismark DNA甲基化测序比对-bisulfite-seq
 tags:
   - BS-Seq
   - Sequencing
-url: archives/759.html
+url: archives/759/index.html
 id: 759
 categories:
   - Default Category

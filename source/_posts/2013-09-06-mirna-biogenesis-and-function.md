@@ -3,7 +3,7 @@ title: miRNA biogenesis and function
 tags:
   - Biology
   - miRNA
-url: archives/699.html
+url: archives/699/index.html
 id: 699
 categories:
   - Default Category

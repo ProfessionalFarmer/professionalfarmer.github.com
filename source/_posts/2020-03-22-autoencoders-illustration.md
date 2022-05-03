@@ -3,7 +3,7 @@ title: 对Autoencoder(自编码器)的理解
 tags:
   - AI
   - Machine learning
-url: archives/1089.html
+url: archives/1089/index.html
 id: 1089
 categories:
   - Default Category

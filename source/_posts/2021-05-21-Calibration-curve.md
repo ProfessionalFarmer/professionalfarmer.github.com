@@ -3,7 +3,7 @@ title: 预测模型校准曲线 Calibration curve
 tags:
   - Calibration
   - Model
-url: archives/1256.html
+url: archives/1256/index.html
 id: 1256
 categories:
   - Default Category

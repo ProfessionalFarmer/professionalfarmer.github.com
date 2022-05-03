@@ -3,7 +3,7 @@ title: 甲基化芯片中的M值和B值
 tags:
   - Chip
   - Methylation
-url: archives/1129.html
+url: archives/1129/index.html
 id: 1129
 categories:
   - Default Category

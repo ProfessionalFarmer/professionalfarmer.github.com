@@ -2,7 +2,7 @@
 title: 预测突变危害的SIFT和PolyPhen2数据库介绍--SIFT and polyphen2 introduction
 tags:
   - Mutation
-url: archives/728.html
+url: archives/728/index.html
 id: 728
 categories:
   - Default Category

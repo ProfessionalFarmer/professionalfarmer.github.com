@@ -2,7 +2,7 @@
 title: SpliceMap官网示例教程
 tags:
   - RNA
-url: archives/1043.html
+url: archives/1043/index.html
 id: 1043
 categories:
   - Default Category

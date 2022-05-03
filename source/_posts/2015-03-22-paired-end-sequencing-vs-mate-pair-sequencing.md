@@ -2,7 +2,7 @@
 title: Paired end sequencing VS Mate pair sequencing
 tags:
   - Sequencing
-url: archives/754.html
+url: archives/754/index.html
 id: 754
 categories:
   - Default Category

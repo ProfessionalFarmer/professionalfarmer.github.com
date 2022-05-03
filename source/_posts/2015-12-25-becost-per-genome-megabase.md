@@ -2,7 +2,7 @@
 title: 高通量测序领域PPT中常用的两张图cost_per_genome_megabase
 tags:
   - NGScost
-url: archives/723.html
+url: archives/723/index.html
 id: 723
 categories:
   - Default Category

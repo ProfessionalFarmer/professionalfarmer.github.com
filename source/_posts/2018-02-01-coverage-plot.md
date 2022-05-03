@@ -3,7 +3,7 @@ title: PLOT | 目标区域的测序覆盖度作图
 tags:
   - Coverage
   - PLOT
-url: archives/810.html
+url: archives/810/index.html
 id: 810
 categories:
   - Default Category

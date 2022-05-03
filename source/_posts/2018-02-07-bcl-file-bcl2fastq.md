@@ -4,7 +4,7 @@ tags:
   - BCL
   - FASTQ
   - Illumina
-url: archives/815.html
+url: archives/815/index.html
 id: 815
 categories:
   - Default Category

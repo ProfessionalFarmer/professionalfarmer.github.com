@@ -4,7 +4,7 @@ tags:
   - Linux
   - pigz
   - tools
-url: archives/752.html
+url: archives/752/index.html
 id: 752
 categories:
   - Default Category

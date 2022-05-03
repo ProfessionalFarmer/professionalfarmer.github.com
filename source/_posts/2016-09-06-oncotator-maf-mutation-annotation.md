@@ -5,7 +5,7 @@ tags:
   - MAF
   - oncotator
   - VCF
-url: archives/769.html
+url: archives/769/index.html
 id: 769
 categories:
   - Default Category

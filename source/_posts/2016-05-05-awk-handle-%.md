@@ -3,7 +3,7 @@ title: 当awk碰到百分号%数值时
 tags:
   - awk
   - Linux
-url: archives/756.html
+url: archives/756/index.html
 id: 756
 categories:
   - Default Category

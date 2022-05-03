@@ -3,7 +3,7 @@ title: EndNote Mac--Error while reading serialized data in Word
 tags:
   - Endnote
   - Mac
-url: archives/703.html
+url: archives/703/index.html
 id: 703
 categories:
   - Default Category

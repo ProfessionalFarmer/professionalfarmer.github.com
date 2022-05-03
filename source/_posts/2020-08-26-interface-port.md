@@ -3,7 +3,7 @@ title: 确定物理网口对应的名称以及配置静态IP
 tags:
   - Linux
   - Ubuntu
-url: archives/1125.html
+url: archives/1125/index.html
 id: 1125
 categories:
   - Default Category

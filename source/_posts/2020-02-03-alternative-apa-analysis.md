@@ -3,7 +3,7 @@ title: "可变多聚腺苷酸化Alternative\_Polyadenylation (APA) 检测"
 tags:
   - APA
   - RNA
-url: archives/1077.html
+url: archives/1077/index.html
 id: 1077
 categories:
   - Default Category

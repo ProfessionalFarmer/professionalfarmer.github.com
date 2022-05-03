@@ -3,7 +3,7 @@ title: SAM文件中的soft clipping和hard clipping
 tags:
   - clip alignment
   - SAM
-url: archives/726.html
+url: archives/726/index.html
 id: 726
 categories:
   - Default Category

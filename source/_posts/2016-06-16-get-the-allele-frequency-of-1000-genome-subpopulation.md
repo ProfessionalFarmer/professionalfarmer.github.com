@@ -3,7 +3,7 @@ title: Get the allele frequency of 1000 Genome subpopulation
 tags:
   - 1000 Genome
   - Frequency
-url: archives/761.html
+url: archives/761/index.html
 id: 761
 categories:
   - Default Category

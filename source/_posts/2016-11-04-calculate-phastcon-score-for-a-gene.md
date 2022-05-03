@@ -4,7 +4,7 @@ tags:
   - bedops
   - BEDtools
   - phastCon
-url: archives/788.html
+url: archives/788/index.html
 id: 788
 categories:
   - Default Category

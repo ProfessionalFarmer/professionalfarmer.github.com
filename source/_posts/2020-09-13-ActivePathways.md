@@ -3,7 +3,7 @@ title: 整合多组学数据的通路富集分析-ActivePathways
 tags:
   - Pathway
   - Enrichment
-url: archives/1136.html
+url: archives/1136/index.html
 id: 1136
 categories:
   - Default Category

@@ -3,7 +3,7 @@ title: microRNA数据库与预测、功能分析软件大全
 tags:
   - Database
   - microRNA
-url: archives/745.html
+url: archives/745/index.html
 id: 745
 categories:
   - Default Category

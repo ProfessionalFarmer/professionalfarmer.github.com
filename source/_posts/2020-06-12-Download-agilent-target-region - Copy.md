@@ -3,7 +3,7 @@ title: Agilent全外芯片的目标区域下载
 tags:
   - NGS
   - WES
-url: archives/1112.html
+url: archives/1112/index.html
 id: 1112
 categories:
   - Default Category

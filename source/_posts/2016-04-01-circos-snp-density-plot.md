@@ -4,7 +4,7 @@ tags:
   - cirocs
   - Figure
   - SNP
-url: archives/751.html
+url: archives/751/index.html
 id: 751
 comments: false
 categories:

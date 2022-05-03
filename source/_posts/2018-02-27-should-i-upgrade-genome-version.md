@@ -3,7 +3,7 @@ title: 思考：是否升级参考基因组版本
 tags:
   - Genome
   - Reference
-url: archives/848.html
+url: archives/848/index.html
 id: 848
 categories:
   - Default Category

@@ -3,7 +3,7 @@ title: 在Mac上安装cirocs，在Mac上安装perl GD模块
 tags:
   - cirocs
   - Mac
-url: archives/712.html
+url: archives/712/index.html
 id: 712
 categories:
   - Default Category

@@ -2,7 +2,7 @@
 title: java block
 tags:
   - Java
-url: archives/702.html
+url: archives/702/index.html
 id: 702
 categories:
   - Default Category

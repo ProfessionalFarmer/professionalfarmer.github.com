@@ -2,7 +2,7 @@
 title: RNA测序到底可不可靠？(转)
 tags:
   - Sequencing
-url: archives/701.html
+url: archives/701/index.html
 id: 701
 categories:
   - Default Category

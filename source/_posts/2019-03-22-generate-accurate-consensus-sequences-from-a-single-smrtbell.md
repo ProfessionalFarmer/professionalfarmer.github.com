@@ -2,7 +2,7 @@
 title: Generate Accurate Consensus Sequences from a Single SMRTbell
 tags:
   - Pacbio
-url: archives/1044.html
+url: archives/1044/index.html
 id: 1044
 categories:
   - Default Category

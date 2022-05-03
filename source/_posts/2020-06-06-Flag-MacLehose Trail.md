@@ -3,7 +3,7 @@ title: 立个走完麦理浩径的flag
 tags:
   -  Hiking
   - HongKong
-url: archives/1107.html
+url: archives/1107/index.html
 id: 1107
 categories:
   - Default Category

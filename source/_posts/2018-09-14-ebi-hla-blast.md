@@ -3,7 +3,7 @@ title: EBI提供HLA序列BLAST
 tags:
   - Blast
   - HLA
-url: archives/1032.html
+url: archives/1032/index.html
 id: 1032
 categories:
   - Default Category

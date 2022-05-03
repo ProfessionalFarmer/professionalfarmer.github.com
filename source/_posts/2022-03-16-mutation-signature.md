@@ -4,7 +4,7 @@ tags:
   - Mutation
   - Signature
   - DNA
-url: archives/1354.html
+url: archives/1354/index.html
 id: 1354
 categories:
   - Default Category

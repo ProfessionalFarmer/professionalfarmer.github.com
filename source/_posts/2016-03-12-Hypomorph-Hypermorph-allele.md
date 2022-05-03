@@ -2,7 +2,7 @@
 title: 亚效等位基因和超效等位基因
 tags:
   - Allele
-url: archives/742.html
+url: archives/742/index.html
 id: 742
 categories:
   - Default Category

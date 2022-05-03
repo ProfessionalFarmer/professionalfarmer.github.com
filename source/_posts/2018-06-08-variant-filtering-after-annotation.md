@@ -3,7 +3,7 @@ title: 突变注释后的过滤-variant filter
 tags:
   - Filter
   - Variant
-url: archives/1008.html
+url: archives/1008/index.html
 id: 1008
 categories:
   - Default Category

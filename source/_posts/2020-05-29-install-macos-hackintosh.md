@@ -3,7 +3,7 @@ title: 安装黑苹果
 tags:
   - Mac
   - OX 
-url: archives/1102.html
+url: archives/1102/index.html
 id: 1102
 categories:
   - Default Category

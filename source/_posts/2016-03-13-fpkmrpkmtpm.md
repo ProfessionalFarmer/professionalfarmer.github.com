@@ -3,7 +3,7 @@ title: 'FPKM,RPKM,TPM  转载'
 tags:
   - RNA
   - Seq
-url: archives/743.html
+url: archives/743/index.html
 id: 743
 categories:
   - Default Category

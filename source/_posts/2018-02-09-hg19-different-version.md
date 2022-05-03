@@ -2,7 +2,7 @@
 title: hg19、GRCH37、b37、hs37d5介绍和区别
 tags:
   - Genome
-url: archives/829.html
+url: archives/829/index.html
 id: 829
 categories:
   - Default Category

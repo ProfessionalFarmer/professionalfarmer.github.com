@@ -5,7 +5,7 @@ tags:
   - NFS
   - NIS
   - SGE
-url: archives/1057.html
+url: archives/1057/index.html
 id: 1057
 categories:
   - Default Category

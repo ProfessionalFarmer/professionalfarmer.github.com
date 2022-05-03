@@ -3,7 +3,7 @@ title: TCGABiolinks下载TCGA数据做生存分析
 tags:
   - R
   - TCGA
-url: archives/1063.html
+url: archives/1063/index.html
 id: 1063
 categories:
   - Default Category

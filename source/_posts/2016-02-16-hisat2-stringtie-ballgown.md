@@ -3,7 +3,7 @@ title: 转录组分析新工具流程--HISAT2-stringtie-ballgown
 tags:
   - RNA
   - Sequencing
-url: archives/735.html
+url: archives/735/index.html
 id: 735
 categories:
   - Default Category

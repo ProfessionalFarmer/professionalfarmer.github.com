@@ -2,7 +2,7 @@
 title: NC编号与对应的染色体
 tags:
   - NCBI
-url: archives/749.html
+url: archives/749/index.html
 id: 749
 categories:
   - Default Category

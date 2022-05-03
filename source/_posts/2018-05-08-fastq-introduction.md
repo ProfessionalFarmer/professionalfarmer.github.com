@@ -3,7 +3,7 @@ title: 文件介绍--FASTQ文件格式
 tags:
   - FASTQ
   - Tutorial
-url: archives/954.html
+url: archives/954/index.html
 id: 954
 categories:
   - Default Category

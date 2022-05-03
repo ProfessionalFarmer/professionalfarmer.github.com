@@ -2,7 +2,7 @@
 title: 误删hyper-v的avhdx文件
 tags:
   - VM
-url: archives/1061.html
+url: archives/1061/index.html
 id: 1061
 categories:
   - Default Category
